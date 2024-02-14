@@ -141,34 +141,7 @@ let title = ref("Редактировать услугу");
 
                  <label for="longdescription" class="block text-sm font-medium leading-6 text-gray-900">Подробное описание услуги (не более 1000 симв.)</label>
                 
-                 <textarea
-                  v-model="form.longdescription"   
-                  spellcheck="true"
-                  name="longdescription"
-                  maxlength="1000"
-                  class="
-                    form-control
-                    block
-                    w-full
-                    px-3
-                    py-1.5
-                    text-base
-                    font-normal
-                    text-gray-700
-                    bg-white bg-clip-padding
-                    border border-solid border-gray-300
-                    rounded
-                    transition
-                    ease-in-out
-                    m-0
-                    mb-5
-                    focus:text-gray-700
-                    focus:bg-white
-                    focus:border-blue-600
-                    focus:outline-none
-                  "                  
-                  rows="5"      
-                ></textarea>
+                 <editor spellcheck="true" v-model="form.longdescription"/>
 
                 <label for="preimushestvo1" class="block text-sm font-medium leading-6 text-gray-900">Первое преимущество услуги</label>
                 

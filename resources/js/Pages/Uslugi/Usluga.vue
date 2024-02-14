@@ -51,6 +51,77 @@ ol {
   <Head>
     <title>{{ usluga.usl_name }}</title>
     <meta name="description" :content="usluga.usl_desc" />
+    <component :is="script" type="application/ld+json" >
+    {
+      "@context": "https://schema.org",
+      "@type": "Restaurant",
+      "name": "Dave's Steak House",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "148 W 51st St",
+        "addressLocality": "New York",
+        "addressRegion": "NY",
+        "postalCode": "10019",
+        "addressCountry": "US"
+      },
+      "review": {
+        "@type": "Review",
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "4",
+          "bestRating": "5"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Lillian Ruiz"
+        }
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 40.761293,
+        "longitude": -73.982294
+      },
+      "url": "https://www.example.com/restaurant-locations/manhattan",
+      "telephone": "+12122459600",
+      "servesCuisine": "American",
+      "priceRange": "$$$",
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday"
+          ],
+          "opens": "11:30",
+          "closes": "22:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "opens": "11:30",
+          "closes": "23:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Saturday",
+          "opens": "16:00",
+          "closes": "23:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Sunday",
+          "opens": "16:00",
+          "closes": "22:00"
+        }
+      ],
+      "menu": "https://www.example.com/menu",
+      "acceptsReservations": "True"
+    }
+    </component>
   </Head>
 
   <MainHeader />
@@ -163,9 +234,10 @@ ol {
       </div>
       <!-- preimushestva -->
 
-      <div class="px-6 text-gray-900 text-center">
-        {{ usluga.longdescription }}
-      </div>
+      <div class="px-6 text-gray-900 text-center" v-html="usluga.longdescription"></div>
+
+      <!-- reviews -->
+      <!-- reviews -->
 
       <Slider
         v-if="practice != 0"
