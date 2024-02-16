@@ -16,6 +16,7 @@ use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\AiController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\MyController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\Admin\ArticlesController as AdminArticleController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
@@ -149,6 +150,7 @@ Route::get('sitemap/articles.xml', [SitemapController::class, 'articles']);
 Route::get('sitemap/lawyers.xml', [SitemapController::class, 'lawyers']);
 Route::get('sitemap/uslugi.xml', [SitemapController::class, 'uslugi']);
 
+Route::post('/send/review', [ReviewController::class, 'store'])->name('create.review');
 
 /*Route::get('test', [TestController::class, 'test'])
     ->name('test');*/

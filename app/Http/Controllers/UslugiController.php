@@ -66,18 +66,19 @@ class UslugiController extends Controller
         return redirect()->route('uslugi.url', ['url' => $checkurl])->with('message', 'Услуга создана успешно.');
     }
 
-    public function edit(string $url)
+    public function edit(string $url, Request $request)
     {
         return Inertia::render('Uslugi/Edit', [
             'uslugi' => Uslugi::where('id', '=', $url)->first(),
             'all_uslugi' => Uslugi::where('is_main', '=', 1)->get(),
             'user' => Auth::user(),
+            'flash' => ['message' => $request->session()->get(key: 'message')],             
         ],  
     );
     }
 
     public function update(Request $request)
-    {   dd($request->rating);
+    {   
         $id = $request->id;
         $usluga = Uslugi::find($id);
             $usluga->usl_name = $request->header;

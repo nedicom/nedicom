@@ -3,21 +3,23 @@ import MainHeader from "@/Layouts/MainHeader.vue";
 import Header from "@/Layouts/Header.vue";
 import Body from "@/Layouts/Body.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
-import Editor from '@/Components/Tiptap.vue'
-import Rating from '@/Components/Rating.vue'
+import Editor from '@/Components/Tiptap.vue';
+import FlashMessage from "@/Components/FlashMessage.vue";
 
-import VueDatePicker from '@vuepic/vue-datepicker';
+import Review from '@/Components/Review.vue';
+
 import '@vuepic/vue-datepicker/dist/main.css'
 
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
-import { reactive } from "vue";
 
 let set = defineProps({
   uslugi: String,
   all_uslugi: String,
   user: String,
+  errors: Object,
+  flash: Object,
 });
 
 let checkbox = false;
@@ -25,8 +27,6 @@ let checkbox = false;
 if (set.uslugi.is_main == 1) {
   checkbox = true;
 }
-
-const rate = ref('111')
 
 let form = reactive({
   header: set.uslugi.usl_name,
@@ -41,10 +41,6 @@ let form = reactive({
   is_main: checkbox,
   main_usluga_id: set.uslugi.main_usluga_id,
   id: set.uslugi.id,
-  otzivdate: '',
-  otzivbody: '',
-  otzivfio: '',
-  rating: rate,
 });
 
 function submit() {
@@ -57,6 +53,8 @@ const date = ref(new Date());
 </script>
 
 <template>
+  <FlashMessage :message="flash.message" />
+
   <Head title="Редактировать услугу" />
 
   <MainHeader />
@@ -295,69 +293,6 @@ const date = ref(new Date());
                     focus:outline-none
                   " rows="5 "></textarea>
 
-                <!-- rating -->
-                <div class="grid grid-cols-4 gap-4">
-
-                  <div>
-                    <label for="VueDatePicker" class="block text-sm font-medium leading-6 text-gray-900">дата
-                      отзыва</label>
-                    <VueDatePicker name="VueDatePicker" v-model="form.otzivdate" :enable-time-picker="false" auto-apply
-                      locale="ru" cancelText="отмена" selectText="выбрать"></VueDatePicker>
-                  </div>
-
-                  <div class="col-span-2">
-                    <label for="otzivfio" class="block text-sm font-medium leading-6 text-gray-900">Кто оставляет</label>
-                    <textarea v-model="form.otzivfio" spellcheck="true" name="otzivfio" maxlength="155" class="
-                    form-control
-                    block
-                    w-full
-                    px-3
-                    py-1.5
-                    text-base
-                    font-normal
-                    text-gray-700
-                    bg-white bg-clip-padding
-                    border border-solid border-gray-300
-                    rounded
-                    transition
-                    ease-in-out
-                    m-0
-                    mb-5
-                    focus:text-gray-700
-                    focus:bg-white
-                    focus:border-blue-600
-                    focus:outline-none
-                  " rows="1"></textarea>
-                  </div>
-
-                  <Rating v-model.capitalize="rate" />
-                </div>
-
-                <label for="otzivbody" class="block text-sm font-medium leading-6 text-gray-900">отзыв</label>
-                <textarea v-model="form.otzivbody" spellcheck="true" name="otzivbody" maxlength="155" class="
-                    form-control
-                    block
-                    w-full
-                    px-3
-                    py-1.5
-                    text-base
-                    font-normal
-                    text-gray-700
-                    bg-white bg-clip-padding
-                    border border-solid border-gray-300
-                    rounded
-                    transition
-                    ease-in-out
-                    m-0
-                    mb-5
-                    focus:text-gray-700
-                    focus:bg-white
-                    focus:border-blue-600
-                    focus:outline-none
-                  " rows="2"></textarea>
-
-                <!-- otziv -->
-
                 <button type="submit" class="
                     my-5
                     inline-flex
@@ -376,6 +311,12 @@ const date = ref(new Date());
                   Обновить
                 </button>
               </form>
+
+              <!-- rating -->
+
+              <Review class="mt-5 pt-5" :mainuslugaid="set.uslugi.main_usluga_id" :uslugaid="set.uslugi.id" :errors="set.errors" />
+
+              <!-- otziv -->
             </div>
 
           </div>
