@@ -53,7 +53,7 @@ const date = ref(new Date());
 </script>
 
 <template>
-  {{ set.uslugi }}
+
   <FlashMessage :message="flash.message" />
 
   <Head title="Редактировать услугу" />
