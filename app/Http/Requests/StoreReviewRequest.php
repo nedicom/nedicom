@@ -38,6 +38,7 @@ class StoreReviewRequest extends FormRequest
         'created_at.required' => 'Дата',
         'fio.required' => 'Имя для отзыва обязательно',
         'description.required' => 'Описание самого отзыва обязательно',
+        'mainusl_id.numeric' => 'Выберите главную услугу (выше на странице, потом нажмите обновить услугу (не отзыв))',
         'fio.min' => 'Не короче 5 символов',
         'description.min' => 'Не короче 5 символов',
     ];

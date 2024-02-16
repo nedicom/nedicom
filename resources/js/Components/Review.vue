@@ -96,6 +96,7 @@ function sendreview() {
             focus:outline-none
         " rows="2"></textarea>
                 <div class="text-xs text-red-600 animate-pulse" v-if="errors.description">{{ errors.description }}</div>
+                <div class="text-xs text-red-600 animate-pulse" v-if="errors.mainusl_id">{{ errors.mainusl_id }}</div>
             </div>
 
 
