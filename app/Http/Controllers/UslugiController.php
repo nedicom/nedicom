@@ -11,7 +11,7 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-
+use App\Models\Review;
 
 class UslugiController extends Controller
 {
@@ -36,6 +36,8 @@ class UslugiController extends Controller
             'lawyers' => User::where('speciality_one_id', '=', $id)->orderBy('name', 'asc')->get()->take(3),
             'practice' => Article::where('usluga_id', $main_usluga_id)->where('practice_file_path', '!=', null)->orderBy('updated_at', 'desc')->take(3)->get(),
             'firstlawyer' => User::where('id', $user_id)->get(),
+            'reviews' => Review::where('usl_id', $id)->get(),
+            'reviewscount' => Review::where('usl_id', $id)->count(),
             'flash' => ['message' => $request->session()->get(key: 'message')], 
         ]);
     }

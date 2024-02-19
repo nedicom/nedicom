@@ -29,6 +29,7 @@ class StoreReviewRequest extends FormRequest
             'description' => 'required|min:15',
             'mainusl_id'=> 'numeric',
             'usl_id' => 'numeric',
+            'rating' => 'numeric',
         ];
     }
 
