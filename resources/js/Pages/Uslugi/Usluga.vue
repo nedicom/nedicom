@@ -56,8 +56,6 @@ ol {
     <title>{{ vars.usluga.usl_name }}</title>
     <meta name="description" :content="vars.usluga.usl_desc" />
   </Head>
-{{mainbannerimg}}
-
 
   <div itemscope itemtype="https://schema.org/LegalService">
 

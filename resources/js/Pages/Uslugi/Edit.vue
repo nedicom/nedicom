@@ -68,7 +68,7 @@ const date = ref(new Date());
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
           <div class="flex justify-start p-5">
-            <div class="mb-3 xl:w-3/6">
+            <div class="mb-3 md:w-3/6">
               <form @submit.prevent="submit">
                 <input v-model="form.id" class="invisible" />
 
@@ -254,13 +254,17 @@ const date = ref(new Date());
 
               <!-- otziv -->
 
-              <UslugaCropper :usluga="set.uslugi" />
+              
               
             </div>
+            
           </div>
         </div>
       </div>
     </div>
+
+    <UslugaCropper :usluga="set.uslugi" />
+    
   </Body>
 
   <MainFooter />
