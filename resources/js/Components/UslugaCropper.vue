@@ -16,9 +16,9 @@ defineProps({
 
         <h2 class="text-lg font-medium text-gray-900">Фото на баннер</h2>
         
-        <div class="w-full inline-grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="w-full grid md:grid-cols-2 grid-cols-1 gap-4">
             
-          <div id="crop" class="w-full">        
+          <div id="crop" class="">        
               <InputLabel value="Ваше новое изображение" />
               <div class="h-12 w-full mt-3">
                   <button 
@@ -47,22 +47,31 @@ defineProps({
                   handlers: {eastSouth: true,},
                   movable: true,
                   resizable: true,
-                  aspectRatio: 3/4,
+                  aspectRatio: 5/3,
               }"
                   image-restriction="stencil" 
               />
           </div>
 
-          <div class="w-full">
+          <div class="">
+            На ПК
+            <div class="h-1/2">
               <InputLabel value="Текущее изображение" />
-              <div class="h-12 w-full mt-3"></div>
-              <div class="w-full cropper"> 
-                <img class="h-full"
+              <div class="w-full"> 
+                <img class=""
                 :src='"/"+usluga.file_path'
-                alt="Avatar" 
-                />
-              
+                />              
               </div>
+            </div>
+            На мобильном
+            <div class="">
+              <InputLabel value="Текущее изображение" />
+              <div class="w-full h-max text-center"> 
+                <img class="object-none object-left h-96 w-80"
+                :src='"/"+usluga.file_path'
+                />              
+              </div>
+            </div>
           </div>
 
         </div>

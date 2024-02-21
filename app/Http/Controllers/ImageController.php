@@ -72,6 +72,7 @@ class ImageController extends Controller
             imagewebp($im, 'storage/' . $filePath . '/' . $fileName . '.webp', 80);
             //Image::make($im)->encode('webp', 80)->save(public_path('storage/'.$filePath.'/'.$fileName.'.webp'));
             imagedestroy($im);
+            
             /* for database 
                             $imgModel = new Image;
                             $imgModel->user_id = Auth::user()->id;
@@ -101,10 +102,10 @@ class ImageController extends Controller
             $id = $req->id;
             
         
-            $filePath = 'uslugi/' . $id;
+            $filePath = 'uslugi/' . $id. '/';
                 $fileName = time() . 'usluga';
                 $usluga = Uslugi::find($id);
-                $usluga->file_path = 'storage/' . $filePath . '/' . $fileName . '.webp';
+                $usluga->file_path = 'storage/' . $filePath . $fileName . '.webp';
                 $usluga->save();
                 
                 if (!Storage::exists($filePath)) {
@@ -112,8 +113,10 @@ class ImageController extends Controller
                 }
     
                 $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                
                 $mime = finfo_file($finfo, $req->file('file'));
                 finfo_close($finfo);
+                
     
                 if ($mime == "image/png") {
                     $im = imagecreatefrompng($req->file('file'));
@@ -123,14 +126,17 @@ class ImageController extends Controller
                     return redirect()->back();
                 }
     
-                $files = Storage::allFiles($filePath);
+                $files = Storage::allFiles($filePath);                
                 Storage::delete($files);
-    
-                //Storage::disk('public')->put($filePath, $req->file('file'));
-                imagewebp($im, 'storage/' . $filePath . '/' . $fileName . '.webp', 80);
-                //Image::make($im)->encode('webp', 80)->save(public_path('storage/'.$filePath.'/'.$fileName.'.webp'));
-                imagedestroy($im);
+                //$imgwebppath = 'storage/' . $filePath . '/' . $fileName . '.webp';
+                $imgwebppath = $filePath.$fileName . '.webp';
                 
+
+                Storage::disk('public')->put($filePath.$fileName . '.webp', '');
+
+                imagewebp($im, 'storage/' . $imgwebppath, 80);
+               
+                imagedestroy($im);   
 
         }
         else{

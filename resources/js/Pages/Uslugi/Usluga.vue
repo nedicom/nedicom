@@ -27,12 +27,12 @@ let vars = defineProps({
 
 let sliderheader = "Доверяйте делам";
 
-let mainbannerimg = vars.firstlawyer[0].file_path;
+let mainbannerimg = vars.usluga.file_path;
 if (!mainbannerimg) {
   mainbannerimg =
     "https://nedicom.ru/storage/images/landing/main/1280on600.webp";
 } else {
-  mainbannerimg = "https://nedicom.ru/" + vars.firstlawyer[0].file_path;
+  mainbannerimg;
 }
 </script>
 
@@ -56,9 +56,11 @@ ol {
     <title>{{ vars.usluga.usl_name }}</title>
     <meta name="description" :content="vars.usluga.usl_desc" />
   </Head>
+{{mainbannerimg}}
+
 
   <div itemscope itemtype="https://schema.org/LegalService">
-  
+
     <MainHeader />
 
     <Header :phone="usluga.phone" :address="usluga.address" />
@@ -66,7 +68,7 @@ ol {
     <SecondBanner
       :statusonimage="usluga.usl_name"
       :nameonimage="usluga.desc"
-      :secondbannerimg="secondbannerimg"
+      :secondbannerimg="'/'+ mainbannerimg"
     />
 
     <Body>
