@@ -207,7 +207,7 @@ ol {
                   class="w-full mx-1 rounded-lg border border-gray-400 grid grid-cols-3 content-centerl bg-white p-5"
                 >
                   <div class="flex items-center justify-left col-span-2">
-                    {{ card.created_at }}12.12.12
+                    {{ card.created_at }}
                   </div>
 
                   <RatingReady :rating="card.rating" />

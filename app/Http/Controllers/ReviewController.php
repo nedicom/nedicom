@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Review;
+use App\Casts\humandate;
 use App\Http\Requests\StoreReviewRequest;
 use App\Http\Requests\UpdateReviewRequest;
 
@@ -37,8 +38,7 @@ class ReviewController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(StoreReviewRequest $request)
-    {
-        //dd($request->rating);
+    {        
         Review::create($request->validated());
         return back()->with('message', 'Отзыв опубликован. Сделайте еще один');
     }

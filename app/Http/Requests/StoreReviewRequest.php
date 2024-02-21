@@ -23,13 +23,13 @@ class StoreReviewRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'created_at' => 'required',
+        return [            
             'fio' => 'required|min:5',
             'description' => 'required|min:15',
             'mainusl_id'=> 'numeric',
             'usl_id' => 'numeric',
             'rating' => 'numeric',
+            'created_at' => 'required',
         ];
     }
 
