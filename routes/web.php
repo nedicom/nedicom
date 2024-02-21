@@ -139,6 +139,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::post('/imagepost', [ImageController::class, 'create'])->name('image.post');
+    Route::post('/uslimagepost', [ImageController::class, 'imguslcreate'])->name('uslimage.post');
 });
 
 //import

@@ -4,6 +4,7 @@ import Header from "@/Layouts/Header.vue";
 import Body from "@/Layouts/Body.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import Editor from '@/Components/Tiptap.vue';
+import UslugaCropper from '@/Components/UslugaCropper.vue';
 import FlashMessage from "@/Components/FlashMessage.vue";
 
 import Review from '@/Components/Review.vue';
@@ -63,6 +64,10 @@ const date = ref(new Date());
   <Header :ttl="title" />
 
   <Body>
+
+    {{set.uslugi}}
+                <UslugaCropper :usluga="set.uslugi"/>
+                
     <div class="bg-white py-12">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -70,6 +75,7 @@ const date = ref(new Date());
             <div class="mb-3 xl:w-3/6">
               <form @submit.prevent="submit">
                 <input v-model="form.id" class="invisible">
+
 
                 <!-- is main? -->
                 <div v-if="user.id == 1" class="flex items-center mb-4">
@@ -87,7 +93,7 @@ const date = ref(new Date());
                   <select v-model="form.main_usluga_id"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option disabled value="">Выберите один из вариантов</option>
-                    <option v-for="option in all_uslugi" v-bind:value=option.id :selected="option.id == main_usluga_id">
+                    <option v-for="option in all_uslugi" :key="option.id " v-bind:value=option.id :selected="option.id == main_usluga_id">
                       {{ option.usl_name }}
                     </option>
                   </select>

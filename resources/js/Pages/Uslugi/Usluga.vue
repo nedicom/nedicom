@@ -1,8 +1,7 @@
 <script setup>
 import MainHeader from "@/Layouts/MainHeader.vue";
 import Header from "@/Layouts/Header.vue";
-
-import Mainbanner from "@/Layouts/Mainbanner.vue";
+import SecondBanner from "@/Layouts/SecondBanner.vue";
 import Body from "@/Layouts/Body.vue";
 import FlashMessage from "@/Components/FlashMessage.vue";
 import RatingReady from "@/Components/RatingReady.vue";
@@ -59,14 +58,15 @@ ol {
   </Head>
 
   <div itemscope itemtype="https://schema.org/LegalService">
+  
     <MainHeader />
 
     <Header :phone="usluga.phone" :address="usluga.address" />
 
-    <Mainbanner
+    <SecondBanner
       :statusonimage="usluga.usl_name"
       :nameonimage="usluga.desc"
-      :mainbannerimg="mainbannerimg"
+      :secondbannerimg="secondbannerimg"
     />
 
     <Body>
@@ -214,7 +214,8 @@ ol {
 
                   <div class="flex items-center justify-start">
                     <div class="rounded-full w-12">
-                      <svg v-if="card.id % 2"
+                      <svg
+                        v-if="card.id % 2"
                         xmlns="http://www.w3.org/2000/svg"
                         x="0px"
                         y="0px"
@@ -240,7 +241,8 @@ ol {
                         ></path>
                       </svg>
 
-                      <svg v-else
+                      <svg
+                        v-else
                         xmlns="http://www.w3.org/2000/svg"
                         x="0px"
                         y="0px"
