@@ -34,13 +34,19 @@ class LawyerRating
 
             $Umax = $Umax[0]->total;
 
-            $Lastpub = Article::where('userid', '=',$User)->latest('created_at')->first()->created_at; //day when last buplication were created
-       
-            $Daytotal = RatingCounter::DayConter($Ucur, $Umax); //total discount days
+                if(Article::where('userid', '=',$User)->first()){
 
-            $Qpub = RatingCounter::Rating($Daytotal, $Lastpub);
+                    $Lastpub = Article::where('userid', '=',$User)->latest('created_at')->first()->created_at; //day when last buplication were created
+            
+                    $Daytotal = RatingCounter::DayConter($Ucur, $Umax); //total discount days
 
-            RatingCounter::DBPostRecord($Daytotal, $Qpub, $User);        
+                    $Qpub = RatingCounter::Rating($Daytotal, $Lastpub);
+
+                    RatingCounter::DBPostRecord($Daytotal, $Qpub, $User);    
+                }
+                else{
+                    return 1;
+                }
         }
     }
 
@@ -67,13 +73,19 @@ class LawyerRating
 
             $Umax = $Umax[0]->total;
 
+            if(Article::where('userid', '=',$User)->first()){
+
             $Lastpub = Article::where('userid', '=',$User)->where('practice_file_path', '!=', null)->latest('created_at')->first()->created_at; //day when last buplication were created
        
             $Daytotal = RatingCounter::DayConter($Ucur, $Umax); //total discount days
 
             $Qpub = RatingCounter::Rating($Daytotal, $Lastpub);
 
-            RatingCounter::DBPracticeRecord($Daytotal, $Qpub, $User);        
+            RatingCounter::DBPracticeRecord($Daytotal, $Qpub, $User);  
+            }
+            else{
+                return 1;
+            }      
         }
     }
 
@@ -99,13 +111,19 @@ class LawyerRating
 
             $Umax = $Umax[0]->total;
 
+            if(Questions::where('user_id', '=',$User)->first()){
+
             $Lastpub = Questions::where('user_id', '=',$User)->latest('created_at')->first()->updated_at; //day when last buplication were created
 
             $Daytotal = RatingCounter::DayConter($Ucur, $Umax); //total discount days
 
             $Qpub = RatingCounter::Rating($Daytotal, $Lastpub);
 
-            RatingCounter::DBQuestionRecord($Daytotal, $Qpub, $User);        
+            RatingCounter::DBQuestionRecord($Daytotal, $Qpub, $User);
+            }
+            else{
+                return 1;
+            }        
         }
     }
 
@@ -131,6 +149,8 @@ class LawyerRating
 
             $Umax = $Umax[0]->total;
 
+            if(Answer::where('users_id', '=',$User)->first()){
+
             $Lastpub = Answer::where('users_id', '=',$User)->latest('created_at')->first()->updated_at; //day when last buplication were created
 
             $Daytotal = RatingCounter::DayConter($Ucur, $Umax); //total discount days
@@ -139,5 +159,9 @@ class LawyerRating
 
             RatingCounter::DBAnswernRecord($Daytotal, $Qpub, $User);        
         }
+        else{
+            return 1;
+        }
+    }
     }
 }

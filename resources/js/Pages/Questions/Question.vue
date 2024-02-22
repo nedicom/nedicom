@@ -53,7 +53,6 @@ const getAIAnswer = () => {
     <Header :ttl="set.question.title" />
 
     <Body>
-      {{set.authid}}
       <div
         class="xl:w-1/2 sm:px-6 lg:px-4 mx-auto my-12 bg-white overflow-hidden shadow-sm sm:rounded-lg"
       >
