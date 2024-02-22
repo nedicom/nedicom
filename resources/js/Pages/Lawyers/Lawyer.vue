@@ -29,7 +29,7 @@ let set = defineProps({
     specializationThree: Object,
     specialization: String,
     articles: "$Array",
-    practice: "$Array",
+    practice: Array,
     flash: Object,
 });
 
@@ -79,7 +79,7 @@ let title = ref(set.lawyer.name);
 
         <Articles :articles="articles" />
 
-        <Slider :sliderheader="sliderheader" :sldimg="practice" />
+        <Slider :sliderheader="sliderheader" :sldimg="practice" :practice="set.practice" />
 
         <MainFooter />
     </div>

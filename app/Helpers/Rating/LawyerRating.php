@@ -73,7 +73,7 @@ class LawyerRating
 
             $Umax = $Umax[0]->total;
 
-            if(Article::where('userid', '=',$User)->first()){
+            if(Article::where('userid', '=',$User)->where('practice_file_path', '!=', null) ->first()){
 
             $Lastpub = Article::where('userid', '=',$User)->where('practice_file_path', '!=', null)->latest('created_at')->first()->created_at; //day when last buplication were created
        
