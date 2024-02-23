@@ -76,7 +76,7 @@ ol {
           class="max-w-5xl mx-auto sm:px-6 lg:px-8 bg-white overflow-hidden shadow-sm sm:rounded-lg"
         >
           <div v-if="user">
-            <div v-if="vars.user.isadmin == 1">
+            <div v-if="vars.user.isadmin == 1 || vars.user.id == vars.usluga.user_id">
               <a
                 :href="route('uslugi.edit', usluga.id)"
                 class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
