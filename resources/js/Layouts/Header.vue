@@ -9,11 +9,13 @@ let secondphone = "8 985 5582170";
 let thirdphone = "8 978 1453925";
 
 const props = defineProps({
-  ttl: String,
   address: String,
   phone: String,
 });
 
+if (props.phone) {
+  phone = props.phone;
+}
 
 let phoneto = "tel:" + phone;
 let secondphoneto = "tel:" + secondphone;
@@ -38,10 +40,18 @@ let ModalBtnText = "записаться на консультацию";
         class="font-semibold text-gray-800 leading-tight grid gap-4 md:grid-cols-2 text-center"
       >
         <div class="grid gap-4 md:grid-cols-2">
-          <div class="flex items-center justify-center px-2"><Modal :ModalBtnText="ModalBtnText" /></div>
+          <div class="flex items-center justify-center px-2">
+            <Modal :ModalBtnText="ModalBtnText" />
+          </div>
         </div>
 
-        <div class="flex">
+        <div v-if="props.phone" class="flex">
+          <div class="flex-auto">
+            <a :href="phoneto" class="md:text-3xl">{{ phone }} </a>
+          </div>
+        </div>
+
+        <div v-else class="flex">
           <div class="md:text-xl flex-auto">
             <a :href="phoneto">{{ address }}</a
             ><br />
@@ -51,13 +61,23 @@ let ModalBtnText = "записаться на консультацию";
           <div class="md:text-xl flex-auto">
             <a :href="secondphoneto">{{ secondaddress }}</a>
             <br />
-            <a v-if="secondphone" :href="secondphoneto" class="md:text-xl text-xs">{{ secondphone }}</a>
+            <a
+              v-if="secondphone"
+              :href="secondphoneto"
+              class="md:text-xl text-xs"
+              >{{ secondphone }}</a
+            >
           </div>
 
           <div class="md:text-xl flex-auto">
             <a :href="thirdphoneto">{{ thirdaddress }}</a
             ><br />
-            <a v-if="thirdphone" :href="thirdphoneto" class="md:text-xl text-xs">{{ thirdphone }}</a>
+            <a
+              v-if="thirdphone"
+              :href="thirdphoneto"
+              class="md:text-xl text-xs"
+              >{{ thirdphone }}</a
+            >
           </div>
         </div>
       </h2>

@@ -11,8 +11,11 @@ import Address from "@/Layouts/Address.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import Slider from "@/Layouts/Slider.vue";
 import { Head } from "@inertiajs/inertia-vue3";
+import { ref } from "vue";
 
 const value = '{ @context: "http://schema.org" }';
+
+let lineClamp = ref(false);
 
 let vars = defineProps({
   usluga: "Object",
@@ -58,7 +61,6 @@ ol {
   </Head>
 
   <div itemscope itemtype="https://schema.org/LegalService">
-
     <MainHeader />
 
     <Header :phone="usluga.phone" :address="usluga.address" />
@@ -66,7 +68,7 @@ ol {
     <SecondBanner
       :statusonimage="usluga.usl_name"
       :nameonimage="usluga.desc"
-      :secondbannerimg="'/'+ mainbannerimg"
+      :secondbannerimg="'/' + mainbannerimg"
     />
 
     <Body>
@@ -76,7 +78,11 @@ ol {
           class="max-w-5xl mx-auto sm:px-6 lg:px-8 bg-white overflow-hidden shadow-sm sm:rounded-lg"
         >
           <div v-if="user">
-            <div v-if="vars.user.isadmin == 1 || vars.user.id == vars.usluga.user_id">
+            <div
+              v-if="
+                vars.user.isadmin == 1 || vars.user.id == vars.usluga.user_id
+              "
+            >
               <a
                 :href="route('uslugi.edit', usluga.id)"
                 class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
@@ -172,10 +178,20 @@ ol {
         </div>
         <!-- preimushestva -->
 
-        <div
-          class="px-6 text-gray-900 text-center"
-          v-html="usluga.longdescription"
-        ></div>
+        <div class="px-6 text-gray-900 text-center grid md:grid-cols-3 grid-cols-1">
+          <div
+            :class="{ 'h-[64em]': lineClamp }"
+            class="col-span-2 transition-height duration-500 ease-in-out overflow-hidden h-64 px-5"
+            v-html="usluga.longdescription"
+          ></div>
+          <button
+            id="toggle-btn"
+            @click="lineClamp = !lineClamp"
+            class="mt-4 text-blue-500 focus:outline-none"
+          >
+            подробнее
+          </button>
+        </div>
 
         <Slider
           v-if="practice != 0"

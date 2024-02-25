@@ -21,9 +21,13 @@ module.exports = {
             animation: {
                 'spin-pulse': 'pulse 1s linear infinite',
                },
-               fontSize: {
+            fontSize: {
                 xxs: '0.5rem',
-              }
+            },
+            transitionProperty: {
+                'height': 'height ',
+                'line-clamp-3': 'line-clamp-3',
+            }
         },
     },
 
