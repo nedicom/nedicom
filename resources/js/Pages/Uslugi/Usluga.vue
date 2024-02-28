@@ -157,9 +157,7 @@ ol {
 
                 <div class="h-12 flex items-center justify-end col-span-2">
                   <h5 class="text-gray-900 subpixel-antialiased text-right line-clamp-2 font-bold">
-                    <span itemscope itemtype="https://schema.org/Person">
                       <span itemprop="author">{{ card.fio }}</span>
-                    </span>
                   </h5>
                 </div>
 

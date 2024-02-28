@@ -103,7 +103,7 @@ const body =
       <p class="font-light mt-5">
         {{ body }}
       </p>
-      <link itemprop="availability" href="https://nedicom.ru" />*
+      <link itemprop="availability" href="https://nedicom.ru" />
     </div>
 
     <div class="col-span-2">
@@ -130,7 +130,7 @@ const body =
             {{ item.value }} 
           </div>
           <div class="mt-3">
-            <span itemprop="price" :content="item.price" class="text-sm">стоимость: </span> {{ item.price }} <span itemprop="priceCurrency" content="RUB">рублей</span>
+            <span class="text-sm">стоимость: </span> {{ item.price }} рублей
           </div>
         </div>
       </div>
