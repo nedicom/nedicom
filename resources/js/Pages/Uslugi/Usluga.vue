@@ -95,12 +95,12 @@ ol {
       <Prices :subheader="usluga.usl_name" />
 
       <!--reviews carousel-->
-      <div itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating"
-        class="mt-12 py-12 bg-gray-100/75">
+      <div class="mt-12 py-12 bg-gray-100/75">
         <h3 class="text-4xl mx-12 my-1 font-semibold text-grey text-center">
           будем рады и Вашему отзыву
         </h3>
-        <p class="text-xs mx-12 font-semibold text-grey text-center md:text-end py-5">
+        <p itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating"
+          class="text-xs mx-12 font-semibold text-grey text-center md:text-end py-5">
           общая оценка: <span itemprop="ratingValue">5</span>
           всего отзывов: <span itemprop="reviewCount">{{ reviewscount }}</span>
         </p>
