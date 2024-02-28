@@ -157,7 +157,7 @@ ol {
 
                 <div class="h-12 flex items-center justify-end col-span-2">
                   <h5 class="text-gray-900 subpixel-antialiased text-right line-clamp-2 font-bold">
-                      <span itemprop="author">{{ card.fio }}</span>
+                    <span itemprop="author">{{ card.fio }}</span>
                   </h5>
                 </div>
 
@@ -234,12 +234,26 @@ ol {
         <div itemprop="disambiguatingDescription" :class="{ 'md:h-[32em] h-[64em]': lineClamp }"
           class="col-span-2 transition-height duration-500 ease-in-out overflow-hidden h-24 px-5"
           v-html="usluga.longdescription"></div>
-        <button id="toggle-btn" @click="lineClamp = !lineClamp" class="mt-4 text-blue-500 focus:outline-none">
-          подробнее
+        <button id="toggle-btn" @click="lineClamp = !lineClamp"
+          class="mt-4 text-blue-500 items-center focus:outline-none">
+          <img itemprop="image" :src="mainbannerimg" :alt='usluga.usl_name'
+            class="rounded-full object-center w-48 h-48 object-cover mx-auto transition-all duration-300 rounded-lg cursor-pointer filter grayscale hover:grayscale-0" />
         </button>
       </div>
       <!-- seo description -->
 
+      <div itemprop="offers" itemscope itemtype="https://schema.org/Offer" class="text-center my-12 py-12">
+        <h1 class="text-4xl font-semibold text-grey  mt-12 mb-6">
+          Консультация
+        </h1>
+        <div class="md:flex justify-center text-2xl mb-12">
+          <span itemprop="price" content="1000.00"><strong class="font-semibold text-gray-900 mr-2">1000</strong></span> <span itemprop="priceCurrency" content="RUB">рублей</span>
+        </div>
+        <span class="mb-12">
+          <link itemprop="availability" href="https://nedicom.ru/#" class="text-xs" />Чтобы записаться позвоните или
+          оставьте номер в форме обратной связи
+        </span>
+      </div>
 
 
       <Address :phone="usluga.phone" :address="usluga.address" :maps="usluga.maps" />
@@ -285,6 +299,7 @@ ol {
         lawyers-->
     </div>
   </Body>
+
   <MainFooter />
 
   <Tg />
