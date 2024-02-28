@@ -1,6 +1,5 @@
 <script setup>
 defineProps({
-    sldimg: Array,
     sliderheader: String,
     practice: Array,
 });

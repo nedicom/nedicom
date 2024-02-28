@@ -1,4 +1,8 @@
 <script setup>
+
+defineProps({
+  subheader:String,
+})
 const header = "Стоимость услуг";
 const description =
   "Рекомендуем стоимость и объем услуг определять на консультации, так Вы поймете насколько разрешимо Ваше дело и что нужно для достижения успеха. ";
@@ -86,11 +90,12 @@ const body =
 </script>
 
 <template>
-  <div class="grid grid-cols-1 md:grid-cols-3 p-5">
+  <div itemprop="offers" itemscope itemtype="https://schema.org/Offer" class="grid grid-cols-1 md:grid-cols-3 p-5">
     <div class="grid grid-cols-1 content-center p-5">
-      <h2 class="text-3xl">
-        {{ header }}
+      <h2>
+        <span class="text-3xl">{{ header }}</span> <span v-if="subheader"> в категории<br><span class="text-2xl">{{ subheader }}</span></span>
       </h2>
+
       <p class="font-medium mt-5">
         {{ description }}
       </p>
@@ -116,14 +121,14 @@ const body =
         <div
           class="col-span-2 grid grid-cols-1 content-center text-center md:text-start"
         >
-          <div class="text-2xl font-bold">
+          <div  itemprop="name" class="text-2xl font-bold">
             {{ item.name }}
           </div>
-          <div class="text-sm text-gray-500">
-            {{ item.value }}
+          <div itemprop="description" class="text-sm text-gray-500">
+            {{ item.value }} 
           </div>
           <div class="mt-3">
-            <span class="text-sm">стоимость: </span> {{ item.price }} рублей
+            <span itemprop="price" :content="item.price" class="text-sm">стоимость: </span> {{ item.price }} <span itemprop="priceCurrency" content="RUB">рублей</span>
           </div>
         </div>
       </div>

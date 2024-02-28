@@ -25,6 +25,7 @@ class UslugiController extends Controller
 
     public function show($url, Request $request){ 
         $id = Uslugi::where('url', '=', $url)->first()->id;
+        $mainid = Uslugi::where('url', '=', $url)->first()->main_usluga_id;
         $main_usluga_id = Uslugi::where('url', '=', $url)->first()->main_usluga_id;
             if(!$main_usluga_id){
                 $main_usluga_id = $id;
@@ -36,8 +37,8 @@ class UslugiController extends Controller
             'lawyers' => User::where('speciality_one_id', '=', $id)->orderBy('name', 'asc')->get()->take(3),
             'practice' => Article::where('usluga_id', $main_usluga_id)->where('practice_file_path', '!=', null)->orderBy('updated_at', 'desc')->take(3)->get(),
             'firstlawyer' => User::where('id', $user_id)->get(),
-            'reviews' => Review::where('usl_id', $id)->get(),
-            'reviewscount' => Review::where('usl_id', $id)->count(),
+            'reviews' => Review::where('usl_id', $id)->orWhere('usl_id', $mainid)->get(),
+            'reviewscount' => Review::where('usl_id', $id)->orWhere('usl_id', $mainid)->count(),
             'flash' => ['message' => $request->session()->get(key: 'message')], 
         ]);
     }
