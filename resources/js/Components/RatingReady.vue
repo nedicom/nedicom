@@ -22,7 +22,7 @@ const stars = [1, 2, 3, 4, 5];
     </span> 
     <span itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
       <meta itemprop="worstRating" content="1">
-      <span itemprop="ratingValue" class="text-xs">({{ rating }})</span>
+      (<span itemprop="ratingValue" class="text-xs">{{ rating }}</span>)
       <span itemprop="bestRating" content="5"></span>
     </span>
   </div>
