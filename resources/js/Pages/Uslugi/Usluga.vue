@@ -247,11 +247,12 @@ ol {
           Консультация
         </h1>
         <div class="md:flex justify-center text-2xl mb-12">
-          <span itemprop="price" content="1000.00"><strong class="font-semibold text-gray-900 mr-2">1000</strong></span> <span itemprop="priceCurrency" content="RUB">рублей</span>
+          <span itemprop="price" content="1000.00"><strong class="font-semibold text-gray-900 mr-2">1000</strong></span>
+          <span itemprop="priceCurrency" content="RUB">рублей</span>
         </div>
         <span class="mb-12">
-          <link itemprop="availability" href="https://nedicom.ru/#" class="text-xs" />Чтобы записаться позвоните или
-          оставьте номер в форме обратной связи
+          <span class="text-xs">Чтобы записаться позвоните или
+            оставьте номер в форме обратной связи</span>
         </span>
       </div>
 
