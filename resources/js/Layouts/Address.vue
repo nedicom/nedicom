@@ -40,7 +40,7 @@ let phoneto = "tel:" + phone;
 
             <div class="flex items-center justify-center">
                 <a href="tel:+79788838978">
-                    <img src="/storage/images/landing/main/icons8-iphone-se.gif">
+                    <img src="https://nedicom.ru/storage/images/landing/main/icons8-iphone-se.gif">
                 </a>
             </div>
 
@@ -48,7 +48,7 @@ let phoneto = "tel:" + phone;
                 <h5 class="text-2xl font-semibold text-grey text-center">Записаться на консультацию</h5>
             </div>
 
-            <div class="flex items-center justify-center">
+            <div v-if="props.maps" class="flex items-center justify-center">
                 <a href="https://yandex.ru/maps/-/CCUkY0bIwD">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="48" height="48" viewBox="0 0 48 48">
                         <linearGradient id="iu22Zjf0u3e5Ts0QLZZhJa_uzeKRJIGwbBY_gr1" x1="11.274" x2="36.726" y1="9.271"

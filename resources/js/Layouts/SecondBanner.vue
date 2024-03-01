@@ -93,7 +93,7 @@ const recaptcha = async () => {
         h-screen        
         "
         
-    :style="{ backgroundImage: `url(${secondbannerimg})`}"
+    :style="{ backgroundImage: `url(https://nedicom.ru/${secondbannerimg})`}"
     >
 
         <div

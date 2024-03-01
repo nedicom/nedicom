@@ -10,7 +10,7 @@ import { Head } from "@inertiajs/inertia-vue3";
 import { ref } from "vue";
 import { Inertia } from "@inertiajs/inertia";
 import { reactive } from "vue";
-import VueWriter from 'vue-writer'
+import VueWriter from 'vue-writer';
 
 let form = reactive({
   header: "",

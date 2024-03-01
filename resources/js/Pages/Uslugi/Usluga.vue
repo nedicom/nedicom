@@ -12,10 +12,7 @@ import MainFooter from "@/Layouts/MainFooter.vue";
 import Slider from "@/Layouts/Slider.vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import { ref } from "vue";
-
-const value = '{ @context: "http://schema.org" }';
-
-let lineClamp = ref(false);
+import VueWriter from 'vue-writer';
 
 let vars = defineProps({
   usluga: "Object",
@@ -27,6 +24,8 @@ let vars = defineProps({
   reviews: "Object",
   reviewscount: String,
 });
+
+const writerarr = [vars.usluga.preimushestvo1, vars.usluga.preimushestvo2, vars.usluga.preimushestvo3];
 
 let sliderheader = "Доверяйте делам";
 
@@ -81,18 +80,18 @@ ol {
       <!-- edit btn -->
 
       <!-- header 2 -->
-      <div itemprop="name" class="text-4xl m-12 px-6 font-semibold text-grey text-center">
-        {{ usluga.usl_name }}
+      <div class="md:my-20">
+        <div itemprop="name" class="text-4xl m-12 px-6 font-semibold text-grey text-center">
+          {{ usluga.usl_name }}
+        </div>
+        <!-- short desc -->
+        <div itemprop="description" class="mx-12 px-6 text-gray-900 text-center">
+          {{ usluga.usl_desc }}
+        </div>
       </div>
+      <!-- short desc -->
       <!-- header 2 -->
 
-      <!-- short desc -->
-      <div itemprop="description" class="mx-12 px-6 text-gray-900 text-center">
-        {{ usluga.usl_desc }}
-      </div>
-      <!-- short desc -->
-
-      <Prices :subheader="usluga.usl_name" />
 
       <!--reviews carousel-->
       <div class="mt-12 py-12 bg-gray-100/75">
@@ -182,80 +181,67 @@ ol {
       <Slider v-if="practice != 0" :sliderheader="sliderheader" :practice="vars.practice" />
 
       <!-- preimushestva -->
-      <div class="my-12">
-        <div class="m-6 flex justify-center">
-          <div class="">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
-              class="fill-indigo-500 hover:fill-indigo-600 bi bi-file-earmark-check" viewBox="0 0 16 16">
-              <path
-                d="M10.854 7.854a.5.5 0 0 0-.708-.708L7.5 9.793 6.354 8.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z" />
-              <path
-                d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
-            </svg>
+
+
+
+      <div class="bg-white">
+        <div class="mx-auto max-w-7xl py-24 sm:px-6 sm:py-32 lg:px-8">
+          <div
+            class="relative isolate overflow-hidden bg-gray-500 px-6 pt-16 shadow-2xl sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0">
+
+            <div class="mx-auto text-center lg:mx-0 lg:py-32 lg:text-left">
+              <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl md:h-12 h-36">
+                <vue-writer :array="writerarr" :eraseSpeed="20" :typeSpeed="50" class="m-h-12" />
+              </h2>
+              <p class="mt-6 text-lg leading-8 text-gray-100">
+                Мы хотели тут написать для чего нужно записываться на консультацию
+
+              </p>
+              <div class="mt-10 flex items-center justify-center gap-x-6 lg:justify-start text-white">
+                <a href="tel:+79788838978" class="text-3xl">{{ usluga.phone }}</a>
+              </div>
+
+              <div class="mt-10 md:flex items-center justify-center gap-x-6 lg:justify-start text-white" itemprop="offers"
+                itemscope itemtype="https://schema.org/Offer">
+                <h1 class="text-3xl">
+                  Консультация
+                </h1>
+                <div class="md:flex justify-center text-2xl">
+                  <span itemprop="price" content="1000.00"><strong
+                      class="font-semibold text-gray-200 mr-2 text-3xl">1000</strong></span>
+                  <span itemprop="priceCurrency" content="RUB">рублей</span>
+                </div>
+              </div>
+
+
+              <div class="mt-10 mb-10 lg:mb-0 flex items-center justify-center gap-x-6 lg:justify-start">
+                <a href="https://nedicom.ru/policy" class="text-sm font-semibold text-gray-200">Политика
+                  конфиденциальности <span aria-hidden="true">→</span></a>
+              </div>
+            </div>
           </div>
         </div>
-
-        <h2 class="py-3 text-3xl font-semibold text-grey text-center">
-          {{ usluga.preimushestvo1 }}
-        </h2>
-
-        <div class="m-6 flex justify-center">
-          <div class="">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
-              class="fill-indigo-500 hover:fill-indigo-600 bi bi-bar-chart-line" viewBox="0 0 16 16">
-              <path
-                d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z" />
-            </svg>
-          </div>
-        </div>
-
-        <h2 class="py-3 text-3xl font-semibold text-grey text-center">
-          {{ usluga.preimushestvo2 }}
-        </h2>
-
-        <div class="m-6 flex justify-center">
-          <div class="">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
-              class="fill-indigo-500 hover:fill-indigo-600 bi bi-hand-index" viewBox="0 0 16 16">
-              <path
-                d="M6.75 1a.75.75 0 0 1 .75.75V8a.5.5 0 0 0 1 0V5.467l.086-.004c.317-.012.637-.008.816.027.134.027.294.096.448.182.077.042.15.147.15.314V8a.5.5 0 1 0 1 0V6.435a4.9 4.9 0 0 1 .106-.01c.316-.024.584-.01.708.04.118.046.3.207.486.43.081.096.15.19.2.259V8.5a.5.5 0 0 0 1 0v-1h.342a1 1 0 0 1 .995 1.1l-.271 2.715a2.5 2.5 0 0 1-.317.991l-1.395 2.442a.5.5 0 0 1-.434.252H6.035a.5.5 0 0 1-.416-.223l-1.433-2.15a1.5 1.5 0 0 1-.243-.666l-.345-3.105a.5.5 0 0 1 .399-.546L5 8.11V9a.5.5 0 0 0 1 0V1.75A.75.75 0 0 1 6.75 1zM8.5 4.466V1.75a1.75 1.75 0 1 0-3.5 0v5.34l-1.2.24a1.5 1.5 0 0 0-1.196 1.636l.345 3.106a2.5 2.5 0 0 0 .405 1.11l1.433 2.15A1.5 1.5 0 0 0 6.035 16h6.385a1.5 1.5 0 0 0 1.302-.756l1.395-2.441a3.5 3.5 0 0 0 .444-1.389l.271-2.715a2 2 0 0 0-1.99-2.199h-.581a5.114 5.114 0 0 0-.195-.248c-.191-.229-.51-.568-.88-.716-.364-.146-.846-.132-1.158-.108l-.132.012a1.26 1.26 0 0 0-.56-.642 2.632 2.632 0 0 0-.738-.288c-.31-.062-.739-.058-1.05-.046l-.048.002zm2.094 2.025z" />
-            </svg>
-          </div>
-        </div>
-
-        <h2 class="py-3 text-3xl font-semibold text-grey text-center">
-          {{ usluga.preimushestvo3 }}
-        </h2>
       </div>
       <!-- preimushestva -->
 
       <!-- seo description -->
-      <div class="px-6 text-gray-900 text-center grid md:grid-cols-3 grid-cols-1">
-        <div itemprop="disambiguatingDescription" :class="{ 'md:h-[32em] h-[64em]': lineClamp }"
-          class="col-span-2 transition-height duration-500 ease-in-out overflow-hidden h-24 px-5"
+      <div class="px-6 text-gray-900 text-center">
+        <div itemprop="disambiguatingDescription" class="grid md:grid-cols-2 justify-items-end gap-10 text-justify"
           v-html="usluga.longdescription"></div>
-        <button id="toggle-btn" @click="lineClamp = !lineClamp"
-          class="mt-4 text-blue-500 items-center focus:outline-none">
-          <img itemprop="image" :src="mainbannerimg" :alt='usluga.usl_name'
-            class="rounded-full object-center w-48 h-48 object-cover mx-auto transition-all duration-300 rounded-lg cursor-pointer filter grayscale hover:grayscale-0" />
-        </button>
+        <div class="flex justify-center">
+          <div class="md:w-1/2">
+            <figure><img itemprop="image"
+                class="rounded-lg transition-all duration-300 filter grayscale hover:grayscale-0"
+                :src="'https://nedicom.ru/' + mainbannerimg" :alt='usluga.usl_name'>
+            </figure>
+          </div>
+        </div>
+
       </div>
+
       <!-- seo description -->
 
-      <div itemprop="offers" itemscope itemtype="https://schema.org/Offer" class="text-center my-12 py-12">
-        <h1 class="text-4xl font-semibold text-grey  mt-12 mb-6">
-          Консультация
-        </h1>
-        <div class="md:flex justify-center text-2xl mb-12">
-          <span itemprop="price" content="1000.00"><strong class="font-semibold text-gray-900 mr-2">1000</strong></span>
-          <span itemprop="priceCurrency" content="RUB">рублей</span>
-        </div>
-        <span class="mb-12">
-          <span class="text-xs">Чтобы записаться позвоните или
-            оставьте номер в форме обратной связи</span>
-        </span>
-      </div>
-
+      <Prices :subheader="usluga.usl_name" />
 
       <Address :phone="usluga.phone" :address="usluga.address" :maps="usluga.maps" />
 
