@@ -208,8 +208,9 @@ ol {
                 </h1>
                 <div class="md:flex justify-center text-2xl">
                   <span itemprop="price" content="1000.00"><strong
-                      class="font-semibold text-gray-200 mr-2 text-3xl">1000</strong></span>
+                      class="font-semibold text-gray-200 mr-2 text-3xl"><link itemprop="availability" href="https://schema.org/InStock" />1000</strong></span>
                   <span itemprop="priceCurrency" content="RUB">рублей</span>
+                  <meta itemprop="priceValidUntil" content = "01.01.2029">
                 </div>
               </div>
 

@@ -103,7 +103,7 @@ const body =
       <p class="font-light mt-5">
         {{ body }}
       </p>
-      <link itemprop="availability" href="https://nedicom.ru" />
+      <link itemprop="availability" href="https://schema.org/InStock" /> В наличии
     </div>
 
     <div class="col-span-2">
