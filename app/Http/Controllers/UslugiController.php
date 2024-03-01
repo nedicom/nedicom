@@ -37,7 +37,7 @@ class UslugiController extends Controller
             'lawyers' => User::where('speciality_one_id', '=', $id)->orderBy('name', 'asc')->get()->take(3),
             'practice' => Article::where('usluga_id', $main_usluga_id)->where('practice_file_path', '!=', null)->orderBy('updated_at', 'desc')->take(3)->get(),
             'firstlawyer' => User::where('id', $user_id)->get(),
-            'reviews' => Review::where('usl_id', $id)->orWhere('usl_id', $mainid)->get(),
+            'reviews' => Review::where('usl_id', $id)->orWhere('usl_id', $mainid)->orderBy('id', 'desc')->get(),
             'reviewscount' => Review::where('usl_id', $id)->orWhere('usl_id', $mainid)->count(),
             'flash' => ['message' => $request->session()->get(key: 'message')], 
         ]);
@@ -52,8 +52,7 @@ class UslugiController extends Controller
         $usluga = new Uslugi;
         $usluga->usl_name = $request->header;
         $usluga->usl_desc = $request->description;
-        $usluga->user_id = Auth::id();
-        
+        $usluga->user_id = Auth::id();        
 
             $usluga->longdescription = 'Это детальное описание услуги';
             $usluga->preimushestvo1 = '600+ дел';

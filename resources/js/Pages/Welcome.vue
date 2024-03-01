@@ -26,12 +26,12 @@ let mainbannerimg = ref(
   "https://nedicom.ru/storage/images/landing/main/1280on600.webp"
 );
 let secondbannerimg = ref(
-  "https://nedicom.ru/storage/images/landing/main/second.webp"
+  "storage/images/landing/main/second.webp"
 );
 
   if(screen < 1024){
       mainbannerimg = ref("https://nedicom.ru/storage/images/landing/main/firstm.webp");
-      secondbannerimg = ref("https://nedicom.ru/storage/images/landing/main/secondm.webp");
+      secondbannerimg = ref("storage/images/landing/main/secondm.webp");
     }
   
 let sldimg = ref([
