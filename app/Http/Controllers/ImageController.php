@@ -102,14 +102,14 @@ class ImageController extends Controller
             $id = $req->id;
             
             if ($pagetype == 'mobileusluga') {
-                $filePath = 'uslugi/' . $id. '/pc/';
+                $filePath = 'uslugi/' . $id. '/pc'.'/';
                 $fileName = time() . 'usluga';
                 $usluga = Uslugi::find($id);
                 $usluga->file_path = 'storage/' . $filePath . $fileName . '.webp';
                 $usluga->save();
             }
             else{
-                $filePath = 'uslugi/' . $id. '/pc/';
+                $filePath = 'uslugi/' . $id. '/mobile'.'/';
                 $fileName = time() . 'usluga';
                 $usluga = Uslugi::find($id);
                 $usluga->file_path = 'storage/' . $filePath . $fileName . '.webp';
