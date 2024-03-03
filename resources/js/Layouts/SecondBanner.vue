@@ -90,7 +90,8 @@ const recaptcha = async () => {
         bg-no-repeat
         bg-top
         w-full
-        h-screen        
+        md:h-screen
+        h-[40em]      
         "
         
     :style="{ backgroundImage: `url(${secondbannerimg})`}"
