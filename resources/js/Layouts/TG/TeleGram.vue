@@ -5,6 +5,7 @@
             <div class="flex justify-end mb-5 mr-5">
                 <a href="tg://resolve?domain=+79784731847"
                     class="flex justify-center text-white rounded-full hover:bg-blue-600"
+                    aria-label="Write to telegram"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

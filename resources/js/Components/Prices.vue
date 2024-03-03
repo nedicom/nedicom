@@ -114,9 +114,10 @@ const body =
       >
         <div class="rounded-full flex items-center justify-center">
           <img
-            :src="'https://nedicom.ru//storage/images/services/' + item.img"
+            :src="'https://nedicom.ru/storage/images/services/' + item.img"
             width="120"
             class="rounded-full"
+            :alt="item.name"
           />
         </div>
 

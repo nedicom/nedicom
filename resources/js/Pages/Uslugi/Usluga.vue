@@ -168,10 +168,10 @@ ol {
                 </div>
 
                 <div class="h-12 flex items-center justify-end col-span-2">
-                  <h5 class="text-gray-900 subpixel-antialiased text-right line-clamp-2 font-bold">
+                  <h3 class="text-gray-900 subpixel-antialiased text-right line-clamp-2 font-bold">
                     <span itemprop="author" itemscope="" itemtype="http://schema.org/Person"><span itemprop="name">{{
                       card.fio }}</span></span>
-                  </h5>
+                  </h3>
                 </div>
 
                 <div class="flex items-center h-24 col-span-3">
@@ -204,10 +204,10 @@ ol {
             class="relative isolate overflow-hidden bg-gray-500 px-6 pt-16 shadow-2xl sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0">
 
             <div class="mx-auto text-center lg:mx-0 lg:py-32 lg:text-left">
-              <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl md:h-12 h-36">
+              <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl md:h-12 h-36 text-white">
                 <vue-writer :array="writerarr" :eraseSpeed="20" :typeSpeed="50" class="m-h-12" />
               </h2>
-              <p class="mt-6 text-lg leading-8 text-gray-100">
+              <p class="mt-6 text-lg leading-8 text-white">
                 Мы хотели тут написать для чего нужно записываться на консультацию
 
               </p>
@@ -221,7 +221,7 @@ ol {
                   Консультация
                 </h1>
                 <div class="md:flex justify-center text-2xl">
-                  <span itemprop="price" content="1000.00"><strong class="font-semibold text-gray-200 mr-2 text-3xl">
+                  <span itemprop="price" content="1000.00"><strong class="font-semibold text-white mr-2 text-3xl">
                       <link itemprop="availability" href="https://schema.org/InStock" />1000
                     </strong></span>
                   <span itemprop="priceCurrency" content="RUB">рублей</span>
@@ -231,7 +231,7 @@ ol {
 
 
               <div class="mt-10 mb-10 lg:mb-0 flex items-center justify-center gap-x-6 lg:justify-start">
-                <a href="https://nedicom.ru/policy" class="text-sm font-semibold text-gray-200">Политика
+                <a href="https://nedicom.ru/policy" class="text-sm font-semibold text-white">Политика
                   конфиденциальности <span aria-hidden="true">→</span></a>
               </div>
             </div>
