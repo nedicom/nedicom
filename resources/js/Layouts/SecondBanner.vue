@@ -98,7 +98,7 @@ const recaptcha = async () => {
         
     :style="{ backgroundImage: `url(${secondbannerimg})`}"
     >
-
+    <img src="secondbannerimg" alt="image" width="0" height="0" style="display: none !important;" />
         <div
             class="grid grid-cols-1 md:justify-items-end md:content-center content-end py-5 w-full h-full"
            >
