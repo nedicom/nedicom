@@ -101,12 +101,20 @@ class ImageController extends Controller
             $pagetype = $req->pagetype;
             $id = $req->id;
             
-        
-            $filePath = 'uslugi/' . $id. '/';
+            if ($pagetype == 'mobileusluga') {
+                $filePath = 'uslugi/' . $id. '/pc/';
                 $fileName = time() . 'usluga';
                 $usluga = Uslugi::find($id);
                 $usluga->file_path = 'storage/' . $filePath . $fileName . '.webp';
                 $usluga->save();
+            }
+            else{
+                $filePath = 'uslugi/' . $id. '/pc/';
+                $fileName = time() . 'usluga';
+                $usluga = Uslugi::find($id);
+                $usluga->file_path = 'storage/' . $filePath . $fileName . '.webp';
+                $usluga->save();
+            }
                 
                 if (!Storage::exists($filePath)) {
                     Storage::makeDirectory($filePath);
@@ -129,8 +137,7 @@ class ImageController extends Controller
                 $files = Storage::allFiles($filePath);                
                 Storage::delete($files);
                 //$imgwebppath = 'storage/' . $filePath . '/' . $fileName . '.webp';
-                $imgwebppath = $filePath.$fileName . '.webp';
-                
+                $imgwebppath = $filePath.$fileName . '.webp';                
 
                 Storage::disk('public')->put($filePath.$fileName . '.webp', '');
 

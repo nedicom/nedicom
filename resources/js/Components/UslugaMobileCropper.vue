@@ -47,7 +47,7 @@ defineProps({
                   handlers: {eastSouth: true,},
                   movable: true,
                   resizable: true,
-                  aspectRatio: 5/3,
+                  aspectRatio: 2/3,
               }"
                   image-restriction="stencil" 
               />
@@ -73,7 +73,7 @@ defineProps({
   
 <script>
   export default {
-    name: "imgupld",
+    name: "imgmobileupld",
     data() {
       return {
         id: null,
@@ -87,12 +87,11 @@ defineProps({
     methods: {
       cropImage() {
         const {canvas} = this.$refs.cropper.getResult();
-        //pixels = $refs.cropper.getResult();
         if (canvas) {
             const id = this.usluga.id;
             const form = new FormData();
             form.append('id', id);
-            form.append('pagetype', 'usluga');   
+            form.append('pagetype', 'mobileusluga');   
             canvas.toBlob(blob => {
             form.append('file', blob, 'uslimg');                        
             Inertia.post("/uslimagepost", form);
@@ -100,19 +99,12 @@ defineProps({
         }
       },
       uploadImage(event) {              
-        /// Reference to the DOM input element
         const { files } = event.target;
-        // Ensure that you have a file before attempting to read it
         if (files && files[0]) {
-          // 1. Revoke the object URL, to allow the garbage collector to destroy the uploaded before file
           if (this.image.src) {
             URL.revokeObjectURL(this.image.src);
           }
-          // 2. Create the blob link to the file to optimize performance:
           const blob = URL.createObjectURL(files[0]);
-
-          // 3. Update the image. The type will be derived from the extension and it can lead to an incorrect result:
-          
           this.image = {
             src: blob,
             type: files[0].type,          
@@ -121,7 +113,6 @@ defineProps({
       },
     },
     destroyed() {
-      // Revoke the object URL, to allow the garbage collector to destroy the uploaded before file
       if (this.image.src) {
         URL.revokeObjectURL(this.image.src);
       }

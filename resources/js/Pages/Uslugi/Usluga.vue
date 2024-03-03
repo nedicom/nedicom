@@ -22,20 +22,33 @@ let vars = defineProps({
   practice: "$Array",
   flash: "Object",
   reviews: "Object",
-  reviewscount: String,
+  reviewscount: "String",
 });
 
 const writerarr = [vars.usluga.preimushestvo1, vars.usluga.preimushestvo2, vars.usluga.preimushestvo3];
 
 let sliderheader = "Доверяйте делам";
 
-let mainbannerimg = vars.usluga.file_path;
-if (!mainbannerimg) {
-  mainbannerimg =
-    "https://nedicom.ru/storage/images/landing/main/1280on600.webp";
-} else {
-  mainbannerimg;
+let screen = window.innerWidth;
+
+let mainbannerimg;
+
+if (screen < 1024) {
+  mainbannerimg = vars.usluga.mob_file_path;
+  if (!mainbannerimg) {
+    mainbannerimg =
+      "storage/images/landing/main/secondm.webp";
+  }
 }
+else {
+  mainbannerimg = vars.usluga.file_path;
+  if (!mainbannerimg) {
+    mainbannerimg =
+      "storage/images/landing/main/1280on600.webp";
+  }
+}
+
+
 </script>
 
 <style>
@@ -156,7 +169,8 @@ ol {
 
                 <div class="h-12 flex items-center justify-end col-span-2">
                   <h5 class="text-gray-900 subpixel-antialiased text-right line-clamp-2 font-bold">
-                    <span itemprop="author" itemscope="" itemtype="http://schema.org/Person"><span itemprop="name">{{ card.fio }}</span></span>
+                    <span itemprop="author" itemscope="" itemtype="http://schema.org/Person"><span itemprop="name">{{
+                      card.fio }}</span></span>
                   </h5>
                 </div>
 
@@ -207,10 +221,11 @@ ol {
                   Консультация
                 </h1>
                 <div class="md:flex justify-center text-2xl">
-                  <span itemprop="price" content="1000.00"><strong
-                      class="font-semibold text-gray-200 mr-2 text-3xl"><link itemprop="availability" href="https://schema.org/InStock" />1000</strong></span>
+                  <span itemprop="price" content="1000.00"><strong class="font-semibold text-gray-200 mr-2 text-3xl">
+                      <link itemprop="availability" href="https://schema.org/InStock" />1000
+                    </strong></span>
                   <span itemprop="priceCurrency" content="RUB">рублей</span>
-                  <meta itemprop="priceValidUntil" content = "01.01.2029">
+                  <meta itemprop="priceValidUntil" content="01.01.2029">
                 </div>
               </div>
 
