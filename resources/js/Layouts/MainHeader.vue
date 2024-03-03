@@ -18,10 +18,10 @@ const showingNavigationDropdown = ref(false);
           <div class="flex justify-between h-16">
             <div class="flex">
               <!-- Logo -->
-              <div class="shrink-0 flex items-center">
-                <Link :href="route('Welcome')">
+              <div class="flex items-center">
+                <Link :href="route('Welcome')" class="flex justify-center items-center h-20 pt-3" aria-label="Home">
                   <ApplicationLogo
-                    class="block h-9 w-auto fill-current text-gray-800"
+                    class="block w-auto fill-current text-gray-800"
                   />
                 </Link>
               </div>

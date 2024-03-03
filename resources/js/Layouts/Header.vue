@@ -47,35 +47,35 @@ let ModalBtnText = "записаться на консультацию";
 
         <div v-if="props.phone" class="flex">
           <div class="flex-auto">
-            <a :href="phoneto" class="md:text-3xl">{{ phone }} </a>
+            <a :href="phoneto" class="text-3xl">{{ phone }} </a>
           </div>
         </div>
 
         <div v-else class="flex">
-          <div class="md:text-xl flex-auto">
+          <div class="text-xl">
             <a :href="phoneto">{{ address }}</a
             ><br />
-            <a :href="phoneto" class="md:text-xl text-xs">{{ phone }} </a>
+            <a :href="phoneto" class="text-xl">{{ phone }} </a>
           </div>
 
-          <div class="md:text-xl flex-auto">
+          <div class="text-xl">
             <a :href="secondphoneto">{{ secondaddress }}</a>
             <br />
             <a
               v-if="secondphone"
               :href="secondphoneto"
-              class="md:text-xl text-xs"
+              class="text-xl"
               >{{ secondphone }}</a
             >
           </div>
 
-          <div class="md:text-xl flex-auto">
+          <div class="text-xl">
             <a :href="thirdphoneto">{{ thirdaddress }}</a
             ><br />
             <a
               v-if="thirdphone"
               :href="thirdphoneto"
-              class="md:text-xl text-xs"
+              class="text-xl"
               >{{ thirdphone }}</a
             >
           </div>

@@ -45,7 +45,7 @@ let phoneto = "tel:" + phone;
             </div>
 
             <div>
-                <h3 class="text-2xl font-semibold text-grey text-center">Записаться на консультацию</h3>
+                <h4 class="text-2xl font-semibold text-grey text-center">Записаться на консультацию</h4>
             </div>
 
             <div v-if="props.maps" class="flex items-center justify-center">

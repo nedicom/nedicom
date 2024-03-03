@@ -31,24 +31,23 @@ let sliderheader = "Доверяйте делам";
 
 let screen = window.innerWidth;
 
-let mainbannerimg;
+let mainbannerimg = new Image();
+mainbannerimg.fetchPriority = "high";
 
 if (screen < 1024) {
-  mainbannerimg = vars.usluga.mob_file_path;
-  if (!mainbannerimg) {
-    mainbannerimg =
+  mainbannerimg.src  = vars.usluga.mob_file_path;
+  if (!mainbannerimg.src ) {
+    mainbannerimg.src  =
       "storage/images/landing/main/secondm.webp";
   }
 }
 else {
-  mainbannerimg = vars.usluga.file_path;
-  if (!mainbannerimg) {
-    mainbannerimg =
+  mainbannerimg.src  = vars.usluga.file_path;
+  if (!mainbannerimg.src ) {
+    mainbannerimg.src  =
       "storage/images/landing/main/1280on600.webp";
   }
 }
-
-
 </script>
 
 <style>
@@ -76,7 +75,7 @@ ol {
 
   <Header :phone="usluga.phone" :address="usluga.address" />
 
-  <SecondBanner :statusonimage="usluga.usl_name" :nameonimage="usluga.desc" :secondbannerimg="mainbannerimg" />
+  <SecondBanner :statusonimage="usluga.usl_name" :nameonimage="usluga.desc" :secondbannerimg="mainbannerimg.src" />
 
   <Body>
     <div itemscope itemtype="https://schema.org/Product" class="py-6">
@@ -248,7 +247,7 @@ ol {
           <div class="md:w-1/2">
             <figure><img itemprop="image"
                 class="rounded-lg transition-all duration-300 filter grayscale hover:grayscale-0"
-                :src="'https://nedicom.ru/' + mainbannerimg" :alt='usluga.usl_name'>
+                :src="'https://nedicom.ru/' + mainbannerimg.src" :alt='usluga.usl_name'>
             </figure>
           </div>
         </div>

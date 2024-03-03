@@ -12,7 +12,7 @@ const props = defineProps({
       <div
         class="relative my-3 p-12 text-center"
         >
-        <h5 class="my-6 py-6 text-2xl font-semibold text-grey text-center">{{ about }}</h5>            
+        <h5 class="my-6 py-6 ">{{ about }}</h5>            
     </div> 
     <!-- secondary banner - about -->
 </template>

@@ -22,16 +22,18 @@ defineProps({
 });
 
 let screen = window.innerWidth;
+
+let secondbannerimg = new Image();
+secondbannerimg.fetchPriority = "high";
+
 let mainbannerimg = ref(
   "https://nedicom.ru/storage/images/landing/main/1280on600.webp"
 );
-let secondbannerimg = ref(
-  "storage/images/landing/main/second.webp"
-);
+secondbannerimg.src = "storage/images/landing/main/second.webp";
 
   if(screen < 1024){
       mainbannerimg = ref("https://nedicom.ru/storage/images/landing/main/firstm.webp");
-      secondbannerimg = ref("storage/images/landing/main/secondm.webp");
+      secondbannerimg.src = "storage/images/landing/main/secondm.webp";
     }
   
 let sldimg = ref([
@@ -63,7 +65,7 @@ let nameonimage = ref("Мина Марк Анатольевич");
     <SecondBanner
       :statusonimage="statusonimage"
       :nameonimage="nameonimage"
-      :secondbannerimg="secondbannerimg"
+      :secondbannerimg="secondbannerimg.src"
     />
 
     <Slider
