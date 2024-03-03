@@ -49,7 +49,6 @@ else {
       "storage/images/landing/main/1280on600.webp";
   }
 }
-alert(mainbannerimg.src);
 
 </script>
 
