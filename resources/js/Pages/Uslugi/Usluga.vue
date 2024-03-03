@@ -173,10 +173,10 @@ ol {
                 </div>
 
                 <div class="h-12 flex items-center justify-end col-span-2">
-                  <h3 class="text-gray-900 subpixel-antialiased text-right line-clamp-2 font-bold">
+                  <p class="text-gray-900 subpixel-antialiased text-right line-clamp-2 font-bold">
                     <span itemprop="author" itemscope="" itemtype="http://schema.org/Person"><span itemprop="name">{{
                       card.fio }}</span></span>
-                  </h3>
+                  </p>
                 </div>
 
                 <div class="flex items-center h-24 col-span-3">
@@ -253,7 +253,7 @@ ol {
           <div class="md:w-1/2">
             <figure><img itemprop="image"
                 class="rounded-lg transition-all duration-300 filter grayscale hover:grayscale-0"
-                :src="'https://nedicom.ru/' + mainbannerimg.src" :alt='usluga.usl_name'>
+                :src="mainbannerimg.src" :alt='usluga.usl_name'>
             </figure>
           </div>
         </div>

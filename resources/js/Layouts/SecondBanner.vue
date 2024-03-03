@@ -82,6 +82,9 @@ const recaptcha = async () => {
 <template>
 <!-- main banner -->
     <div
+    as="image"
+    crossorigin 
+    rel="preload" 
     class="
         relative 
         overflow-hidden 
