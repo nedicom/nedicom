@@ -82,28 +82,24 @@ const recaptcha = async () => {
 <template>
 <!-- main banner -->
     <div
-    as="image"
-    crossorigin 
-    rel="preload" 
     class="
         relative 
         overflow-hidden 
         bg-cover 
         bg-transparent 
         bg-no-repeat
-        bg-md-top
+        bg-top
         w-full
         h-screen        
         "
         
     :style="{ backgroundImage: `url(${secondbannerimg})`}"
     >
-    <img src="secondbannerimg" alt="image" width="0" height="0" style="display: none !important;" />
         <div
             class="grid grid-cols-1 md:justify-items-end md:content-center content-end py-5 w-full h-full"
            >
 
-            <div class="md:w-1/2 md:float-right">
+            <div class="md:w-1/2 w-full md:float-right">
                 <div class="flex  items-center justify-center">            
                 
                     <div class="text-black text-center">
@@ -133,7 +129,7 @@ const recaptcha = async () => {
                                 </div>
 
                                 <button type="submit" :disabled="form.processing"
-                                    class="md:w-full w-full bg-blue-700 hover:bg-blue-800 text-white focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center"
+                                    class="w-full bg-blue-700 hover:bg-blue-800 text-white focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center"
                                 > 
                                     <div class="text-center w-full">
                                         <!-- <span>отправить</span> -->  
