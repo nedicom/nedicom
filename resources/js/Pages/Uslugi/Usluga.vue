@@ -35,18 +35,22 @@ const mainbannerimg = new Image();
 mainbannerimg.fetchPriority = "high";
 mainbannerimg.src = "https://nedicom.ru/";
 
-if (screen < 1024) {
-  mainbannerimg.src  += vars.usluga.mob_file_path;
-  if (!mainbannerimg.src ) {
+if (screen < 1024) {  
+  if (!vars.usluga.mob_file_path ) {
     mainbannerimg.src  +=
       "storage/images/landing/main/secondm.webp";
   }
+  else{
+    mainbannerimg.src  += vars.usluga.mob_file_path;
+  }
 }
-else {
-  mainbannerimg.src  += vars.usluga.file_path;
-  if (!mainbannerimg.src ) {
+else {;
+  if (!vars.usluga.file_path) {
     mainbannerimg.src  +=
       "storage/images/landing/main/1280on600.webp";
+  }
+  else{
+    mainbannerimg.src  += vars.usluga.file_path;
   }
 }
 
