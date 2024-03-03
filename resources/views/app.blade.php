@@ -59,6 +59,15 @@
     @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
     @inertiaHead
 </head>
+<style>
+@font-face {
+  font-family: 'nunito';
+  src: local('Pacifico Regular'), local('Pacifico-Regular'),
+    url(https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap)
+      format('nunito');
+  font-display: swap;
+}
+</style>
 
 
 <body class="font-sans antialiased">
