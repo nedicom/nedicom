@@ -59,7 +59,7 @@ defineProps({
               <InputLabel value="Текущее изображение" />
               <div class="w-full"> 
                 <img class=""
-                :src='"/"+usluga'
+                :src='"/"+usluga.file_path'
                 />              
               </div>
             </div>

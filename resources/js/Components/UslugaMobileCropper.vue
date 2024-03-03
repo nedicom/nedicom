@@ -7,6 +7,7 @@ import 'vue-advanced-cropper/dist/style.css';
 
 defineProps({
   usluga: String,
+  id: Number,
 });
 
 </script>
@@ -59,7 +60,7 @@ defineProps({
               <InputLabel value="Текущее изображение" />
               <div class="w-full"> 
                 <img class=""
-                :src='"/"+usluga'
+                :src='"/"+usluga.mob_file_path'
                 />              
               </div>
             </div>

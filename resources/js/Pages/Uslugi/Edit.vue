@@ -176,9 +176,9 @@ const date = ref(new Date());
       </div>
     </div>
 
-    <UslugaCropper :usluga="set.uslugi.file_path" />
+    <UslugaCropper :usluga="set.uslugi"/>
 
-    <UslugaMobileCropper :usluga="set.uslugi.mob_file_path" />
+    <UslugaMobileCropper :usluga="set.uslugi" />
 
   </Body>
 
