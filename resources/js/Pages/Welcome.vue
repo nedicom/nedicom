@@ -25,15 +25,19 @@ let screen = window.innerWidth;
 
 let secondbannerimg = new Image();
 secondbannerimg.fetchPriority = "high";
+secondbannerimg.src = "https://nedicom.ru/";
 
 let mainbannerimg = ref(
   "https://nedicom.ru/storage/images/landing/main/1280on600.webp"
 );
-secondbannerimg.src = "storage/images/landing/main/second.webp";
+
 
   if(screen < 1024){
       mainbannerimg = ref("https://nedicom.ru/storage/images/landing/main/firstm.webp");
-      secondbannerimg.src = "storage/images/landing/main/secondm.webp";
+      secondbannerimg.src += "storage/images/landing/main/secondm.webp";
+    }
+    else{
+      secondbannerimg.src += "storage/images/landing/main/second.webp";
     }
   
 let sldimg = ref([

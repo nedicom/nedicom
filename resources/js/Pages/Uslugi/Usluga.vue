@@ -31,23 +31,26 @@ let sliderheader = "Доверяйте делам";
 
 let screen = window.innerWidth;
 
-let mainbannerimg = new Image();
+const mainbannerimg = new Image();
 mainbannerimg.fetchPriority = "high";
+mainbannerimg.src = "https://nedicom.ru/";
 
 if (screen < 1024) {
-  mainbannerimg.src  = vars.usluga.mob_file_path;
+  mainbannerimg.src  += vars.usluga.mob_file_path;
   if (!mainbannerimg.src ) {
-    mainbannerimg.src  =
+    mainbannerimg.src  +=
       "storage/images/landing/main/secondm.webp";
   }
 }
 else {
-  mainbannerimg.src  = vars.usluga.file_path;
+  mainbannerimg.src  += vars.usluga.file_path;
   if (!mainbannerimg.src ) {
-    mainbannerimg.src  =
+    mainbannerimg.src  +=
       "storage/images/landing/main/1280on600.webp";
   }
 }
+alert(mainbannerimg.src);
+
 </script>
 
 <style>
