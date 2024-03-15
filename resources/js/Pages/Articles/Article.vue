@@ -30,7 +30,7 @@ ol {
 </style>
 
 <template>
-{{ vars.article }}
+
     <Head>
         <title>{{ article.header }}</title>
         <meta name="description" :content="article.description" />
@@ -61,7 +61,7 @@ ol {
                                     <!-- tooltip component -->
                                     <div class="group flex justify-between mb-2">
                                         <div class="group flex item-center">
-                                            <div>
+                                            <div class="flex items-center justify-center">
                                                 <Link :href="route('lawyer', article.userid)
                                                     " class="hover:underline">
                                                         <img :src="'https://nedicom.ru/' +
@@ -85,13 +85,13 @@ ol {
                                             </div>
                                         </div>
 
-                                        <div class="flex items-center justify-center">
+                                        <div class="flex items-center justify-center text-xs md:text-sm">
                                             <div  class="mr-3" itemprop="datePublished" :content="article.created_at">
-                                                {{ article.created }}
+                                                <div class="md:block hidden">создано:</div>  <div>{{ article.created }}</div>
                                             </div>
                                             
-                                            <div itemprop="dateModified" :content="article.updated_at">
-                                                (изменено:  {{ article.updated }} )
+                                            <div class="md:block hidden" itemprop="dateModified" :content="article.updated_at">
+                                                <div class="md:block hidden">обновлено:</div>  <div>{{ article.updated }} </div>
                                             </div>
                                            
                                         </div>
