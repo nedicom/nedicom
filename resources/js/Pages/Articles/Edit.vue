@@ -21,6 +21,7 @@ let form = reactive({
     body: set.article.body,
     usluga_id: set.article.usluga_id,
     id: set.article.id,
+    youtube: set.article.youtube_file_path,
 });
 
 
@@ -155,6 +156,34 @@ let title = ref("Редактировать статью");
                       {{ option.usl_name }}
                     </option>
                   </select>
+
+                  <label class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white">Ссылка на youtube</label>
+                  <input  
+                    v-model="form.youtube"          
+                    class="
+                      form-control
+                      mt-3
+                      block
+                      w-full
+                      px-3
+                      py-1.5
+                      text-base
+                      font-normal
+                      text-gray-700
+                      bg-white bg-clip-padding
+                      border border-solid border-gray-300
+                      rounded
+                      transition
+                      ease-in-out
+                      m-0
+                      focus:text-gray-700
+                      focus:bg-white
+                      focus:border-blue-600
+                      focus:outline-none
+                    "
+                    required
+                  >
+                  <p class="mt-2 text-sm dark:text-green-500"><span class="font-medium">Под видео нажмите поделиться</span> Потом скопируйте код</p>
 
               </div>
 
