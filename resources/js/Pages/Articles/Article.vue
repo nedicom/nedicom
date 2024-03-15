@@ -78,14 +78,14 @@ ol {
             'lawyer',
             article.userid
         )
-            " class="hover:underline"> <span itemprop="headline">{{ article.name }}</span>
+            " class="hover:underline"> <span itemprop="name">{{ article.name }}</span>
                                             </a>
                                         </span>
                                     </div>
                                 </div>
                                 <!-- tooltip component -->
 
-                                <div v-if="article.header" itemprop="name"
+                                <div v-if="article.header" itemprop="headline"
                                     class="mb-4 text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white">
                                     {{ article.header }}
                                 </div>
