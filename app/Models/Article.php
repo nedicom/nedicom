@@ -30,4 +30,8 @@ class Article extends Model
     public function user(){
         return $this->belongsTo(User::class, 'userid');
     }
+
+    public function usluga(){
+        return $this->belongsTo(Uslugi::class, 'usluga_id');
+    }
 }

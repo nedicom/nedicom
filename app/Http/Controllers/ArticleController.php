@@ -29,8 +29,8 @@ class ArticleController extends Controller
     {
         return Inertia::render('Articles/MyArticles', [
             'articles' => Article::where('userid', '=', Auth::user()->id)
-            ->select(['id', 'header', 'description', 'url'])
-            ->paginate(100),
+                ->select(['id', 'header', 'description', 'url'])
+                ->paginate(100),
         ]);
     }
 
@@ -55,10 +55,12 @@ class ArticleController extends Controller
 
     public function edit(string $url)
     {
-        return Inertia::render('Articles/Edit', [
-            'article' => Article::where('url', '=', $url)->first(),
-            'uslugi' => Uslugi::where('is_main', '=', 1)->get(),
-        ],
+        return Inertia::render(
+            'Articles/Edit',
+            [
+                'article' => Article::where('url', '=', $url)->first(),
+                'uslugi' => Uslugi::where('is_main', '=', 1)->get(),
+            ],
         );
     }
 
@@ -90,10 +92,24 @@ class ArticleController extends Controller
 
     public function articleURL($url)
     {
+
+        DB::statement("SET lc_time_names = 'ru_RU'");
+
         return Inertia::render('Articles/Article', [
             'article' => DB::table('articles')
-                ->where('url', '=', $url)
+                ->where('articles.url', '=', $url)
                 ->leftJoin('users', 'articles.userid', '=', 'users.id')
+                ->join('uslugis', 'articles.usluga_id', '=', 'uslugis.id')
+                ->select(
+                    'articles.*',
+                    'users.id',
+                    'users.name',
+                    'users.avatar_path',
+                    'uslugis.url as  newurl',
+                    'uslugis.usl_name',
+                    DB::raw("DATE_FORMAT(articles.created_at, '%d-%M-%Y') as created"),
+                    DB::raw("DATE_FORMAT(articles.updated_at, '%d-%M-%Y') as updated")
+                )
                 ->first(),
             'user' => Auth::user(),
         ]);

@@ -30,7 +30,7 @@ ol {
 </style>
 
 <template>
-
+{{ vars.article }}
     <Head>
         <title>{{ article.header }}</title>
         <meta name="description" :content="article.description" />
@@ -41,78 +41,88 @@ ol {
     <Header :ttl="article.header" />
 
     <Body>
-
-        <div class="py-6 md:w-4/6 flex justify-start" itemscope itemtype="https://schema.org/Article">
-            <div class="max-w-5xl sm:px-6 lg:px-4">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="py-12">
-                        <div class="xl:w-4/6 mx-auto sm:px-6 lg:px-8">
-                            <div class="px-6 bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                                <div v-if="vars.user" class="my-3">
-                                    <div v-if="vars.user.id == article.userid">
-                                        <a :href="route(
+        <div class="flex justify-center  text-gray-900" itemscope itemtype="https://schema.org/Article">
+            <div class="py-6 md:w-4/6">
+                <div class="max-w-5xl sm:px-6 lg:px-4">
+                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="py-12">
+                            <div class="mx-auto sm:px-6 lg:px-8">
+                                <div class="px-6 bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                                    <div v-if="vars.user" class="my-3">
+                                        <div v-if="vars.user.id == article.userid">
+                                            <a :href="route(
             'articles.edit',
             article.url
         )
             " class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Редактировать</a>
-                                    </div>
-                                </div>
-
-                                <!-- tooltip component -->
-                                <div class="group flex item-center mb-2">
-                                    <div>
-                                        <Link :href="route('lawyer', article.userid)
-            " class="hover:underline">
-                                        <img :src="'https://nedicom.ru/' +
-            article.avatar_path
-            " width="40" class="rounded-full" />
-                                        </Link>
+                                        </div>
                                     </div>
 
-                                    <div class="flex items-center justify-center" itemprop="author" itemscope
-                                        itemtype="https://schema.org/Person">
-                                        <span
-                                            class="h-1/2 group-hover:opacity-100 transition-opacity bg-gray-800 mx-3 px-1 text-sm text-gray-100 rounded-md md:opacity-0">
-                                            автор -
-                                            <a itemprop="url" :href="route(
-            'lawyer',
-            article.userid
-        )
-            " class="hover:underline"> <span itemprop="name">{{ article.name }}</span>
-                                            </a>
-                                        </span>
+                                    <!-- tooltip component -->
+                                    <div class="group flex justify-between mb-2">
+                                        <div class="group flex item-center">
+                                            <div>
+                                                <Link :href="route('lawyer', article.userid)
+                                                    " class="hover:underline">
+                                                        <img :src="'https://nedicom.ru/' +
+                                                    article.avatar_path
+                                                    " width="40" class="rounded-full" />
+                                                </Link>
+                                            </div>
+
+                                            <div class="flex items-center justify-center" itemprop="author" itemscope
+                                                itemtype="https://schema.org/Person">
+                                                <span
+                                                    class="h-1/2 group-hover:opacity-100 transition-opacity bg-gray-800 mx-3 px-1 text-sm text-gray-100 rounded-md md:opacity-0">
+                                                    автор -
+                                                    <a itemprop="url" :href="route(
+                                                            'lawyer',
+                                                            article.userid
+                                                        )
+                                                            " class="hover:underline"> <span itemprop="name">{{ article.name }}</span>
+                                                    </a>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center justify-center">
+                                            <div  class="mr-3" itemprop="datePublished" :content="article.created_at">
+                                                {{ article.created }}
+                                            </div>
+                                            
+                                            <div itemprop="dateModified" :content="article.updated_at">
+                                                (изменено:  {{ article.updated }} )
+                                            </div>
+                                           
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- tooltip component -->
 
-                                <div v-if="article.header" itemprop="headline"
-                                    class="mb-4 text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white">
-                                    {{ article.header }}
-                                </div>
+                                    <!-- tooltip component -->
 
-                                <div>
-                                    <span itemprop="datePublished" :content="article.created_at">
-                                        {{ article.created_at }}
-                                    </span>
-                                    (изменено
-                                    <span itemprop="dateModified" :content="article.updated_at">
-                                        {{ article.updated_at }}
-                                    </span>
-                                    )
-                                </div>
+                                    <div v-if="article.header" itemprop="headline"
+                                        class="my-4 text-3xl font-extrabold leading-tight lg:mb-6 lg:text-4xl dark:text-white lead">
+                                        {{ article.header }}
+                                    </div>
 
-                                <div v-if="article.description" class="my-3" itemprop="description">
-                                    {{ article.description }}
-                                </div>
+                                    
+                                    <div v-if="article.usluga_id" itemprop="headline"
+                                        class="my-4">
+                                        Категория: <a :href="'https://nedicom.ru/uslugi/'+article.newurl"  class="font-bold hover:underline">{{article.usl_name}}</a>
+                                    </div>
 
-                                <div v-if="article.youtube_file_path">
-                                    <iframe width="100%" height="315" :src="article.youtube_file_path"
-                                        title="YouTube video player" frameborder="0"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                        allowfullscreen></iframe>
-                                </div>
+                                    <div v-if="article.description" class="my-3" itemprop="description">
+                                        {{ article.description }}
+                                    </div>
 
-                                <div v-html="article.body" itemprop="text"></div>
+                                    <div v-if="article.youtube_file_path" class="my-6"  >
+                                        <iframe width="100%" height="500" :src="article.youtube_file_path"
+                                            title="YouTube video player" frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            allowfullscreen></iframe>
+                                    </div>
+
+                                    <div v-html="article.body" itemprop="text"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
