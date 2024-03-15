@@ -42,7 +42,7 @@ ol {
 
     <Body>
 
-        <div class="py-6 md:w-4/6 flex justify-start">
+        <div class="py-6 md:w-4/6 flex justify-start" itemscope itemtype="https://schema.org/Article">
             <div class="max-w-5xl sm:px-6 lg:px-4">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="py-12">
@@ -54,8 +54,7 @@ ol {
             'articles.edit',
             article.url
         )
-            "
-                                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Редактировать</a>
+            " class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Редактировать</a>
                                     </div>
                                 </div>
 
@@ -70,38 +69,50 @@ ol {
                                         </Link>
                                     </div>
 
-                                    <div class="flex items-center justify-center">
+                                    <div class="flex items-center justify-center" itemprop="author" itemscope
+                                        itemtype="https://schema.org/Person">
                                         <span
-                                            class="h-1/2 group-hover:opacity-100 transition-opacity bg-gray-800 mx-3 px-1 text-sm text-gray-100 rounded-md opacity-0">
+                                            class="h-1/2 group-hover:opacity-100 transition-opacity bg-gray-800 mx-3 px-1 text-sm text-gray-100 rounded-md md:opacity-0">
                                             автор -
-                                            <Link :href="route(
+                                            <a itemprop="url" :href="route(
             'lawyer',
             article.userid
         )
-            " class="hover:underline">{{ article.name }}
-                                            </Link>
+            " class="hover:underline"> <span itemprop="name">{{ article.name }}</span>
+                                            </a>
                                         </span>
                                     </div>
                                 </div>
                                 <!-- tooltip component -->
 
-                                <div v-if="article.header"
+                                <div v-if="article.header" itemprop="name"
                                     class="mb-4 text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white">
                                     {{ article.header }}
                                 </div>
 
-                                <div v-if="article.description" class="my-3">
+                                <div>
+                                    <span itemprop="datePublished" :content="article.created_at">
+                                        {{ article.created_at }}
+                                    </span>
+                                    (изменено
+                                    <span itemprop="dateModified" :content="article.updated_at">
+                                        {{ article.updated_at }}
+                                    </span>
+                                    )
+                                </div>
+
+                                <div v-if="article.description" class="my-3" itemprop="description">
                                     {{ article.description }}
                                 </div>
 
-                                <div v-if="article.youtube_file_path" class="aspect-w-16 aspect-h-9">
-                                    <iframe width="560" height="315" :src="article.youtube_file_path"
+                                <div v-if="article.youtube_file_path">
+                                    <iframe width="100%" height="315" :src="article.youtube_file_path"
                                         title="YouTube video player" frameborder="0"
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                         allowfullscreen></iframe>
                                 </div>
 
-                                <div v-html="article.body"></div>
+                                <div v-html="article.body" itemprop="text"></div>
                             </div>
                         </div>
                     </div>

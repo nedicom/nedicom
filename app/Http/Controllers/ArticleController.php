@@ -30,7 +30,7 @@ class ArticleController extends Controller
         return Inertia::render('Articles/MyArticles', [
             'articles' => Article::where('userid', '=', Auth::user()->id)
             ->select(['id', 'header', 'description', 'url'])
-            ->paginate(9),
+            ->paginate(100),
         ]);
     }
 
