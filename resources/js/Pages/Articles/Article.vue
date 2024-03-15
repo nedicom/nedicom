@@ -78,7 +78,7 @@ ol {
             'lawyer',
             article.userid
         )
-            " class="hover:underline"> <span itemprop="name">{{ article.name }}</span>
+            " class="hover:underline"> <span itemprop="headline">{{ article.name }}</span>
                                             </a>
                                         </span>
                                     </div>
