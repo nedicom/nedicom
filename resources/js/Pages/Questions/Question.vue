@@ -55,51 +55,52 @@ const getAIAnswer = () => {
 
     <Body>
       <div itemscope itemtype="https://schema.org/QAPage">
-        <div class="xl:w-1/2 sm:px-6 lg:px-4 mx-auto my-12 bg-white overflow-hidden shadow-sm sm:rounded-lg" itemprop="mainEntity" itemscope itemtype="https://schema.org/Question">
-          
-            <div class="grid grid-cols-2">
+        <div class="xl:w-1/2 sm:px-6 lg:px-4 mx-auto my-12 bg-white overflow-hidden shadow-sm sm:rounded-lg"
+          itemprop="mainEntity" itemscope itemtype="https://schema.org/Question">
 
-              <span class="flex flex-right">
-                <img v-if="set.question.user" :src="'https://nedicom.ru/' + set.question.user.avatar_path" width="60"
-                  class="rounded-full m-3 p-1 ring-2 ring-gray-300 dark:ring-gray-500" />
-                <p class="mr-3 text-sm text-gray-900 dark:text-white font-semibold h-min-24 flex items-center">
-                  <span v-if="set.question.user" itemprop="author" itemscope itemtype="https://schema.org/Person">
-                    <span itemprop="name">
-                      {{ set.question.user.name }}
-                    </span>
+          <div class="grid grid-cols-2">
+
+            <span class="flex flex-right">
+              <img v-if="set.question.user" :src="'https://nedicom.ru/' + set.question.user.avatar_path" width="60"
+                class="rounded-full m-3 p-1 ring-2 ring-gray-300 dark:ring-gray-500" />
+              <p class="mr-3 text-sm text-gray-900 dark:text-white font-semibold h-min-24 flex items-center">
+                <span v-if="set.question.user" itemprop="author" itemscope itemtype="https://schema.org/Person">
+                  <span itemprop="name">
+                    {{ set.question.user.name }}
                   </span>
-                </p>
-              </span>
+                </span>
+              </p>
+            </span>
 
-              <div class="mx-4 flex items-center flex-col justify-center md:justify-end md:flex-row ">
+            <div class="mx-4 flex items-center flex-col justify-center md:justify-end md:flex-row ">
 
 
-                <div class="text-gray-400 text-xs md:mr-4 my-2">
-                  {{ set.question.created_at }}
-                </div>
+              <div class="text-gray-400 text-xs md:mr-4 my-2">
+                {{ set.question.created_at }}
+              </div>
 
-                <div class="md:mr-4 my-2">
-                  <span
-                    class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400">ответов
-                    - <span itemprop="answerCount">{{ set.question.quantity_ans_count }}</span></span>
-                </div>
-
+              <div class="md:mr-4 my-2">
+                <span
+                  class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400">ответов
+                  - <span itemprop="answerCount">{{ set.question.quantity_ans_count }}</span></span>
               </div>
 
             </div>
 
+          </div>
 
-            <div class="my-8 mx-8 md:mx-5">
-              <h5 itemprop="name" class="mb-2 text-2xl font-bold tracking-tight text-gray-900">
-                {{ set.question.title }}
-              </h5>
 
-              <p itemprop="text" class="text-md text-gray-900">
-                {{ set.question.body }}
-              </p>
-            </div>
+          <div class="my-8 mx-8 md:mx-5">
+            <h5 itemprop="name" class="mb-2 text-2xl font-bold tracking-tight text-gray-900">
+              {{ set.question.title }}
+            </h5>
 
-          
+            <p itemprop="text" class="text-md text-gray-900">
+              {{ set.question.body }}
+            </p>
+          </div>
+
+
 
           <div class="flex justify-center">
             <Answer
