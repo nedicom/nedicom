@@ -28,7 +28,7 @@ class OpenAIDialogue{
                     ],
                     [
                         'role' => 'system',
-                        'content' => 'Your message should not be more than 200 characters.'
+                        'content' => 'Your message should be on russian and should not be more than 200 characters.'
                     ],
                     [
                         'role' => 'system',

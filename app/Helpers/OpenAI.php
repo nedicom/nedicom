@@ -29,7 +29,7 @@ class OpenAI{
                     ],
                     [
                         'role' => 'system',
-                        'content' => 'And give an answer up to 300 characters.'
+                        'content' => 'And give an answer up to 300 characters on russian.'
                     ],
                     [
                         'role' => 'user',

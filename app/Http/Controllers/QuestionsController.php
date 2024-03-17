@@ -17,7 +17,7 @@ class QuestionsController extends Controller
     public function index()
     {
         return Inertia::render('Questions/Questions', [
-            'questions' => Questions::paginate(9),
+            'questions' => Questions::orderBy('created_at', 'desc')->paginate(9),
         ]);
     }
 

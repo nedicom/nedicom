@@ -15,64 +15,59 @@ defineProps({
 let title = ref("Вопросы");
 </script>
 
-<template>  
-    <Head>
-    <title>{{title}}</title>
+<template>
+
+  <Head>
+    <title>{{ title }}</title>
     <meta name="description" content="вопросы" />
-    </Head>
+  </Head>
 
   <MainHeader />
 
   <Header :ttl="title" />
 
   <Body>
-    <div class="bg-white py-12 ">
 
-        <div v-if="questions.total > 0" class="grid grid-cols-3 gap-9 m-5">    
-          <!-- card -->
-          <div
-            v-for="question in questions.data"
-            class="flex justify-center"
-          >
-            <div
-              class="
-                block
+    <div class="bg-white py-12 md:mx-12">
+      <div v-if="questions.total > 0" class="grid md:grid-cols-3 gap-9 m-5">
+        <!-- card -->
+        <div v-for="question in questions.data" class="flex justify-center">
+          <div class="
+                grid grid-cols-1 gap-4 content-between
                 min-w-full
                 p-6
                 rounded-lg
                 shadow-lg
                 bg-white
                 max-w-sm
-              "
-            >
-              <p class="text-gray-700 text-base line-clamp-3 h-min-24 mb-2">
-                {{ question.body }}
-                
-              </p>
-              <a
-                :href="route('questions.url', question.url)"
-                class="
+              ">
+            <p class="text-gray-700 text-base line-clamp-3 h-min-24 mb-2">
+              {{ question.body }}
+
+            </p>
+
+            <div class="flex justify-between">
+              <a :href="route('questions.url', question.url)" class="
                   text-blue-500
                   underline
                   dark:text-blue-500
                   hover:no-underline
-                "
-                >подробнее</a
-              >
+                ">подробнее</a>
+              <p class="text-sm text-gray-500">{{ question.created_at }}</p>
             </div>
+
           </div>
-          <!-- card -->
+        </div>
+        <!-- card -->
 
-          <Pagination v-if="questions.total <   3" :links="questions.links" />
-
-      
+        <Pagination v-if="questions.total > 3" :links="questions.links" />
 
       </div>
     </div>
   </Body>
 
   <MainFooter />
-  
+
   <MainFooter />
 
   <Tg />
@@ -87,4 +82,3 @@ export default {
   },
 };
 </script>
-
