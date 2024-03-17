@@ -7,9 +7,17 @@ use App\Models\Dialogue;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\OpenAIDialogue;
 use App\Helpers\PostDataOpenAI;
+use Inertia\Inertia;
 
 class MessageController extends Controller
 {
+
+
+    public function messages()
+    {
+        return Inertia::render('Admin/Messages/Messages', [
+            'messages' => Dialogue::orderBy('created_at', 'desc')->paginate(99), ]);
+    }
 
     public function getdata(Request $request)
     {

@@ -136,6 +136,13 @@ const showingNavigationDropdown = ref(false);
                       </DropdownLink>
 
                       <DropdownLink
+                        v-if="$page.props.auth.user.isadmin"
+                        :href="route('messages')"
+                      >
+                        Сообщения
+                      </DropdownLink>
+
+                      <DropdownLink
                         :href="route('logout')"
                         method="post"
                         as="button"

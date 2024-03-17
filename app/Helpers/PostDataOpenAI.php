@@ -5,7 +5,7 @@ namespace App\Helpers;
 class PostDataOpenAI{
     public static function PostData($conversation, $phone)
     {
-        $conn = mysqli_connect("localhost", "crm", "904klfkFL:DlflrD4", "crm");
+        $conn = mysqli_connect(env('DB_MYSQLIHOST'), env('DB_MYSQLINAME'), env('DB_MYSQLIPASS'), env('DB_MYSQLINAME')); 
             if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
             } 
