@@ -37,13 +37,14 @@ class QuestionsController extends Controller
             $authid = Auth::user()->id;
         }
         return Inertia::render('Questions/Question', [
-            'question' => Questions::where('id', '=', $id)->with('User')->first(),
+            'question' => Questions::where('id', '=', $id)->withCount('QuantityAns')->with('User')->first(),
             'answers' => Answer::where('questions_id', '=', $id)
                 ->with('UserAns')
                 ->with('subcomments')
                 ->get(),
             'aianswer' => Inertia::lazy(fn() => OpenAI::Answer($body)),
             'authid' => $authid,
+            //'countanswer' => Article::where('userid', $id)->count(), 
         ]);
     }
 

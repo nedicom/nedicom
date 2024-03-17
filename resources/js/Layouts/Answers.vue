@@ -12,7 +12,7 @@ defineProps({
 </script>
 
 <template>    
-    <div class="grid grid-cols-1 gap-9 divide-y ">
+    <div class="grid grid-cols-1 gap-9 divide-y" itemprop="suggestedAnswer" itemscope itemtype="https://schema.org/Answer">
         <!-- comment -->
         <div v-for="answer in answers" :key="answer.id">
             <div
@@ -22,6 +22,7 @@ defineProps({
                     <Link
                         :href="route('lawyer', answer.user_ans.id)"
                         class="hover:underline flex flex-justify"
+                        itemprop="author" itemscope itemtype="https://schema.org/Person"
                     >
                         <img
                             :src="'https://nedicom.ru/' + answer.user_ans.avatar_path"
@@ -29,7 +30,7 @@ defineProps({
                             class="rounded-full mr-3"
                         />
                         <p
-                            class="mr-3 text-sm text-gray-900 dark:text-white font-semibold h-min-24 flex items-center"
+                            class="mr-3 text-sm text-gray-900 dark:text-white font-semibold h-min-24 flex items-center" itemprop="name"
                         >
                             {{answer.user_ans.name}}
                         </p>
@@ -40,7 +41,7 @@ defineProps({
                             {{ answer.created_at }}
                         </p>
                 </div>
-                <p class="text-gray-700 text-base h-min-24 mb-2">
+                <p class="text-gray-700 text-base h-min-24 mb-2" itemprop="text">
                     {{ answer.body }}
                 </p>
 
