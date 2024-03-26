@@ -30,6 +30,20 @@ class UslugiController extends Controller
             if(!$main_usluga_id){
                 $main_usluga_id = $id;
             }
+        
+        if(Review::where('usl_id', $id)->orWhere('usl_id', $mainid)->count() !== 0){
+            $reviews = Review::where('usl_id', $id)->orWhere('usl_id', $mainid)->orderBy('id', 'desc')->get();
+            $reviewscount = Review::where('usl_id', $id)->orWhere('usl_id', $mainid)->count();
+            $rating = Review::select('rating')->where('usl_id', $id)->orWhere('usl_id', $mainid)->sum('rating');
+        }
+        else{
+            $reviews = Review::orderBy('id', 'desc')->get();
+            $reviewscount = Review::count();
+            $rating = Review::sum('rating');
+        }
+
+        $rating =  round($rating / $reviewscount , 1);
+
         $user_id = Uslugi::where('url', '=', $url)->first()->user_id;
         return Inertia::render('Uslugi/Usluga', [
             'usluga' => Uslugi::where('url', '=', $url)->first(),
@@ -37,8 +51,9 @@ class UslugiController extends Controller
             'lawyers' => User::where('speciality_one_id', '=', $id)->orderBy('name', 'asc')->get()->take(3),
             'practice' => Article::where('usluga_id', $main_usluga_id)->where('practice_file_path', '!=', null)->orderBy('updated_at', 'desc')->take(3)->get(),
             'firstlawyer' => User::where('id', $user_id)->get(),
-            'reviews' => Review::where('usl_id', $id)->orWhere('usl_id', $mainid)->orderBy('id', 'desc')->get(),
-            'reviewscount' => Review::where('usl_id', $id)->orWhere('usl_id', $mainid)->count(),
+            'reviews' => $reviews,
+            'reviewscount' => $reviewscount,
+            'rating' => $rating,
             'flash' => ['message' => $request->session()->get(key: 'message')], 
         ]);
     }

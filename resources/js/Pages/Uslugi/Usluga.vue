@@ -23,6 +23,7 @@ let vars = defineProps({
   flash: "Object",
   reviews: "Object",
   reviewscount: "String",
+  rating: "String",
 });
 
 const writerarr = [vars.usluga.preimushestvo1, vars.usluga.preimushestvo2, vars.usluga.preimushestvo3];
@@ -118,7 +119,7 @@ ol {
         </h3>
         <p itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating"
           class="text-xs mx-12 font-semibold text-grey text-center md:text-end py-5">
-          общая оценка: <span itemprop="ratingValue">5</span>
+          общая оценка: <span itemprop="ratingValue">{{ vars.rating }}</span>
           всего отзывов: <span itemprop="reviewCount">{{ reviewscount }}</span>
         </p>
         <Carousel v-bind="settings" :breakpoints="breakpoints">
