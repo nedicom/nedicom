@@ -18,6 +18,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\MyController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\Admin\ArticlesController as AdminArticleController;
+use App\Http\Controllers\Admin\UslugiController as AdminUslugiController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -48,6 +49,22 @@ Route::controller(AdminArticleController::class)->group(function () {
         Route::get('/admin/articles/{id}/delete', 'delete')->name('admin.article.delete');
     });
 });
+
+
+
+
+
+
+Route::controller(AdminUslugiController::class)->group(function () {
+    Route::middleware(['auth', 'admin'])->group(function () {
+        Route::get('/admin/uslugi', 'index')->name('admin.uslugi.list');
+        Route::get('/admin/uslugi/{id}/delete', 'delete')->name('admin.uslugi.delete');
+    });
+});
+
+
+
+
 
 Route::post('/phone/send', [PostphoneController::class, 'postphone'])->name('phone/send');
 
@@ -83,7 +100,6 @@ Route::get('/lawyers/{id}', [LawyerController::class, 'lawyer'])
     Route::controller(UslugiController::class)->group(function () {
         Route::get('/uslugi', 'index')->name('uslugi');
         Route::get('/uslugi/{url}', 'show')->name('uslugi.url');
-       // Route::get('/uslugi/user/', 'useruslugi')->name('uslugi.user');
             Route::get('/uslugiadd', 'formadd')->name('uslugi.add');
             Route::post('/uslugi/create', 'create')->name('uslugi.create');
             Route::get('/uslugi/{url}/edit', 'edit')->name('uslugi.edit');
