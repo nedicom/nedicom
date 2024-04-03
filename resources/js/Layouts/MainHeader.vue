@@ -128,6 +128,14 @@ const showingNavigationDropdown = ref(false);
                       >
                         Все статьи
                       </DropdownLink>
+
+                      <DropdownLink
+                        v-if="$page.props.auth.user.isadmin"
+                        :href="route('admin.uslugi.list')"
+                      >
+                        Все услуги
+                      </DropdownLink>
+
                       <DropdownLink
                         v-if="$page.props.auth.user.isadmin"
                         :href="route('admin.users.list')"
