@@ -12,6 +12,7 @@ import { Head, Link } from "@inertiajs/inertia-vue3";
 let vars = defineProps({
     article: "Object",
     user: "Object",
+    usluga: "Object",
 });
 
 </script>
@@ -32,13 +33,13 @@ ol {
 <template>
 
     <Head>
-        <title>{{ article.header }}</title>
+        <title>{{ vars.article.header }}</title>
         <meta name="description" :content="article.description" />
     </Head>
 
     <MainHeader />
 
-    <Header :ttl="article.header" />
+    <Header :ttl="vars.article.header" />
 
     <Body>
         <div class="flex justify-center  text-gray-900" itemscope itemtype="https://schema.org/Article">
@@ -99,15 +100,14 @@ ol {
 
                                     <!-- tooltip component -->
 
-                                    <div v-if="article.header" itemprop="headline"
+                                    <div v-if="vars.article.header" itemprop="headline"
                                         class="my-4 text-3xl font-extrabold leading-tight lg:mb-6 lg:text-4xl dark:text-white lead">
-                                        {{ article.header }}
+                                        {{ vars.article.header }}
                                     </div>
 
-                                    
-                                    <div v-if="article.usluga_id" itemprop="headline"
+                                    <div v-if="usluga" itemprop="headline"
                                         class="my-4">
-                                        Категория: <a :href="'https://nedicom.ru/uslugi/'+article.newurl"  class="font-bold hover:underline">{{article.usl_name}}</a>
+                                        Категория: <a :href="'https://nedicom.ru/uslugi/'+usluga.newurl"  class="font-bold hover:underline">{{usluga.usl_name}}</a>
                                     </div>
 
                                     <div v-if="article.description" class="my-3" itemprop="description">

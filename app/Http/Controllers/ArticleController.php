@@ -95,23 +95,32 @@ class ArticleController extends Controller
 
         DB::statement("SET lc_time_names = 'ru_RU'");
 
+        $usluga_id = DB::table('articles')->where('articles.url', '=', $url)->first();
+        if($usluga_id->usluga_id == null){
+            $usluga_id_sec = 15;
+        }
+        else{
+            $usluga_id_sec = $usluga_id->usluga_id;
+        }
+
+
+        
+
         return Inertia::render('Articles/Article', [
             'article' => DB::table('articles')
                 ->where('articles.url', '=', $url)
                 ->leftJoin('users', 'articles.userid', '=', 'users.id')
-                ->join('uslugis', 'articles.usluga_id', '=', 'uslugis.id')
                 ->select(
                     'articles.*',
                     'users.id',
                     'users.name',
                     'users.avatar_path',
-                    'uslugis.url as  newurl',
-                    'uslugis.usl_name',
                     DB::raw("DATE_FORMAT(articles.created_at, '%d-%M-%Y') as created"),
                     DB::raw("DATE_FORMAT(articles.updated_at, '%d-%M-%Y') as updated")
                 )
                 ->first(),
             'user' => Auth::user(),
+            'usluga' => Uslugi::where('id', '=', $usluga_id_sec)->select('uslugis.url as newurl', 'uslugis.usl_name')->first(),
         ]);
     }
 
