@@ -2,30 +2,12 @@
 import { reactive, ref } from "vue";
 import { Inertia } from "@inertiajs/inertia";
 
-
 const props = defineProps({
     statusonimage: String,
     nameonimage: String,
-    secondbannerimg: String,    
+    secondbannerimgmobile: String,    
+    secondbannerpc: String, 
 });
-
-/*
-const p = new Promise((resolve, reject) =>{ // Promise (class) - class, resolve - function done, reject - function error
-    console.log('setTimeout started')
-    setTimeout(() => { // timer
-        console.log('setTimeout ended')
-        resolve({status: 'ok'}) //return object in {} to then function
-        reject({status: 'ok'}) 
-    }, 2000)
-})
-    p
-    .then((data) => {
-        console.log(data)
-    })
-    .catch(error => console.error(error))
-    .finally(() => console.log('finally')) //function
-
-    */
 
 let form = reactive({
   phone: "",
@@ -35,30 +17,6 @@ let form = reactive({
 });
 
 const loading = ref(true);
-
-/*function startCaptcha(){
-        grecaptcha.ready(function() {                                  
-            grecaptcha.execute('6Lf0-tAZAAAAAIxKP1YOtKrCfqSm_yl3QF-IzglK', {action: 'submit'}).then(function(token) {            
-        form.token = token                   
-        });
-    });       
-}*/
-
-/*
-async function postPhone() {
-  const response = await fetch(`https://swapi.dev/api/films/${id}/`)
-  console.log("ответ получен", response) // *1
-  return response.json()
-}
-
-
-function recaptcha () {
-    //alert('false');
-    loading.value = false; 
-    alert('123');
-}
-*/
-
 
 function recaptcha() { 
     loading.value = false;
@@ -71,17 +29,24 @@ function recaptcha() {
         }
     f();
 }
-/*
-const recaptcha = async () => { 
-    loading = false;    
-    Inertia.post("/phone/send", form, {preserveScroll: true,});
-}*/
-    
 </script>
 
+<style scoped>
+#secondbanner {
+    background-image: v-bind(secondbannerpc);
+}
+
+@media only screen and (max-width: 600px) {
+    #secondbanner {
+        background-image: v-bind(secondbannerimgmobile);
+    }
+}
+</style>
+
 <template>
-<!-- main banner -->
+<!-- second banner -->
     <div
+    id="secondbanner"
     class="
         relative 
         overflow-hidden 
@@ -93,8 +58,6 @@ const recaptcha = async () => {
         md:h-screen
         h-[40em]      
         "
-        
-    :style="{ backgroundImage: `url(${secondbannerimg})`}"
     >
         <div
             class="grid grid-cols-1 md:justify-items-end md:content-center content-end py-5 w-full h-full"
@@ -104,7 +67,6 @@ const recaptcha = async () => {
                 <div class="flex  items-center justify-center">            
                 
                     <div class="text-black text-center">
-                        
                         <div class="m-5">
                             <span class="goo text-4xl font-semibold">{{ nameonimage }}  {{ statusonimage }}</span>
                         </div>
@@ -153,7 +115,7 @@ const recaptcha = async () => {
             </div>            
         </div>         
     </div>
-    <!-- main banner -->
+    <!-- second banner -->
 
     <!-- Filter: https://css-tricks.com/gooey-effect/ -->
     <svg style="visibility: hidden; position: absolute;" width="0" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1">

@@ -33,16 +33,8 @@ let set = defineProps({
     flash: Object,
 });
 
-let screen = window.innerWidth;
-
-let mainbannerimg;
-if (screen > 1919) {
-    mainbannerimg = ref(`https://nedicom.ru/${set.lawyer.file_path}`);
-} else if (screen > 600) {
-    mainbannerimg = ref(`https://nedicom.ru/${set.lawyer.file_path}`);
-} else {
-    mainbannerimg = ref(`https://nedicom.ru/${set.lawyer.file_path}`);
-}
+let mainbannerpc =  'url("https://nedicom.ru/'+set.lawyer.file_path+'")';
+let mainbannerimgmobile  = 'url("https://nedicom.ru/'+set.lawyer.avatar_path+'")';
 
 let title = ref(set.lawyer.name);
 </script>
@@ -60,7 +52,8 @@ let title = ref(set.lawyer.name);
         <Mainbanner
             :statusonimage="statusonimage"
             :nameonimage="set.lawyer.name"
-            :mainbannerimg="mainbannerimg"
+            :mainbannerpc="mainbannerpc"
+            :mainbannerimgmobile="mainbannerimgmobile"
         />
 
         <Address />

@@ -30,31 +30,8 @@ const writerarr = [vars.usluga.preimushestvo1, vars.usluga.preimushestvo2, vars.
 
 let sliderheader = "Доверяйте делам";
 
-let screen = window.innerWidth;
-
-const mainbannerimg = new Image();
-mainbannerimg.fetchPriority = "high";
-mainbannerimg.src = "https://nedicom.ru/";
-
-if (screen < 1024) {  
-  if (!vars.usluga.mob_file_path ) {
-    mainbannerimg.src  +=
-      "storage/images/landing/main/secondm.webp";
-  }
-  else{
-    mainbannerimg.src  += vars.usluga.mob_file_path;
-  }
-}
-else {;
-  if (!vars.usluga.file_path) {
-    mainbannerimg.src  +=
-      "storage/images/landing/main/1280on600.webp";
-  }
-  else{
-    mainbannerimg.src  += vars.usluga.file_path;
-  }
-}
-
+let secondbannerpc =  'url("https://nedicom.ru/'+vars.usluga.file_path+'")';
+let secondbannerimgmobile  = 'url("https://nedicom.ru/'+vars.usluga.mob_file_path+'")';
 </script>
 
 <style>
@@ -82,7 +59,7 @@ ol {
 
   <Header :phone="usluga.phone" :address="usluga.address" />
 
-  <SecondBanner :statusonimage="usluga.usl_name" :nameonimage="usluga.desc" :secondbannerimg="mainbannerimg.src" />
+  <SecondBanner :statusonimage="usluga.usl_name" :nameonimage="usluga.desc" :secondbannerpc="secondbannerpc" :secondbannerimgmobile="secondbannerimgmobile"/>
 
   <Body>
     <div itemscope itemtype="https://schema.org/Product" class="py-6">
@@ -250,15 +227,14 @@ ol {
       <div class="px-6 text-gray-900 text-center">
         <div itemprop="disambiguatingDescription" class="grid md:grid-cols-2 justify-items-end gap-10 text-justify"
           v-html="usluga.longdescription"></div>
-        <div class="flex justify-center">
+        <div class="md:my-10 my-5 flex justify-center">
           <div class="md:w-1/2">
             <figure><img itemprop="image"
                 class="rounded-lg transition-all duration-300 filter grayscale hover:grayscale-0"
-                :src="mainbannerimg.src" :alt='usluga.usl_name'>
+                :src='`https://nedicom.ru/`+vars.usluga.file_path' :alt='usluga.usl_name'>
             </figure>
           </div>
         </div>
-
       </div>
 
       <!-- seo description -->

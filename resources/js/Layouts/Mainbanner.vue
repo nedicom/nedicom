@@ -1,19 +1,17 @@
 <script setup>
-import { reactive, ref } from "vue";
-import { Inertia } from "@inertiajs/inertia";
-
 const props = defineProps({
   statusonimage: String,
   nameonimage: String,
-  mainbannerimg: String,
+  mainbannerpc: String,
+  mainbannerimgmobile: String,
 });
 </script>
 
 <template>
   <!-- main banner -->
   <div
+    id="mainbanner"
     class="relative overflow-hidden bg-cover bg-transparent bg-no-repeat bg-md-top w-full h-screen"
-    :style="{ backgroundImage: `url(${mainbannerimg})` }"
   >
     <div class="grid grid-cols-1 justify-items-center py-5 w-full h-full">
       <div class="flex items-end">
@@ -94,6 +92,16 @@ export default {
 </script>
 
 <style lang="scss">
+#mainbanner {
+    background-image: v-bind(mainbannerpc);
+}
+
+@media only screen and (max-width: 600px) {
+    #mainbanner {
+        background-image: v-bind(mainbannerimgmobile);
+    }
+}
+
 :root {
   --color-highlight: #fff;
   --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,

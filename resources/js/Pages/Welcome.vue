@@ -21,24 +21,12 @@ defineProps({
   practice: Array,
 });
 
-let screen = window.innerWidth;
 
-let secondbannerimg = new Image();
-secondbannerimg.fetchPriority = "high";
-secondbannerimg.src = "https://nedicom.ru/";
+let secondbannerimgmobile = 'url("https://nedicom.ru/storage/images/landing/main/secondm.webp")';
+let secondbannerpc = 'url("https://nedicom.ru/storage/images/landing/main/second.webp")';
 
-let mainbannerimg = ref(
-  "https://nedicom.ru/storage/images/landing/main/1280on600.webp"
-);
-
-
-  if(screen < 1024){
-      mainbannerimg = ref("https://nedicom.ru/storage/images/landing/main/firstm.webp");
-      secondbannerimg.src += "storage/images/landing/main/secondm.webp";
-    }
-    else{
-      secondbannerimg.src += "storage/images/landing/main/second.webp";
-    }
+let mainbannerimgmobile = 'url("https://nedicom.ru/storage/images/landing/main/firstm.webp")';
+let mainbannerpc = 'url("https://nedicom.ru/storage/images/landing/main/1280on600.webp")';
   
 let sldimg = ref([
   { id: 1, practice_file_path: "/storage/images/landing/main/slider/1.webp" },
@@ -62,14 +50,15 @@ let nameonimage = ref("Мина Марк Анатольевич");
 
     <Header :ttl="title" />
 
-    <Mainbanner :mainbannerimg="mainbannerimg" />
+    <Mainbanner :mainbannerimgmobile="mainbannerimgmobile" :mainbannerpc="mainbannerpc" />
 
     <SliderUslug :uslugislider="uslugislider" />
 
     <SecondBanner
       :statusonimage="statusonimage"
       :nameonimage="nameonimage"
-      :secondbannerimg="secondbannerimg.src"
+      :secondbannerimgmobile="secondbannerimgmobile"
+      :secondbannerpc="secondbannerpc"
     />
 
     <Slider
