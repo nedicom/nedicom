@@ -13,7 +13,7 @@ let form = reactive({
   phone: "",
   //token: 'null',
   token: 'token',
-  url: location.href,
+  url: statusonimage,
 });
 
 const loading = ref(true);
@@ -62,7 +62,6 @@ function recaptcha() {
         <div
             class="grid grid-cols-1 md:justify-items-end md:content-center content-end py-5 w-full h-full"
            >
-
             <div class="md:w-1/2 w-full md:float-right">
                 <div class="flex  items-center justify-center">            
                 
