@@ -180,8 +180,7 @@ let title = ref("Редактировать статью");
                       focus:bg-white
                       focus:border-blue-600
                       focus:outline-none
-                    "
-                    required
+                    "                    
                   >
                   <p class="mt-2 text-sm dark:text-green-500"><span class="font-medium">В ютуб нажмите "поделиться", потом "встроить".</span> Потом скопируйте код между кавычками из src="код который скопировать". Сложно, но только так. </p>
 

@@ -96,15 +96,12 @@ class ArticleController extends Controller
         DB::statement("SET lc_time_names = 'ru_RU'");
 
         $usluga_id = DB::table('articles')->where('articles.url', '=', $url)->first();
-        if($usluga_id->usluga_id == null){
-            $usluga_id_sec = 15;
-        }
-        else{
-            $usluga_id_sec = $usluga_id->usluga_id;
-        }
-
-
-        
+            if($usluga_id->usluga_id == null){
+                $usluga_id_sec = 15;
+            }
+            else{
+                $usluga_id_sec = $usluga_id->usluga_id;
+            }
 
         return Inertia::render('Articles/Article', [
             'article' => DB::table('articles')
