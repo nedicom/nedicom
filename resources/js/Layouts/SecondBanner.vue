@@ -13,7 +13,7 @@ let form = reactive({
   phone: "",
   //token: 'null',
   token: 'token',
-  url: statusonimage,
+  url: props.statusonimage,
 });
 
 const loading = ref(true);
