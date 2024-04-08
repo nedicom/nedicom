@@ -3,10 +3,10 @@ import Modal from "@/Components/Modal.vue";
 
 let address = "Крым";
 let secondaddress = "Москва";
-let thirdaddress = "Краснодар";
+//let thirdaddress = "Краснодар";
 let phone = "8 978 8838978";
 let secondphone = "8 985 5582170";
-let thirdphone = "8 978 1453925";
+//let thirdphone = "8 978 1453925";
 
 const props = defineProps({
   address: String,
@@ -19,7 +19,7 @@ if (props.phone) {
 
 let phoneto = "tel:" + phone;
 let secondphoneto = "tel:" + secondphone;
-let thirdphoneto = "tel:" + thirdphone;
+//let thirdphoneto = "tel:" + thirdphone;
 let ModalBtnText = "записаться на консультацию";
 </script>
 
@@ -37,7 +37,7 @@ let ModalBtnText = "записаться на консультацию";
   <header class="bg-white shadow">
     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
       <h2
-        class="font-semibold text-gray-800 leading-tight grid gap-4 md:grid-cols-2 text-center"
+        class="font-semibold text-gray-800 leading-tight md:flex md:justify-between text-center"
       >
         <div class="grid gap-4 md:grid-cols-2">
           <div class="flex items-center justify-center px-2">
@@ -51,7 +51,7 @@ let ModalBtnText = "записаться на консультацию";
           </div>
         </div>
 
-        <div v-else class="flex">
+        <div v-else class="grid gap-8 grid-cols-2 md:mt-0 mt-5">
           <div class="text-xl">
             <a :href="phoneto">{{ address }}</a
             ><br />
@@ -69,16 +69,6 @@ let ModalBtnText = "записаться на консультацию";
             >
           </div>
 
-          <div class="text-xl">
-            <a :href="thirdphoneto">{{ thirdaddress }}</a
-            ><br />
-            <a
-              v-if="thirdphone"
-              :href="thirdphoneto"
-              class="text-xl"
-              >{{ thirdphone }}</a
-            >
-          </div>
         </div>
       </h2>
     </div>

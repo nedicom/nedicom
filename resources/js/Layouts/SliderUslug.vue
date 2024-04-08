@@ -35,13 +35,16 @@ let ModalBtnText = "на консультацию";
 
             <div class="group flex items-center justify-center h-24">
               <div class="rounded-full">
-                <a class="hover:underline" href="https://nedicom.ru/lawyers/67"
-                  ><img
+                <a class="hover:underline flex -space-x-24" :href="'https://nedicom.ru/uslugi/' + card.url" 
+                  >
+                <img
                     v-if="card.firstlawyer"
                     :src="'https://nedicom.ru/' + card.firstlawyer.avatar_path"
                     width="120"
-                    class="rounded-full"
-                /></a>
+                    class="rounded-full border-2 border-white dark:border-gray-800"
+                />
+              
+              </a>
               </div>
             </div>
 
