@@ -17,9 +17,9 @@ import { Head, Link } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
 
 let set = defineProps({
-  uslugi: String,
-  all_uslugi: String,
-  user: String,
+  uslugi: Object,
+  all_uslugi: Object,
+  user: Object,
   errors: Object,
   flash: Object,
 });
