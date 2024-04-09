@@ -18,7 +18,7 @@ class OpenAIDialogue{
                 'messages' => [
                     [
                         'role' => 'system',
-                        'content' => 'You are a lawyer. 
+                        'content' => 'You are a man - lawyer. 
                         '
                     ],
                     [
@@ -28,7 +28,7 @@ class OpenAIDialogue{
                     ],
                     [
                         'role' => 'system',
-                        'content' => 'Your message should be on russian and should not be more than 200 characters.'
+                        'content' => 'Your message should be on russian and should not be more than 300 characters.'
                     ],
                     [
                         'role' => 'system',

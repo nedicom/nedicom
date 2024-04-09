@@ -12,9 +12,11 @@ const vision = ref(false);
 const message = ref(null);
 let jsonresp = ref(null);
 
+/*
 if (usePage().props.value.dialogue.message) {
     jsonresp = JSON.parse(usePage().props.value.dialogue.message.json);
 }
+*/
 
 let processing = ref(false);
 let printing = ref(false);
@@ -27,8 +29,10 @@ let block;
 
 let form = reactive({
     mess: "message.value.innerText",
-    location: usePage().props.value.ziggy.url,
-    location_header: usePage().props.value.ziggy.url,
+    //location: usePage().props.value.ziggy.url,
+    //location_header: usePage().props.value.ziggy.url,
+    location: 'nedicom',
+    location_header: 'test',
 });
 
 setTimeout(() => {
