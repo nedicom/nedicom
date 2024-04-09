@@ -196,8 +196,6 @@ let description = "8 978 8838 978 Юридические услуги по Ре�
 
     <MainFooter />
 
-    <Tg />
-
     <PopupDialogue />
   </div>
 </template>

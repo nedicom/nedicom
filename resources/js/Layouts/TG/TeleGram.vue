@@ -1,5 +1,5 @@
 <template>
-    <div class="fixed md:w-80 w-full md:right-1 md:bottom-20 right-1 bottom-20">
+    <div class="fixed md:w-80 w-full md:right-1 md:bottom-10 right-1 bottom-20">
         <div class="flex flex-col mr-0 ml-2">
             <!-- TG button -->
             <div class="flex justify-end mb-5 mr-5">
