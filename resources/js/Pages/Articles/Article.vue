@@ -6,6 +6,7 @@ import Sidebaraction from "@/Layouts/Sidebaraction.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import Modal from "@/Components/Modal.vue";
 import TailwindModal from "@/Components/TailwindModal.vue";
+import PopupDialogue from "@/Layouts/PopupDialogue/PopupDialogue.vue";
 import { ref } from "vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 
@@ -133,4 +134,6 @@ ol {
 
     <!-- <Sidebaraction :ModalBtnText="ModalBtnText" /> -->
     <MainFooter />
+
+    <PopupDialogue />
 </template>

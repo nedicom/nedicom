@@ -12,7 +12,6 @@ import Address from "@/Layouts/Address.vue";
 //import VK from "@/Layouts/Vk.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import PopupDialogue from "@/Layouts/PopupDialogue/PopupDialogue.vue";
-import Tg from "@/Layouts/TG/TeleGram.vue";
 import FlashMessage from "@/Components/FlashMessage.vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import { ref } from "vue";

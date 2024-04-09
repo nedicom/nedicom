@@ -6,6 +6,7 @@ import Answer from "@/Layouts/Answer.vue";
 import AIAnswer from "@/Layouts/AI/AIAnswer.vue";
 import Answers from "@/Layouts/Answers.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
+import PopupDialogue from "@/Layouts/PopupDialogue/PopupDialogue.vue";
 import { Head, Link, usePage } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
 import { reactive, ref } from "vue";
@@ -135,5 +136,7 @@ const getAIAnswer = () => {
     </Body>
 
     <MainFooter />
+
+    <PopupDialogue />
   </div>
 </template>

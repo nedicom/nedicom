@@ -70,7 +70,7 @@ let title = ref("Вопросы");
 
   <MainFooter />
 
-  <Tg />
+  <PopupDialogue />
 
 </template>
 

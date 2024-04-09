@@ -6,6 +6,7 @@ import MainFooter from "@/Layouts/MainFooter.vue";
 import RadioLawyer from "@/Components/RadioLawyer.vue";
 import SendButton from "@/Components/SendButton.vue";
 import SliderQuestions from "@/Layouts/SliderQuestions.vue";
+import PopupDialogue from "@/Layouts/PopupDialogue/PopupDialogue.vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import { ref } from "vue";
 import { Inertia } from "@inertiajs/inertia";
@@ -131,6 +132,8 @@ let title = ref("Задать вопрос юристу");
   <SliderQuestions :sliderq=" SliderQ " />
 
   <MainFooter />
+
+  <PopupDialogue />
 </template>
 
 <script>

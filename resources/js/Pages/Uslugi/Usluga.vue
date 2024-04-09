@@ -11,6 +11,7 @@ import Address from "@/Layouts/Address.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import Slider from "@/Layouts/Slider.vue";
 import { Head } from "@inertiajs/inertia-vue3";
+import PopupDialogue from "@/Layouts/PopupDialogue/PopupDialogue.vue";
 import { ref } from "vue";
 import VueWriter from 'vue-writer';
 
@@ -287,7 +288,7 @@ ol {
 
   <MainFooter />
 
-  <Tg />
+  <PopupDialogue />
 </template>
 
 

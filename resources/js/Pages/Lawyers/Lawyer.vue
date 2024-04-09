@@ -10,6 +10,7 @@ import Address from "@/Layouts/Address.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import FlashMessage from "@/Components/FlashMessage.vue";
 import LawyerRating from "@/Components/LawyerRating.vue";
+import PopupDialogue from "@/Layouts/PopupDialogue/PopupDialogue.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import { ref } from "vue";
 
@@ -75,5 +76,7 @@ let title = ref(set.lawyer.name);
         <Slider :sliderheader="sliderheader" :sldimg="practice" :practice="set.practice" />
 
         <MainFooter />
+
+        <PopupDialogue />
     </div>
 </template>

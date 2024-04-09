@@ -6,6 +6,7 @@ import MainFooter from "@/Layouts/MainFooter.vue";
 import DeleteModalConfirm from "@/Components/DeleteModalConfirm.vue";
 import ContentHero from "@/Components/Hero/ContentHero.vue";
 import EmptyHero from "@/Components/Hero/EmptyHero.vue";
+import PopupDialogue from "@/Layouts/PopupDialogue/PopupDialogue.vue";
 import { Link } from "@inertiajs/inertia-vue3";
 import { ref } from "vue";
 import { Head } from "@inertiajs/inertia-vue3";
@@ -72,6 +73,8 @@ const handleDelete = (id, title) => {
     </Body>
 
     <MainFooter />
+    
+    <PopupDialogue />
   </div>
 </template>
 

@@ -16,7 +16,7 @@ let form = reactive({
 });
 
 let submit = () => {
-    Inertia.post("/phone/send", form);
+    Inertia.post("/phone/send", form), emit('confirm');
 };
 </script>
 
