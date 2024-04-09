@@ -79,14 +79,31 @@ let nameonimage = ref("Мина Марк Анатольевич");
 
             <!-- card -->
             <div class="max-w bg-white border border-gray-200 rounded-lg shadow">
-              <a :href="'https://nedicom.ru/uslugi/' + card.usluga.url" itemprop='itemReviewed' itemscope
-                itemtype='https://schema.org/LegalService'>
-                <img v-if="card.usluga.file_path" class="rounded-t-lg object-cover  h-72 w-full"
-                  :src="'https://nedicom.ru/' + card.usluga.file_path" :alt='card.usluga.usl_name' />
-                <img v-else class="rounded-t-lg object-cover  h-72 w-full"
-                  src="https://nedicom.ru/storage/images/landing/main/1280on600.webp"
-                  alt='адвокатский Симферополь юрист Крым' />
-              </a>
+
+              <span itemprop='itemReviewed' itemscope
+                  itemtype='https://schema.org/LegalService'>
+                <a :href="'https://nedicom.ru/uslugi/' + card.usluga.url">
+                  <img v-if="card.usluga.file_path" class="rounded-t-lg object-cover  h-72 w-full"
+                    :src="'https://nedicom.ru/' + card.usluga.file_path" :alt='card.usluga.usl_name'  itemprop='image'/>
+                  <img v-else class="rounded-t-lg object-cover  h-72 w-full"
+                    src="https://nedicom.ru/storage/images/landing/main/1280on600.webp"
+                    alt='адвокатский Симферополь юрист Крым' 
+                    itemprop='image'/>
+                </a>
+
+                <a :href="'https://nedicom.ru/uslugi/' + card.usluga.url" class="m-3">
+                    <h5 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><span
+                        itemprop='name'>{{ card.usluga.usl_name }}</span></h5>
+                </a>
+
+                <a href="tel: +79788838978" class="m-3">
+                    <h5 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><span
+                        itemprop='telephone'>8 978 8838 978</span></h5>
+                </a>
+
+              </span>
+
+              <RatingReady :rating="card.rating" class="flex-none" />
 
               <div class="grid grid-cols-2 place-content-between p-3">
                 <div class="text-start">
@@ -96,14 +113,6 @@ let nameonimage = ref("Мина Марк Анатольевич");
                   {{ card.created_at }}
                 </div>
               </div>
-
-              <RatingReady :rating="card.rating" class="flex-none" />
-
-              <div class="p-2">
-                <a :href="'https://nedicom.ru/uslugi/' + card.usluga.url">
-                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><span
-                      itemprop='name'>{{ card.usluga.usl_name }}</span></h5>
-                </a>
 
                 <div class="grid grid-cols-2 place-content-between p-3">
                   <div class="">
@@ -152,14 +161,14 @@ let nameonimage = ref("Мина Марк Анатольевич");
                   </div>
                 </div>
 
-                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                <p class="p-3 font-normal text-gray-700 dark:text-gray-400">
                 <div class="flex items-center h-24 col-span-3">
                   <p class="text-gray-700/75 line-clamp-3 flex text-left">
                     - <span itemprop="reviewBody">"{{ card.description }}"</span>
                   </p>
                 </div>
                 </p>
-              </div>
+              
             </div>
 
             <!-- card -->
