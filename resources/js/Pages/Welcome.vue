@@ -36,15 +36,17 @@ let mainbannerpc = 'url("https://nedicom.ru/storage/images/landing/main/1280on60
 
 let statusonimage = ref("Адвокатский кабинет");
 let nameonimage = ref("Мина Марк Анатольевич");
+
+let title = "Адвокатский кабинет Мина Марк Анатольевич Симферополь Крым";
+let description = "8 978 8838 978 Юридические услуги по Республике Крым и городу Симферополю. Бесплатная консультация юриста / адвоката.";
 </script>
 
 <template>
   <FlashMessage :message="flash.message" />
 
   <Head>
-    <title>Адвокатский кабинет Мина Марк Анатольевич</title>
-    <meta name="description"
-      :content="`8 978 8838 978 Юридические услуги по Республике Крым и городу Симферополю. Бесплатная консультация юриста / адвоката.`" />
+    <title>{{ title }}</title>
+    <meta name="description" :content="description" />
   </Head>
 
   <div class="min-h-screen" itemscope itemtype="https://schema.org/LegalService">
