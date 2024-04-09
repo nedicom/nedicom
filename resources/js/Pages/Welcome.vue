@@ -78,8 +78,7 @@ let nameonimage = ref("Мина Марк Анатольевич");
           <div class="carousel__item w-full mx-3" itemprop="review" itemscope itemtype="https://schema.org/Review">
 
             <!-- card -->
-            <div class="max-w bg-white border border-gray-200 rounded-lg shadow" itemprop='itemReviewed' itemscope
-              itemtype='https://schema.org/LegalService'>
+            <div class="max-w bg-white border border-gray-200 rounded-lg shadow">
               <a :href="'https://nedicom.ru/uslugi/' + card.usluga.url" itemprop='itemReviewed' itemscope
                 itemtype='https://schema.org/LegalService'>
                 <img v-if="card.usluga.file_path" class="rounded-t-lg object-cover  h-72 w-full"
