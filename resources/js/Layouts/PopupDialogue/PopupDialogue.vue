@@ -8,10 +8,9 @@ const props = defineProps({
     question: Object,
 });
 
-const vision = ref(false);
 const message = ref(null);
 let jsonresp = ref(null);
-
+let vision = ref(false);
 /*
 if (usePage().props.value.dialogue.message) {
     jsonresp = JSON.parse(usePage().props.value.dialogue.message.json);
@@ -39,8 +38,8 @@ setTimeout(() => {
     vision.value = true;
 }, 60000);
 
-function opendialogue() {
-    if (vision.value == false) {
+const opendialogue = function(){
+   if (vision.value == false) {
         btncls = "w-8 h-8";
         rotate = "rotate-45";
         vision.value = true;
@@ -49,7 +48,7 @@ function opendialogue() {
         rotate = "rotate-0";
         vision.value = false;
     }
-}
+};
 
 const send = async function () {
     if (message.value.innerText == "") {
@@ -113,13 +112,12 @@ const send = async function () {
 </script>
 
 <template>
-
     <div class="fixed w-full md:w-96 md:right-1 right-1 bottom-0">
         <div class="flex flex-col mr-0 ml-2">
             <!-- dialogue button -->
             <div class="flex justify-end mb-5 mr-5">
-                <button :onclick="opendialogue" type="button"
-                    class="flex items-center justify-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800"
+                <button @click="opendialogue" type="button" id="hellobutton"
+                    class="z-50 flex items-center justify-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800"
                     :class="btncls">
                     <svg class="w-5 h-5 transition-transform delay-300" :class="rotate" aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
@@ -175,7 +173,6 @@ const send = async function () {
                     <div ref="message" contenteditable="true"
                         class="w-full rounded-md p-1 max-h-20 overflow-y-auto scroll-smooth text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 focus:text-gray-700 focus:bg-white  focus:outline-none"
                         :class="{ 'border-2 border-rose-600': empty }"></div>
-
                     <!-- send button -->
                     <div class="grid grid-cols-1 content-center ml-1">
                         <button :disabled="processing" :onclick="send" type="button"
