@@ -178,11 +178,24 @@ ol {
 
       <Slider v-if="practice != 0" :sliderheader="sliderheader" :practice="vars.practice" />
 
-      <!-- preimushestva -->
+      <!-- seo description -->
+      <div class="grid md:grid-cols-2 grid-cols-1 gap-4 mt-16 ">
+        <div class="my-5 md:my-10 md:mx-16 md:p-16 p-3 flex items-center">
+            <figure><img itemprop="image"
+                class="object-scale-down rounded-lg transition-all duration-300 filter grayscale hover:grayscale-0"
+                :src='`https://nedicom.ru/`+vars.usluga.file_path' :alt='usluga.usl_name'>
+            </figure>
+        </div>
+        <div itemprop="disambiguatingDescription" class="mx-auto max-w-2xl px-6 space-y-6 text-gray-900 text-justify"
+          v-html="usluga.longdescription"></div>
+      </div>
+      <!-- seo description -->
+
+            <!-- preimushestva -->
 
 
 
-      <div class="bg-white">
+            <div class="bg-white">
         <div class="mx-auto max-w-7xl py-24 sm:px-6 sm:py-32 lg:px-8">
           <div
             class="relative isolate overflow-hidden bg-gray-500 px-6 pt-16 shadow-2xl sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0">
@@ -223,22 +236,6 @@ ol {
         </div>
       </div>
       <!-- preimushestva -->
-
-      <!-- seo description -->
-      <div class="px-6 text-gray-900 text-center">
-        <div itemprop="disambiguatingDescription" class="grid md:grid-cols-2 justify-items-end gap-10 text-justify"
-          v-html="usluga.longdescription"></div>
-        <div class="md:my-10 my-5 flex justify-center">
-          <div class="md:w-1/2">
-            <figure><img itemprop="image"
-                class="rounded-lg transition-all duration-300 filter grayscale hover:grayscale-0"
-                :src='`https://nedicom.ru/`+vars.usluga.file_path' :alt='usluga.usl_name'>
-            </figure>
-          </div>
-        </div>
-      </div>
-
-      <!-- seo description -->
 
       <Prices :subheader="usluga.usl_name" />
 

@@ -50,11 +50,6 @@ Route::controller(AdminArticleController::class)->group(function () {
     });
 });
 
-
-
-
-
-
 Route::controller(AdminUslugiController::class)->group(function () {
     Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('/admin/uslugi', 'index')->name('admin.uslugi.list');
@@ -62,89 +57,80 @@ Route::controller(AdminUslugiController::class)->group(function () {
     });
 });
 
-
-
-
-
 Route::post('/phone/send', [PostphoneController::class, 'postphone'])->name('phone/send');
 
 Route::get('/yurist-po-krymenergo', function () {
-    return Inertia::render('Welcome', [
-    ]);
+    return Inertia::render('Welcome', []);
 })->name('krymenergo');
 
 
 Route::get('/yurist-po-nasledstvu', function () {
-    return Inertia::render('Nasledstvo', [
-    ]);
+    return Inertia::render('Nasledstvo', []);
 })->name('Nasledstvo');
 
-    Route::controller(DashboardController::class)->group(function () {
-        Route::get('/dashboard', 'index')->name('dashboard');
-    });
+Route::controller(DashboardController::class)->group(function () {
+    Route::get('/dashboard', 'index')->name('dashboard');
+});
 
 Route::get('/lawyers', [LawyerController::class, 'index'])
     ->name('lawyers');
 Route::get('/lawyers/{id}', [LawyerController::class, 'lawyer'])
     ->name('lawyer');
 
+Route::post('search', [AutocompleteController::class, 'searchUslugi']);
 
-    Route::post('search',[AutocompleteController::class,'searchUslugi']);
-   
+Route::middleware('auth')->group(function () {
+    Route::post('/uslugi/post', [UslugiController::class, 'create'])->name('uslugi.post');
+    Route::get('/uslugi/user', [UslugiController::class, 'useruslugi'])->name('uslugi.user');
+});
 
-    Route::middleware('auth')->group(function () {
-        Route::post('/uslugi/post', [UslugiController::class, 'create'])->name('uslugi.post');
-        Route::get('/uslugi/user', [UslugiController::class, 'useruslugi'])->name('uslugi.user');
-    });
+Route::controller(UslugiController::class)->group(function () {
+    Route::get('/uslugi', 'index')->name('uslugi');
+    Route::get('/uslugi/{url}', 'show')->name('uslugi.url');
+    Route::get('/uslugiadd', 'formadd')->name('uslugi.add');
+    Route::post('/uslugi/create', 'create')->name('uslugi.create');
+    Route::get('/uslugi/{url}/edit', 'edit')->name('uslugi.edit');
+    Route::post('/uslugi/{url}/update', 'update')->name('uslugi.update');
+    Route::get('/uslugi/{url}/delete', 'delete')->name('uslugi.delete');
+});
 
-    Route::controller(UslugiController::class)->group(function () {
-        Route::get('/uslugi', 'index')->name('uslugi');
-        Route::get('/uslugi/{url}', 'show')->name('uslugi.url');
-            Route::get('/uslugiadd', 'formadd')->name('uslugi.add');
-            Route::post('/uslugi/create', 'create')->name('uslugi.create');
-            Route::get('/uslugi/{url}/edit', 'edit')->name('uslugi.edit');
-            Route::post('/uslugi/{url}/update', 'update')->name('uslugi.update');          
-            Route::get('/uslugi/{url}/delete', 'delete')->name('uslugi.delete');
-      });
+Route::get('/policy', function () {
+    return Inertia::render('Policy', []);
+})->name('policy');
 
-    Route::get('/policy', function () {
-        return Inertia::render('Policy', [
-        ]);
-    })->name('policy');
-      
-    Route::controller(ArticleController::class)->group(function () {
-        Route::get('/articles', 'index')->name('articles');
-        Route::get('/articles/my', 'my')->middleware('lawyer')->name('my.articles');
-        Route::get('/articles/{url}', 'articleURL')->name('articles/url');
+Route::controller(ArticleController::class)->group(function () {
+    Route::get('/articles', 'index')->name('articles');
+    Route::get('/articles/my', 'my')->middleware('lawyer')->name('my.articles');
+    Route::get('/articles/{url}', 'articleURL')->name('articles/url');
 
-            Route::get('/articlesadd', 'formadd')->name('articles.add');
-            Route::post('/articles/create', 'create')->name('articles/create');
-            Route::get('/articles/{url}/edit', 'edit')->name('articles.edit');
-            Route::post('/articles/{url}/update', 'update')->name('articles.update');          
-            Route::get('/articles/{id}/delete', 'delete')->name('article.delete'); 
-      });
+    Route::get('/articlesadd', 'formadd')->name('articles.add');
+    Route::post('/articles/create', 'create')->name('articles/create');
+    Route::get('/articles/{url}/edit', 'edit')->name('articles.edit');
+    Route::post('/articles/{url}/update', 'update')->name('articles.update');
+    Route::get('/articles/{id}/delete', 'delete')->name('article.delete');
+});
 
 
-    Route::controller(QuestionsController::class)->group(function () {
-        Route::get('/questions', 'index')->name('questions');
-        Route::get('/questions/my', 'myQuestions')->name('my.questions');
-        Route::get('/questions/add', 'questionAdd')->name('questions.add');
-        Route::post('/questions/post', 'post')->name('articles/post');
-        Route::get('/questions/{url}', 'questionsURL')->name('questions.url');
-        Route::get('/question/nonauth', 'questionsNonAuth')->name('questions.nonauth');
-        Route::post('/questions/{id}/answer', 'getAIAnswer')->name('questions.AIanswer'); 
-        Route::post('/questions/{id}/delete', 'delete')->name('questions.delete'); 
-      });
+Route::controller(QuestionsController::class)->group(function () {
+    Route::get('/questions', 'index')->name('questions');
+    Route::get('/questions/my', 'myQuestions')->name('my.questions');
+    Route::get('/questions/add', 'questionAdd')->name('questions.add');
+    Route::post('/questions/post', 'post')->name('articles/post');
+    Route::get('/questions/{url}', 'questionsURL')->name('questions.url');
+    Route::get('/question/nonauth', 'questionsNonAuth')->name('questions.nonauth');
+    Route::post('/questions/{id}/answer', 'getAIAnswer')->name('questions.AIanswer');
+    Route::post('/questions/{id}/delete', 'delete')->name('questions.delete');
+});
 
-      Route::controller(AiController::class)->group(function () {
-        Route::get('/ai', 'ai')->name('ai');
-      });
+Route::controller(AiController::class)->group(function () {
+    Route::get('/ai', 'ai')->name('ai');
+});
 
-      Route::controller(AnswerController::class)->group(function () {
-        Route::get('/my/answers', 'my')->middleware('lawyer')->name('my.answers');
-        Route::post('/answerpost', 'post')->name('answer.post');
-        Route::post('/aianswerpost', 'aiComment')->name('answer.ia');
-      });
+Route::controller(AnswerController::class)->group(function () {
+    Route::get('/my/answers', 'my')->middleware('lawyer')->name('my.answers');
+    Route::post('/answerpost', 'post')->name('answer.post');
+    Route::post('/aianswerpost', 'aiComment')->name('answer.ia');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -162,7 +148,7 @@ Route::middleware('auth')->group(function () {
 //import
 Route::get('import/', [ImportController::class, 'import']);
 
-//import
+//sitemap
 Route::get('sitemap.xml', [SitemapController::class, 'sitemap']);
 Route::get('sitemap/articles.xml', [SitemapController::class, 'articles']);
 Route::get('sitemap/lawyers.xml', [SitemapController::class, 'lawyers']);
@@ -173,4 +159,4 @@ Route::post('/send/review', [ReviewController::class, 'store'])->name('create.re
 /*Route::get('test', [TestController::class, 'test'])
     ->name('test');*/
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

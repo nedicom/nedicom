@@ -5,9 +5,9 @@ import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import Checkbox from "@/Components/Checkbox.vue";
-import { usePage, Head, Link, useForm } from "@inertiajs/inertia-vue3";
+import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 
-defineProps({
+let props = defineProps({
   redirect: String,
 });
 
@@ -18,10 +18,10 @@ const form = useForm({
   password_confirmation: "",
   lawyer: false,
   terms: false,
-  redirect: "",
+  redirect: props.redirect,
 });
 
-form.redirect = usePage().props.value.redirect;
+//form.redirect = usePage().props.value.redirect;
 
 const submit = () => {
   form.post(route("register"), {
@@ -32,7 +32,7 @@ const submit = () => {
 
 <template>
   <GuestLayout>
-    <Head title="Register" />
+    <Head title="Регистрация" />
 
     <form @submit.prevent="submit">
       <div>
