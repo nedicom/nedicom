@@ -11,8 +11,8 @@ import { Inertia } from "@inertiajs/inertia";
 import { reactive } from "vue";
 
 let set = defineProps({
-    article: String,
-    uslugi: String,
+    article: Object,
+    uslugi: Object,
   });
 
 let form = reactive({
@@ -211,7 +211,7 @@ let title = ref("Редактировать статью");
                         ease-in-out
                         mb-4
                       "
-                      >https://nedicom.ru/статьи/<span>{{ url }}</span></a
+                      >https://nedicom.ru/<span>{{ url }}</span></a
                     >
                     <p class="text-gray-700 line-clamp-3 text-base text-ellipsis">
                       {{ yabody }}
@@ -220,7 +220,7 @@ let title = ref("Редактировать статью");
                   <h3 class="text-2xl font-bold p-3 mt-5">Google</h3>
                   <div class="rounded-lg shadow-lg bg-white p-5 mx-5">
                     <a href="#!" class="transition duration-300 ease-in-out"
-                      >https://nedicom.ru/статьи/<span>{{ url }}</span></a
+                      >https://nedicom.ru/<span>{{ url }}</span></a
                     >
                     <h5
                       class="
@@ -307,6 +307,9 @@ export default {
       progressdescwidth: 0,
       wordsdesccounter: 0,
       titletext: "sometest",
+      headProgressColor: '',
+      progressColor: '',
+      url: 'адрес статьи',
     };
   },
   methods: {

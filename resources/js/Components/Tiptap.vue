@@ -31,6 +31,7 @@
               ease-in-out                
               border                
       "
+      required
       />
 
   </div>

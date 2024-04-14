@@ -6,8 +6,7 @@ import { Cropper } from 'vue-advanced-cropper';
 import 'vue-advanced-cropper/dist/style.css';
 
 defineProps({
-    usluga: String,
-    id: Number,
+    usluga: Object,
 });
 
 </script>

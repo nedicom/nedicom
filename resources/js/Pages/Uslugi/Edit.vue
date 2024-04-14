@@ -30,6 +30,10 @@ if (set.uslugi.is_main == 1) {
   checkbox = true;
 }
 
+if(!set.uslugi.main_usluga_id){
+  set.uslugi.main_usluga_id = 0
+}
+
 let form = reactive({
   header: set.uslugi.usl_name,
   description: set.uslugi.usl_desc,
@@ -42,7 +46,7 @@ let form = reactive({
   maps: set.uslugi.maps,
   is_main: checkbox,
   main_usluga_id: set.uslugi.main_usluga_id,
-  id: set.uslugi.id,
+  ids: set.uslugi.id,
 });
 
 function submit() {
@@ -61,7 +65,7 @@ const date = ref(new Date());
 
   <MainHeader />
 
-  <Header :ttl="title" />
+  <Header />
 
   <Body>
 
@@ -71,7 +75,7 @@ const date = ref(new Date());
           <div class="flex justify-start p-5">
             <div class="mb-3 md:w-3/6">
               <form @submit.prevent="submit">
-                <input v-model="form.id" class="invisible" />
+                <input v-model="form.ids" class="invisible" />
 
                 <!-- is main? -->
                 <div v-if="user.id == 1" class="flex items-center mb-4">
@@ -91,8 +95,8 @@ const date = ref(new Date());
                     <option disabled value="">
                       Выберите один из вариантов
                     </option>
-                    <option v-for="option in all_uslugi" :key="option.id" v-bind:value="option.id"
-                      :selected="option.id == main_usluga_id">
+                    <option v-for="option in set.all_uslugi" :key="option.id" v-bind:value="option.id"
+                      :selected="option.id == set.uslugi.main_usluga_id">
                       {{ option.usl_name }}
                     </option>
                   </select>
@@ -162,7 +166,7 @@ const date = ref(new Date());
 
               <!-- rating -->
 
-              <Review class="mt-5 pt-5" :mainuslugaid="set.uslugi.main_usluga_id" :uslugaid="set.uslugi.id"
+              <Review v-if="set.uslugi.main_usluga_id" class="mt-5 pt-5" :mainuslugaid="set.uslugi.main_usluga_id" :uslugaid="set.uslugi.id" :admin="set.user.id"
                 :errors="set.errors" />
 
               <!-- otziv -->

@@ -8,13 +8,13 @@ import VueDatePicker from '@vuepic/vue-datepicker';
 
 const rate = ref('5');
 
-const admin = usePage().props.value.auth.user.isadmin;
-
 let set = defineProps({
     mainuslugaid: Number,
     uslugaid: Number,
     errors: Object,
+    admin: Number,
 });
+
 let form = reactive({
     created_at: '',
     description: '',
@@ -30,8 +30,8 @@ function sendreview() {
 </script>
 
 <template>
-    <span v-if="admin==1">
-        <p class="font-semibold mt-5">Вы можете опубликовать отзыв клиента (доступно админу)</p>
+    <span>
+        <p class="font-semibold mt-5">Вы можете опубликовать отзыв клиента (доступно юристам)</p>
         <p class="text-sm mb-3 text-red-600">Перед этим не забудьте сохранить изменения в услуге</p>
         <form @submit.prevent="sendreview" class="grid grid-cols-4 gap-4">
 

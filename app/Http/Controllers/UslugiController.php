@@ -87,7 +87,7 @@ class UslugiController extends Controller
     {
         return Inertia::render('Uslugi/Edit', [
             'uslugi' => Uslugi::where('id', '=', $url)->first(),
-            'all_uslugi' => Uslugi::where('is_main', '=', 1)->get(),
+            'all_uslugi' => Uslugi::where('is_main', '=', 1)->select('id', 'usl_name')->get(),
             'user' => Auth::user(),
             'flash' => ['message' => $request->session()->get(key: 'message')],             
         ],  
@@ -96,7 +96,7 @@ class UslugiController extends Controller
 
     public function update(Request $request)
     {   
-        $id = $request->id;
+        $id = $request->ids;
         $usluga = Uslugi::find($id);
             $usluga->usl_name = $request->header;
             $usluga->usl_desc = $request->description;
