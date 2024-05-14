@@ -35,6 +35,13 @@ if(!set.uslugi.main_usluga_id){
   set.uslugi.main_usluga_id = 0
 }
 
+if(set.uslugi.popular_question == null){
+  set.uslugi.popular_question = [{ question:'', answer:''}];
+}
+else{
+  set.uslugi.popular_question = set.uslugi.popular_question;
+}
+
 let form = reactive({
   header: set.uslugi.usl_name,
   description: set.uslugi.usl_desc,
@@ -121,7 +128,7 @@ const date = ref(new Date());
 
                 <editor spellcheck="true" v-model="form.longdescription" />
 
-                <PopularQuestion :popular_question=set.uslugi.popular_question />
+                <PopularQuestion :popular_question="set.uslugi.popular_question" />
 
                 <label for="preimushestvo1" class="block text-sm font-medium leading-6 text-gray-900">Первое преимущество
                   услуги</label>
