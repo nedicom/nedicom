@@ -79,6 +79,8 @@ function buttonClickUnpushItems() {
 
         </div>
 
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400 text-center">Удалите вопросы, если не хотите, чтобы блок отображался на странице услуги.</p>
+
         <div class="flex items-center justify-evenly ">
             <div :onClick="buttonClickItems" class="
                     my-5
@@ -115,7 +117,8 @@ function buttonClickUnpushItems() {
                   ">
                 удалить вопрос
             </div>
-        </div>
+            
+        </div>        
 
     </div>
 </template>
