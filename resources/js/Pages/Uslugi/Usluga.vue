@@ -236,7 +236,7 @@ ol {
       <!-- preimushestva -->
 
       <!-- popular question -->
-      <div v-if="vars.usluga.popular_question[0].answer !== null" class="my-12 pb-12" itemscope itemtype="https://schema.org/FAQPage">
+      <div v-if="vars.usluga.popular_question[0]" class="my-12 pb-12" itemscope itemtype="https://schema.org/FAQPage">
         <h3 class="text-4xl mx-12 my-1 font-semibold text-grey text-center">
            Посмотрите ответы на вопросы, может это то, что Вы искали?
           </h3>
