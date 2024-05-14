@@ -31,8 +31,8 @@ const writerarr = [vars.usluga.preimushestvo1, vars.usluga.preimushestvo2, vars.
 
 let sliderheader = "Доверяйте делам";
 
-let secondbannerpc =  'url("https://nedicom.ru/'+vars.usluga.file_path+'")';
-let secondbannerimgmobile  = 'url("https://nedicom.ru/'+vars.usluga.mob_file_path+'")';
+let secondbannerpc = 'url("https://nedicom.ru/' + vars.usluga.file_path + '")';
+let secondbannerimgmobile = 'url("https://nedicom.ru/' + vars.usluga.mob_file_path + '")';
 </script>
 
 <style>
@@ -60,7 +60,8 @@ ol {
 
   <Header :phone="usluga.phone" :address="usluga.address" />
 
-  <SecondBanner :statusonimage="usluga.usl_name" :nameonimage="usluga.desc" :secondbannerpc="secondbannerpc" :secondbannerimgmobile="secondbannerimgmobile"/>
+  <SecondBanner :statusonimage="usluga.usl_name" :nameonimage="usluga.desc" :secondbannerpc="secondbannerpc"
+    :secondbannerimgmobile="secondbannerimgmobile" />
 
   <Body>
     <div itemscope itemtype="https://schema.org/Product" class="py-6">
@@ -68,7 +69,7 @@ ol {
       <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
         <div v-if="user">
           <div v-if="vars.user.isadmin == 1 || vars.user.id == vars.usluga.user_id
-            ">
+    ">
             <a :href="route('uslugi.edit', usluga.id)"
               class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Редактировать</a>
           </div>
@@ -154,7 +155,7 @@ ol {
                 <div class="h-12 flex items-center justify-end col-span-2">
                   <p class="text-gray-900 subpixel-antialiased text-right line-clamp-2 font-bold">
                     <span itemprop="author" itemscope="" itemtype="http://schema.org/Person"><span itemprop="name">{{
-                      card.fio }}</span></span>
+    card.fio }}</span></span>
                   </p>
                 </div>
 
@@ -181,21 +182,18 @@ ol {
       <!-- seo description -->
       <div class="grid md:grid-cols-2 grid-cols-1 gap-4 mt-16 ">
         <div class="my-5 md:my-10 md:mx-16 md:p-16 p-3 flex items-center">
-            <figure><img itemprop="image"
-                class="object-scale-down rounded-lg transition-all duration-300 filter grayscale hover:grayscale-0"
-                :src='`https://nedicom.ru/`+vars.usluga.file_path' :alt='usluga.usl_name'>
-            </figure>
+          <figure><img itemprop="image"
+              class="object-scale-down rounded-lg transition-all duration-300 filter grayscale hover:grayscale-0"
+              :src='`https://nedicom.ru/` + vars.usluga.file_path' :alt='usluga.usl_name'>
+          </figure>
         </div>
         <div itemprop="disambiguatingDescription" class="mx-auto max-w-2xl px-6 space-y-6 text-gray-900 text-justify"
           v-html="usluga.longdescription"></div>
       </div>
       <!-- seo description -->
 
-            <!-- preimushestva -->
-
-
-
-            <div class="bg-white">
+      <!-- preimushestva -->
+      <div class="bg-white">
         <div class="mx-auto max-w-7xl py-24 sm:px-6 sm:py-32 lg:px-8">
           <div
             class="relative isolate overflow-hidden bg-gray-500 px-6 pt-16 shadow-2xl sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0">
@@ -212,8 +210,8 @@ ol {
                 <a href="tel:+79788838978" class="text-3xl">{{ usluga.phone }}</a>
               </div>
 
-              <div class="mt-10 md:flex items-center justify-center gap-x-6 lg:justify-start text-white" itemprop="offers"
-                itemscope itemtype="https://schema.org/Offer">
+              <div class="mt-10 md:flex items-center justify-center gap-x-6 lg:justify-start text-white"
+                itemprop="offers" itemscope itemtype="https://schema.org/Offer">
                 <h1 class="text-3xl">
                   Консультация
                 </h1>
@@ -236,6 +234,35 @@ ol {
         </div>
       </div>
       <!-- preimushestva -->
+
+      <!-- popular question -->
+      <div class="my-12 pb-12" itemscope itemtype="https://schema.org/FAQPage">
+        <h3 class="text-4xl mx-12 my-1 font-semibold text-grey text-center">
+           Посмотрите ответы на вопросы, может это то, что Вы искали?
+          </h3>
+        <ul class="md:w-4/6 w-11/12 mx-auto mt-20 divide-y shadow shadow-gray-600 shadow-2xl rounded-xl list-none">
+          <li v-for="item in vars.usluga.popular_question" class="py-5" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+            <details class="group">
+              <summary class="flex items-center gap-3 px-4 py-3 font-medium marker:content-none hover:cursor-pointer">
+                <svg class="w-5 h-5 text-gray-500 transition group-open:rotate-90" xmlns="http://www.w3.org/2000/svg"
+                  width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd"
+                    d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z">
+                  </path>
+                </svg>
+                <span itemprop="name">{{ item.question }}</span>
+              </summary>
+
+              <article class="px-4 pb-4 text-slate-500" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                <p itemprop="text">
+                  {{ item.answer }}
+                </p>
+              </article>
+            </details>
+          </li>
+        </ul>
+      </div>
+      <!-- popular question -->
 
       <Prices :subheader="usluga.usl_name" />
 

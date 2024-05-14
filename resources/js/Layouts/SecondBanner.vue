@@ -44,7 +44,7 @@ function recaptcha() {
 </style>
 
 <template>
-<!-- second banner -->
+    <!-- banner -->
     <div
     id="secondbanner"
     class="
@@ -114,7 +114,7 @@ function recaptcha() {
             </div>            
         </div>         
     </div>
-    <!-- second banner -->
+    <!-- banner -->
 
     <!-- Filter: https://css-tricks.com/gooey-effect/ -->
     <svg style="visibility: hidden; position: absolute;" width="0" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1">

@@ -107,6 +107,7 @@ class UslugiController extends Controller
             $usluga->phone = $request->phone;
             $usluga->address = $request->address;
             $usluga->maps = $request->maps;
+            $usluga->popular_question = $request->popular;
 
                 if($request->main_usluga_id){  
                     $usluga->is_main = false;                  

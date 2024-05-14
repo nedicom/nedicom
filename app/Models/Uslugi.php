@@ -15,6 +15,7 @@ class Uslugi extends Model
 
     protected $casts = [
         'created_at'  => 'date:d.m.Y',
+        'popular_question' => 'array',
     ];
 
     public function scopeFilter($query, array $filters)

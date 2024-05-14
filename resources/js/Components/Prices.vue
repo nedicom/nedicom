@@ -90,7 +90,7 @@ const body =
 </script>
 
 <template>
-  <div itemprop="offers" itemscope itemtype="https://schema.org/Offer" class="grid grid-cols-1 md:grid-cols-3 p-5">
+  <div itemprop="offers" itemscope itemtype="https://schema.org/Offer" class="grid grid-cols-1 md:grid-cols-3 p-5 my-12">
     <meta itemprop="priceValidUntil" content="2029-12-31">
     <div class="grid grid-cols-1 content-center p-5">
       <h2>

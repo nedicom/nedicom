@@ -9,6 +9,7 @@ import UslugaMobileCropper from "@/Components/UslugaMobileCropper.vue";
 import FlashMessage from "@/Components/FlashMessage.vue";
 
 import Review from "@/Components/Review.vue";
+import PopularQuestion from "@/Components/PopularQuestion.vue";
 
 import "@vuepic/vue-datepicker/dist/main.css";
 
@@ -47,6 +48,7 @@ let form = reactive({
   is_main: checkbox,
   main_usluga_id: set.uslugi.main_usluga_id,
   ids: set.uslugi.id,
+  popular: set.uslugi.popular_question,
 });
 
 function submit() {
@@ -56,6 +58,7 @@ function submit() {
 let title = ref("Редактировать услугу");
 
 const date = ref(new Date());
+
 </script>
 
 <template>
@@ -69,6 +72,7 @@ const date = ref(new Date());
 
   <Body>
 
+    {{ form }}
     <div class="bg-white py-12">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -76,7 +80,7 @@ const date = ref(new Date());
             <div class="mb-3 md:w-3/6">
               <form @submit.prevent="submit">
                 <input v-model="form.ids" class="invisible" />
-
+                
                 <!-- is main? -->
                 <div v-if="user.id == 1" class="flex items-center mb-4">
                   <input v-model="form.is_main" id="default-checkbox" type="checkbox"
@@ -118,6 +122,8 @@ const date = ref(new Date());
                   услуги (не более 1000 симв.)</label>
 
                 <editor spellcheck="true" v-model="form.longdescription" />
+
+                <PopularQuestion :popular_question=set.uslugi.popular_question />
 
                 <label for="preimushestvo1" class="block text-sm font-medium leading-6 text-gray-900">Первое преимущество
                   услуги</label>
@@ -167,14 +173,10 @@ const date = ref(new Date());
               <!-- rating -->
 
               <Review v-if="set.uslugi.main_usluga_id" class="mt-5 pt-5" :mainuslugaid="set.uslugi.main_usluga_id" :uslugaid="set.uslugi.id" :admin="set.user.id"
-                :errors="set.errors" />
-
+                :errors="set.errors" />  
               <!-- otziv -->
 
-
-
             </div>
-
           </div>
         </div>
       </div>
