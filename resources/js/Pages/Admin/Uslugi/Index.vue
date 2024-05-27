@@ -106,7 +106,7 @@ const handleDelete = (id, title) => {
                             <Link class="flex items-center p-4" :href="`/uslugi/${uslugi.id}/edit`">{{ uslugi.usl_name }}</Link>
                         </td>
                         <td class="border-t">
-                            <Link v-if="uslugi.firstlawyer" class="flex items-center p-4" :href="`/uslugi/${uslugi.url}/edit`">{{ uslugi.firstlawyer.name }}</Link>
+                            <Link v-if="uslugi.firstlawyer" class="flex items-center p-4" :href="`/uslugi/${uslugi.id}/edit`">{{ uslugi.firstlawyer.name }}</Link>
                         </td>
                         <td class="border-t p-4">{{ uslugi.created_at }}</td>
                         <td class="border-t p-4">
