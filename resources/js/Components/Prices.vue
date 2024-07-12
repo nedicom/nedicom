@@ -113,12 +113,17 @@ const body =
         class="grid grid-cols-1 md:grid-cols-3"
       >
         <div class="rounded-full flex items-center justify-center">
-          <img
+          <!--<img
             :src="'https://nedicom.ru/storage/images/services/' + item.img"
             width="120"
             class="rounded-full"
             :alt="item.name"
-          />
+          />-->
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 w-5 md:visible invisible">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+          </svg>
+
+
         </div>
 
         <div

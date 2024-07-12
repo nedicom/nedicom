@@ -46,6 +46,10 @@ ol {
   margin-left: 1rem;
   list-style-type: square;
 }
+
+details summary::-webkit-details-marker {
+        display: none;
+      }
 </style>
 
 <template>
@@ -79,17 +83,15 @@ ol {
 
       <!-- header 2 -->
       <div class="md:my-20">
-        <div itemprop="name" class="text-4xl m-12 px-6 font-semibold text-grey text-center">
-          {{ usluga.usl_name }}
-        </div>
         <!-- short desc -->
-        <div itemprop="description" class="mx-12 px-6 text-gray-900 text-center">
+        <div itemprop="description" class="text-xl mx-12 px-6 text-gray-900 text-center">
           {{ usluga.usl_desc }}
-        </div>
+        </div>        
+        <!-- short desc -->
       </div>
-      <!-- short desc -->
       <!-- header 2 -->
 
+      <Address :usl_name="usluga.usl_name" :phone="usluga.phone" :address="usluga.address" :maps="usluga.maps" />
 
       <!--reviews carousel-->
       <div class="mt-12 py-12 bg-gray-100/75">
@@ -240,7 +242,7 @@ ol {
         <h3 class="text-4xl mx-12 my-1 font-semibold text-grey text-center">
            Посмотрите ответы на вопросы, может это то, что Вы искали?
           </h3>
-        <ul class="md:w-4/6 w-11/12 mx-auto mt-20 divide-y shadow shadow-gray-600 shadow-2xl rounded-xl list-none">
+        <ul class="md:w-4/6 w-11/12 mx-auto mt-20 divide-y shadow-gray-600 shadow-2xl rounded-xl list-none">
           <li v-for="item in vars.usluga.popular_question" class="py-5" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
             <details class="group">
               <summary class="flex items-center gap-3 px-4 py-3 font-medium marker:content-none hover:cursor-pointer">
@@ -266,8 +268,7 @@ ol {
 
       <Prices :subheader="usluga.usl_name" />
 
-      <Address :phone="usluga.phone" :address="usluga.address" :maps="usluga.maps" />
-
+     
       <!--lawyers
         <div v-if="lawyers != 0">
           <h1 class="text-4xl font-semibold text-grey text-center py-10">

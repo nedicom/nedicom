@@ -3,6 +3,7 @@ let address = "Респ. Крым, г. Симферополь, ул. Долго�
 let phone = "+7 978 8838 978";
 
 const props = defineProps({
+    usl_name: String,
     address: String,
     phone: String,
     maps: String,
@@ -23,6 +24,11 @@ let phoneto = "tel:" + phone;
     <h1 class="text-4xl font-semibold text-grey text-center mt-12 mb-6">
         Контакты
     </h1>
+
+    <div itemprop="name" class="text-4xl mb-12 px-6 font-semibold text-grey text-center">
+        {{ props.usl_name }}
+    </div>
+
     <!-- address -->
     <div class="md:flex justify-center">
         <div v-if="props.maps" class="md:w-1/2 w-full mt-6" style="height:400px">

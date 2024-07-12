@@ -45,7 +45,7 @@ let ModalBtnText = "записаться на консультацию";
           </div>
         </div>
 
-        <div v-if="props.phone" class="flex">
+        <div v-if="props.phone" class="flex md:mt-0 mt-5">
           <div class="flex-auto">
             <a :href="phoneto" class="text-3xl">{{ phone }} </a>
           </div>

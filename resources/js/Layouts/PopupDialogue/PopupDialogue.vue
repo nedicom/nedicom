@@ -34,9 +34,10 @@ let form = reactive({
     location_header: 'test',
 });
 
+/* delay
 setTimeout(() => {
     vision.value = true;
-}, 60000);
+}, 60000);*/
 
 const opendialogue = function(){
    if (vision.value == false) {

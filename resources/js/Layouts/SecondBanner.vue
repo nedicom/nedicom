@@ -67,10 +67,10 @@ function recaptcha() {
                 
                     <div class="text-black text-center">
                         <div class="m-5">
-                            <span class="goo text-4xl font-semibold">{{ nameonimage }}  {{ statusonimage }}</span>
+                            <span class="goo text-4xl font-semibold md:opacity-100 opacity-75">{{ nameonimage }}  {{ statusonimage }}</span>
                         </div>
                         <div  class="m-5">
-                            <span class="goo text-xl font-semibold bg-white rounded-lg py-1 px-4">Запись на консультацию</span>
+                            <span class="goo text-xl font-semibold bg-white rounded-lg py-1 px-4 md:opacity-100 opacity-75">Запись на консультацию</span>
                         </div>
 
                         <!-- Form on main banner-->                        
