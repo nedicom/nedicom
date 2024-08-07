@@ -1,11 +1,12 @@
 <script setup>
 import Modal from "@/Components/Modal.vue";
+import TgBtn from "@/Components/TgBtn.vue";
 
 let address = "Крым";
 let secondaddress = "Москва";
 //let thirdaddress = "Краснодар";
-let phone = "8 978 8838978";
-let secondphone = "8 985 5582170";
+let phone = "89788838978";
+let secondphone = "89855582170";
 //let thirdphone = "8 978 1453925";
 
 const props = defineProps({
@@ -34,41 +35,43 @@ let ModalBtnText = "записаться на консультацию";
       />
     </div>
   </noscript>
-  <header class="bg-white shadow">
-    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-      <h2
-        class="font-semibold text-gray-800 leading-tight md:flex md:justify-between text-center"
-      >
-        <div class="grid gap-4 md:grid-cols-2">
-          <div class="flex items-center justify-center px-2">
+  <header class="bg-white shadow sticky inset-x-0 -top-1 h-16 z-50">
+    <div class="max-w-7xl mx-auto py-3 px-4 sm:px-6 lg:px-4">
+      <h2 class="font-semibold text-gray-800 leading-tight text-center">
+        <div class="grid md:grid-cols-3 md:gap-4">
+          <!--modal btn -->
+          <div class="hidden md:flex items-center justify-start px-2">
             <Modal :ModalBtnText="ModalBtnText" />
           </div>
-        </div>
+          <!--modal btn -->
 
-        <div v-if="props.phone" class="flex md:mt-0 mt-5">
-          <div class="flex-auto">
-            <a :href="phoneto" class="text-3xl">{{ phone }} </a>
+          <!--tg btn -->
+          <TgBtn class="hidden md:flex" />
+          <!--tg btn -->
+
+          <div v-if="props.phone" class="grid gap-0 md:gap-3 grid-cols-2 md:grid-cols-1 place-items-center">
+            <div class="flex-auto">
+              <a :href="phoneto" class="text-xl">{{ phone }} </a>
+            </div>
+            <!--tg btn -->
+            <TgBtn class="flex md:hidden" />
+            <!--tg btn -->
           </div>
-        </div>
 
-        <div v-else class="grid gap-8 grid-cols-2 md:mt-0 mt-5">
-          <div class="text-xl">
-            <a :href="phoneto">{{ address }}</a
-            ><br />
+          <div
+            v-else
+            class="grid gap-0 md:gap-3 grid-cols-3 md:grid-cols-2 place-items-center"
+          >
             <a :href="phoneto" class="text-xl">{{ phone }} </a>
-          </div>
 
-          <div class="text-xl">
-            <a :href="secondphoneto">{{ secondaddress }}</a>
-            <br />
-            <a
-              v-if="secondphone"
-              :href="secondphoneto"
-              class="text-xl"
-              >{{ secondphone }}</a
-            >
-          </div>
+            <!--tg btn -->
+            <TgBtn class="flex md:hidden" />
+            <!--tg btn -->
 
+            <a v-if="secondphone" :href="secondphoneto" class="text-xl">{{
+              secondphone
+            }}</a>
+          </div>
         </div>
       </h2>
     </div>
