@@ -113,7 +113,7 @@ const send = async function () {
 </script>
 
 <template>
-    <div class="fixed w-full md:w-96 md:right-1 right-1 bottom-0">
+    <div class="fixed w-full md:w-96 md:right-1 right-1 bottom-0 z-50">
         <div class="flex flex-col mr-0 ml-2">
             <!-- dialogue button -->
             <div class="flex justify-end mb-5 mr-5">
