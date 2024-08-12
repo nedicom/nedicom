@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Helpers\Translate;
 use App\Helpers\OpenAI;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 
 class QuestionsController extends Controller
@@ -30,6 +31,8 @@ class QuestionsController extends Controller
 
     public function questionsURL($url)
     {
+        DB::table('questions')->where('questions.url', '=', $url)->increment('counter', 1);
+
         $id = Questions::where('url', '=', $url)->pluck('id')->first();
         $body = Questions::where('url', '=', $url)->pluck('body')->first();
         $authid = null;

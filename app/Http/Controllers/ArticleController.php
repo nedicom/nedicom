@@ -93,6 +93,8 @@ class ArticleController extends Controller
     public function articleURL($url)
     {
 
+        DB::table('articles')->where('articles.url', '=', $url)->increment('counter', 1);
+
         DB::statement("SET lc_time_names = 'ru_RU'");
 
         $usluga_id = DB::table('articles')->where('articles.url', '=', $url)->first();

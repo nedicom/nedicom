@@ -14,25 +14,23 @@ class LentaController extends Controller
 
     public function popular()
     {
-        //$articles = Article::with('user')->get();
-        //$questions = Questions::with('User')->get();        
-        //$bundles = $articles->concat($questions)->sortBy("created_at");
-
         $articles = DB::table('articles')
         ->join('users', 'articles.userid', '=', 'users.id')
-        ->select('users.id', 'users.name', 'users.avatar_path', 'articles.id AS aid', 'articles.header AS aheader', 
-        'articles.body AS abody', 'articles.created_at AS created_at', 'articles.url AS url')
-        ;
+        ->select('users.id', 'users.name', 'users.avatar_path', 'articles.id', 'articles.header', 
+        'articles.body', 'articles.created_at', 'articles.url', 'articles.counter', 'articles.description'
+       );
  
         $bundles = DB::table('questions')
             ->join('users', 'questions.user_id', '=', 'users.id')
             ->select('users.id', 'users.name', 'users.avatar_path', 'questions.id AS qid', 
             'questions.title AS aheader', 'questions.body AS abody',
-            'questions.created_at AS created_at', 'questions.url AS url')
+            'questions.created_at AS created_at', 'questions.url AS url', 'questions.counter AS counter'
+            )
+            ->selectRaw('questions.url * ? AS type', [''])
             ->union($articles)
-            ->orderByDesc('created_at')
+            ->orderByDesc('counter')
         ->get();
-            
+       
         return Inertia::render('Lenta/Lenta', [
             'bundles' => $bundles,
         ]);
@@ -42,19 +40,21 @@ class LentaController extends Controller
     {
         $articles = DB::table('articles')
         ->join('users', 'articles.userid', '=', 'users.id')
-        ->select('users.id', 'users.name', 'users.avatar_path', 'articles.id AS aid', 'articles.header AS aheader', 
-        'articles.body AS abody', 'articles.created_at AS created_at', 'articles.url AS url')
-        ;
+        ->select('users.id', 'users.name', 'users.avatar_path', 'articles.id', 'articles.header', 
+        'articles.body', 'articles.created_at', 'articles.url', 'articles.description'
+       );
  
         $bundles = DB::table('questions')
             ->join('users', 'questions.user_id', '=', 'users.id')
             ->select('users.id', 'users.name', 'users.avatar_path', 'questions.id AS qid', 
             'questions.title AS aheader', 'questions.body AS abody',
-            'questions.created_at AS created_at', 'questions.url AS url')
+            'questions.created_at AS created_at', 'questions.url AS url'
+            )
+            ->selectRaw('questions.url * ? AS type', [''])
             ->union($articles)
             ->orderByDesc('created_at')
         ->get();
-            
+
         return Inertia::render('Lenta/Lenta', [
             'bundles' => $bundles,
         ]);
