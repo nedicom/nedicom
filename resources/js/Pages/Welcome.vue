@@ -33,11 +33,11 @@ let secondbannerpc = 'url("https://nedicom.ru/storage/images/landing/main/second
 let mainbannerimgmobile = 'url("https://nedicom.ru/storage/images/landing/main/firstm.webp")';
 let mainbannerpc = 'url("https://nedicom.ru/storage/images/landing/main/1280on600.webp")';
 
-let statusonimage = ref("Адвокатский кабинет");
-let nameonimage = ref("Мина Марк Анатольевич");
+let statusonimage = ref("Юридическая компания");
+let nameonimage = ref("Мина");
 
-let title = "Адвокатский кабинет Мина Марк Анатольевич Симферополь Крым";
-let description = "8 978 8838 978 Юридические услуги по Республике Крым и городу Симферополю. Бесплатная консультация юриста / адвоката.";
+let title = "Юридическая компания 'Мина'";
+let description = "8 978 8838 978 юридические услуги по г. Москва и по Республике Крым";
 </script>
 
 <template>

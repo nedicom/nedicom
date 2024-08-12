@@ -37,10 +37,10 @@ const showingNavigationDropdown = ref(false);
               </div>
               <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                 <NavLink
-                  :href="route('articles')"
-                  :active="route().current('articles')"
+                  :href="route('lenta.popular')"
+                  :active="route().current('lenta.popular')"
                 >
-                  Статьи
+                  Лента
                 </NavLink>
               </div>
               <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
@@ -49,6 +49,14 @@ const showingNavigationDropdown = ref(false);
                   :active="route().current('questions.add')"
                 >
                   Задать вопрос
+                </NavLink>
+              </div>
+                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <NavLink
+                  :href="route('questions.add')"
+                  :active="route().current('questions.add')"
+                >
+                  О компании
                 </NavLink>
               </div>
               <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">

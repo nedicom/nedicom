@@ -35,7 +35,7 @@ let ModalBtnText = "записаться на консультацию";
       />
     </div>
   </noscript>
-  <header class="bg-white shadow sticky inset-x-0 -top-1 h-16 z-50">
+  <header class="bg-white shadow sticky inset-x-0 -top-1 h-16 z-40">
     <div class="max-w-7xl mx-auto py-3 px-4 sm:px-6 lg:px-4">
       <h2 class="font-semibold text-gray-800 leading-tight text-center">
         <div class="grid md:grid-cols-3 md:gap-4">

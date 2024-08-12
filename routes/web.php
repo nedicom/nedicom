@@ -17,6 +17,7 @@ use App\Http\Controllers\AiController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\MyController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\LentaController;
 use App\Http\Controllers\Admin\ArticlesController as AdminArticleController;
 use App\Http\Controllers\Admin\UslugiController as AdminUslugiController;
 use App\Http\Controllers\Admin\UserController;
@@ -97,6 +98,13 @@ Route::controller(UslugiController::class)->group(function () {
 Route::get('/policy', function () {
     return Inertia::render('Policy', []);
 })->name('policy');
+
+Route::controller(LentaController::class)->group(function () {
+    Route::get('/lenta/popular', 'popular')->name('lenta.popular');
+    Route::get('/lenta/new', 'new')->name('lenta.new');
+    Route::get('/lenta/articles', 'articles')->name('lenta.articles');
+    Route::get('/lenta/questions', 'questions')->name('lenta.questions');
+});
 
 Route::controller(ArticleController::class)->group(function () {
     Route::get('/articles', 'index')->name('articles');

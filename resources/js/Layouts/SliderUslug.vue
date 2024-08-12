@@ -15,7 +15,7 @@ let ModalBtnText = "на консультацию";
 
 <template>
   <h1 class="text-4xl font-semibold text-grey text-center py-10" itemprop="name">
-    Адвокатский кабинет Мина Марк Анатольевич
+    Юридическая компания "Мина"
   </h1>
   <div class="py-10 bg-gray-200">
     <Carousel v-bind="settings" :breakpoints="breakpoints">
