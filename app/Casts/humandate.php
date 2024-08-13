@@ -36,4 +36,11 @@ class humandate implements CastsAttributes
     {
         return $value;
     }
+
+    public static function lenta($value)
+    {
+        Carbon::setLocale('ru_RU');
+        $date = Carbon::parse($value)->diffForHumans();
+        return $date;
+    }
 }

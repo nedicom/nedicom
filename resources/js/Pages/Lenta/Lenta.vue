@@ -70,9 +70,10 @@ let title = ref("Лента");
             >
               <div class="flex justify-between items-center mb-5 text-gray-500">
                 <span
-                  v-if="bundles.type !== '0'"
+                  v-if="bundles.type == '0' || bundles.type == 0"
                   class="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-primary-200 dark:text-primary-800"
                 >
+              
                   <svg
                     class="mr-1 w-3 h-3"
                     fill="currentColor"
@@ -83,7 +84,7 @@ let title = ref("Лента");
                       d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"
                     ></path>
                   </svg>
-                  Статья
+                  Вопрос
                 </span>
 
                 <span
@@ -100,7 +101,7 @@ let title = ref("Лента");
                       d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"
                     ></path>
                   </svg>
-                  Вопрос
+                  Статья
                 </span>
                 <span class="text-sm">{{ bundles.created_at }}</span>
               </div>
@@ -124,7 +125,7 @@ let title = ref("Лента");
               <div class="flex justify-between items-center">
                 <!-- tooltip component-->
                 <div class="group flex item-center mb-2">
-                  <div>
+                  <div v-if="bundles.lawyer">
                     <Link
                       :href="route('lawyer', bundles.id)"
                       class="hover:underline flex items-center"
@@ -139,23 +140,25 @@ let title = ref("Лента");
                       </span>
                     </Link>
                   </div>
+
+                  <div v-else>
+                    <a disabled
+                      :href="'https://nedicom.ru/#'"
+                      class="flex items-center pointer-events-none"
+                    >
+                      <img
+                        :src="'https://nedicom.ru/#'"
+                        class="w-10 h-10 rounded-full"
+                        alt="{{ bundles.name }} avatar"
+                      />
+                      <span class="font-medium dark:text-white ml-2">
+                        Пользователь скрыт
+                      </span>
+                    </a>
+                  </div>
                 </div>
 
-                <!--
-                <div class="flex items-center justify-center">
-                  <span
-                    class="h-1/2 group-hover:opacity-100 transition-opacity bg-gray-800 mx-3 px-1 text-sm text-gray-100 rounded-md opacity-0"
-                  >
-                    автор -
-                    <Link
-                      :href="route('lawyer', bundles.userid)"
-                      class="hover:underline"
-                      target="_blank"
-                      >{{ bundles.name }}
-                    </Link>
-                  </span>
-                </div>
-                tooltip component -->
+                <!--tooltip component -->
 
                 <a
                   v-if="bundles.type !== '0'" 
