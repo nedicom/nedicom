@@ -74,6 +74,7 @@ class LentaController extends Controller
                 'articles.header',
                 'articles.description',
                 'articles.created_at',
+                'articles.counter',
                 'articles.url',
                 'articles.description'
             );
@@ -89,6 +90,7 @@ class LentaController extends Controller
                 'questions.title AS aheader',
                 'questions.body AS abody',
                 'questions.created_at AS created_at',
+                'articles.counter',
                 'questions.url AS url'
             )
             ->selectRaw('questions.url * ? AS type', [''])
@@ -120,6 +122,7 @@ class LentaController extends Controller
                 'articles.header AS aheader',
                 'articles.description AS abody',
                 'articles.created_at',
+                'articles.counter',
                 'articles.url'
             )
             ->selectRaw('articles.description AS type')
@@ -150,6 +153,7 @@ class LentaController extends Controller
                 'questions.title AS aheader',
                 'questions.body AS abody',
                 'questions.created_at AS created_at',
+                'articles.counter',
                 'questions.url AS url'
             )
             ->selectRaw('questions.url * :5 AS type', [1])
