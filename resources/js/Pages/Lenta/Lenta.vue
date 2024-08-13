@@ -58,7 +58,6 @@ let title = ref("Лента");
         class="col-span-3 py-12 max-w-7xl mx-auto sm:px-6 lg:px-8 overflow-hidden"
       >
         <div class="grid md:grid-cols-1 gap-9">
-          
           <!-- card -->
           <div
             v-for="bundles in bundles"
@@ -73,7 +72,6 @@ let title = ref("Лента");
                   v-if="bundles.type == '0' || bundles.type == 0"
                   class="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-primary-200 dark:text-primary-800"
                 >
-              
                   <svg
                     class="mr-1 w-3 h-3"
                     fill="currentColor"
@@ -108,17 +106,16 @@ let title = ref("Лента");
               <h2
                 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
               >
-                <a v-if="bundles.type !== '0'" 
-                :href="route('articles/url', bundles.url)">{{
-                  bundles.aheader
-                }}</a>
-                 <a v-else :href="route('questions.url', bundles.url)">{{
+                <a
+                  v-if="bundles.type == '0' || bundles.type == 0"
+                  :href="route('questions.url', bundles.url)"
+                  >{{ bundles.aheader }}</a
+                >
+                <a v-else :href="route('articles/url', bundles.url)">{{
                   bundles.aheader
                 }}</a>
               </h2>
-              <p
-                class="mb-5 font-light text-gray-500 dark:text-gray-400"
-              >
+              <p class="mb-5 font-light text-gray-500 dark:text-gray-400">
                 {{ bundles.abody }}
               </p>
 
@@ -142,27 +139,57 @@ let title = ref("Лента");
                   </div>
 
                   <div v-else>
-                    <a disabled
+
+
+                    <a
+                      class="flex items-center pointer-events-none justify-center h-20 pt-3"
+                      aria-label="Home"
                       :href="'https://nedicom.ru/#'"
-                      class="flex items-center pointer-events-none"
-                    >
-                      <img
-                        :src="'https://nedicom.ru/#'"
-                        class="w-10 h-10 rounded-full"
-                        alt="{{ bundles.name }} avatar"
-                      />
-                      <span class="font-medium dark:text-white ml-2">
+                      ><svg
+                        width="60px"
+                        height="60px"
+                        fill="none"
+                        viewBox="0 0 60 60"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="block w-auto fill-current text-gray-800"
+                      >
+                        <path
+                          d="m14.984 14.932 8.86-4.51 8.678 4.27.008 13.396-17.503.003-.043-13.159"
+                          style="
+                            fill: none;
+                            stroke: rgb(234, 0, 0);
+                            stroke-width: 2.41544;
+                            stroke-linecap: round;
+                            stroke-linejoin: round;
+                            stroke-miterlimit: 4;
+                            stroke-dasharray: none;
+                            stroke-opacity: 1;
+                          "
+                        ></path>
+                        <path
+                          d="m2.705 22.19 8.859-4.51 8.679 4.27.008 13.397-17.503.003-.043-13.16m24.664 0 8.859-4.51 8.679 4.27.007 13.397-17.503.003-.042-13.16"
+                          style="
+                            fill: none;
+                            stroke: rgb(0, 0, 0);
+                            stroke-width: 2.41544;
+                            stroke-linecap: round;
+                            stroke-linejoin: round;
+                            stroke-miterlimit: 4;
+                            stroke-dasharray: none;
+                            stroke-opacity: 0.988235;
+                          "
+                        ></path></svg
+                    ><span class="font-medium dark:text-white ml-2">
                         Пользователь скрыт
-                      </span>
-                    </a>
+                      </span></a>
+                    
                   </div>
                 </div>
-
                 <!--tooltip component -->
 
                 <a
-                  v-if="bundles.type !== '0'" 
-                  :href="route('articles/url', bundles.url)"
+                  v-if="bundles.type == '0' || bundles.type == 0"
+                  :href="route('questions.url', bundles.url)"
                   class="inline-flex items-center font-medium text-primary-600 dark:text-primary-500 hover:underline"
                 >
                   подробнее
@@ -183,7 +210,7 @@ let title = ref("Лента");
 
                 <a
                   v-else
-                  :href="route('questions.url', bundles.url)"
+                  :href="route('articles/url', bundles.url)"
                   class="inline-flex items-center font-medium text-primary-600 dark:text-primary-500 hover:underline"
                 >
                   подробнее

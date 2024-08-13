@@ -125,6 +125,13 @@ class LentaController extends Controller
             ->selectRaw('articles.description AS type')
             ->orderBy('created_at', 'desc')
             ->get();
+
+        $bundles = $bundles->map(function ($bundles) {
+            $bundles->abody = Str::limit($bundles->abody, 200);
+            $bundles->created_at = humandate::lenta($bundles->created_at);
+            return $bundles;
+        });
+
         return Inertia::render('Lenta/Lenta', [
             'bundles' => $bundles,
         ]);
