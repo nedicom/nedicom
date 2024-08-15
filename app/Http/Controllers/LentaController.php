@@ -153,7 +153,7 @@ class LentaController extends Controller
                 'questions.title AS aheader',
                 'questions.body AS abody',
                 'questions.created_at AS created_at',
-                'articles.counter',
+                'questions.counter',
                 'questions.url AS url'
             )
             ->selectRaw('questions.url * :5 AS type', [1])
