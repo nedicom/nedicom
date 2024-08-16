@@ -65,6 +65,6 @@ class TestEmail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Test Email')->view('email.test');
+        return $this->subject('Поступил ответ на Ваш вопрос')->view('email.test');
     }
 }

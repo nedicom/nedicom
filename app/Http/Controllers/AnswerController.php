@@ -26,15 +26,15 @@ class AnswerController extends Controller
         $Answer->save();
 
         $question = Questions::where('id', '=', $request->questions_id)->first();
-        $user_mail = User::where('id', '=', $question->user_id)->pluck('email')->first();
-        $mailData = [
-            "url" => "https://nedicom.ru/questions/".$question->url,
-            "question" => $question->title,
-        ];
-    
-        Mail::to($user_mail)->send(new TestEmail($mailData));
-        //$url = $request->url;
-       // return redirect()->route('questions.url', $url);
+        $user = User::where('id', '=', $question->user_id)->first();
+        
+        if($user->id !== $Answer->users_id){
+            $mailData = [
+                "url" => "https://nedicom.ru/questions/".$question->url,
+                "question" => $question->title,
+            ];
+            Mail::to($user->user_mail)->send(new TestEmail($mailData));
+        }
     }
 
     public function aiComment(Request $request){
