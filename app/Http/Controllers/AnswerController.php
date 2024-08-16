@@ -27,7 +27,6 @@ class AnswerController extends Controller
 
         $question = Questions::where('id', '=', $request->questions_id)->first();
         $user_mail = User::where('id', '=', $question->user_id)->pluck('email')->first();
-dd($user_mail);
         $mailData = [
             "url" => "https://nedicom.ru/questions/".$question->url,
             "question" => $question->title,
