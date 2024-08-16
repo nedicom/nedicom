@@ -12,13 +12,15 @@
     <blockquote>
         <p class="has-line-data" data-line-start="26" data-line-end="33">
             Отвечать на письмо не нужно. Оно формируется автоматически.
-    </p>
-        </blockquote>
+        </p>
+    </blockquote>
 
-    <p></p>
+        <p>С уважением, команда ИП Мина О. В. (nedicom.ru @tm) Обратиться за юридической помощью можно на сайте https://nedicom.ru</p>
+    
     <a target="_blank" href="https://nedicom.ru">
-        <img src="https://nedicom.ru/storage/usr/1/avatar/1713110600avatar.webp" alt="" width="260" style="display:block">
+        <img src="https://nedicom.ru/storage/images/landing/main/1280on600.webp" 
+        alt="" width="400" style="display:block">
     </a>
-    <p>Обратиться за юридической помоью можно на сайте https://nedicom.ru</p>
+    
 </body>
 </html>
