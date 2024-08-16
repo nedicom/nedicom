@@ -21,6 +21,10 @@ use App\Http\Controllers\LentaController;
 use App\Http\Controllers\Admin\ArticlesController as AdminArticleController;
 use App\Http\Controllers\Admin\UslugiController as AdminUslugiController;
 use App\Http\Controllers\Admin\UserController;
+
+use App\Mail\TestEmail;
+use Illuminate\Support\Facades\Mail;
+
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -163,6 +167,17 @@ Route::get('sitemap/lawyers.xml', [SitemapController::class, 'lawyers']);
 Route::get('sitemap/uslugi.xml', [SitemapController::class, 'uslugi']);
 
 Route::post('/send/review', [ReviewController::class, 'store'])->name('create.review');
+
+Route::get('send-email', function(){    
+    $mailData = [
+        "name" => "Test NAME",
+        "dob" => "12/12/1990"
+    ];
+
+    Mail::to("m6132@yandex.ru")->send(new TestEmail($mailData));
+
+    dd("Mail Sent Successfully!");
+});
 
 /*Route::get('test', [TestController::class, 'test'])
     ->name('test');*/
