@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Answer;
+use App\Models\Questions;
+use App\Models\User;
 use App\Helpers\OpenAI;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -23,11 +25,15 @@ class AnswerController extends Controller
         $Answer->users_id = Auth::user()->id;
         $Answer->save();
 
+        $question = Questions::where('id', '=', $request->questions_id)->first();
+        $user_mail = User::where('id', '=', $question->user_id)->pluck('email')->first();
+dd($user_mail);
         $mailData = [
-            "url" => "https://nedicom.ru/questions/".$request->questions_id,
+            "url" => "https://nedicom.ru/questions/".$question->url,
+            "question" => $question->title,
         ];
     
-        Mail::to("m6132@yandex.ru")->send(new TestEmail($mailData));
+        Mail::to($user_mail)->send(new TestEmail($mailData));
         //$url = $request->url;
        // return redirect()->route('questions.url', $url);
     }
