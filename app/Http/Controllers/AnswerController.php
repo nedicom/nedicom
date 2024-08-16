@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
+use App\Mail\TestEmail;
+use Illuminate\Support\Facades\Mail;
 
 
 class AnswerController extends Controller
@@ -20,6 +22,12 @@ class AnswerController extends Controller
         $Answer->parent_comment_id = $request->answer_id;
         $Answer->users_id = Auth::user()->id;
         $Answer->save();
+
+        $mailData = [
+            "url" => "https://nedicom.ru/questions/".$request->questions_id,
+        ];
+    
+        Mail::to("m6132@yandex.ru")->send(new TestEmail($mailData));
         //$url = $request->url;
        // return redirect()->route('questions.url', $url);
     }
