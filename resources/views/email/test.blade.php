@@ -7,7 +7,6 @@
 </head>
 <body>
     <h1>Test EMAIL</h1>
-    <p>Name: {{ $mailData['name'] }}</p>
-    <p>DOB: {{ $mailData['dob'] }}</p>
+    <p>Name: {{ $mailData['url'] }}</p>
 </body>
 </html>
