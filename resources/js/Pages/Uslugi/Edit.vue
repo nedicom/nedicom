@@ -20,15 +20,21 @@ import { Inertia } from "@inertiajs/inertia";
 let set = defineProps({
   uslugi: Object,
   all_uslugi: Object,
+  cities: Object,
   user: Object,
   errors: Object,
   flash: Object,
 });
 
 let checkbox = false;
+let checkboxfeed = false;
 
 if (set.uslugi.is_main == 1) {
   checkbox = true;
+}
+
+if (set.uslugi.is_feed == 1) {
+  checkboxfeed = true;
 }
 
 if(!set.uslugi.main_usluga_id){
@@ -53,6 +59,7 @@ let form = reactive({
   address: set.uslugi.address,
   maps: set.uslugi.maps,
   is_main: checkbox,
+  is_feed: checkboxfeed,
   main_usluga_id: set.uslugi.main_usluga_id,
   ids: set.uslugi.id,
   popular: set.uslugi.popular_question,
@@ -87,11 +94,14 @@ const date = ref(new Date());
                 <input v-model="form.ids" class="invisible" />
                 
                 <!-- is main? -->
-                <div v-if="user.id == 1" class="flex items-center mb-4">
+                <div v-if="user.isadmin == 1" class="flex justify-center mb-4">
                   <input v-model="form.is_main" id="default-checkbox" type="checkbox"
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                   <label for="default-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Сделать
                     услугу главной</label>
+                  <input v-model="form.is_feed" id="default-checkbox" type="checkbox"
+                    class="w-4 h-4 ml-5  text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                  <label for="default-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Яндекс фид</label>
                 </div>
                 <!-- is main? -->
 
@@ -122,6 +132,19 @@ const date = ref(new Date());
                 <textarea v-model="form.description" spellcheck="true" name="description" maxlength="200"
                   class="h-20 form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 mb-5 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   rows="3"></textarea>
+
+
+                <label class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white">Выберите город</label>
+                   <select v-model="form.sity" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option disabled value="" >город</option>
+                    <option
+                      v-for="option in set.cities"
+                      :key="option.id"
+                      v-bind:value="option.id"
+                    >
+                      {{ option.title }}
+                    </option>
+                </select>
 
                 <label for="longdescription" class="block text-sm font-medium leading-6 text-gray-900">Подробное описание
                   услуги (не более 1000 симв.)</label>

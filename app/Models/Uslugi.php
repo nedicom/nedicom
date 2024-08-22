@@ -39,4 +39,9 @@ class Uslugi extends Model
     {
         return $this->HasMany(Article::class, 'usluga_id', 'id');
     }
+
+    public function HasUslugi(): HasMany
+    {
+        return $this->HasMany(Uslugi::class, 'id', 'main_usluga_id')->select(['id', 'usl_name']);
+    }
 }

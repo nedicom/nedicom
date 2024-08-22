@@ -11,8 +11,10 @@ use App\Http\Controllers\ImportController;
 use App\Http\Controllers\PostphoneController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\UslugiController;
+use App\Http\Controllers\OffersController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\FeedController;
 use App\Http\Controllers\AiController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\MyController;
@@ -21,6 +23,8 @@ use App\Http\Controllers\LentaController;
 use App\Http\Controllers\Admin\ArticlesController as AdminArticleController;
 use App\Http\Controllers\Admin\UslugiController as AdminUslugiController;
 use App\Http\Controllers\Admin\UserController;
+
+
 
 use App\Mail\TestEmail;
 use Illuminate\Support\Facades\Mail;
@@ -99,6 +103,12 @@ Route::controller(UslugiController::class)->group(function () {
     Route::get('/uslugi/{url}/delete', 'delete')->name('uslugi.delete');
 });
 
+Route::controller(OffersController::class)->group(function () {
+    Route::get('/offer/{url}', 'show')->name('offer.url');
+    Route::get('/offeradd', 'formadd')->name('offer.add');
+    Route::post('/offer/create', 'create')->name('offer.create');
+});
+
 Route::get('/policy', function () {
     return Inertia::render('Policy', []);
 })->name('policy');
@@ -166,18 +176,10 @@ Route::get('sitemap/articles.xml', [SitemapController::class, 'articles']);
 Route::get('sitemap/lawyers.xml', [SitemapController::class, 'lawyers']);
 Route::get('sitemap/uslugi.xml', [SitemapController::class, 'uslugi']);
 
+//sitemap
+Route::get('feed.yml', [FeedController::class, 'feed']);
+
 Route::post('/send/review', [ReviewController::class, 'store'])->name('create.review');
-
-Route::get('send-email', function(){    
-    $mailData = [
-        "name" => "Test NAME",
-        "dob" => "12/12/1990"
-    ];
-
-    Mail::to("m6132@yandex.ru")->send(new TestEmail($mailData));
-
-    dd("Mail Sent Successfully!");
-});
 
 /*Route::get('test', [TestController::class, 'test'])
     ->name('test');*/

@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Review;
+use App\Models\cities;
 
 class UslugiController extends Controller
 {
@@ -89,7 +90,8 @@ class UslugiController extends Controller
             'uslugi' => Uslugi::where('id', '=', $url)->first(),
             'all_uslugi' => Uslugi::where('is_main', '=', 1)->select('id', 'usl_name')->get(),
             'user' => Auth::user(),
-            'flash' => ['message' => $request->session()->get(key: 'message')],             
+            'flash' => ['message' => $request->session()->get(key: 'message')],
+            'cities' => cities::all(),             
         ],  
     );
     }
@@ -108,6 +110,7 @@ class UslugiController extends Controller
             $usluga->address = $request->address;
             $usluga->maps = $request->maps;
             $usluga->popular_question = $request->popular;
+            $usluga->sity = $request->sity;
 
                 if($request->main_usluga_id){  
                     $usluga->is_main = false;                  
@@ -117,6 +120,10 @@ class UslugiController extends Controller
                 if($request->is_main){
                     $usluga->is_main = $request->is_main;
                     $usluga->main_usluga_id = $id;
+                }
+
+                if($request->is_feed){
+                    $usluga->is_feed = $request->is_feed;
                 }
 
         $usluga->save();
