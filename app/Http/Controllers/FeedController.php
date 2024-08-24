@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Uslugi;
-use App\Models\User;
+use App\Models\Offer;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Query\JoinClause;
 
 class FeedController extends Controller
 {
@@ -12,31 +14,35 @@ class FeedController extends Controller
     //семейный юрист Симферополь
     public function feed()
     { 
-        //id семейного юриста
-        $id = 1;
-        //получаем всех пользователей юристов у которых есть специализация по этой услуге
-        $users = User::where('arrayspec', '!=', null)->get()->reject(function (User $user, $id) {
-            $json = json_decode($user->arrayspec, true);
-                foreach($json as $val){
-                    if($val['specialization'] == $id){
-                        $user->data = $id;
-                        return false;
-                    };
-                }
-                return true;
-        });
+        $offers = DB::table('uslugis')
+        ->join('users', 'uslugis.user_id', 'users.id')        
+        ->join('offers', function (JoinClause $join) {
+            $join            
+            ->on('offers.mainusl_id', '=', 'uslugis.main_usluga_id' )
+            ->on('offers.sity', '=', 'uslugis.sity');         
+        }              
+        )
+        ->join('cities', 'offers.sity', '=', 'cities.id')
+        ->where('uslugis.is_main', '=', 0)
+        ->select('uslugis.id as usluga_id', 'uslugis.main_usluga_id as main_usluga_id', 
+        'uslugis.file_path as file_path', 'uslugis.usl_name as usluga_name', 'uslugis.url as usluga_url',
+        'offers.id as offer_id',
+        'cities.title as city_title',
+        'users.*')
+        ->get();
+        //dd($offers);
 
-        $mainusluga = Uslugi::where('id', $id)->first();
+     
+
+        $categories = Uslugi::
+        with('hasuslugi')->get();
         
-        $uslugi = Uslugi::where('is_feed', 1)
-            ->where('main_usluga_id', $id)
-            ->where('is_main', 0)
-            ->with('HasUslugi')->get();
+        $sets = Offer::all();
 
         return response()->view('feed/feed', [
-            'users' => $users,
-            'uslugi' => $uslugi,
-            'mainusluga' => $mainusluga,
+            'offers' => $offers,
+            'sets' => $sets,
+            'categories' => $categories,
         ])->header('Content-Type', 'text/xml');
     }
 }

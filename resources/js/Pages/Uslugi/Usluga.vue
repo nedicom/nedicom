@@ -31,8 +31,8 @@ const writerarr = [vars.usluga.preimushestvo1, vars.usluga.preimushestvo2, vars.
 
 let sliderheader = "Доверяйте делам";
 
-let secondbannerpc = 'url("https://nedicom.ru/' + vars.usluga.file_path + '")';
-let secondbannerimgmobile = 'url("https://nedicom.ru/' + vars.usluga.mob_file_path + '")';
+let secondbannerpc = 'url("/' + vars.usluga.file_path + '")';
+let secondbannerimgmobile = 'url("/' + vars.usluga.mob_file_path + '")';
 </script>
 
 <style>

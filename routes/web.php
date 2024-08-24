@@ -107,6 +107,7 @@ Route::controller(OffersController::class)->group(function () {
     Route::get('/offer/{url}', 'show')->name('offer.url');
     Route::get('/offeradd', 'formadd')->name('offer.add');
     Route::post('/offer/create', 'create')->name('offer.create');
+    Route::get('/offers/', 'all')->name('offers.all');
 });
 
 Route::get('/policy', function () {

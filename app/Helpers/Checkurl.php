@@ -18,7 +18,6 @@ class Checkurl{
                     $uslugi = Uslugi::where('url', '=', $newurl)->first();
                 }
             return $newurl;
-        }
-        
+        }     
     }
 }

@@ -102,9 +102,9 @@ let title = ref("Лента");
                   Статья
                 </span>
 
-<span class="flex items-center text-xs">
-  <span class="mr-5">{{ bundles.created_at }}</span>
-                 <svg
+                <span class="flex items-center text-xs">
+                  <span class="mr-5">{{ bundles.created_at }}</span>
+                  <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -122,11 +122,8 @@ let title = ref("Лента");
                       d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                     />
                   </svg>
-                  <p class="inline-block align-middle">{{bundles.counter}}</p>
+                  <p class="inline-block align-middle">{{ bundles.counter }}</p>
                 </span>
-                
-                
-                
               </div>
               <h2
                 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"

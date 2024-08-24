@@ -126,6 +126,13 @@ class UslugiController extends Controller
                     $usluga->is_feed = $request->is_feed;
                 }
 
+            $url = Translate::translit($request->header);
+            $checkurl = Checkurl::chkurl($url, 'usluga'); 
+
+            If($checkurl != $usluga->url){        
+                $usluga->url =  $checkurl;
+            }
+
         $usluga->save();
         return redirect()->route('uslugi.url', $usluga->url)->with('message', 'Обновлено успешно');  
     }    

@@ -37,14 +37,13 @@ if (set.uslugi.is_feed == 1) {
   checkboxfeed = true;
 }
 
-if(!set.uslugi.main_usluga_id){
-  set.uslugi.main_usluga_id = 0
+if (!set.uslugi.main_usluga_id) {
+  set.uslugi.main_usluga_id = 0;
 }
 
-if(set.uslugi.popular_question == null){
-  set.uslugi.popular_question = [{ question:'', answer:''}];
-}
-else{
+if (set.uslugi.popular_question == null) {
+  set.uslugi.popular_question = [{ question: "", answer: "" }];
+} else {
   set.uslugi.popular_question = set.uslugi.popular_question;
 }
 
@@ -63,6 +62,7 @@ let form = reactive({
   main_usluga_id: set.uslugi.main_usluga_id,
   ids: set.uslugi.id,
   popular: set.uslugi.popular_question,
+  sity: set.uslugi.sity,
 });
 
 function submit() {
@@ -72,7 +72,6 @@ function submit() {
 let title = ref("Редактировать услугу");
 
 const date = ref(new Date());
-
 </script>
 
 <template>
@@ -92,128 +91,235 @@ const date = ref(new Date());
             <div class="mb-3 md:w-3/6">
               <form @submit.prevent="submit">
                 <input v-model="form.ids" class="invisible" />
-                
+
                 <!-- is main? -->
                 <div v-if="user.isadmin == 1" class="flex justify-center mb-4">
-                  <input v-model="form.is_main" id="default-checkbox" type="checkbox"
-                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                  <label for="default-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Сделать
-                    услугу главной</label>
-                  <input v-model="form.is_feed" id="default-checkbox" type="checkbox"
-                    class="w-4 h-4 ml-5  text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                  <label for="default-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Яндекс фид</label>
+                  <input
+                    v-model="form.is_main"
+                    id="default-checkbox"
+                    type="checkbox"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <label
+                    for="default-checkbox"
+                    class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >Сделать услугу главной</label
+                  >
+                  <input
+                    v-model="form.is_feed"
+                    id="default-checkbox"
+                    type="checkbox"
+                    class="w-4 h-4 ml-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <label
+                    for="default-checkbox"
+                    class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >Яндекс фид</label
+                  >
                 </div>
                 <!-- is main? -->
 
                 <!-- main usluga -->
                 <div v-if="form.is_main !== true">
-                  <label class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white">Выберите категорию
-                    услуг</label>
-                  <select v-model="form.main_usluga_id"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                  <label
+                    class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Выберите категорию услуг</label
+                  >
+                  <select
+                    v-model="form.main_usluga_id"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  >
                     <option disabled value="">
                       Выберите один из вариантов
                     </option>
-                    <option v-for="option in set.all_uslugi" :key="option.id" v-bind:value="option.id"
-                      :selected="option.id == set.uslugi.main_usluga_id">
+                    <option
+                      v-for="option in set.all_uslugi"
+                      :key="option.id"
+                      v-bind:value="option.id"
+                      :selected="option.id == set.uslugi.main_usluga_id"
+                    >
                       {{ option.usl_name }}
                     </option>
                   </select>
                 </div>
                 <!-- main usluga -->
 
-                <label for="header" class="block text-sm font-medium leading-6 text-gray-900">Название услуги</label>
-                <textarea v-model="form.header" spellcheck="true" name="header" maxlength="55"
+                <label
+                  for="header"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                  >Название услуги</label
+                >
+                <textarea
+                  v-model="form.header"
+                  spellcheck="true"
+                  name="header"
+                  maxlength="55"
                   class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 mb-5 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  rows="2"></textarea>
+                  rows="2"
+                ></textarea>
 
-                <label for="description" class="block text-sm font-medium leading-6 text-gray-900">Краткое описание услуги
-                  (не более 200 симв.)</label>
-                <textarea v-model="form.description" spellcheck="true" name="description" maxlength="200"
+                <label
+                  for="description"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                  >Краткое описание услуги (не более 200 симв.)</label
+                >
+                <textarea
+                  v-model="form.description"
+                  spellcheck="true"
+                  name="description"
+                  maxlength="200"
                   class="h-20 form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 mb-5 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  rows="3"></textarea>
+                  rows="3"
+                ></textarea>
 
-
-                <label class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white">Выберите город</label>
-                   <select v-model="form.sity" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option disabled value="" >город</option>
+                <div v-if="form.is_main !== true">
+                  <label
+                    class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Выберите город</label
+                  >
+                  <select
+                    v-model="form.sity"
+                    required
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  >
+                    <option disabled value="">город</option>
                     <option
                       v-for="option in set.cities"
                       :key="option.id"
                       v-bind:value="option.id"
+                      :selected="option.id == set.uslugi.sity"
                     >
                       {{ option.title }}
                     </option>
-                </select>
+                  </select>
+                </div>
 
-                <label for="longdescription" class="block text-sm font-medium leading-6 text-gray-900">Подробное описание
-                  услуги (не более 1000 симв.)</label>
+                <label
+                  for="longdescription"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                  >Подробное описание услуги (не более 1000 симв.)</label
+                >
 
                 <editor spellcheck="true" v-model="form.longdescription" />
 
-                <PopularQuestion :popular_question="set.uslugi.popular_question" />
+                <PopularQuestion
+                  :popular_question="set.uslugi.popular_question"
+                />
 
-                <label for="preimushestvo1" class="block text-sm font-medium leading-6 text-gray-900">Первое преимущество
-                  услуги</label>
+                <label
+                  for="preimushestvo1"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                  >Первое преимущество услуги</label
+                >
 
-                <textarea v-model="form.preimushestvo1" spellcheck="true" name="preimushestvo1" maxlength="55"
+                <textarea
+                  v-model="form.preimushestvo1"
+                  spellcheck="true"
+                  name="preimushestvo1"
+                  maxlength="55"
                   class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 mb-5 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  rows="2"></textarea>
+                  rows="2"
+                ></textarea>
 
-                <label for="preimushestvo2" class="block text-sm font-medium leading-6 text-gray-900">Второе преимущество
-                  услуги</label>
-                <textarea v-model="form.preimushestvo2" spellcheck="true" name="preimushestvo1" maxlength="55"
+                <label
+                  for="preimushestvo2"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                  >Второе преимущество услуги</label
+                >
+                <textarea
+                  v-model="form.preimushestvo2"
+                  spellcheck="true"
+                  name="preimushestvo1"
+                  maxlength="55"
                   class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 mb-5 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  rows="2"></textarea>
+                  rows="2"
+                ></textarea>
 
-                <label for="preimushestvo3" class="block text-sm font-medium leading-6 text-gray-900">Третье преимущество
-                  услуги</label>
+                <label
+                  for="preimushestvo3"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                  >Третье преимущество услуги</label
+                >
 
-                <textarea v-model="form.preimushestvo3" spellcheck="true" name="preimushestvo1" maxlength="55"
+                <textarea
+                  v-model="form.preimushestvo3"
+                  spellcheck="true"
+                  name="preimushestvo1"
+                  maxlength="55"
                   class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 mb-5 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  rows="2"></textarea>
+                  rows="2"
+                ></textarea>
 
-                <label for="phone" class="block text-sm font-medium leading-6 text-gray-900">Телефон</label>
+                <label
+                  for="phone"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                  >Телефон</label
+                >
 
-                <textarea v-model="form.phone" name="phone" maxlength="20"
+                <textarea
+                  v-model="form.phone"
+                  name="phone"
+                  maxlength="20"
                   class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 mb-5 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  rows="2"></textarea>
+                  rows="2"
+                ></textarea>
 
-                <label for="address" class="block text-sm font-medium leading-6 text-gray-900">Адрес</label>
+                <label
+                  for="address"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                  >Адрес</label
+                >
 
-                <textarea v-model="form.address" name="address" maxlength="100"
+                <textarea
+                  v-model="form.address"
+                  name="address"
+                  maxlength="100"
                   class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 mb-5 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  rows="2"></textarea>
+                  rows="2"
+                ></textarea>
 
-                <label for="maps" class="block text-sm font-medium leading-6 text-gray-900">Код из яндекс карт (ссылка
-                  начиная с https )</label>
+                <label
+                  for="maps"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                  >Код из яндекс карт (ссылка начиная с https )</label
+                >
 
-                <textarea v-model="form.maps" name="maps" maxlength="300"
+                <textarea
+                  v-model="form.maps"
+                  name="maps"
+                  maxlength="300"
                   class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 mb-5 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  rows="5 "></textarea>
+                  rows="5 "
+                ></textarea>
 
-                <button type="submit"
-                  class="my-5 inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+                <button
+                  type="submit"
+                  class="my-5 inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800"
+                >
                   Обновить
                 </button>
               </form>
 
               <!-- rating -->
 
-              <Review v-if="set.uslugi.main_usluga_id" class="mt-5 pt-5" :mainuslugaid="set.uslugi.main_usluga_id" :uslugaid="set.uslugi.id" :admin="set.user.id"
-                :errors="set.errors" />  
+              <Review
+                v-if="set.uslugi.main_usluga_id"
+                class="mt-5 pt-5"
+                :mainuslugaid="set.uslugi.main_usluga_id"
+                :uslugaid="set.uslugi.id"
+                :admin="set.user.id"
+                :errors="set.errors"
+              />
               <!-- otziv -->
-
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <UslugaCropper :usluga="set.uslugi"/>
+    <UslugaCropper :usluga="set.uslugi" />
 
     <UslugaMobileCropper :usluga="set.uslugi" />
-
   </Body>
 
   <MainFooter />

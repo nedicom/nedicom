@@ -132,6 +132,13 @@ const showingNavigationDropdown = ref(false);
 
                       <DropdownLink
                         v-if="$page.props.auth.user.isadmin"
+                        :href="route('offers.all')"
+                      >
+                        Сеты
+                      </DropdownLink>
+
+                      <DropdownLink
+                        v-if="$page.props.auth.user.isadmin"
                         :href="route('admin.articles.list')"
                       >
                         Все статьи
@@ -249,6 +256,12 @@ const showingNavigationDropdown = ref(false);
             <div v-if="$page.props.auth.user" class="mt-3 space-y-1">
               <ResponsiveNavLink :href="route('profile.edit')">
                 {{ $page.props.auth.user.name }}
+              </ResponsiveNavLink>
+               <ResponsiveNavLink
+                v-if="$page.props.auth.user.isadmin"
+                :href="route('offers.all')"
+              >
+                Сеты
               </ResponsiveNavLink>
               <ResponsiveNavLink
                 v-if="$page.props.auth.user.lawyer == 1"
