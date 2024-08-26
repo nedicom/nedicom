@@ -97,7 +97,6 @@ let title = ref("Все услуги");
         </section>
 
         <!--... -->
-        {{ offers }}
       </div>
     </div>
   </Body>
