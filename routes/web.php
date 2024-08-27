@@ -96,6 +96,7 @@ Route::middleware('auth')->group(function () {
 Route::controller(UslugiController::class)->group(function () {
     Route::get('/uslugi', 'index')->name('uslugi');
     Route::get('/uslugi/{url}', 'show')->name('uslugi.url');
+    Route::get('/uslugi/{main_usluga}/{second_usluga}/{url}', 'showcanonical')->name('uslugi.canonical.url');
     Route::get('/uslugiadd', 'formadd')->name('uslugi.add');
     Route::post('/uslugi/create', 'create')->name('uslugi.create');
     Route::get('/uslugi/{url}/edit', 'edit')->name('uslugi.edit');

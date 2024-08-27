@@ -24,7 +24,8 @@ class UslugiController extends Controller
         ]);
     }
 
-    public function show($url, Request $request){ 
+    public function show($url,  Request $request){ 
+        //dd($url);
         $id = Uslugi::where('url', '=', $url)->first()->id;
         $mainid = Uslugi::where('url', '=', $url)->first()->main_usluga_id;
         $main_usluga_id = Uslugi::where('url', '=', $url)->first()->main_usluga_id;
@@ -89,6 +90,8 @@ class UslugiController extends Controller
         return Inertia::render('Uslugi/Edit', [
             'uslugi' => Uslugi::where('id', '=', $url)->first(),
             'all_uslugi' => Uslugi::where('is_main', '=', 1)->select('id', 'usl_name')->get(),
+            'second_uslugi' => Uslugi::where('is_second', 1)->select('id', 'usl_name', 'main_usluga_id')            
+            ->get()->groupBy('main_usluga_id'),            
             'user' => Auth::user(),
             'flash' => ['message' => $request->session()->get(key: 'message')],
             'cities' => cities::all(),             
@@ -110,16 +113,25 @@ class UslugiController extends Controller
             $usluga->address = $request->address;
             $usluga->maps = $request->maps;
             $usluga->popular_question = $request->popular;
-            $usluga->sity = $request->sity;
+
+                if($request->sity){
+                    $usluga->sity = $request->sity;
+                }            
 
                 if($request->main_usluga_id){  
                     $usluga->is_main = false;                  
-                    $usluga->main_usluga_id = $request->main_usluga_id;                    
+                    $usluga->main_usluga_id = $request->main_usluga_id;               
                 }
 
                 if($request->is_main){
                     $usluga->is_main = $request->is_main;
+                    $usluga->is_second = null;
                     $usluga->main_usluga_id = $id;
+                }
+
+                if($request->is_second){
+                    $usluga->is_second = $request->is_second;
+                    $usluga->is_main = null;
                 }
 
                 if($request->is_feed){
