@@ -6,7 +6,7 @@ import Body from "@/Layouts/Body.vue";
 import FlashMessage from "@/Components/FlashMessage.vue";
 import RatingReady from "@/Components/RatingReady.vue";
 import Prices from "@/Components/Prices.vue";
-
+import Timeline from "@/Components/Timeline.vue";
 import Breadcrumbs from "@/Components/Breadcrumbs.vue";
 import Tg from "@/Layouts/TG/TeleGram.vue";
 import Address from "@/Layouts/Address.vue";
@@ -27,7 +27,7 @@ let vars = defineProps({
   reviews: "Object",
   reviewscount: "String",
   rating: "String",
-  main_usluga: Object,
+  secondUslugi: Object,
   second_usluga: Object,
   city: Object,
 });
@@ -65,22 +65,24 @@ details summary::-webkit-details-marker {
     <meta name="description" :content="vars.usluga.usl_desc" />
   </Head>
 
-
-
   <MainHeader />
 
-  <Header :phone="usluga.phone" :address="usluga.address" />
-
-  <Breadcrumbs :main_usluga="vars.main_usluga" :second_usluga="vars.second_usluga" :city="vars.city"
-    :usluga="vars.usluga" />  
-
-  <SecondBanner :statusonimage="usluga.usl_name" :nameonimage="usluga.desc" :secondbannerpc="secondbannerpc"
-    :secondbannerimgmobile="secondbannerimgmobile" />
-
-
-
   <Body>
-    <div itemscope itemtype="https://schema.org/Product" class="py-6">
+    <div itemscope itemtype="https://schema.org/Product">
+      <Header :phone="usluga.phone" :address="usluga.address" />
+
+      <Breadcrumbs :second_usluga="vars.second_usluga" :city="vars.city"
+        :usluga="vars.usluga" />
+
+      <Timeline :secondUslugi="vars.secondUslugi" :mainUsluga="usluga" />
+
+      <SecondBanner :statusonimage="usluga.usl_name" :nameonimage="usluga.desc" :secondbannerpc="secondbannerpc"
+        :secondbannerimgmobile="secondbannerimgmobile" />
+
+
+
+
+
       <!-- edit btn -->
       <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
         <div v-if="user">
@@ -92,18 +94,6 @@ details summary::-webkit-details-marker {
         </div>
       </div>
       <!-- edit btn -->
-
-      <!-- header 2 -->
-      <div class="md:my-20">
-        <!-- short desc -->
-        <div itemprop="description" class="text-xl mx-12 px-6 text-gray-900 text-center">
-          {{ usluga.usl_desc }}
-        </div>
-        <!-- short desc -->
-      </div>
-      <!-- header 2 -->
-
-      <Address :usl_name="usluga.usl_name" :phone="usluga.phone" :address="usluga.address" :maps="usluga.maps" />
 
       <!--reviews carousel-->
       <div class="mt-12 py-12 bg-gray-100/75">
@@ -194,14 +184,8 @@ details summary::-webkit-details-marker {
       <Slider v-if="practice != 0" :sliderheader="sliderheader" :practice="vars.practice" />
 
       <!-- seo description -->
-      <div class="grid md:grid-cols-2 grid-cols-1 gap-4 mt-16 ">
-        <div class="my-5 md:my-10 md:mx-16 md:p-16 p-3 flex items-center">
-          <figure><img itemprop="image"
-              class="object-scale-down rounded-lg transition-all duration-300 filter grayscale hover:grayscale-0"
-              :src='`https://nedicom.ru/` + vars.usluga.file_path' :alt='usluga.usl_name'>
-          </figure>
-        </div>
-        <div itemprop="disambiguatingDescription" class="mx-auto max-w-2xl px-6 space-y-6 text-gray-900 text-justify"
+      <div class="grid grid-cols-1 mt-16 ">
+        <div itemprop="disambiguatingDescription" class="mx-auto max-w-4xl mb-3 text-gray-500 dark:text-gray-400 text-justify"
           v-html="usluga.longdescription"></div>
       </div>
       <!-- seo description -->
@@ -279,9 +263,6 @@ details summary::-webkit-details-marker {
         </ul>
       </div>
       <!-- popular question -->
-
-      <Prices :subheader="usluga.usl_name" />
-
 
       <!--lawyers
         <div v-if="lawyers != 0">

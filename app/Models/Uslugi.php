@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\belongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+
 class Uslugi extends Model
 {
     use HasFactory;
@@ -63,9 +64,6 @@ class Uslugi extends Model
     {
         return $this->HasOne(cities::class, 'id', 'sity')
         ;
-        /*return $this->HasMany(Uslugi::class, 'main_usluga_id', 'main_usluga_id')
-        ->select(['id', 'usl_name', 'main_usluga_id'])
-        ;*/
     }
         
 }
