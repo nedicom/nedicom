@@ -39,53 +39,65 @@ defineProps({
                     <meta itemprop="position" content="2" />
                 </div>
             </li>
-            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" v-if="main_usluga">
+
+            <!-- main_usluga -->
+            <li v-if="main_usluga" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
                 <div class="flex items-center">
                     <svg class="rtl:rotate-180 block w-3 h-3 mx-1 text-gray-400 " aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="m1 9 4-4-4-4" />
                     </svg>
-                    <a itemprop="item" :href="'https://nedicom.ru/uslugi/' + main_usluga.url"
+                    <a itemprop="item" :href="route('uslugi.url', [main_usluga.url])"
                         class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">
                         <span itemprop="name">{{ main_usluga.usl_name }}</span></a>
                     <meta itemprop="position" content="3" />
                 </div>
             </li>
-            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" v-if="second_usluga">
+
+            <!-- second_usluga -->
+            <li v-if="second_usluga" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
                 <div class="flex items-center">
                     <svg class="rtl:rotate-180 block w-3 h-3 mx-1 text-gray-400 " aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="m1 9 4-4-4-4" />
                     </svg>
-                    <a itemprop="item" href="https://nedicom.ru/uslugi"
+                    <a itemprop="item" :href="route('uslugi.second.url', [main_usluga.url, second_usluga.url])"
                         class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">
                         <span itemprop="name">{{ second_usluga.usl_name }}</span></a>
                     <meta itemprop="position" content="4" />
                 </div>
             </li>
-            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" v-if="city">
+
+            <!-- city -->
+            <li v-if="city" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
                 <div class="flex items-center">
                     <svg class="rtl:rotate-180 block w-3 h-3 mx-1 text-gray-400 " aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="m1 9 4-4-4-4" />
                     </svg>
-                    <a itemprop="item" href="https://nedicom.ru/uslugi"
+
+                    <a itemprop="item" :href="route('show.city', [main_usluga.url, second_usluga.url, city.url])"
                         class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">
                         <span itemprop="name">{{ city.title }}</span></a>
                     <meta itemprop="position" content="5" />
                 </div>
             </li>
-            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
+
+            <!-- usluga -->
+            <li v-if="usluga" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"
+                aria-current="page">
                 <div class="flex items-center">
                     <svg class="rtl:rotate-180  w-3 h-3 mx-1 text-gray-400" aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="m1 9 4-4-4-4" />
                     </svg>
-                    <a itemprop="item" :href="'https://nedicom.ru/uslugi/' + usluga.url">
+                    <a itemprop="item"
+                        class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white pointer-events-none"
+                        href="#">
                         <span itemprop="name"
                             class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">{{
                 usluga.usl_name }}</span></a>

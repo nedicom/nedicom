@@ -27,7 +27,6 @@ let vars = defineProps({
   reviews: "Object",
   reviewscount: "String",
   rating: "String",
-  secondUslugi: Object,
   uslugi: Object,
   second_usluga: Object,
   city: Object,

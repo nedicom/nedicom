@@ -62,7 +62,19 @@ class Uslugi extends Model
 
     public function cities(): HasOne
     {
-        return $this->HasOne(cities::class, 'id', 'sity')
+        return $this->HasOne(cities::class, 'id', 'sity')->select(['id', 'title', 'url'])
+        ;
+    }
+
+    public function main(): HasOne
+    {
+        return $this->HasOne(Uslugi::class, 'id', 'main_usluga_id')->select(['id', 'url'])
+        ;
+    }
+
+    public function second(): HasOne
+    {
+        return $this->HasOne(Uslugi::class, 'id', 'second_usluga_id')->select(['id', 'url'])
         ;
     }
         

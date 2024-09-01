@@ -54,8 +54,6 @@ class UslugiController extends Controller
         //views
         if ($usluga->is_main) {
             $view = 'Uslugi/Main';
-        } elseif ($usluga->is_second) {
-            $view = 'Uslugi/Second';
         } else {
             $view = 'Uslugi/Usluga';
         }
@@ -78,6 +76,48 @@ class UslugiController extends Controller
     }
 
 
+    public function showsecond($main_usluga, $second_usluga, Request $request)
+    {
+        $usluga = Uslugi::where('url', '=', $second_usluga)->first();
+        $id = $usluga->id;
+        $mainid = $usluga->main_usluga_id;
+
+        if (!$mainid) {
+            $mainid = $id;
+        }
+
+        if (Review::where('usl_id', $id)->orWhere('usl_id', $mainid)->count() !== 0) {
+            $reviews = Review::where('usl_id', $id)->orWhere('usl_id', $mainid)->orderBy('id', 'desc')->get();
+            $reviewscount = Review::where('usl_id', $id)->orWhere('usl_id', $mainid)->count();
+            $rating = Review::select('rating')->where('usl_id', $id)->orWhere('usl_id', $mainid)->sum('rating');
+        } else {
+            $reviews = Review::orderBy('id', 'desc')->get();
+            $reviewscount = Review::count();
+            $rating = Review::sum('rating');
+        }
+
+        $rating =  round($rating / $reviewscount, 1);
+
+        $user_id = Uslugi::where('url', '=', $second_usluga)->first()->user_id;
+
+        //data
+        return Inertia::render('Uslugi/Second', [
+            'usluga' => Uslugi::where('url', $second_usluga)->with('cities')->with('main')->first(),
+            'uslugi' => Uslugi::where('second_usluga_id', $id)->with('cities')->get(),
+            'main_usluga' => Uslugi::where('id', $mainid)->where('is_main', $mainid)->first(['id', 'usl_name', 'url']),
+            'user' => Auth::user(),
+            'lawyers' => User::where('speciality_one_id', '=', $id)->orderBy('name', 'asc')->get()->take(3),
+            'practice' => Article::where('usluga_id', $mainid)->where('practice_file_path', '!=', null)->orderBy('updated_at', 'desc')->take(3)->get(),
+            'firstlawyer' => User::where('id', $user_id)->get(),
+            'reviews' => $reviews,
+            'reviewscount' => $reviewscount,
+            'rating' => $rating,
+            'flash' => ['message' => $request->session()->get(key: 'message')],
+        ]);
+    }
+
+
+
     public function showcanonical($main_usluga, $second_usluga, $city, $url,  Request $request)
     {
 
@@ -85,13 +125,6 @@ class UslugiController extends Controller
 
         $id = $usluga->id;
         $mainid = $usluga->main_usluga_id;
-
-
-        $city_from_usluga = cities::where('id', $usluga->sity)->get();
-
-        $mainusluga = Uslugi::where('id', $usluga->main_usluga_id)->first();
-
-        $secondusluga = Uslugi::where('id', $usluga->second_usluga_id)->first();
 
         if (!$mainid) {
             $mainid = $id;
@@ -119,8 +152,8 @@ class UslugiController extends Controller
             'reviews' => $reviews,
             'reviewscount' => $reviewscount,
             'rating' => $rating,
-            'main_usluga' => Uslugi::where('id', $usluga->main_usluga_id)->first(['id', 'usl_name']),
-            'second_usluga' => Uslugi::where('id', $usluga->second_usluga_id)->first(['id', 'usl_name']),
+            'main_usluga' => Uslugi::where('id', $usluga->main_usluga_id)->first(['id', 'usl_name', 'url']),
+            'second_usluga' => Uslugi::where('id', $usluga->second_usluga_id)->first(['id', 'usl_name', 'url']),
             'city' => cities::where('id', $usluga->sity)->first(),
             'flash' => ['message' => $request->session()->get(key: 'message')],
         ]);

@@ -11,6 +11,7 @@ use App\Http\Controllers\ImportController;
 use App\Http\Controllers\PostphoneController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\UslugiController;
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\OffersController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\SitemapController;
@@ -95,7 +96,8 @@ Route::middleware('auth')->group(function () {
 
 Route::controller(UslugiController::class)->group(function () {
     Route::get('/uslugi', 'index')->name('uslugi');
-    Route::get('/uslugi/{url}', 'show')->name('uslugi.url');
+    Route::get('/uslugi/{url}', 'show')->name('uslugi.url');    
+    Route::get('/uslugi/{main_usluga}/{second_usluga}', 'showsecond')->name('uslugi.second.url');
     Route::get('/uslugi/{main_usluga}/{second_usluga}/{city}/{url}', 'showcanonical')->name('uslugi.canonical.url');
     Route::get('/uslugiadd', 'formadd')->name('uslugi.add');
     Route::post('/uslugi/create', 'create')->name('uslugi.create');
@@ -103,6 +105,12 @@ Route::controller(UslugiController::class)->group(function () {
     Route::post('/uslugi/{url}/update', 'update')->name('uslugi.update');
     Route::get('/uslugi/{url}/delete', 'delete')->name('uslugi.delete');
 });
+
+Route::controller(CityController::class)->group(function () {
+    Route::get('/uslugi/{main_usluga}/{second_usluga}/{city}', 'showCityFromUslugi')->name('show.city');
+});
+
+
 
 Route::controller(OffersController::class)->group(function () {
     Route::get('/offer/{url}', 'show')->name('offer.url');
