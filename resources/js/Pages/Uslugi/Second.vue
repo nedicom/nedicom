@@ -72,9 +72,6 @@ details summary::-webkit-details-marker {
     <div itemscope itemtype="https://schema.org/Product">
       <Header :phone="usluga.phone" :address="usluga.address" />
 
-      <Breadcrumbs :uslugi="vars.uslugi" :main_usluga="vars.main_usluga" :second_usluga="vars.second_usluga" :city="vars.usluga.cities"
-        :usluga="vars.usluga" />
-
       <Timeline :secondUslugi="vars.uslugi" :mainUsluga="usluga" />
 
       <SecondBanner :statusonimage="usluga.usl_name" :nameonimage="usluga.desc" :secondbannerpc="secondbannerpc"
@@ -301,6 +298,10 @@ details summary::-webkit-details-marker {
         </div>
         lawyers-->
     </div>
+
+    <Breadcrumbs :uslugi="vars.uslugi" :main_usluga="vars.main_usluga" :second_usluga="vars.second_usluga" :city="vars.usluga.cities"
+    :usluga="vars.usluga" />
+    
   </Body>
 
   <MainFooter />

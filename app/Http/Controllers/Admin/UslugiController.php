@@ -12,7 +12,8 @@ class UslugiController extends Controller
 {
 
     public function index(Request $request)
-    {  
+    {
+
         $query = Uslugi::query();
 
         if ($request->has('search')) {
@@ -34,7 +35,7 @@ class UslugiController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function delete(int $id)
-    {   
+    {
         if ($usluga = Uslugi::find($id)) {
             $usluga->delete();
 
@@ -43,5 +44,4 @@ class UslugiController extends Controller
 
         abort(404);
     }
-
 }

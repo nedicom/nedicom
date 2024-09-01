@@ -65,14 +65,9 @@ details summary::-webkit-details-marker {
     <meta name="description" :content="vars.usluga.usl_desc" />
   </Head>
 
-
-
   <MainHeader />
 
-  <Header :phone="usluga.phone" :address="usluga.address" />
-
-  <Breadcrumbs :main_usluga="vars.main_usluga" :second_usluga="vars.second_usluga" :city="vars.city"
-    :usluga="vars.usluga" />  
+  <Header :phone="usluga.phone" :address="usluga.address" />  
 
   <SecondBanner :statusonimage="usluga.usl_name" :nameonimage="usluga.desc" :secondbannerpc="secondbannerpc"
     :secondbannerimgmobile="secondbannerimgmobile" />
@@ -323,6 +318,10 @@ details summary::-webkit-details-marker {
         </div>
         lawyers-->
     </div>
+
+    <Breadcrumbs :main_usluga="vars.main_usluga" :second_usluga="vars.second_usluga" :city="vars.city"
+    :usluga="vars.usluga" />
+    
   </Body>
 
   <MainFooter />

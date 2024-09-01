@@ -33,11 +33,13 @@ let vars = defineProps({
     <div itemscope itemtype="https://schema.org/Product">
       <Header :phone="'89788838978'" :address="null" />
 
-      <Breadcrumbs :main_usluga="vars.main_usluga" :second_usluga="vars.second_usluga" :city="vars.city"
-        :usluga="null" />
+
 
       <Timeline :secondUslugi="vars.city.uslugies" :mainUsluga="null" :city="vars.city" />
     </div>
+
+    <Breadcrumbs :main_usluga="vars.main_usluga" :second_usluga="vars.second_usluga" :city="vars.city" :usluga="null" />
+
   </Body>
 
   <MainFooter />

@@ -12,7 +12,7 @@ class FeedController extends Controller
 {
 
     //семейный юрист Симферополь
-    public function feed()
+    public function feedSimferopol()
     { 
         $offers = DB::table('uslugis')
         ->join('users', 'uslugis.user_id', 'users.id')        

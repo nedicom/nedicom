@@ -74,7 +74,7 @@ let form = reactive({
 });
 
 function submit() {
-  Inertia.post("/uslugi/{url}/update", form);
+  Inertia.post("/usluga/{url}/update", form);
 }
 
 let title = ref("Редактировать услугу");

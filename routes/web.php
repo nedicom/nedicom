@@ -101,8 +101,8 @@ Route::controller(UslugiController::class)->group(function () {
     Route::get('/uslugi/{main_usluga}/{second_usluga}/{city}/{url}', 'showcanonical')->name('uslugi.canonical.url');
     Route::get('/uslugiadd', 'formadd')->name('uslugi.add');
     Route::post('/uslugi/create', 'create')->name('uslugi.create');
-    Route::get('/uslugi/{url}/edit', 'edit')->name('uslugi.edit');
-    Route::post('/uslugi/{url}/update', 'update')->name('uslugi.update');
+    Route::get('/usluga/{url}/edit', 'edit')->name('uslugi.edit');
+    Route::post('/usluga/{url}/update', 'update')->name('uslugi.update');
     Route::get('/uslugi/{url}/delete', 'delete')->name('uslugi.delete');
 });
 
@@ -187,7 +187,7 @@ Route::get('sitemap/lawyers.xml', [SitemapController::class, 'lawyers']);
 Route::get('sitemap/uslugi.xml', [SitemapController::class, 'uslugi']);
 
 //sitemap
-Route::get('feed.yml', [FeedController::class, 'feed']);
+Route::get('feed/simferopol.yml', [FeedController::class, 'feedSimferopol'])->name('simferopol.feed');
 
 Route::post('/send/review', [ReviewController::class, 'store'])->name('create.review');
 
