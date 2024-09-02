@@ -77,5 +77,11 @@ class Uslugi extends Model
         return $this->HasOne(Uslugi::class, 'id', 'second_usluga_id')->select(['id', 'url'])
         ;
     }
+
+    public function review()
+    {
+        return $this->HasMany(Review::class, 'usl_id', 'main_usluga_id')->select(['id as revieid', 'usl_id','rating']);
+
+    }
         
 }

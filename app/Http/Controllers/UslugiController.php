@@ -215,6 +215,8 @@ class UslugiController extends Controller
         $usluga->address = $request->address;
         $usluga->maps = $request->maps;
         $usluga->popular_question = $request->popular;
+        $usluga->expirience = $request->expirience;
+        $usluga->price = $request->price;
 
 
         if ($request->second_usluga_id) {

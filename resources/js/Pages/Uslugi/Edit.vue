@@ -71,6 +71,8 @@ let form = reactive({
   ids: set.uslugi.id,
   popular: set.uslugi.popular_question,
   sity: set.uslugi.sity,
+  expirience: set.uslugi.expirience,
+  price: set.uslugi.price,
 });
 
 function submit() {
@@ -80,6 +82,7 @@ function submit() {
 let title = ref("Редактировать услугу");
 
 const date = ref(new Date());
+
 </script>
 
 <template>
@@ -143,14 +146,15 @@ const date = ref(new Date());
 
                   <!-- second usluga -->
                   <div v-if="form.is_second !== true">
-                    <label class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white">Выберите подраздел услуг</label>
+                    <label class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white">Выберите подраздел
+                      услуг</label>
                     <select v-model="form.second_usluga_id"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                       <option disabled value="">
                         Выберите один из вариантов
                       </option>
-                      <option v-for="option in set.second_uslugi[form.main_usluga_id]" :key="option.id" v-bind:value="option.id"
-                        :selected="option.id == set.uslugi.second_usluga_id">
+                      <option v-for="option in set.second_uslugi[form.main_usluga_id]" :key="option.id"
+                        v-bind:value="option.id" :selected="option.id == set.uslugi.second_usluga_id">
                         {{ option.usl_name }}
                       </option>
                     </select>
@@ -188,6 +192,40 @@ const date = ref(new Date());
                 <editor spellcheck="true" v-model="form.longdescription" />
 
                 <PopularQuestion :popular_question="set.uslugi.popular_question" />
+
+                <!-- expirience price-->
+                <div class="flex justify-evenly">
+                  <div class="">
+
+                    <label for="expirience-input"
+                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-center">Лет
+                      опыта:</label>
+                    <div class="flex justify-center ">
+                      <input v-model="form.expirience"
+                        class="relative flex rounded-lg items-center text-center max-w-[8rem]" type="number"
+                        id="expirience-input" name="expirience" min="1" max="30" placeholder="1" required>
+                    </div>
+                    <p class="mt-2 text-sm text-gray-500 dark:text-gray-400 mb-5 text-center">до
+                      30 лет
+                    </p>
+
+
+                  </div>
+                  <div>
+                    <label for="price-input"
+                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-center">Цена
+                      консультации:</label>
+                    <div class="flex justify-center ">
+                      <input v-model="form.price" class="relative flex rounded-lg items-center text-center max-w-[8rem]"
+                        type="number" id="price-input" name="price" min="0" max="100000" placeholder="1000" required>
+                    </div>
+                    <p class="mt-2 text-sm text-gray-500 dark:text-gray-400 mb-5 text-center">до 100 000 р
+                    </p>
+
+                  </div>
+                </div>
+                <!-- expirience price-->
+
 
                 <label for="preimushestvo1" class="block text-sm font-medium leading-6 text-gray-900">Первое
                   преимущество услуги</label>
