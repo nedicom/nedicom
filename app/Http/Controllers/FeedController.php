@@ -11,8 +11,35 @@ use Illuminate\Database\Query\JoinClause;
 class FeedController extends Controller
 {
 
-    //семейный юрист Симферополь
-    public function feedSimferopol()
+    public function simferopol()
+    { 
+        $categories = Uslugi::where('is_main', '!=', 0)
+        ->with('hasuslugi')->get();
+        
+        $sets = Uslugi::where('is_main', '!=', 0)
+        ->with('hasuslugi')
+        ->get();
+
+        $offers = Uslugi::where('is_main', 0)     
+        ->where('is_second', null)
+        ->with('mainwithsecond')
+        ->where('sity', 1)
+        ->with('main')
+        ->with('second')
+        ->with('cities')        
+        ->withCount('review as count_review')
+        ->withAvg( 'review as avg_review', 'rating')
+        ->get();
+
+        return response()->view('feed/simferopol', [
+            'categories' => $categories,
+            'sets' => $sets,    
+            'offers' => $offers,                    
+        ])->header('Content-Type', 'text/xml');
+    }
+
+    //старый ушатанный фид с неправильной структурой, но сложными запросами
+    public function old()
     { 
         $offers = DB::table('uslugis')
         ->join('users', 'uslugis.user_id', 'users.id')        
@@ -29,10 +56,7 @@ class FeedController extends Controller
         'offers.id as offer_id',
         'cities.title as city_title',
         'users.*')
-        ->get();
-        //dd($offers);
-
-     
+        ->get();   
 
         $categories = Uslugi::
         with('hasuslugi')->get();

@@ -46,8 +46,8 @@ class Uslugi extends Model
     public function hasuslugi(): HasMany
     {
         return $this->HasMany(Uslugi::class, 'main_usluga_id', 'id')
-        ->where('is_main', 0)
-        ->select(['id', 'usl_name', 'main_usluga_id']);
+        ->where('is_second', 1)
+        ->select(['id', 'usl_name', 'main_usluga_id', 'url']);
     }
 
     public function sets(): HasMany
@@ -72,15 +72,28 @@ class Uslugi extends Model
         ;
     }
 
+    public function mainwithsecond(): HasMany
+    {
+        return $this->HasMany(Uslugi::class, 'main_usluga_id', 'main_usluga_id')
+        ->where('is_second', 1)
+        ->select(['id', 'main_usluga_id', 'is_second']);
+    }
+
     public function second(): HasOne
     {
         return $this->HasOne(Uslugi::class, 'id', 'second_usluga_id')->select(['id', 'url'])
         ;
     }
 
-    public function review()
+    public function review(): HasMany
     {
         return $this->HasMany(Review::class, 'usl_id', 'main_usluga_id')->select(['id as revieid', 'usl_id','rating']);
+
+    }
+
+    public function user(): HasOne
+    {
+        return $this->HasOne(User::class, 'id', 'user_id')->select(['id as user_id', 'name', 'avatar_path']);
 
     }
         

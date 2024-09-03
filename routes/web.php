@@ -189,8 +189,11 @@ Route::get('sitemap/articles.xml', [SitemapController::class, 'articles']);
 Route::get('sitemap/lawyers.xml', [SitemapController::class, 'lawyers']);
 Route::get('sitemap/uslugi.xml', [SitemapController::class, 'uslugi']);
 
-//sitemap
-Route::get('feed/simferopol.yml', [FeedController::class, 'feedSimferopol'])->name('simferopol.feed');
+//yandex feed
+Route::controller(FeedController::class)->group(function () {
+    Route::get('feed/simferopol.yml', 'simferopol')->name('feed.simferopol');
+    Route::get('feed/old.yml', 'old')->name('old');
+});
 
 Route::post('/send/review', [ReviewController::class, 'store'])->name('create.review');
 
