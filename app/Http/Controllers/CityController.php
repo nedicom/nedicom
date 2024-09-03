@@ -27,14 +27,15 @@ class CityController extends Controller
     {
         $city = cities::where('url', $city)->with('uslugies')->first();
         $main = Uslugi::where('url', $main_usluga)->first(['id', 'usl_name', 'url', 'usl_desc']);
+        $uslugi = Uslugi::where('main_usluga_id', $main->id)->where('sity', $city->id)
+        ->withCount('review')
+        ->withSum( 'review', 'rating')
+        ->get();
+        
         return Inertia::render('Uslugi/MainOffer', [
             'city' => $city,
             'main_usluga' => $main,
-            'uslugi' => Uslugi::where('main_usluga_id', $main->id)->where('sity', $city->id)
-            ->withCount('review')
-            ->withSum( 'review', 'rating')
-            ->get()
-            ,
+            'uslugi' => $uslugi,
             'flash' => ['message' => $request->session()->get(key: 'message')],          
         ]);
     }
