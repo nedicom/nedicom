@@ -28,7 +28,7 @@
         <sets>
             @foreach($sets as $set)
             <set id="s{{$set->id}}">
-                <name>{{$set->usl_name}}</name>
+                <name>{{$set->usl_name}} в Симферополе</name>
                 <url>@php echo url('/')@endphp/offers/simferopol/{{$set->url}}</url>
             </set>
                 @if(count($set->hasuslugi) > 0)
