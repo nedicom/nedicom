@@ -38,7 +38,7 @@ class FeedController extends Controller
         ])->header('Content-Type', 'text/xml');
     }
 
-    public function moskow()
+    public function moscow()
     { 
         $categories = Uslugi::where('is_main', '!=', 0)
         ->with('hasuslugi')->get();
@@ -58,7 +58,7 @@ class FeedController extends Controller
         ->withAvg( 'review as avg_review', 'rating')
         ->get();
 
-        return response()->view('feed/moskow', [
+        return response()->view('feed/moscow', [
             'categories' => $categories,
             'sets' => $sets,    
             'offers' => $offers,                    

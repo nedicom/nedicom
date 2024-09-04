@@ -46,7 +46,11 @@
             @foreach($offers as $offer)
             <offer id="offer{{$offer->id}}">
                 <name>{{$offer->user->name}}</name>
-                <url> @php echo url('/') @endphp/{{$offer->url}}</url>
+                <url>@php 
+                    $second = '/main';
+                    if ($offer->second) $second = '/'.$offer->second->url;
+                    echo url('/offers/'.$offer->cities->url.'/'.$offer->main->url.$second.'/') 
+                    @endphp/{{$offer->url}}</url>
                 <price>1000</price>
                 <currencyId>RUR</currencyId>
                 <sales_notes>за услугу</sales_notes>
