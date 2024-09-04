@@ -152,7 +152,7 @@ let title = ref("Редактировать статью");
                    <label class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white">Выберите категорию</label>
                    <select v-model="form.usluga_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option disabled value="">Выберите один из вариантов</option>
-                    <option v-for="option in uslugi" v-bind:value="option.id" :selected="option.usl_name == '123'">
+                    <option v-for="option in uslugi" :key ="option.id" v-bind:value="option.id" :selected="option.usl_name == '123'">
                       {{ option.usl_name }}
                     </option>
                   </select>

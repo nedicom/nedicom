@@ -265,7 +265,8 @@ class UslugiController extends Controller
         $id = Auth::id();
         $query = Uslugi::query()->where('user_id', '=', $id);
 
-        if ($request->has('search')) {   
+        if ($request->has('search')) {
+   
             $query = $query->filter($request->all('search'));
         } else {
             $query = Uslugi::where('user_id', '=', $id);
