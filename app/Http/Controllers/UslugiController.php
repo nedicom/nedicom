@@ -265,14 +265,13 @@ class UslugiController extends Controller
         $id = Auth::id();
         $query = Uslugi::query()->where('user_id', '=', $id);
 
-        if ($request->has('search')) {
-   
+        if ($request->has('search')) {   
             $query = $query->filter($request->all('search'));
         } else {
             $query = Uslugi::where('user_id', '=', $id);
         }
 
-        $uslugi = $query->orderBy('id')->paginate(12);
+        $uslugi = $query->orderBy('id')->with('cities')->paginate(12);
 
         return Inertia::render('Uslugi/Byuser', [
             'filters' => $request->all('search'),

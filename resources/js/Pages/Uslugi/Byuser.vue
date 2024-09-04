@@ -104,7 +104,7 @@ const handleDelete = (id, title) => {
                   <span class="basis-1/12">*</span>
                   <h5
                     class="
-                      basis-9/12
+                      basis-7/12
                       text-left                    
                       text-gray-900 text-xl
                       leading-tight                    
@@ -114,6 +114,18 @@ const handleDelete = (id, title) => {
                   >
                     {{ uslugi.usl_name }}
                   </h5>
+                  <h6 v-if="uslugi.cities"
+                    class="
+                      basis-2/12
+                      text-left                    
+                      text-gray-900 text-l
+                      leading-tight                    
+                      font-medium
+                      mb-2
+                    "
+                  >
+                    {{ uslugi.cities.title }}
+                  </h6>
                   <a
                     :href="route('uslugi')"
                     class="
