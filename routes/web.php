@@ -99,11 +99,11 @@ Route::controller(UslugiController::class)->group(function () {
     Route::get('/uslugi/{url}', 'show')->name('uslugi.url');    
     Route::get('/uslugi/{main_usluga}/{second_usluga}', 'showsecond')->name('uslugi.second.url');
     Route::get('/uslugi/{main_usluga}/{second_usluga}/{city}/{url}', 'showcanonical')->name('uslugi.canonical.url');
-    Route::get('/uslugiadd', 'formadd')->name('uslugi.add');
+    Route::get('/uslugiadd', 'formadd')->name('uslugi.add')->middleware('auth');
     Route::post('/uslugi/create', 'create')->name('uslugi.create');
-    Route::get('/usluga/{url}/edit', 'edit')->name('uslugi.edit');
+    Route::get('/usluga/{url}/edit', 'edit')->name('uslugi.edit')->middleware('auth');
     Route::post('/usluga/{url}/update', 'update')->name('uslugi.update');
-    Route::get('/uslugi/{url}/delete', 'delete')->name('uslugi.delete');
+    //Route::get('/uslugi/{url}/delete', 'delete')->name('uslugi.delete')->middleware('auth');;
 });
 
 Route::controller(CityController::class)->group(function () {

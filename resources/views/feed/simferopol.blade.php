@@ -3,8 +3,8 @@
 <yml_catalog date="{{ date('Y-m-d H:i') }}">
 
     <shop>
-        <name>Мина.Юристы</name>
-        <company>Юридическая компания "Мина"</company>
+        <name>Юристы СимферопольИП Мина О. В. (Симферополь)</name>
+        <company>ИП Мина О. В.</company>
         <url>https://nedicom.ru/</url>
         <email>m6132@yandex.ru</email>
         <currencies>
@@ -69,6 +69,7 @@
                 <param name="Конверсия">1</param>
                 <param name="Наличный расчет">да</param>
                 <param name="Безналичный расчет">да</param>
+                <param name="Исполнитель проверен">да</param>
             </offer>
             @endforeach
         </offers>

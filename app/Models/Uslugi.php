@@ -96,5 +96,5 @@ class Uslugi extends Model
         return $this->HasOne(User::class, 'id', 'user_id')->select(['id as user_id', 'name', 'avatar_path']);
 
     }
-        
+   
 }

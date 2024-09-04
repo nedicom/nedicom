@@ -21,7 +21,8 @@ const stars = [1, 2, 3, 4, 5];
     </span> 
     <span itemprop="reviewRating" class="flex items-center justify-center" itemscope itemtype="https://schema.org/Rating">
       <meta itemprop="worstRating" content="1">
-      <span itemprop="ratingValue" class="ml-1 text-sm font-medium text-gray-500 dark:text-gray-400">({{rating}})</span>
+      <span v-if="!isNaN(rating)" itemprop="ratingValue" class="ml-1 text-sm font-bold text-gray-900 dark:text-gray-400">{{rating}}</span>
+      <span v-else itemprop="ratingValue" class="ml-1 text-sm font-bold text-gray-900 dark:text-gray-400">0</span>
       <span itemprop="bestRating" content="5"></span>
     </span>
   </div>
