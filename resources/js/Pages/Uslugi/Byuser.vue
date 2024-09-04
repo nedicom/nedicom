@@ -115,7 +115,7 @@ const handleDelete = (id, title) => {
                     {{ uslugi.usl_name }}
                   </h5>
                   <a
-                    :href="'/uslugi/' + uslugi.url"
+                    :href="route('uslugi')"
                     class="
                       basis-2/12
                       text-end              
@@ -124,10 +124,10 @@ const handleDelete = (id, title) => {
                       dark:text-blue-500
                       hover:no-underline
                     "
-                    >читать</a
+                    >перейти</a
                   >
                   <a
-                    :href="'/uslugi/' + uslugi.id + '/edit'"
+                    :href="route('uslugi.edit', [uslugi.id])"
                     class="
                       basis-2/12
                       text-end              
