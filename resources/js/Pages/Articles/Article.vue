@@ -33,7 +33,7 @@ ol {
 
 <template>
 
-    <Head>
+    <Head title="{{ vars.article.header }}">
         <title>{{ vars.article.header }}</title>
         <meta name="description" :content="article.description" />
     </Head>

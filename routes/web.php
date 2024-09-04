@@ -192,6 +192,7 @@ Route::get('sitemap/uslugi.xml', [SitemapController::class, 'uslugi']);
 //yandex feed
 Route::controller(FeedController::class)->group(function () {
     Route::get('feed/simferopol.yml', 'simferopol')->name('feed.simferopol');
+    Route::get('feed/moskow.yml', 'moskow')->name('feed.moskow');
     Route::get('feed/old.yml', 'old')->name('old');
 });
 

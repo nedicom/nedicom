@@ -3,7 +3,7 @@
 <yml_catalog date="{{ date('Y-m-d H:i') }}">
 
     <shop>
-        <name>Юристы (Симферополь)</name>
+        <name>Юристы Москва</name>
         <company>ИП Мина О. В.</company>
         <url>https://nedicom.ru/</url>
         <email>m6132@yandex.ru</email>
@@ -28,14 +28,14 @@
         <sets>
             @foreach($sets as $set)
             <set id="s{{$set->id}}">
-                <name>{{$set->usl_name}} в Симферополе</name>
-                <url>@php echo url('/')@endphp/offers/simferopol/{{$set->url}}</url>
+                <name>{{$set->usl_name}} в Москве</name>
+                <url>@php echo url('/')@endphp/offers/moscow/{{$set->url}}</url>
             </set>
                 @if(count($set->hasuslugi) > 0)
                     @foreach($set->hasuslugi as $child)
                     <set id="s{{$child->id}}">
                         <name>{{$child->usl_name}}</name>
-                        <url>@php echo url('/')@endphp/offers/simferopol/{{$set->url}}/{{$child->url}}</url>
+                        <url>@php echo url('/')@endphp/offers/moscow/{{$set->url}}/{{$child->url}}</url>
                     </set>
                     @endforeach
                 @endif
@@ -62,7 +62,11 @@
                 <description>{{$offer->usl_name}}</description>
                 <adult>false</adult>
                 <expiry>P5Y</expiry>
+                @if ($offer->avg_review)
                 <param name="Рейтинг">{{$offer->avg_review}}</param>
+                @else 
+                <param name="Рейтинг">0</param>
+                @endif
                 <param name="Число отзывов">{{$offer->count_review}}</param>
                 <param name="Годы опыта">{{$offer->expirience}}</param>
                 <param name="Регион">{{$offer->cities->title}}</param>

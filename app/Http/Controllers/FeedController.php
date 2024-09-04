@@ -38,6 +38,33 @@ class FeedController extends Controller
         ])->header('Content-Type', 'text/xml');
     }
 
+    public function moskow()
+    { 
+        $categories = Uslugi::where('is_main', '!=', 0)
+        ->with('hasuslugi')->get();
+        
+        $sets = Uslugi::where('is_main', '!=', 0)
+        ->with('hasuslugi')
+        ->get();
+
+        $offers = Uslugi::where('is_main', 0)     
+        ->where('is_second', null)
+        ->with('mainwithsecond')
+        ->where('sity', 6)
+        ->with('main')
+        ->with('second')
+        ->with('cities')        
+        ->withCount('review as count_review')
+        ->withAvg( 'review as avg_review', 'rating')
+        ->get();
+
+        return response()->view('feed/moskow', [
+            'categories' => $categories,
+            'sets' => $sets,    
+            'offers' => $offers,                    
+        ])->header('Content-Type', 'text/xml');
+    }
+
     //старый ушатанный фид с неправильной структурой, но сложными запросами
     public function old()
     { 
