@@ -32,7 +32,7 @@ let vars = defineProps({
         <div>
             <Header :phone="'89788838978'" :address="null" />
 
-            <UslugiCard :uslugi="vars.uslugi" :city="vars.city" :main_usluga="vars.second_usluga" />
+            <UslugiCard :uslugi="vars.uslugi" :city="vars.city" :main_usluga="vars.second_usluga.usl_name" />
         </div>
 
     </Body>

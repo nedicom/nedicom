@@ -10,6 +10,8 @@ use App\Models\Review;
 use App\Models\User;
 use App\Models\Article;
 
+use Illuminate\Support\Facades\DB;
+
 
 use Illuminate\Http\Request;
 
@@ -21,7 +23,13 @@ class CityController extends Controller
     public function showCities($city,  Request $request)
     {
         $city = cities::where('url', $city)->with('uslugies')->first();
-        
+
+        $mainuslugi = Uslugi::where('sity', $city->id)        
+        ->with('main')
+        ->get(['id', 'main_usluga_id', 'url'])
+        ->groupBy('main.name')        
+        ;                 
+                
         $uslugi = Uslugi::where('sity', $city->id)
         ->withCount('review')
         ->withSum( 'review', 'rating')
@@ -30,6 +38,7 @@ class CityController extends Controller
         return Inertia::render('Offers/City', [
             'city' => $city,
             'uslugi' => $uslugi,
+            'mainuslugi' => $mainuslugi,
             'flash' => ['message' => $request->session()->get(key: 'message')],          
         ]);
 
@@ -53,14 +62,26 @@ class CityController extends Controller
     {
         $city = cities::where('url', $city)->with('uslugies')->first();
         $main = Uslugi::where('url', $main_usluga)->first(['id', 'usl_name', 'url', 'usl_desc']);
+        
         $uslugi = Uslugi::where('main_usluga_id', $main->id)->where('sity', $city->id)
         ->withCount('review')
         ->withSum( 'review', 'rating')
         ->get();
+
+        $seconduslugi = Uslugi::where('sity', $city->id) 
+        ->where('main_usluga_id', $main->id) 
+        ->where('second_usluga_id', '!=', 0)             
+        ->with('second')
+        ->get(['id', 'second_usluga_id', 'url'])
+        ->groupBy('second.name')        
+        ;  
+
+
         
-        return Inertia::render('Uslugi/MainOffer', [
+        return Inertia::render('Offers/MainOffer', [
             'city' => $city,
             'main_usluga' => $main,
+            'seconduslugi' => $seconduslugi,
             'uslugi' => $uslugi,
             'flash' => ['message' => $request->session()->get(key: 'message')],          
         ]);
@@ -71,7 +92,8 @@ class CityController extends Controller
         $city = cities::where('url', $city)->with('uslugies')->first();
         $main = Uslugi::where('url', $main_usluga)->first(['id', 'usl_name', 'url']);
         $second = Uslugi::where('url', $second_usluga)->first(['id', 'usl_name', 'url']);
-        return Inertia::render('Uslugi/SecondOffer', [
+        
+        return Inertia::render('Offers/SecondOffer', [
             'city' => $city,
             'main_usluga' => $main,
             'second_usluga' => $second,

@@ -10,9 +10,10 @@ import PopupDialogue from "@/Layouts/PopupDialogue/PopupDialogue.vue";
 
 let vars = defineProps({
     city: Object,
+    main_usluga: Object,
     uslugi: Object,
+    seconduslugi: Object,
     flash: Object,
-    mainuslugi: Object,
 });
 
 </script>
@@ -21,8 +22,8 @@ let vars = defineProps({
     <FlashMessage :message="flash.message" />
 
     <Head>
-        <title>{{ city.title }}</title>
-        <meta name="description" :content="city.title" />
+        <title>{{ main_usluga.usl_name }}</title>
+        <meta name="description" :content="main_usluga.usl_desc" />
     </Head>
 
     <MainHeader />
@@ -35,22 +36,22 @@ let vars = defineProps({
                 <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-6">
                     <div class="mx-auto mb-8 max-w-screen-sm lg:mb-16">
                         <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-                            Все услуги юристов в городе  {{ city.title }}
+                            Все услуги в городе {{ city.title }} в категории {{ vars.main_usluga.usl_name }}
                         </h2>
                     </div>
 
-                    <div v-for="(usluga, index) in mainuslugi">
+                    <div v-for="(usluga, index) in vars.seconduslugi">{{   }}
                         <h2 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white text-center">
-                            <a :href="route('offer.main', [city.url, usluga[0].main.url])"
+                            <a :href="route('offer.second', [city.url, vars.main_usluga.url, usluga[0].second.url])"
                                 class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                                 {{ index }}</a>
                         </h2>
                     </div>
                 </div>
             </section>
-            <UslugiCard :uslugi="vars.uslugi" :city="vars.city" :main_usluga="'все услуги'" />
-        </div>
 
+            <UslugiCard :uslugi="vars.uslugi" :city="vars.city" :main_usluga="vars.main_usluga.usl_name" />
+        </div>
 
     </Body>
 

@@ -64,7 +64,7 @@ class Uslugi extends Model
 
     public function main(): HasOne
     {
-        return $this->HasOne(Uslugi::class, 'id', 'main_usluga_id')->select(['id', 'url'])
+        return $this->HasOne(Uslugi::class, 'id', 'main_usluga_id')->select(['id', 'url', 'usl_name as name'])
         ;
     }
 
@@ -77,7 +77,7 @@ class Uslugi extends Model
 
     public function second(): HasOne
     {
-        return $this->HasOne(Uslugi::class, 'id', 'second_usluga_id')->select(['id', 'url'])
+        return $this->HasOne(Uslugi::class, 'id', 'second_usluga_id')->select(['id', 'url', 'usl_name as name'])
         ;
     }
 

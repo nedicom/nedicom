@@ -53,10 +53,10 @@ const showingNavigationDropdown = ref(false);
               </div>
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                 <NavLink
-                  :href="route('questions.add')"
-                  :active="route().current('questions.add')"
+                  :href="route('offers.all')"
+                  :active="route().current('offers.all')"
                 >
-                  О компании
+                  Города
                 </NavLink>
               </div>
               <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
