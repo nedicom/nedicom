@@ -52,12 +52,8 @@ class Uslugi extends Model
 
     public function sets(): HasMany
     {
-        return $this->HasMany(Offer::class, 'mainusl_id', 'main_usluga_id')
-        //->select(['id', 'title'])
-        ;
-        /*return $this->HasMany(Uslugi::class, 'main_usluga_id', 'main_usluga_id')
-        ->select(['id', 'usl_name', 'main_usluga_id'])
-        ;*/
+        return $this->HasMany(Offer::class, 'mainusl_id', 'main_usluga_id');
+
     }
 
     public function cities(): HasOne

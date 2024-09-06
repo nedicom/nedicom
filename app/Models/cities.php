@@ -9,22 +9,30 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class cities extends Model
 {
     use HasFactory;
+
     public function offers(): HasMany
     {
-        return $this->HasMany(Offer::class,  
-        'sity',  'id')
-        ->with('uslugi')
+        return $this->HasMany(
+            Uslugi::class,
+            'sity',
+            'id'
+        )
+            ->select(['id', 'usl_name', 'usl_desc', 'sity', 'main_usluga_id', 'second_usluga_id', 'url'])
         ;
     }
 
+
     public function uslugies(): HasMany
     {
-        return $this->HasMany(Uslugi::class,  
-        'sity', 'id')
-        ->with('cities')
-        ->with('main')
-        ->with('second')
-        ->select(['id', 'usl_name', 'usl_desc', 'sity', 'main_usluga_id', 'second_usluga_id', 'url'])
+        return $this->HasMany(
+            Uslugi::class,
+            'sity',
+            'id'
+        )
+            ->with('cities')
+            ->with('main')
+            ->with('second')
+            ->select(['id', 'usl_name', 'usl_desc', 'sity', 'main_usluga_id', 'second_usluga_id', 'url'])
         ;
     }
 }

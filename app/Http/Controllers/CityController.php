@@ -17,6 +17,26 @@ use Inertia\Inertia;
 
 class CityController extends Controller
 {
+
+    public function showCities($city,  Request $request)
+    {
+        $city = cities::where('url', $city)->with('uslugies')->first();
+        
+        $uslugi = Uslugi::where('sity', $city->id)
+        ->withCount('review')
+        ->withSum( 'review', 'rating')
+        ->get();
+        
+        return Inertia::render('Offers/City', [
+            'city' => $city,
+            'uslugi' => $uslugi,
+            'flash' => ['message' => $request->session()->get(key: 'message')],          
+        ]);
+
+
+    }    
+
+
     public function showCityFromUslugi($main_usluga, $second_usluga, $city,  Request $request)
     {
         $city = cities::where('url', $city)->with('uslugies')->first();

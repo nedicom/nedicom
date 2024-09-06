@@ -5,7 +5,7 @@ import RatingReady from "@/Components/RatingReady.vue";
 defineProps({
   uslugi: Object,
   city: Object,
-  main_usluga: Object,
+  main_usluga: String,
 });
 
 let ModalBtnText = "На консультацию";
@@ -21,7 +21,7 @@ let ModalBtnText = "На консультацию";
           <h2
             class="mt-3 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl"
           >
-            {{ city.title }} - {{ main_usluga.usl_name }}
+            {{ city.title }} - {{ main_usluga }}
           </h2>
         </div>
       </div>

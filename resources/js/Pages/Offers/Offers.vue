@@ -7,18 +7,16 @@ import { ref } from "vue";
 import { Head } from "@inertiajs/inertia-vue3";
 
 defineProps({
-  offers: Object,
   cities: Object,
-  user: Object,
 });
 
-let title = ref("Все услуги");
+let title = ref("Услуги по городам");
 </script>
 
 <template>
   <Head>
     <title>{{ title }}</title>
-    <meta name="description" content="Все услуги" />
+    <meta name="description" content="Все услуги и объявления юристов по городам" />
   </Head>
 
   <MainHeader />
@@ -36,62 +34,23 @@ let title = ref("Все услуги");
               <h2
                 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white"
               >
-                Все предложения (сеты) по городам
+                Все предложения (сеты) и объявления юристов по городам
               </h2>
-              <p
-                v-if="user.isadmin == 1"
-                class="font-light text-gray-500 sm:text-xl dark:text-gray-400"
-              >
-                <a
-                  :href="route('offer.add')"
-                  class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >
-                  Добавить сет
-                </a>
-              </p>
             </div>
 
             <div v-for="city in cities" :key="city.id">
               <h2
                 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white"
               >
-                {{ city.title }}
-              </h2>
+                
 
-              <div
-                class="flex items-start"
-              >
-                <div
-                  v-for="offer in offers"
-                  :key="offer.id"                  
-                >
-                  <div v-if="city.id == offer.city_id" class="text-center w-64 text-gray-500 dark:text-gray-400">
-                    <img
-                      class="mx-auto mb-4 w-36 h-36 object-cover rounded-full"
-                      :src="offer.uslugis_file_path"
-                      :alt="offer.uslugis_usl_name"
-                    />
-                    <h3
-                      class="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
-                    >
-                      <a
-                        :href="route('uslugi.url', [offer.uslugis_url])"
-                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                      >
-                        {{ offer.uslugis_usl_name }}</a
-                      >
-                    </h3>
-                    <p>
-                      <a
-                        :href="route('offer.url', [offer.offer_id])"
-                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                      >
-                        {{ offer.offer_title }}</a
-                      >
-                    </p>
-                  </div>
-                </div>
-              </div>
+                <a
+                    :href="route('offers.city', [city.url])"
+                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                  >
+                  {{ city.title }}</a
+                  >
+              </h2>
             </div>
           </div>
         </section>
@@ -103,13 +62,4 @@ let title = ref("Все услуги");
 
   <MainFooter />
 </template>
-
-<script>
-import Pagination from "@/Components/Pagination.vue";
-export default {
-  components: {
-    Pagination,
-  },
-};
-</script>
 

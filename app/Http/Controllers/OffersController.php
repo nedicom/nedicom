@@ -15,7 +15,7 @@ class OffersController extends Controller
 {
     public function all(Request $request)
     {
-        $offers = DB::table('offers')
+  /*      $offers = DB::table('offers')
                 ->join('cities', 'offers.sity', '=', 'cities.id')
                 ->join('uslugis', function (JoinClause $join) {
                     $join
@@ -37,14 +37,13 @@ class OffersController extends Controller
                 )
                 ->orderBy('city_title', 'asc')
                 ->get();
-
+*/
                 $cities=cities::all();
 
-                //dd( $cities);
         return Inertia::render('Offers/Offers', [
-            'offers' => $offers,
+            //'offers' => $offers,
             'cities' => $cities,
-            'user' => Auth::user(),
+            //'user' => Auth::user(),
         ]);
     }
 
