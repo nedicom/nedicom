@@ -20,7 +20,7 @@ defineProps({
 
 <template>
   <Button @click="() => open()" class=" inline-flex items-center
-      py-2.5 px-5 mb-2 font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100
+      py-3.5 px-5 mb-3 font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100
         justify-center cursor-grab  
         ">
     <svg class="mr-2 w-6 h-6 text-gray-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
