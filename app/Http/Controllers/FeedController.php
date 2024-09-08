@@ -17,7 +17,7 @@ class FeedController extends Controller
         $categories = Uslugi::where('is_main', '!=', 0)
             ->with('hasuslugi')->get();
 
-            $sets = Uslugi::where('is_main', '!=', 0)
+        $sets = Uslugi::where('is_main', '!=', 0)
             ->with('hasuslugi')
             ->where('is_feed', 1)
             ->get();

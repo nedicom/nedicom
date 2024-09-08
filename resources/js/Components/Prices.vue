@@ -2,7 +2,7 @@
 
 defineProps({
   subheader: String,
-  city: String,
+  city: Object,
   secondbannerimgmobile: String,
   reviewcoutnt: Number,
   rating: Number,
@@ -100,11 +100,14 @@ const prices = [
     <div class="grid grid-cols-1 content-center p-5">
       <img itemprop="image" :src="metaimage" :alt="subheader" />
       <h2>
-        <span class="text-3xl">{{ header }}</span> <span v-if="subheader"> в категории<br>
+        <span itemprop="name" class="text-3xl">{{ header }}</span> <span v-if="subheader"> в категории<br>
           <span itemprop="name">
             <span class="text-2xl">{{
-          subheader }}</span>
-            по городу <span itemprop="name" class="text-2xl">{{ city }}</span></span>
+              subheader }}</span>
+            <span v-if="city">
+              по городу <span class="text-2xl">{{ city.title }}</span>
+            </span>
+          </span>
         </span>
       </h2>
 
@@ -117,10 +120,10 @@ const prices = [
       </p>
 
       <p itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating"
-          class="text-xs mx-12 font-semibold text-grey text-center md:text-end py-5">
-          общая оценка: <span itemprop="ratingValue">{{ rating }}</span>
-          всего отзывов: <span itemprop="reviewCount">{{ reviewcoutnt }}</span>
-        </p>
+        class="text-xs mx-12 font-semibold text-grey text-center md:text-end py-5">
+        общая оценка: <span itemprop="ratingValue">{{ rating }}</span>
+        всего отзывов: <span itemprop="reviewCount">{{ reviewcoutnt }}</span>
+      </p>
 
     </div>
 

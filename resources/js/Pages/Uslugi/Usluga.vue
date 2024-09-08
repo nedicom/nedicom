@@ -106,8 +106,8 @@ details summary::-webkit-details-marker {
                 lawyer.name }}
               </div>
               <div class="font-medium text-gray-900 text-base text-center md:text-right">{{
-                main_usluga.usl_name }}. {{
-                  usluga.cities.title }}
+                main_usluga.usl_name }}. <span v-if="usluga.cities">{{
+                  usluga.cities.title }}</span>
               </div>
             </div>
           </div>
@@ -326,7 +326,7 @@ details summary::-webkit-details-marker {
       <!-- popular question -->
 
 
-      <Prices :subheader="vars.main_usluga.usl_name" :city="vars.usluga.cities.title"
+      <Prices :subheader="vars.main_usluga.usl_name" :city="vars.usluga.cities"
         :reviewcoutnt="vars.main_usluga.mainreview_count" :rating="Number(vars.main_usluga.avg_review)"
         :secondbannerimgmobile="secondbannerimgmobile" :metaimage="metaimage" />
 

@@ -148,7 +148,7 @@ class CityController extends Controller
             'user' => Auth::user(),
             'lawyers' => User::where('speciality_one_id', '=', $id)->orderBy('name', 'asc')->get()->take(3),
             'practice' => Article::where('usluga_id', $mainid)->where('practice_file_path', '!=', null)->orderBy('updated_at', 'desc')->take(3)->get(),
-            'lawyer' => User::where('id', $user_id)->get(),
+            'lawyer' => User::where('id', $user_id)->first(),
             'reviews' => $reviews,
             'reviewscount' => $reviewscount,
             'rating' => $rating,
