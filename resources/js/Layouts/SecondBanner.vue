@@ -7,11 +7,11 @@ const props = defineProps({
     nameonimage: String,
     secondbannerimgmobile: String,
     secondbannerpc: String,
+    metaimage: String
 });
 
 let form = reactive({
     phone: "",
-    //token: 'null',
     token: 'token',
     url: props.statusonimage,
 });
@@ -31,6 +31,8 @@ function recaptcha() {
 }
 </script>
 
+
+
 <style scoped>
 #secondbanner {
     background-image: v-bind(secondbannerpc);
@@ -45,7 +47,7 @@ function recaptcha() {
 
 <template>
     <!-- banner -->
-    <meta itemprop="image" :content="secondbannerpc">
+    <meta itemprop="image" :content="metaimage" :alt="statusonimage">
     <div id="secondbanner" class="
         relative 
         overflow-hidden 
@@ -63,12 +65,12 @@ function recaptcha() {
 
                     <div class="text-black text-center">
                         <div class="m-5">
-                            <span class="goo text-4xl font-semibold md:opacity-100 opacity-75">{{ nameonimage }} {{
+                            <span itemprop="name" class="goo text-2xl md:text-4xl font-semibold md:opacity-100 opacity-80 lowercase ">{{
                                 statusonimage }}</span>
                         </div>
                         <div class="m-5">
                             <span
-                                class="goo text-xl font-semibold bg-white rounded-lg py-1 px-4 md:opacity-100 opacity-75">Запись
+                                class="goo text-xl font-semibold bg-white rounded-lg py-1 px-4 md:opacity-100 opacity-100">Запись
                                 на консультацию</span>
                         </div>
 

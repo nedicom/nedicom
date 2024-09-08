@@ -9,7 +9,7 @@ defineProps({
 
 <template>
     <!-- Breadcrumb -->
-    <nav class="flex px-5 py-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
+    <nav class="flex px-5 py-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700 overflow-x-auto"
         aria-label="Breadcrumb">
         <ol itemscope itemtype="https://schema.org/BreadcrumbList"
             class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse  list-none">
@@ -49,7 +49,7 @@ defineProps({
                             d="m1 9 4-4-4-4" />
                     </svg>
                     <a itemprop="item" :href="route('uslugi.url', [main_usluga.url])"
-                        class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">
+                        class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white truncate ">
                         <span itemprop="name">{{ main_usluga.usl_name }}</span></a>
                     <meta itemprop="position" content="3" />
                 </div>
@@ -64,7 +64,7 @@ defineProps({
                             d="m1 9 4-4-4-4" />
                     </svg>
                     <a itemprop="item" :href="route('uslugi.second.url', [main_usluga.url, second_usluga.url])"
-                        class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">
+                        class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white truncate ">
                         <span itemprop="name">{{ second_usluga.usl_name }}</span></a>
                     <meta itemprop="position" content="4" />
                 </div>
@@ -80,7 +80,7 @@ defineProps({
                     </svg>
 
                     <a itemprop="item" :href="route('show.city', [main_usluga.url, second_usluga.url, city.url])"
-                        class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">
+                        class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white truncate ">
                         <span itemprop="name">{{ city.title }}</span></a>
                     <meta itemprop="position" content="5" />
                 </div>
@@ -99,7 +99,7 @@ defineProps({
                         class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white pointer-events-none"
                         href="#">
                         <span itemprop="name"
-                            class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">{{
+                            class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400 truncate ">{{
                 usluga.usl_name }}</span></a>
                     <meta v-if="city" itemprop="position" content="6" />
                     <meta v-else-if="usluga.is_second" itemprop="position" content="4" />

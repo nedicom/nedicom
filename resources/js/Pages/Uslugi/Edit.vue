@@ -167,8 +167,7 @@ const date = ref(new Date());
                   class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 mb-5 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   rows="2"></textarea>
 
-                <label for="description" class="block text-sm font-medium leading-6 text-gray-900">Краткое описание
-                  услуги (не более 200 симв.)</label>
+                <label for="description" class="block text-sm font-medium leading-6 text-gray-900">Ваше уникальное торговое предложение (до 150 символов, его видно в качестве описания в поисковой выдаче)</label>
                 <textarea v-model="form.description" spellcheck="true" name="description" maxlength="200"
                   class="h-20 form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 mb-5 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   rows="3"></textarea>

@@ -38,35 +38,22 @@ let ModalBtnText = "записаться на консультацию";
   <header class="bg-white shadow sticky inset-x-0 -top-1 h-16 z-40">
     <div class="max-w-7xl mx-auto py-3 px-4 sm:px-6 lg:px-4">
       <h2 class="font-semibold text-gray-800 leading-tight text-center">
-        <div class="grid md:grid-cols-3 md:gap-4">
+        <div class="grid md:grid-cols-2 md:gap-4">
           <!--modal btn -->
           <div class="hidden md:flex items-center justify-start px-2">
             <Modal :ModalBtnText="ModalBtnText" />
           </div>
           <!--modal btn -->
 
-          <!--tg btn -->
-          <TgBtn class="hidden md:flex" />
-          <!--tg btn -->
-
-          <div v-if="props.phone" class="grid gap-0 md:gap-3 grid-cols-2 md:grid-cols-1 place-items-center">
-            <div class="flex-auto">
-              <a :href="phoneto" class="text-xl">{{ phone }} </a>
-            </div>
-            <!--tg btn -->
-            <TgBtn class="flex md:hidden" />
-            <!--tg btn -->
+          <div v-if="props.phone" class="grid grid-cols-1 content-center">
+              <a :href="phoneto" class="text-2xl">{{ phone }} </a>
           </div>
 
           <div
             v-else
-            class="grid gap-0 md:gap-3 grid-cols-3 md:grid-cols-2 place-items-center"
+            class=""
           >
-            <a :href="phoneto" class="text-xl">{{ phone }} </a>
-
-            <!--tg btn -->
-            <TgBtn class="flex md:hidden" />
-            <!--tg btn -->
+            <a :href="phoneto" class="text-2xl">{{ phone }} </a>
 
             <a v-if="secondphone" :href="secondphoneto" class="text-xl">{{
               secondphone

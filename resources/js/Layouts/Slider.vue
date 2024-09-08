@@ -6,7 +6,7 @@ defineProps({
 </script>
 
 <template>
-    <div class="my-12">
+    <div class="mb-12 md:my-12">
         <h3 class="text-4xl mx-12 font-semibold text-grey text-center py-10">
             {{ sliderheader }}
         </h3>

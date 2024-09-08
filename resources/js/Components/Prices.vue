@@ -1,14 +1,20 @@
 <script setup>
 
 defineProps({
-  subheader:String,
+  subheader: String,
+  city: String,
+  secondbannerimgmobile: String,
+  reviewcoutnt: Number,
+  rating: Number,
+  metaimage: String
 })
-const header = "Стоимость услуг";
+
+const header = "Средняя стоимость услуг";
 const description =
-  "Рекомендуем стоимость и объем услуг определять на консультации, так Вы поймете насколько разрешимо Ваше дело и что нужно для достижения успеха. ";
+  "рекомендуем стоимость и объем услуг определять на консультации. ";
 const body =
-  " Чтобы заплатить ровно столько, сколько нужно для решения Вашей проблемы, очень важно тщательно подготовиться, собрать все необходимоы документы, оценить вероятность успеха. Не спешите с выбором юриста. Трезво оценивайте шансы. Мы гордимся тем, что не обещаем клиентам недостижимых результатов, но при этом часто добиваемся поставленной цели.";
-  const prices = [
+  "Так Вы поймете насколько разрешимо Ваше дело и что нужно для достижения успеха.";
+const prices = [
   {
     id: "one",
     name: "консультация",
@@ -90,28 +96,36 @@ const body =
 </script>
 
 <template>
-  <div itemprop="offers" itemscope itemtype="https://schema.org/Offer" class="grid grid-cols-1 md:grid-cols-3 p-5 my-12">
-    <meta itemprop="priceValidUntil" content="2029-12-31">
+  <div itemscope itemtype="https://schema.org/Product" class="grid grid-cols-1 md:grid-cols-3 p-5 my-12">
     <div class="grid grid-cols-1 content-center p-5">
+      <img itemprop="image" :src="metaimage" :alt="subheader" />
       <h2>
-        <span class="text-3xl">{{ header }}</span> <span v-if="subheader"> в категории<br><span class="text-2xl">{{ subheader }}</span></span>
+        <span class="text-3xl">{{ header }}</span> <span v-if="subheader"> в категории<br>
+          <span itemprop="name">
+            <span class="text-2xl">{{
+          subheader }}</span>
+            по городу <span itemprop="name" class="text-2xl">{{ city }}</span></span>
+        </span>
       </h2>
 
-      <p class="font-medium mt-5">
-        {{ description }}
+      <p itemprop="description" class="font-medium mt-5">
+        В категории {{
+          subheader }} по городу {{ city }} {{ description }}
       </p>
       <p class="font-light mt-5">
         {{ body }}
       </p>
-      <link itemprop="availability" href="https://schema.org/InStock" /> В наличии
+
+      <p itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating"
+          class="text-xs mx-12 font-semibold text-grey text-center md:text-end py-5">
+          общая оценка: <span itemprop="ratingValue">{{ rating }}</span>
+          всего отзывов: <span itemprop="reviewCount">{{ reviewcoutnt }}</span>
+        </p>
+
     </div>
 
     <div class="col-span-2">
-      <div
-        v-for="item in prices"
-        :key="item"
-        class="grid grid-cols-1 md:grid-cols-3"
-      >
+      <div v-for="item in prices" :key="item" class="grid grid-cols-1 md:grid-cols-3">
         <div class="rounded-full flex items-center justify-center">
           <!--<img
             :src="'https://nedicom.ru/storage/images/services/' + item.img"
@@ -119,27 +133,64 @@ const body =
             class="rounded-full"
             :alt="item.name"
           />-->
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 w-5 md:visible invisible">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="size-6 w-5 md:visible invisible">
             <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
           </svg>
 
 
         </div>
 
-        <div
-          class="col-span-2 grid grid-cols-1 content-center text-center md:text-start"
-        >
-          <div  itemprop="name" class="text-2xl font-bold">
+        <div itemprop="offers" itemscope itemtype="https://schema.org/Offer"
+          class="col-span-2 grid grid-cols-1 content-center text-center md:text-start">
+          <meta itemprop="priceValidUntil" content="2027-01-01">
+          <div itemprop="name" class="text-2xl font-bold">
             {{ item.name }}
           </div>
           <div itemprop="description" class="text-sm text-gray-500">
-            {{ item.value }} 
+            {{ item.value }}
           </div>
           <div class="mt-3">
-            <span class="text-sm">стоимость: </span> {{ item.price }} рублей
+            <span itemprop="price" class="text-sm" :content="item.price">стоимость: </span>
+            <link itemprop="availability" href="https://schema.org/InStock" /> {{ item.price }} <span
+              itemprop="priceCurrency" content="RUB">рублей </span>
+
           </div>
+
+          <div itemprop="shippingDetails" itemtype="https://schema.org/OfferShippingDetails" itemscope>
+            <div itemprop="shippingRate" itemtype="https://schema.org/MonetaryAmount" itemscope>
+              <meta itemprop="value" content="0" />
+              <meta itemprop="currency" content="RUB" />
+            </div>
+            <div itemprop="shippingDestination" itemtype="https://schema.org/DefinedRegion" itemscope>
+              <meta itemprop="addressCountry" content="RU" />
+            </div>
+            <div itemprop="deliveryTime" itemtype="https://schema.org/ShippingDeliveryTime" itemscope>
+              <div itemprop="handlingTime" itemtype="https://schema.org/QuantitativeValue" itemscope>
+                <meta itemprop="minValue" content="0" />
+                <meta itemprop="maxValue" content="1" />
+                <meta itemprop="unitCode" content="DAY" />
+              </div>
+              <div itemprop="transitTime" itemtype="https://schema.org/QuantitativeValue" itemscope>
+                <meta itemprop="minValue" content="0" />
+                <meta itemprop="maxValue" content="1" />
+                <meta itemprop="unitCode" content="DAY" />
+              </div>
+            </div>
+
+          </div>
+
+          <div itemprop="hasMerchantReturnPolicy" itemtype="https://schema.org/MerchantReturnPolicy" itemscope>
+            <meta itemprop="applicableCountry" content="RU" />
+            <meta itemprop="returnMethod" content="https://schema.org/ReturnByMail" />
+            <meta itemprop="returnFees" content="https://schema.org/FreeReturn" />
+            <meta itemprop="returnPolicyCategory" content="https://schema.org/MerchantReturnFiniteReturnWindow" />
+            <meta itemprop="merchantReturnDays" content="3" />
+          </div>
+
         </div>
       </div>
     </div>
+
   </div>
 </template>

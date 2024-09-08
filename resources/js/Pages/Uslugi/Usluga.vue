@@ -21,12 +21,12 @@ let vars = defineProps({
   usluga: "Object",
   user: "Object",
   lawyers: "Object",
-  firstlawyer: "Array",
+  lawyer: Object,
   practice: "$Array",
   flash: "Object",
   reviews: "Object",
   reviewscount: "String",
-  rating: "String",
+  rating: String,
   main_usluga: Object,
   second_usluga: Object,
   city: Object,
@@ -36,8 +36,10 @@ const writerarr = [vars.usluga.preimushestvo1, vars.usluga.preimushestvo2, vars.
 
 let sliderheader = "Доверяйте делам";
 
-let secondbannerpc = 'url("/' + vars.usluga.file_path + '")';
-let secondbannerimgmobile = 'url("/' + vars.usluga.mob_file_path + '")';
+let secondbannerpc = 'url("https://nedicom.ru/' + vars.usluga.file_path + '")';
+let secondbannerimgmobile = 'url("https://nedicom.ru/' + vars.usluga.mob_file_path + '")';
+
+let metaimage = 'https://nedicom.ru/' + vars.usluga.file_path;
 </script>
 
 <style>
@@ -67,20 +69,21 @@ details summary::-webkit-details-marker {
 
   <MainHeader />
 
-  <Header :phone="usluga.phone" :address="usluga.address" />  
-
-  <SecondBanner :statusonimage="usluga.usl_name" :nameonimage="usluga.desc" :secondbannerpc="secondbannerpc"
-    :secondbannerimgmobile="secondbannerimgmobile" />
-
-
+  <Header :phone="usluga.phone" :address="usluga.address" />
 
   <Body>
-    <div itemscope itemtype="https://schema.org/Product" class="py-6">
+
+    <div itemscope itemtype="https://schema.org/Product">
+
+      <SecondBanner :statusonimage="usluga.usl_name" :secondbannerpc="secondbannerpc"
+        :secondbannerimgmobile="secondbannerimgmobile" :metaimage="metaimage" />
+
+
       <!-- edit btn -->
       <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
         <div v-if="user">
           <div v-if="vars.user.isadmin == 1 || vars.user.id == vars.usluga.user_id
-    ">
+          ">
             <a :href="route('uslugi.edit', usluga.id)"
               class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Редактировать</a>
           </div>
@@ -89,21 +92,40 @@ details summary::-webkit-details-marker {
       <!-- edit btn -->
 
       <!-- header 2 -->
-      <div class="md:my-20">
-        <!-- short desc -->
-        <div itemprop="description" class="text-xl mx-12 px-6 text-gray-900 text-center">
-          {{ usluga.usl_desc }}
+      <div class="my-20 flex justify-center">
+        <div class="flex flex-col md:flex-row md:w-2/3 px-5">
+
+          <!-- short desc -->
+          <div class="flex items-center md:w-2/3">
+            <div class="flex-col">
+              <div itemprop="description"
+                class="mb-10 md:mb-5 md:my-0 font-bold text-gray-800 text-2xl text-center md:text-justify">{{
+                  usluga.usl_desc }}
+              </div>
+              <div class="mt-2 font-bold text-gray-600 text-xl text-center md:text-right">@ {{
+                lawyer.name }}
+              </div>
+              <div class="font-medium text-gray-900 text-base text-center md:text-right">{{
+                main_usluga.usl_name }}. {{
+                  usluga.cities.title }}
+              </div>
+            </div>
+          </div>
+          <!-- short desc -->
+
+          <!-- short image -->
+          <div class="flex mt-5 md:w-1/2 justify-center"><img
+              src="https://nedicom.ru/storage/usr/1/avatar/1713110600avatar.webp" width="200" class="rounded-full">
+          </div>
+          <!-- short image -->
         </div>
-        <!-- short desc -->
       </div>
       <!-- header 2 -->
 
-      <Address :usl_name="usluga.usl_name" :phone="usluga.phone" :address="usluga.address" :maps="usluga.maps" />
-
       <!--reviews carousel-->
       <div class="mt-12 py-12 bg-gray-100/75">
-        <h3 class="text-4xl mx-12 my-1 font-semibold text-grey text-center">
-          будем рады и Вашему отзыву
+        <h3 class="text-xl mx-12 my-1 font-semibold text-grey text-center">
+          Отзывы заказчиков
         </h3>
         <p itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating"
           class="text-xs mx-12 font-semibold text-grey text-center md:text-end py-5">
@@ -164,7 +186,7 @@ details summary::-webkit-details-marker {
                 <div class="h-12 flex items-center justify-end col-span-2">
                   <p class="text-gray-900 subpixel-antialiased text-right line-clamp-2 font-bold">
                     <span itemprop="author" itemscope="" itemtype="http://schema.org/Person"><span itemprop="name">{{
-    card.fio }}</span></span>
+                      card.fio }}</span></span>
                   </p>
                 </div>
 
@@ -186,22 +208,18 @@ details summary::-webkit-details-marker {
       </div>
       <!--reviews carousel-->
 
+      <Address :usl_name="usluga.usl_name" :phone="usluga.phone" :address="usluga.address" :maps="usluga.maps" />
+
       <Slider v-if="practice != 0" :sliderheader="sliderheader" :practice="vars.practice" />
 
       <!-- seo description -->
-      <div class="grid md:grid-cols-2 grid-cols-1 gap-4 mt-16 ">
-        <div class="my-5 md:my-10 md:mx-16 md:p-16 p-3 flex items-center">
-          <figure><img itemprop="image"
-              class="object-scale-down rounded-lg transition-all duration-300 filter grayscale hover:grayscale-0"
-              :src='`https://nedicom.ru/` + vars.usluga.file_path' :alt='usluga.usl_name'>
-          </figure>
-        </div>
+      <div class="my-20">
         <div itemprop="disambiguatingDescription" class="mx-auto max-w-2xl px-6 space-y-6 text-gray-900 text-justify"
           v-html="usluga.longdescription"></div>
       </div>
       <!-- seo description -->
 
-      <!-- preimushestva -->
+      <!-- preimushestva 
       <div class="bg-white">
         <div class="mx-auto max-w-7xl py-24 sm:px-6 sm:py-32 lg:px-8">
           <div
@@ -221,6 +239,7 @@ details summary::-webkit-details-marker {
 
               <div class="mt-10 md:flex items-center justify-center gap-x-6 lg:justify-start text-white"
                 itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+                <meta itemprop="priceValidUntil" content="2027-01-01">
                 <h1 class="text-3xl">
                   Консультация
                 </h1>
@@ -229,7 +248,37 @@ details summary::-webkit-details-marker {
                       <link itemprop="availability" href="https://schema.org/InStock" />1000
                     </strong></span>
                   <span itemprop="priceCurrency" content="RUB">рублей</span>
-                  <meta itemprop="priceValidUntil" content="01.01.2029">
+                </div>
+
+                <div itemprop="shippingDetails" itemtype="https://schema.org/OfferShippingDetails" itemscope>
+                  <div itemprop="shippingRate" itemtype="https://schema.org/MonetaryAmount" itemscope>
+                    <meta itemprop="value" content="0" />
+                    <meta itemprop="currency" content="RUB" />
+                  </div>
+                  <div itemprop="shippingDestination" itemtype="https://schema.org/DefinedRegion" itemscope>
+                    <meta itemprop="addressCountry" content="RU" />
+                  </div>
+                  <div itemprop="deliveryTime" itemtype="https://schema.org/ShippingDeliveryTime" itemscope>
+                    <div itemprop="handlingTime" itemtype="https://schema.org/QuantitativeValue" itemscope>
+                      <meta itemprop="minValue" content="0" />
+                      <meta itemprop="maxValue" content="1" />
+                      <meta itemprop="unitCode" content="DAY" />
+                    </div>
+                    <div itemprop="transitTime" itemtype="https://schema.org/QuantitativeValue" itemscope>
+                      <meta itemprop="minValue" content="0" />
+                      <meta itemprop="maxValue" content="1" />
+                      <meta itemprop="unitCode" content="DAY" />
+                    </div>
+                  </div>
+
+                </div>
+
+                <div itemprop="hasMerchantReturnPolicy" itemtype="https://schema.org/MerchantReturnPolicy" itemscope>
+                  <meta itemprop="applicableCountry" content="RU" />
+                  <meta itemprop="returnMethod" content="https://schema.org/ReturnByMail" />
+                  <meta itemprop="returnFees" content="https://schema.org/FreeReturn" />
+                  <meta itemprop="returnPolicyCategory" content="https://schema.org/MerchantReturnFiniteReturnWindow" />
+                  <meta itemprop="merchantReturnDays" content="3" />
                 </div>
               </div>
 
@@ -242,6 +291,7 @@ details summary::-webkit-details-marker {
           </div>
         </div>
       </div>
+      -->
       <!-- preimushestva -->
 
       <!-- popular question -->
@@ -275,53 +325,16 @@ details summary::-webkit-details-marker {
       </div>
       <!-- popular question -->
 
-      <Prices :subheader="usluga.usl_name" />
 
+      <Prices :subheader="vars.main_usluga.usl_name" :city="vars.usluga.cities.title"
+        :reviewcoutnt="vars.main_usluga.mainreview_count" :rating="Number(vars.main_usluga.avg_review)"
+        :secondbannerimgmobile="secondbannerimgmobile" :metaimage="metaimage" />
 
-      <!--lawyers
-        <div v-if="lawyers != 0">
-          <h1 class="text-4xl font-semibold text-grey text-center py-10">
-            Юристы в этой категории
-          </h1>
-
-          <div class="">
-            <div class="grid md:grid-cols-3 gap-4 mx-4">
-              <div v-for="item in vars.lawyers" :key="item.id">
-                <div>
-                  <div
-                    class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
-                  >
-                    <a :href="route('lawyer', item.id)">
-                      <img
-                        class="rounded-t-lg"
-                        :src="'https://nedicom.ru/' + item?.file_path"
-                        alt=""
-                      />
-                    </a>
-                    <div class="p-5">
-                      <p
-                        class="mb-3 font-normal text-gray-700 dark:text-gray-400"
-                      >
-                        {{ item.about }}
-                      </p>
-                      <h5
-                        class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
-                      >
-                        {{ item.name }}
-                      </h5>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        lawyers-->
     </div>
 
     <Breadcrumbs :main_usluga="vars.main_usluga" :second_usluga="vars.second_usluga" :city="vars.city"
-    :usluga="vars.usluga" />
-    
+      :usluga="vars.usluga" />
+
   </Body>
 
   <MainFooter />
