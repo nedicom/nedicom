@@ -95,7 +95,7 @@ const handleDelete = (id, title) => {
                     <div class="flex items-center p-4">{{ uslugi.id }}</div>
                   </td>
                   <td class="border-t">
-                    <a class="flex items-center p-4" :href="route('uslugi.edit', [uslugi.id])">{{ uslugi.usl_name
+                    <a class="flex items-center p-4" :href="route('uslugi.url', [uslugi.url])">{{ uslugi.usl_name
                       }}</a>
                   </td>
                   <td class="border-t">

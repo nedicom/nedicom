@@ -22,10 +22,7 @@ let ModalBtnText = "записаться на консультацию";
   <!-- Page Heading -->
   <noscript>
     <div>
-      <img
-        src="https://mc.yandex.ru/watch/24900584"
-        style="position: absolute; left: -9999px"
-      />
+      <img src="https://mc.yandex.ru/watch/24900584" style="position: absolute; left: -9999px" />
     </div>
   </noscript>
   <header class="bg-white shadow sticky inset-x-0 -top-1 h-16 z-40">
@@ -34,18 +31,17 @@ let ModalBtnText = "записаться на консультацию";
         <div class="grid md:grid-cols-2 md:gap-4">
           <!--modal btn -->
           <div class="hidden md:flex items-center justify-start px-2">
-            <Modal :ModalBtnText="ModalBtnText" />
+            <div class="w-1/2">
+              <Modal :ModalBtnText="ModalBtnText" />
+            </div>
           </div>
           <!--modal btn -->
 
           <div v-if="props.phone" class="grid grid-cols-1 content-center">
-              <a :href="phoneto" class="text-2xl">{{ phone }} </a>
+            <a :href="phoneto" class="text-2xl">{{ phone }} </a>
           </div>
 
-          <div
-            v-else
-            class=""
-          >
+          <div v-else class="">
             <a :href="phoneto" class="text-2xl">{{ phone }} </a>
 
           </div>
