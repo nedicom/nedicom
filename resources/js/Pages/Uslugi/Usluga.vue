@@ -115,7 +115,7 @@ details summary::-webkit-details-marker {
 
           <!-- short image -->
           <div class="flex mt-5 md:w-1/2 justify-center"><img
-              src="https://nedicom.ru/storage/usr/1/avatar/1713110600avatar.webp" width="200" class="rounded-full">
+              :src="'https://nedicom.ru/' +  lawyer.avatar_path" width="200" class="rounded-full">
           </div>
           <!-- short image -->
         </div>

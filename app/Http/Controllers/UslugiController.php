@@ -49,8 +49,6 @@ class UslugiController extends Controller
 
         $rating =  round($rating / $reviewscount, 1);
 
-        $user_id = Uslugi::where('url', '=', $url)->first()->user_id;
-
         //views
         if ($usluga->is_main) {
             $view = 'Uslugi/Main';
@@ -67,7 +65,7 @@ class UslugiController extends Controller
             'user' => Auth::user(),
             'lawyers' => User::where('speciality_one_id', '=', $id)->orderBy('name', 'asc')->get()->take(3),
             'practice' => Article::where('usluga_id', $mainid)->where('practice_file_path', '!=', null)->orderBy('updated_at', 'desc')->take(3)->get(),
-            'lawyer' => User::where('id', $user_id)->first(),
+            'lawyer' => User::where('id', $usluga->user_id)->first(),
             'reviews' => $reviews,
             'reviewscount' => $reviewscount,
             'rating' => $rating,
@@ -106,6 +104,7 @@ class UslugiController extends Controller
             'uslugi' => Uslugi::where('second_usluga_id', $id)->with('cities')->get(),
             'main_usluga' => Uslugi::where('id', $mainid)->where('is_main', $mainid)->first(['id', 'usl_name', 'url']),
             'user' => Auth::user(),
+            'lawyer' => User::where('id', $usluga->user_id)->first(),
             'lawyers' => User::where('speciality_one_id', '=', $id)->orderBy('name', 'asc')->get()->take(3),
             'practice' => Article::where('usluga_id', $mainid)->where('practice_file_path', '!=', null)->orderBy('updated_at', 'desc')->take(3)->get(),
             'firstlawyer' => User::where('id', $user_id)->get(),
@@ -144,8 +143,9 @@ class UslugiController extends Controller
 
         $user_id = Uslugi::where('url', '=', $url)->first()->user_id;
         return Inertia::render('Uslugi/Usluga', [
-            'usluga' => Uslugi::where('url', '=', $url)->first(),
+            'usluga' => Uslugi::where('url', $url)->with('cities')->first(),
             'user' => Auth::user(),
+            'lawyer' => User::where('id', $usluga->user_id)->first(),
             'lawyers' => User::where('speciality_one_id', '=', $id)->orderBy('name', 'asc')->get()->take(3),
             'practice' => Article::where('usluga_id', $mainid)->where('practice_file_path', '!=', null)->orderBy('updated_at', 'desc')->take(3)->get(),
             'firstlawyer' => User::where('id', $user_id)->get(),

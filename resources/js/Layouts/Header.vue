@@ -1,13 +1,7 @@
 <script setup>
 import Modal from "@/Components/Modal.vue";
-import TgBtn from "@/Components/TgBtn.vue";
 
-let address = "Крым";
-let secondaddress = "Москва";
-//let thirdaddress = "Краснодар";
 let phone = "89788838978";
-let secondphone = "89855582170";
-//let thirdphone = "8 978 1453925";
 
 const props = defineProps({
   address: String,
@@ -19,8 +13,7 @@ if (props.phone) {
 }
 
 let phoneto = "tel:" + phone;
-let secondphoneto = "tel:" + secondphone;
-//let thirdphoneto = "tel:" + thirdphone;
+
 let ModalBtnText = "записаться на консультацию";
 </script>
 
@@ -55,9 +48,6 @@ let ModalBtnText = "записаться на консультацию";
           >
             <a :href="phoneto" class="text-2xl">{{ phone }} </a>
 
-            <a v-if="secondphone" :href="secondphoneto" class="text-xl">{{
-              secondphone
-            }}</a>
           </div>
         </div>
       </h2>
