@@ -24,7 +24,7 @@
             @endif
             @endforeach
         </categories>
-{{$sets}}
+
         <sets>
             @foreach ($sets as $set)
             <set id="s{{ $set->id }}">
