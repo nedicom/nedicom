@@ -70,7 +70,6 @@
                 <description>{{ $offer->usl_name }}</description>
                 <adult>false</adult>
                 <expiry>P5Y</expiry>
-                {{$offer}}
                 @if(!is_null($offer->avg_review))
                 <param name="Рейтинг">{{ round($offer->avg_review, 1) }}</param>
                 @else<param name="Рейтинг">0</param>
