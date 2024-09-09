@@ -113,7 +113,7 @@ const prices = [
 
       <p itemprop="description" class="font-medium mt-5">
         В категории {{
-          subheader }} по городу {{ city }} {{ description }}
+          subheader }} по городу {{ city.title }} {{ description }}
       </p>
       <p class="font-light mt-5">
         {{ body }}

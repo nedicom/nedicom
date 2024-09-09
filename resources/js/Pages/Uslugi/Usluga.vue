@@ -80,20 +80,15 @@ details summary::-webkit-details-marker {
 
 
       <!-- edit btn -->
-      <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
-        <div v-if="user">
-          <div v-if="vars.user.isadmin == 1 || vars.user.id == vars.usluga.user_id
-          ">
-            <a :href="route('uslugi.edit', usluga.id)"
-              class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Редактировать</a>
-          </div>
+        <div v-if="user" class="flex justify-center pt-2 max-w-5xl mx-auto sm:px-6 lg:px-8 sm:rounded-lg">
+            <a v-if="vars.user.isadmin == 1 || vars.user.id == vars.usluga.user_id" :href="route('uslugi.edit', usluga.id)"
+              class="text-white bg-green-500 hover:bg-green-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">Редактировать объявление</a>
         </div>
-      </div>
       <!-- edit btn -->
 
       <!-- header 2 -->
       <div class="my-20 flex justify-center">
-        <div class="flex flex-col md:flex-row md:w-2/3 px-5">
+        <div class="flex flex-col md:flex-row md:w-3/4 px-5">
 
           <!-- short desc -->
           <div class="flex items-center md:w-2/3">
@@ -114,8 +109,8 @@ details summary::-webkit-details-marker {
           <!-- short desc -->
 
           <!-- short image -->
-          <div class="flex mt-5 md:w-1/2 justify-center"><img
-              :src="'https://nedicom.ru/' +  lawyer.avatar_path" width="200" class="rounded-full">
+          <div class="flex mt-5 md:w-1/2 justify-center"><img 
+              :src="'https://nedicom.ru/' +  lawyer.avatar_path" class="w-3/4 rounded-full">
           </div>
           <!-- short image -->
         </div>
@@ -293,9 +288,8 @@ details summary::-webkit-details-marker {
       </div>
       -->
       <!-- preimushestva -->
-
       <!-- popular question -->
-      <div v-if="vars.usluga.popular_question" class="my-12 pb-12" itemscope itemtype="https://schema.org/FAQPage">
+      <div v-if="vars.usluga.popular_question[0].answer" class="my-12 pb-12" itemscope itemtype="https://schema.org/FAQPage">
         <h3 class="text-4xl mx-12 my-1 font-semibold text-grey text-center">
           Посмотрите ответы на вопросы, может это то, что Вы искали?
         </h3>
