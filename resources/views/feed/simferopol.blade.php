@@ -70,7 +70,11 @@
                 <description>{{ $offer->usl_name }}</description>
                 <adult>false</adult>
                 <expiry>P5Y</expiry>
-                <param name="Рейтинг">{{ $offer->avg_review }}</param>
+                {{$offer}}
+                @if(!is_null($offer->avg_review))
+                <param name="Рейтинг">{{ round($offer->avg_review, 1) }}</param>
+                @else<param name="Рейтинг">0</param>
+                @endif
                 <param name="Число отзывов">{{ $offer->count_review }}</param>
                 <param name="Годы опыта">{{ $offer->expirience }}</param>
                 <param name="Регион">{{ $offer->cities->title }}</param>

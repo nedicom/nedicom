@@ -83,7 +83,8 @@ class Uslugi extends Model
 
     public function review(): HasMany
     {
-        return $this->HasMany(Review::class, 'usl_id', 'main_usluga_id')->select(['id as revieid', 'usl_id','rating']);
+        return $this->HasMany(Review::class, 'usl_id', 'id')
+        ->select(['id as revieid', 'usl_id', 'rating']);
 
     }
 
