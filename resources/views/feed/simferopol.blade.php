@@ -59,13 +59,14 @@
                 <currencyId>RUR</currencyId>
                 <sales_notes>за услугу</sales_notes>
                 <categoryId>{{ $offer->main_usluga_id }}</categoryId>
-                <set-ids>s{{ $offer->main_usluga_id }}
-                    @if (count($offer->mainwithsecond) > 0)
-                    @foreach ($offer->mainwithsecond as $child)
-                    , s{{ $child->id }}
-                    @endforeach
-                    @endif
-                </set-ids>
+                <set-ids>s{{ $offer->main_usluga_id }}@php 
+                if(count($offer->mainwithsecond) > 0) {
+                    foreach($offer->mainwithsecond as $child){
+                    echo (',s'.$child->id);
+                    }  
+                }
+                @endphp</set-ids>
+                
                 <picture>@php echo url('/') @endphp/{{ $offer->user->avatar_path }}</picture>
                 <description>{{ $offer->usl_name }}</description>
                 <adult>false</adult>
