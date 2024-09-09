@@ -19,7 +19,11 @@ const showingNavigationDropdown = ref(false);
             <div class="flex">
               <!-- Logo -->
               <div class="flex items-center">
-                <Link :href="route('Welcome')" class="flex justify-center items-center h-20 pt-3" aria-label="Home">
+                <Link
+                  :href="route('Welcome')"
+                  class="flex justify-center items-center h-20 pt-3"
+                  aria-label="Home"
+                >
                   <ApplicationLogo
                     class="block w-auto fill-current text-gray-800"
                   />
@@ -49,14 +53,6 @@ const showingNavigationDropdown = ref(false);
                   :active="route().current('questions.add')"
                 >
                   Задать вопрос
-                </NavLink>
-              </div>
-                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                <NavLink
-                  :href="route('offers.all')"
-                  :active="route().current('offers.all')"
-                >
-                  Города
                 </NavLink>
               </div>
               <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
@@ -160,6 +156,13 @@ const showingNavigationDropdown = ref(false);
 
                       <DropdownLink
                         v-if="$page.props.auth.user.isadmin"
+                        :href="route('offers.all')"
+                      >
+                        Города
+                      </DropdownLink>
+
+                      <DropdownLink
+                        v-if="$page.props.auth.user.isadmin"
                         :href="route('messages')"
                       >
                         Сообщения
@@ -257,7 +260,7 @@ const showingNavigationDropdown = ref(false);
               <ResponsiveNavLink :href="route('profile.edit')">
                 {{ $page.props.auth.user.name }}
               </ResponsiveNavLink>
-               <ResponsiveNavLink
+              <ResponsiveNavLink
                 v-if="$page.props.auth.user.isadmin"
                 :href="route('offers.all')"
               >
