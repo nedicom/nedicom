@@ -248,6 +248,9 @@ class UslugiController extends Controller
         if ($request->is_feed) {
             $usluga->is_feed = $request->is_feed;
         }
+        else{
+            $usluga->is_feed = 0;
+        }
 
         $usluga->save();
         return redirect()->route('uslugi.url', $usluga->url)->with('message', 'Обновлено успешно');
