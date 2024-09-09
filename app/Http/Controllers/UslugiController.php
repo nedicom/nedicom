@@ -58,7 +58,7 @@ class UslugiController extends Controller
 
         //data
         return Inertia::render($view, [
-            'usluga' => Uslugi::where('url', $url)->with('cities')->first(),
+            'usluga' => Uslugi::where('url', $url)->with('cities')->with('main')->with('second')->first(),
             'secondUslugi' => Uslugi::where('main_usluga_id', $id)->where('is_second', '!=', 0)->get(),
             'uslugi' => Uslugi::where('second_usluga_id', $id)->with('cities')->get(),
             'main_usluga' => Uslugi::where('id', $mainid)->withCount('mainreview')->withAvg('mainreview as avg_review', 'rating')->first(['id', 'usl_name', 'url']),
@@ -100,7 +100,7 @@ class UslugiController extends Controller
 
         //data
         return Inertia::render('Uslugi/Second', [
-            'usluga' => Uslugi::where('url', $second_usluga)->with('cities')->with('main')->first(),
+            'usluga' => Uslugi::where('url', $second_usluga)->with('cities')->with('cities')->with('main')->with('second')->first(),
             'uslugi' => Uslugi::where('second_usluga_id', $id)->with('cities')->get(),
             'main_usluga' => Uslugi::where('id', $mainid)->where('is_main', $mainid)->first(['id', 'usl_name', 'url']),
             'user' => Auth::user(),
@@ -161,7 +161,16 @@ class UslugiController extends Controller
 
     public function formadd()
     {
-        return Inertia::render('Uslugi/Add');
+        return Inertia::render(
+            'Uslugi/Add',
+            [
+                'all_uslugi' => Uslugi::where('is_main', '=', 1)->select('id', 'usl_name')->get(),
+                'second_uslugi' => Uslugi::where('is_second', 1)->select('id', 'usl_name', 'main_usluga_id')
+                    ->get()->groupBy('main_usluga_id'),
+                'user' => Auth::user(),
+                'cities' => cities::all(),
+            ],
+        );
     }
 
     public function create(Request $request)
@@ -169,18 +178,54 @@ class UslugiController extends Controller
         $usluga = new Uslugi;
         $usluga->usl_name = $request->header;
         $usluga->usl_desc = $request->description;
+
         $usluga->user_id = Auth::id();
+
+        $usluga->preimushestvo1 = '600+ дел';
+        $usluga->preimushestvo2 = 'Более 10 лет практики';
+        $usluga->preimushestvo3 = 'Аналитический подход к решению задачи';
 
         $usluga->longdescription = 'Это детальное описание услуги';
         $usluga->preimushestvo1 = '600+ дел';
         $usluga->preimushestvo2 = 'Более 10 лет практики';
         $usluga->preimushestvo3 = 'Аналитический подход к решению задачи';
-        $usluga->address = 'Респ. Крым, г. Симферополь, ул. Долгоруковская, 5';
-        $usluga->phone = '+79788838978';
+        $usluga->address = 'Россия';
+        $usluga->phone = '+7000 000 0000';
+
+        if ($request->main_usluga_id) {
+            $usluga->is_main = false;
+            $usluga->main_usluga_id = $request->main_usluga_id;
+        }
+
+        if ($request->second_usluga_id) {
+            $usluga->second_usluga_id = $request->second_usluga_id;
+        }
+
+        if ($request->sity) {
+            $usluga->sity = $request->sity;
+        }
+
+        if ($request->is_main) {
+            $usluga->is_main = $request->is_main;
+            $usluga->is_second = null;
+        }
+
+        if ($request->is_second) {
+            $usluga->is_second = $request->is_second;
+            $usluga->is_main = null;
+            $usluga->second_usluga_id = null;
+        }
+
+        if ($request->is_feed) {
+            $usluga->is_feed = $request->is_feed;
+        } else {
+            $usluga->is_feed = 0;
+        }
 
         $url = Translate::translit($request->header);
         $checkurl = Checkurl::chkurl($url, 'usluga');
         $usluga->url =  $checkurl;
+
         $usluga->save();
         return redirect()->route('uslugi.url', ['url' => $checkurl])->with('message', 'Услуга создана успешно.');
     }
@@ -223,7 +268,6 @@ class UslugiController extends Controller
             $usluga->second_usluga_id = $request->second_usluga_id;
         }
 
-
         if ($request->sity) {
             $usluga->sity = $request->sity;
         }
@@ -247,8 +291,7 @@ class UslugiController extends Controller
 
         if ($request->is_feed) {
             $usluga->is_feed = $request->is_feed;
-        }
-        else{
+        } else {
             $usluga->is_feed = 0;
         }
 
@@ -261,7 +304,7 @@ class UslugiController extends Controller
         $id = Auth::id();
         $query = Uslugi::query()->where('user_id', '=', $id);
 
-        if ($request->has('search')) {   
+        if ($request->has('search')) {
             $query = $query->filter($request->all('search'));
         } else {
             $query = Uslugi::where('user_id', '=', $id);

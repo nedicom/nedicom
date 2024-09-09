@@ -24,7 +24,8 @@ class CityController extends Controller
     {
         $city = cities::where('url', $city)->with('uslugies')->first();
 
-        $mainuslugi = Uslugi::where('sity', $city->id)        
+        $mainuslugi = Uslugi::where('sity', $city->id)
+        ->whereNotNull('main_usluga_id' )        
         ->with('main')
         ->get(['id', 'main_usluga_id', 'url'])
         ->groupBy('main.name')        
@@ -34,7 +35,7 @@ class CityController extends Controller
         ->withCount('review')
         ->withSum( 'review', 'rating')
         ->get();
-        
+
         return Inertia::render('Offers/City', [
             'city' => $city,
             'uslugi' => $uslugi,
@@ -61,7 +62,7 @@ class CityController extends Controller
     public function showOfferByMain(string $city, string $main_usluga,  Request $request)
     {
         $city = cities::where('url', $city)->with('uslugies')->first();
-        $main = Uslugi::where('url', $main_usluga)->first(['id', 'usl_name', 'url', 'usl_desc']);
+        $main = Uslugi::where('url', $main_usluga)->with('cities')->first(['id', 'usl_name', 'url', 'usl_desc']);
         
         $uslugi = Uslugi::where('main_usluga_id', $main->id)->where('sity', $city->id)
         ->withCount('review')
@@ -91,7 +92,7 @@ class CityController extends Controller
     {
         $city = cities::where('url', $city)->with('uslugies')->first();
         $main = Uslugi::where('url', $main_usluga)->first(['id', 'usl_name', 'url']);
-        $second = Uslugi::where('url', $second_usluga)->first(['id', 'usl_name', 'url']);
+        $second = Uslugi::where('url', $second_usluga)->with('cities')->with('main')->first(['id', 'usl_name', 'url']);
         
         return Inertia::render('Offers/SecondOffer', [
             'city' => $city,
@@ -141,7 +142,7 @@ class CityController extends Controller
 
         //data
         return Inertia::render($view, [
-            'usluga' => Uslugi::where('url', $url)->with('cities')->first(),
+            'usluga' => Uslugi::where('url', $url)->with('cities')->with('main')->with('second')->first(),
             'secondUslugi' => Uslugi::where('main_usluga_id', $id)->where('is_second', '!=', 0)->get(),
             'uslugi' => Uslugi::where('second_usluga_id', $id)->with('cities')->get(),
             'main_usluga' => Uslugi::where('id', $mainid)->withCount('mainreview')->withAvg('mainreview as avg_review', 'rating')->first(['id', 'usl_name', 'url']),
