@@ -27,6 +27,7 @@ class FeedController extends Controller
             ->where('is_second', null)
             ->with('mainwithsecond')
             ->where('sity', 1)
+            ->where('is_feed', 1)
             ->with('main')
             ->with('second')
             ->with('cities')
