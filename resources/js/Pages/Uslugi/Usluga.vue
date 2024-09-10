@@ -32,22 +32,7 @@ let vars = defineProps({
   city: Object,
 });
 
-
-let canonicalurl = "https://nedicom.ru/offers/";
-
-if(vars.usluga.cities){
-  canonicalurl = canonicalurl + vars.usluga.cities.url + '/';
-}
-
-if(vars.usluga.main){
-  canonicalurl = canonicalurl + vars.usluga.main.url + '/';
-}
-
-if(vars.usluga.second){
-  canonicalurl = canonicalurl + vars.usluga.second.url + '/';
-}
-
-canonicalurl = canonicalurl + vars.usluga.url;
+let canonicalurl = "https://nedicom.ru/uslugi/" + vars.usluga.url;
 
 let sliderheader = "Доверяйте делам";
 

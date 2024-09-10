@@ -43,7 +43,10 @@ let title = ref(set.lawyer.name);
 <template>
     <FlashMessage :message="flash.message" />
 
-    <Head title="Адвокат Симферополь" />
+    <Head>
+        <title>{{ set.lawyer.name }}</title>
+        <meta name="description" :content="'Юрист ' + set.lawyer.name" />
+    </Head>
 
     <div class="min-h-screen">
         <MainHeader />

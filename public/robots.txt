@@ -6,6 +6,9 @@ Disallow: /user/*
 Disallow: /register
 Disallow: /login
 Disallow: /profile
+Disallow: /authenticated/*
+
+
 
 Host: https://nedicom.ru/
 Sitemap: https://nedicom.ru/sitemap.xml
