@@ -50,15 +50,17 @@ class Uslugi extends Model
                     $query->where('sity', $city);
                 });
             })
-            ->when($filters['main'] == 'true', function ($query) {
-                $query->where('is_main', 1);
+            ->when($filters['main'] ?? null, function ($query, $main) {
+               if ( $main == "true") {$query->where('is_main', 1);}
             })
-            ->when($filters['second'] == 'true', function ($query) {
-                $query->where('is_second', 1);
+            ->when($filters['second'] ?? null, function ($query, $second) {
+               
+                if ( $second == "true") {$query->where('is_second', 1);}
             })
-            ->when($filters['feed'] == 'true', function ($query) {
-                $query->where('is_feed', 1);
+            ->when($filters['feed']  ?? null, function ($query, $feed) {
+                if ( $feed == "true") {$query->where('is_feed', 1);}
             })
+                
         ;
     }
 

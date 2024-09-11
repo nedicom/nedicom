@@ -3,7 +3,7 @@ import MainHeader from "@/Layouts/MainHeader.vue";
 import Header from "@/Layouts/Header.vue";
 import Body from "@/Layouts/Body.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import { ModalsContainer, useModal } from "vue-final-modal";
 import DeleteModalConfirm from "@/Components/DeleteModalConfirm.vue";
@@ -181,6 +181,7 @@ const handleDelete = (id, title) => {
                   <th scope="col" class="p-4">ID</th>
                   <th scope="col" class="p-4">Заголовок</th>
                   <th scope="col" class="p-4">Автор</th>
+                  <th scope="col" class="p-4">город</th>
                   <th scope="col" class="p-4">Главная</th>
                   <th scope="col" class="p-4">Вторичная</th>
                   <th scope="col" class="p-4">Я.Фид</th>
@@ -205,6 +206,12 @@ const handleDelete = (id, title) => {
                   <td class="border-t">
                     <div v-if="uslugi.firstlawyer" class="p-4">
                       {{ uslugi.firstlawyer.name }}
+                    </div>
+                    <div v-else></div>
+                  </td>
+                  <td class="border-t">
+                    <div v-if="uslugi.cities" class="p-4">
+                      {{ uslugi.cities.title }}
                     </div>
                     <div v-else></div>
                   </td>
