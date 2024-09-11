@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Uslugi;
+use App\Models\User;
+use App\Models\cities;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -16,15 +18,17 @@ class UslugiController extends Controller
 
         $query = Uslugi::query();
 
-        if ($request->has('search')) {
-            $query = $query->filter($request->all('search'));
+        if ($request->author || $request->search || $request->city || $request->main || $request->second || $request->feed) {
+            $query = $query->uslfilter($request->all());
         }
-
-        $uslugi = $query->orderBy('created_at', 'desc')->with('firstlawyer')->paginate(9);
+        
+        $uslugi = $query->orderBy('created_at', 'desc')->with('firstlawyer')->paginate(50);
 
         return Inertia::render('Admin/Uslugi/Index', [
-            'filters' => $request->all('search'),
-            'uslugi' => $uslugi
+            'filters' => $request->all(),
+            'uslugi' => $uslugi,
+            'lawyers' => User::Has('HasUslugi')->get(),
+            'cities' => cities::get(),
         ]);
     }
 

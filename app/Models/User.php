@@ -86,6 +86,11 @@ class User extends Authenticatable
         return $this->HasMany(Article::class, 'userid', 'id');
     }
 
+    public function HasUslugi(): HasMany
+    {
+        return $this->HasMany(Uslugi::class, 'user_id', 'id');
+    }
+
     public function HasPractice(): HasMany
     {
         return $this->HasMany(Article::class, 'userid', 'id')->where('practice_file_path', '!=', null);
