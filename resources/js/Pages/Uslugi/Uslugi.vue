@@ -27,7 +27,7 @@ let title = ref("Услуги");
   <div class="min-h-screen">
     <MainHeader />
 
-    <Header />
+    <Header :modalPageTitle="title"/>
 
     <Body>
 

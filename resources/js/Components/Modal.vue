@@ -2,10 +2,16 @@
 import { ModalsContainer, useModal } from 'vue-final-modal';
 import ModalConfirm from './ModalConfirm.vue';
 
+let set = defineProps({
+  modalPageTitle: String,
+  ModalBtnText: String,
+  secondtext: String,
+});
+
 const { open, close } = useModal({
   component: ModalConfirm,
   attrs: {
-    test: 'Hello World!',
+    modalPageTitle: set.modalPageTitle,
     onConfirm() {
       close()
     },
@@ -14,15 +20,11 @@ const { open, close } = useModal({
     default: '<p>UseModal: The content of the modal</p>',
   },
 })
-defineProps({
-  ModalBtnText: String,
-  secondtext: String,
-});
 </script>
 
 <template>
   <Button @click="() => open()" class="inline-flex items-center w-full
-      py-2.5 px-5 mb-2 font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100
+      py-2.5 px-5 font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100
         justify-center cursor-grab  
         ">
     <svg class="mr-3 w-6 h-6 text-gray-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -34,10 +36,10 @@ defineProps({
     </svg>
     <span class="flex flex-col">
       <span class="">
-        {{ ModalBtnText }}
+        {{ set.ModalBtnText }}
       </span>
       <span class="text-xs">
-        {{ secondtext }}
+        {{ set.secondtext }}
       </span>
     </span>
   </Button>
