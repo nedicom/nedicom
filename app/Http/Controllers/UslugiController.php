@@ -15,14 +15,29 @@ use App\Models\Review;
 use App\Models\cities;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\JoinClause;
+use Illuminate\Database\Eloquent\Builder;
 
 class UslugiController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
+        $cities = '';
+        if ($request->city) {
+            $cities = cities::when($request->city ?? null, function ($query, $city) {
+                return $query->where('title', 'like', '%' . $city . '%')->get();
+            });
+        }        
+
         return Inertia::render('Uslugi/Uslugi', [
-            'uslugi' => Uslugi::where('is_main', '=', 1)->paginate(12),
+            'uslugi' => Uslugi::where('is_main', 1)->where('is_feed', 1)->with(['mainhasoffer' => function ($query) use ($request) {
+                if($request->cityid){
+                    $query->where('sity', $request->cityid);
+                }
+            }])   
+            ->paginate(12),
+            'cities' => $cities,
+
         ]);
     }
 

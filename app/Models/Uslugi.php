@@ -80,7 +80,20 @@ class Uslugi extends Model
     {
         return $this->HasMany(Uslugi::class, 'main_usluga_id', 'id')
             ->where('is_second', 1)
-            ->select(['id', 'usl_name', 'main_usluga_id', 'url']);
+            ->select(['id', 'usl_name', 'main_usluga_id', 'url', 'sity', 'url']);
+    }
+
+    public function mainhasoffer(): HasMany
+    {
+        return $this->HasMany(Uslugi::class, 'main_usluga_id', 'id')
+            ->where('is_second', null)
+            ->where('is_main', "!=", 1)
+            ->where('is_feed', 1)
+            ->select(['id', 'usl_name', 'main_usluga_id', 'sity', 'url', 'file_path', 'price'])
+            ->withCount('review')
+            ->withSum( 'review', 'rating')
+            ->with('cities')
+            ;
     }
 
     public function sets(): HasMany

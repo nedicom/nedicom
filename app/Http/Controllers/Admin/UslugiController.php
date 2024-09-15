@@ -22,7 +22,7 @@ class UslugiController extends Controller
             $query = $query->uslfilter($request->all());
         }
         
-        $uslugi = $query->orderBy('created_at', 'desc')->with('firstlawyer')->with('cities')->paginate(50);
+        $uslugi = $query->with('firstlawyer')->with('cities')->paginate(50);
 
         return Inertia::render('Admin/Uslugi/Index', [
             'filters' => $request->all(),

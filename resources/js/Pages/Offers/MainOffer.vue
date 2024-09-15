@@ -4,55 +4,56 @@ import Header from "@/Layouts/Header.vue";
 import Body from "@/Layouts/Body.vue";
 import UslugiCard from "@/Layouts/UslugiCard.vue";
 import FlashMessage from "@/Components/FlashMessage.vue";
+import CategoryFilter from "@/Components/CategoryFilter.vue";
+import CityFilter from "@/Components/CityFilter.vue";
+import OfferCard from "@/Components/OfferCard.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import PopupDialogue from "@/Layouts/PopupDialogue/PopupDialogue.vue";
 
-let vars = defineProps({
+
+let set = defineProps({
+    redis: Object,
     city: Object,
     main_usluga: Object,
     uslugi: Object,
-    seconduslugi: Object,
-    flash: Object,
+    cities: Object,
+    category:  Object,
 });
 
 </script>
 
 <template>
-    <FlashMessage :message="flash.message" />
-
     <Head>
-        <title>{{ main_usluga.usl_name }}</title>
+        <title>{{ set.main_usluga.usl_name }}  {{ set.city.title }}</title>
         <meta name="description" :content="main_usluga.usl_desc" />
     </Head>
 
     <MainHeader />
 
+    <Header />
+
     <Body>
-        <div>
-            <Header :phone="'89788838978'" :address="null" />
+        <div class="bg-white py-6 grid grid-cols-4">
 
-            <section class="bg-white dark:bg-gray-900">
-                <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-6">
-                    <div class="mx-auto mb-8 max-w-screen-sm lg:mb-16">
-                        <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-                            Все услуги в городе {{ city.title }} в категории {{ vars.main_usluga.usl_name }}
-                        </h2>
-                    </div>
+            <CategoryFilter :category="set.uslugi.data" />
 
-                    <div v-for="(usluga, index) in vars.seconduslugi">{{   }}
-                        <h2 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white text-center">
-                            <a :href="route('offer.second', [city.url, vars.main_usluga.url, usluga[0].second.url])"
-                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                                {{ index }}</a>
-                        </h2>
+            <div class="w-full col-span-3 mx-auto sm:px-6 lg:px-8">{{ set.cities }}
+                <CityFilter :cities="set.cities" :routeurl="'/offers/' + city.url + '/' + main_usluga.url" />
+
+                <div v-if="set.uslugi.total > 0" class="">
+                    <!-- card -->
+                    <div v-for="u in set.uslugi.data" class="">
+                        <div v-for="offer in u.mainhasoffer" :key="offer.id" class=" mx-3 md:mx-0">
+                            <OfferCard :offer="offer" :city="set.cities" />
+                        </div>
                     </div>
+                    <!-- card -->
+                    <Pagination :links="uslugi.links" />
                 </div>
-            </section>
+            </div>
 
-            <UslugiCard :uslugi="vars.uslugi" :city="vars.city" :main_usluga="vars.main_usluga.usl_name" />
         </div>
-
     </Body>
 
     <MainFooter />
