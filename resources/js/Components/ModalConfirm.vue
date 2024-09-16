@@ -1,5 +1,6 @@
 <script setup>
 import { VueFinalModal } from "vue-final-modal";
+import PhoneForm from "@/Components/PhoneForm.vue";
 import { reactive } from "vue";
 import { Inertia } from "@inertiajs/inertia";
 
@@ -10,7 +11,7 @@ let set = defineProps({
 const emit = defineEmits({
     e: "confirm",
 });
-
+/*
 let form = reactive({
     one: "",
     two: "",
@@ -28,6 +29,7 @@ let form = reactive({
 let submit = () => {
     Inertia.post("/phone/send", form), emit('confirm');
 };
+*/
 </script>
 
 <template>
@@ -49,7 +51,8 @@ let submit = () => {
                 Ваш номер телефона для связи
             </h3>
 
-            <form @submit.prevent="submit" class="space-y-6">
+            <PhoneForm :modalPageTitle = "set.modalPageTitle"/>
+            <!--<form @submit.prevent="submit" class="space-y-6">
                 <div class="flex justify-center">
                     <div class="flex mb-2 space-x-0.5 md:space-x-1 rtl:space-x-reverse">
                         <div>
@@ -137,7 +140,7 @@ let submit = () => {
                         </div>
                     </div>
                 </div>
-
+            
 
 
                 <div class="flex justify-between">
@@ -157,6 +160,7 @@ let submit = () => {
                     Отправить
                 </button>
             </form>
+            -->
         </div>
     </VueFinalModal>
 </template>
@@ -170,7 +174,7 @@ input[type="number"]::-webkit-outer-spin-button {
 </style>
 
 <script>
-
+/*
 export default {
     mounted() {
         function focusNextInput(el, prevId, nextId) {
@@ -201,5 +205,5 @@ export default {
         });
     }
 }
-
+*/
 </script>

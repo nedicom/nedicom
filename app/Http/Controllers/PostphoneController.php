@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\URL;
         {
             public function postphone(Request $request): RedirectResponse
                 {
-                    $phone = '+7'.$request->one . $request->two . $request->three . $request->four . $request->five .
+                    $phone = '8'.$request->one . $request->two . $request->three . $request->four . $request->five .
                     $request->six . $request->seven . $request->eight . $request->nine . $request->ten;                                
 
                     $conn = mysqli_connect(env('DB_MYSQLIHOST'), env('DB_MYSQLINAME'), env('DB_MYSQLIPASS'), env('DB_MYSQLINAME')); 
@@ -24,6 +24,6 @@ use Illuminate\Support\Facades\URL;
                     $sql = "INSERT INTO leads (source, description, phone, lawyer, created_at, responsible, status, service)
                     VALUES ('nedicom.ru', 'На nedicom оставил номер со страницы - ".$request->url."', $phone, 2, CURRENT_TIME(), 2, 'поступил', 5)"; //2 - Mark, 4 - Анастасия, 5 - иск, 67 - вера
                     $conn->query($sql);
-                    return redirect()->back()->with('message', 'Ваш телефон успешно отправлен! Скоро мы свяжемся с Вами.');                        
+                    return redirect()->route('Welcome')->with('message', 'Ваш телефон успешно отправлен! Скоро мы свяжемся с Вами.');                        
                 }       
         }

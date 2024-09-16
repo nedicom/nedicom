@@ -1,13 +1,14 @@
 <script setup>
 import { reactive, ref } from "vue";
 import { Inertia } from "@inertiajs/inertia";
+import PhoneForm from "@/Components/PhoneForm.vue";
 
 const props = defineProps({
     statusonimage: String,
     nameonimage: String,
     secondbannerimgmobile: String,
     secondbannerpc: String,
-    metaimage: String
+    metaimage: String,
 });
 
 let form = reactive({
@@ -76,6 +77,9 @@ function recaptcha() {
 
                         <!-- Form on main banner-->
                         <div class="flex justify-center">
+
+                            <PhoneForm :modalPageTitle = "props.statusonimage"/>
+                            <!--
                             <form @submit.prevent="recaptcha" class="w-80 space-y-6">
                                 <div>
                                     <input v-model="form.phone" v-on:click="startCaptcha" type="number" name="phone"
@@ -104,7 +108,7 @@ function recaptcha() {
                                 <button type="submit" :disabled="form.processing"
                                     class="w-full bg-blue-700 hover:bg-blue-800 text-white focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center">
                                     <div class="text-center w-full">
-                                        <!-- <span>отправить</span> -->
+                                        
                                         <span v-if="loading">отправить</span>
                                         <svg v-else aria-hidden="true" role="status"
                                             class="inline w-3/4 h-4 mr-3 text-white animate-spin" viewBox="0 0 100 101"
@@ -123,6 +127,7 @@ function recaptcha() {
                                 <div class="text-red-500 bg-white rounded-lg px-2 py-1 font-semibold text-sm animate-spin-pulse"
                                     v-if="$page.props.errors['token']">{{ $page.props.errors['token'] }}</div>
                             </form>
+                        -->
                         </div>
                         <!-- Form on main banner-->
 
