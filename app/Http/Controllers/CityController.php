@@ -10,10 +10,9 @@ use App\Models\Review;
 use App\Models\User;
 use App\Models\Article;
 
-use Illuminate\Support\Facades\DB;
-
-
 use Illuminate\Http\Request;
+
+use App\Helpers\CitySet;
 
 use Inertia\Inertia;
 
@@ -61,15 +60,33 @@ class CityController extends Controller
         $city = cities::where('url', $city)->with('uslugies')->first();
         $main = Uslugi::where('url', $main_usluga)->with('cities')->first(['id', 'usl_name', 'url', 'usl_desc']);
 
-        /*$uslugi = Uslugi::where('main_usluga_id', $main->id)->where('sity', $city->id)
-            ->with('mainhasoffer')
-            ->withCount('review')
-            ->withSum('review', 'rating')
+        $category = Uslugi::where('is_main', 1)
+            ->where('is_feed', 1)
+            ->with(['hasuslugi' => function ($query) use ($main) {
+                if ($main->id) {
+                    $query->where('main_usluga_id', $main->id);
+                }
+            }])
             ->get();
-            */
-        session(['city' => 'Симферополь']);            
 
-        $uslugi = Uslugi::where('is_main', 1)->where('is_feed', 1)
+        CitySet::CitySet($request);
+
+        $uslugi = Uslugi::where('main_usluga_id', $main->id)
+            ->where('is_feed', 1)
+            ->where('is_second', null)
+            ->with('cities')
+            ->when(session()->get('cityid') ?? null, function ($query, $sescity) {
+                $query->where(function ($query) use ($sescity) {
+                    $query->where('sity', $sescity);
+                });
+            })
+            ->withCount('review')
+            ->withSum( 'review', 'rating')            
+            ->get();
+
+        //session(['city' => 'Симферополь']);            
+
+        /*$uslugi = Uslugi::where('is_main', 1)->where('is_feed', 1)
             ->with(['mainhasoffer' => function ($query) use ($city) {
                 if ($city->id) {
                     $query->where('sity', $city->id);
@@ -81,6 +98,7 @@ class CityController extends Controller
                 }
             }])
             ->paginate(12);
+            */
 
         $seconduslugi = Uslugi::where('sity', $city->id)
             ->where('main_usluga_id', $main->id)
@@ -98,8 +116,8 @@ class CityController extends Controller
 
         return Inertia::render('Offers/MainOffer', [
             'city' => $city,
+            'category' => $category,
             'main_usluga' => $main,
-            'seconduslugi' => $seconduslugi,
             'uslugi' => $uslugi,
             'cities' => $cities,
             'flash' => ['message' => $request->session()->get(key: 'message')],
@@ -109,16 +127,38 @@ class CityController extends Controller
     public function showOfferBysecond(string $city, string $main_usluga, string $second_usluga, Request $request)
     {
         $city = cities::where('url', $city)->with('uslugies')->first();
-        $main = Uslugi::where('url', $main_usluga)->first(['id', 'usl_name', 'url']);
+        $main = Uslugi::where('url', $main_usluga)->first(['id', 'usl_name', 'usl_desc', 'url']);
         $second = Uslugi::where('url', $second_usluga)->with('cities')->with('main')->first(['id', 'usl_name', 'url']);
+
+
+        $cities = '';
+        if ($request->city) {
+            $cities = cities::when($request->city ?? null, function ($query, $city) {
+                return $query->where('title', 'like', '%' . $city . '%')->get();
+            });
+        }
+
+        $category = Uslugi::where('is_main', 1)
+            ->where('is_feed', 1)
+            ->with(['hasuslugi' => function ($query) use ($main) {
+                if ($main->id) {
+                    $query->where('main_usluga_id', $main->id);
+                }
+            }])
+            ->get();
+
+        CitySet::CitySet($request);
 
         return Inertia::render('Offers/SecondOffer', [
             'city' => $city,
+            'category' => $category,
             'main_usluga' => $main,
+            'cities' => $cities,
             'second_usluga' => $second,
             'uslugi' => Uslugi::where('second_usluga_id', $second->id)->where('sity', $city->id)
                 ->withCount('review')
                 ->withSum('review', 'rating')
+                ->with('cities')
                 ->get(),
             'flash' => ['message' => $request->session()->get(key: 'message')],
         ]);

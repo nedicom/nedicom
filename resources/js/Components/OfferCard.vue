@@ -15,7 +15,7 @@ let secondtext = "";
    
     <section >
         <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
-            <div class="mb-4 grid gap-4 sm:grid-cols-1 md:mb-8 lg:grid-cols-2 xl:grid-cols-2">
+            <div class="mb-4 grid gap-4 sm:grid-cols-1 md:mb-8  ">
                 <div 
                     class="bg-white p-6">
                     <div class="h-72 w-full">

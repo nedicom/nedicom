@@ -12,6 +12,7 @@ import { Head } from "@inertiajs/inertia-vue3";
 let set = defineProps({
   uslugi: Object,
   cities: Object,
+  city: String
 });
 
 let title = ref("Услуги");
@@ -31,18 +32,16 @@ let title = ref("Услуги");
 
     <Body>
 
-      <div class="bg-white py-6 grid grid-cols-4">
+      <div class="bg-white py-6 grid grid-cols-3">
 
-        <CategoryFilter :category="set.uslugi.data" />
+        <CategoryFilter :category="set.uslugi.data" :cityUrl="set.city" />
 
-        <div class="w-full h-full col-span-3 mx-auto sm:px-6 lg:px-8">
-          <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-
+        <div class="w-full h-full col-span-2 mx-auto sm:px-6 lg:px-8">
             <CityFilter :cities="set.cities" :routeurl="'/uslugi'" />
 
             <div v-if="set.uslugi.total > 0" class="">
               <!-- card -->
-              <div v-for="u in set.uslugi.data" class="">
+              <div v-for="u in set.uslugi.data" :key="u.id" class="">
                 <div v-for="offer in u.mainhasoffer" :key="offer.id" class=" mx-3 md:mx-0">
                   <OfferCard :offer="offer" :city="set.cities" />
                 </div>
@@ -50,8 +49,6 @@ let title = ref("Услуги");
               <!-- card -->
             </div>
 
-
-          </div>
         </div>
 
       </div>

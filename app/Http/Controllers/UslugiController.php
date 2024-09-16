@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Database\Eloquent\Builder;
 
+use App\Helpers\CitySet;
+
 class UslugiController extends Controller
 {
 
@@ -27,17 +29,18 @@ class UslugiController extends Controller
             $cities = cities::when($request->city ?? null, function ($query, $city) {
                 return $query->where('title', 'like', '%' . $city . '%')->get();
             });
-        }        
+        }
+
+        $city = CitySet::CitySet($request);
 
         return Inertia::render('Uslugi/Uslugi', [
-            'uslugi' => Uslugi::where('is_main', 1)->where('is_feed', 1)->with(['mainhasoffer' => function ($query) use ($request) {
-                if($request->cityid){
-                    $query->where('sity', $request->cityid);
+            'uslugi' => Uslugi::where('is_main', 1)->where('is_feed', 1)->with(['mainhasoffer' => function ($query) {
+                if (session()->get('cityid')) {
+                    $query->where('sity', session()->get('cityid'));
                 }
-            }])   
-            ->paginate(12),
+            }])->paginate(12),
             'cities' => $cities,
-
+            'city' => $city,
         ]);
     }
 

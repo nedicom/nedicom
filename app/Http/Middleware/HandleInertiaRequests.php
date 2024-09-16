@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
 use App\Models\Dialogue;
+use App\Models\cities;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -45,6 +46,11 @@ class HandleInertiaRequests extends Middleware
             ],
             'dialogue' => [
                 'message'  =>  fn () => Dialogue::find($request->session()->get('dialogue')),
+            ],
+            'usercity' => [
+                'title'  =>  fn () => session()->get('citytitle')
+                ? session()->get('citytitle')
+                : null,
             ],
         ]);
     }

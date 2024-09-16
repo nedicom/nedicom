@@ -48,7 +48,7 @@ function clear() {
 </script>
 
 <template>
-    <div class="flex items-center justify-center mb-6">
+    <div class="flex items-center justify-left mb-6">
         
             <div class="w-full md:w-1/2 relative">
                 <div class="relative">
@@ -61,7 +61,7 @@ function clear() {
                     </div>
 
                     <input v-model="form.cities" @keyup="opencity" type="text" id="city" autocomplete="off"
-                        class="bg-gray-50 p-4 pl-10 border border-gray-300 text-gray-900 text-md rounded-lg focus:border-blue-500 block w-full "
+                        class="p-4 m-1 pl-10 bg-gray-50  border border-gray-300 text-gray-900 text-md rounded-lg focus:border-blue-500 block w-full "
                         placeholder="Город" />
 
                     <div @click="clear" class="absolute inset-y-0 right-2.5 flex items-center cursor-pointer">

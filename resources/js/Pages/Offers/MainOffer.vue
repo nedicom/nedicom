@@ -13,7 +13,6 @@ import PopupDialogue from "@/Layouts/PopupDialogue/PopupDialogue.vue";
 
 
 let set = defineProps({
-    redis: Object,
     city: Object,
     main_usluga: Object,
     uslugi: Object,
@@ -34,22 +33,17 @@ let set = defineProps({
     <Header />
 
     <Body>
-        <div class="bg-white py-6 grid grid-cols-4">
+        <div class="bg-white py-6 grid grid-cols-3">
+            <CategoryFilter :category="set.category" :cityUrl="city.url"/>
 
-            <CategoryFilter :category="set.uslugi.data" />
-
-            <div class="w-full col-span-3 mx-auto sm:px-6 lg:px-8">{{ set.cities }}
+            <div class="w-full col-span-2 mx-auto sm:px-6 lg:px-8">
                 <CityFilter :cities="set.cities" :routeurl="'/offers/' + city.url + '/' + main_usluga.url" />
-
-                <div v-if="set.uslugi.total > 0" class="">
-                    <!-- card -->
-                    <div v-for="u in set.uslugi.data" class="">
-                        <div v-for="offer in u.mainhasoffer" :key="offer.id" class=" mx-3 md:mx-0">
+                <div v-if="set.uslugi" class="">
+                    <!-- card -->                  
+                        <div v-for="offer in set.uslugi" :key="offer.id" class=" mx-3 md:mx-0">
                             <OfferCard :offer="offer" :city="set.cities" />
                         </div>
-                    </div>
                     <!-- card -->
-                    <Pagination :links="uslugi.links" />
                 </div>
             </div>
 
