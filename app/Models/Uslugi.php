@@ -90,7 +90,8 @@ class Uslugi extends Model
         return $this->HasMany(Uslugi::class, 'main_usluga_id', 'id')
             ->where('user_id', Auth::user()->id)            
             ->where('second_usluga_id', null)
-            ->where('is_feed', 1);
+            ->where('is_feed', 1)
+            ;
     }
 
     public function doesntHaveoffersbysecond(): HasMany

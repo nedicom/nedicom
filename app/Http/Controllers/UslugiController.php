@@ -253,7 +253,7 @@ class UslugiController extends Controller
         return Inertia::render(
             'Uslugi/Edit',
             [
-                'uslugi' => Uslugi::where('id', '=', $url)->first(),
+                'uslugi' => Uslugi::where('id', '=', $url)->with('second')->with('main')->first(),
                 'all_uslugi' => Uslugi::where('is_main', '=', 1)->select('id', 'usl_name')->doesntHave('doesntHaveoffersbymain')->get(),
                 'second_uslugi' => Uslugi::where('is_second', 1)->select('id', 'usl_name', 'main_usluga_id')
                 ->doesntHave('doesntHaveoffersbysecond')->get()->groupBy('main_usluga_id'),
@@ -281,11 +281,6 @@ class UslugiController extends Controller
         $usluga->expirience = $request->expirience;
         $usluga->price = $request->price;
 
-
-        if ($request->second_usluga_id) {
-            $usluga->second_usluga_id = $request->second_usluga_id;
-        }
-
         if ($request->sity) {
             $usluga->sity = $request->sity;
         }
@@ -295,11 +290,20 @@ class UslugiController extends Controller
             $usluga->main_usluga_id = $request->main_usluga_id;
         }
 
+        if ($request->second_usluga_id) {
+            $usluga->second_usluga_id = $request->second_usluga_id;
+        }
+        else{
+            $usluga->second_usluga_id = null;
+        }
+
         if ($request->is_main) {
             $usluga->is_main = $request->is_main;
             $usluga->is_second = null;
             $usluga->main_usluga_id = $id;
         }
+
+
 
         if ($request->is_second) {
             $usluga->is_second = $request->is_second;
