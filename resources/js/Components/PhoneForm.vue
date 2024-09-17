@@ -51,6 +51,7 @@ let submit = () => {
         <div>
           <input
             type="text"
+            inputmode="numeric"
             maxlength="1"
             name="one"
             id="one"
@@ -65,6 +66,7 @@ let submit = () => {
         <div>
           <input
             type="text"
+            inputmode="numeric"
             maxlength="1"
             name="two"
             id="two"
@@ -80,6 +82,7 @@ let submit = () => {
         <div>
           <input
             type="text"
+            inputmode="numeric"
             maxlength="1"
             name="three"
             id="three"
@@ -103,6 +106,7 @@ let submit = () => {
         <div>
           <input
             type="text"
+            inputmode="numeric"
             maxlength="1"
             name="four"
             id="four"
@@ -118,6 +122,7 @@ let submit = () => {
         <div>
           <input
             type="text"
+            inputmode="numeric"
             maxlength="1"
             name="five"
             id="five"
@@ -133,6 +138,7 @@ let submit = () => {
         <div>
           <input
             type="text"
+            inputmode="numeric"
             maxlength="1"
             name="six"
             id="six"
@@ -148,6 +154,7 @@ let submit = () => {
         <div>
           <input
             type="text"
+            inputmode="numeric"
             maxlength="1"
             name="seven"
             id="seven"
@@ -163,6 +170,7 @@ let submit = () => {
         <div>
           <input
             type="text"
+            inputmode="numeric"
             maxlength="1"
             name="eight"
             id="eight"
@@ -178,6 +186,7 @@ let submit = () => {
         <div>
           <input
             type="text"
+            inputmode="numeric"
             maxlength="1"
             name="nine"
             id="nine"
@@ -193,6 +202,7 @@ let submit = () => {
         <div>
           <input
             type="text"
+            inputmode="numeric"
             maxlength="1"
             name="ten"
             id="ten"
