@@ -122,6 +122,9 @@ let title = ref("Добавить услугу");
                         {{ option.usl_name }}
                       </option>
                     </select>
+                    <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">На одну услугу доступно всего одно объявление. Чтобы разместить больше выбирайте подкатегорию. Если Вы не видите категории, которая Вам требуется проверьте, нет ли у Вас уже опубликованного объявления на странице
+                      <a :href="route('uslugi.user')" class="font-medium text-blue-600 hover:underline dark:text-blue-500" target="_blank">Ваших услуг</a>
+                    </p>
                   </div>
                   <!-- main usluga -->
 
@@ -146,6 +149,8 @@ let title = ref("Добавить услугу");
                         {{ option.usl_name }}
                       </option>
                     </select>
+                    <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">Объявление будет показано в подкатегории и в основной категории на странице 
+                      <a :href="route('uslugi')" class="font-medium text-blue-600 hover:underline dark:text-blue-500" target="_blank">публичных услуг</a></p>
                   </div>
                 </div>
                 <!-- second usluga -->

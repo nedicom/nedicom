@@ -182,9 +182,9 @@ class UslugiController extends Controller
         return Inertia::render(
             'Uslugi/Add',
             [
-                'all_uslugi' => Uslugi::where('is_main', '=', 1)->select('id', 'usl_name')->get(),
+                'all_uslugi' => Uslugi::where('is_main', '=', 1)->select('id', 'usl_name')->doesntHave('doesntHaveoffersbymain')->get(),
                 'second_uslugi' => Uslugi::where('is_second', 1)->select('id', 'usl_name', 'main_usluga_id')
-                    ->get()->groupBy('main_usluga_id'),
+                ->doesntHave('doesntHaveoffersbysecond')->get()->groupBy('main_usluga_id'),
                 'user' => Auth::user(),
                 'cities' => cities::all(),
             ],
@@ -254,9 +254,9 @@ class UslugiController extends Controller
             'Uslugi/Edit',
             [
                 'uslugi' => Uslugi::where('id', '=', $url)->first(),
-                'all_uslugi' => Uslugi::where('is_main', '=', 1)->select('id', 'usl_name')->get(),
+                'all_uslugi' => Uslugi::where('is_main', '=', 1)->select('id', 'usl_name')->doesntHave('doesntHaveoffersbymain')->get(),
                 'second_uslugi' => Uslugi::where('is_second', 1)->select('id', 'usl_name', 'main_usluga_id')
-                    ->get()->groupBy('main_usluga_id'),
+                ->doesntHave('doesntHaveoffersbysecond')->get()->groupBy('main_usluga_id'),
                 'user' => Auth::user(),
                 'flash' => ['message' => $request->session()->get(key: 'message')],
                 'cities' => cities::all(),

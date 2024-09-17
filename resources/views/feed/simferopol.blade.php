@@ -59,14 +59,8 @@
                 <currencyId>RUR</currencyId>
                 <sales_notes>за услугу</sales_notes>
                 <categoryId>{{ $offer->main_usluga_id }}</categoryId>
-                <set-ids>s{{ $offer->main_usluga_id }}@php 
-                if(count($offer->mainwithsecond) > 0) {
-                    foreach($offer->mainwithsecond as $child){
-                    echo (',s'.$child->id);
-                    }  
-                }
-                @endphp</set-ids>
-                
+                    @if($offer->second_usluga_id)<set-ids>s{{$offer->second_usluga_id}}</set-ids>            
+                    @else<set-ids>s{{$offer->main_usluga_id}}</set-ids>@endif                  
                 <picture>@php echo url('/') @endphp/{{ $offer->user->avatar_path }}</picture>
                 <description>{{ $offer->usl_name }}</description>
                 <adult>false</adult>
