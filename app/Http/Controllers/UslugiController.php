@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Review;
 use App\Models\cities;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Query\JoinClause;
-use Illuminate\Database\Eloquent\Builder;
 
 use App\Helpers\CitySet;
 
@@ -24,7 +21,7 @@ class UslugiController extends Controller
 
     public function index(Request $request)
     {
-        $cities = '';
+        $cities = [];
         if ($request->city) {
             $cities = cities::when($request->city ?? null, function ($query, $city) {
                 return $query->where('title', 'like', '%' . $city . '%')->get();
@@ -184,7 +181,7 @@ class UslugiController extends Controller
             [
                 'all_uslugi' => Uslugi::where('is_main', '=', 1)->select('id', 'usl_name')->doesntHave('doesntHaveoffersbymain')->get(),
                 'second_uslugi' => Uslugi::where('is_second', 1)->select('id', 'usl_name', 'main_usluga_id')
-                ->doesntHave('doesntHaveoffersbysecond')->get()->groupBy('main_usluga_id'),
+                    ->doesntHave('doesntHaveoffersbysecond')->get()->groupBy('main_usluga_id'),
                 'user' => Auth::user(),
                 'cities' => cities::all(),
             ],
@@ -250,13 +247,14 @@ class UslugiController extends Controller
 
     public function edit(string $url, Request $request)
     {
+
         return Inertia::render(
             'Uslugi/Edit',
             [
                 'uslugi' => Uslugi::where('id', '=', $url)->with('second')->with('main')->first(),
                 'all_uslugi' => Uslugi::where('is_main', '=', 1)->select('id', 'usl_name')->doesntHave('doesntHaveoffersbymain')->get(),
                 'second_uslugi' => Uslugi::where('is_second', 1)->select('id', 'usl_name', 'main_usluga_id')
-                ->doesntHave('doesntHaveoffersbysecond')->get()->groupBy('main_usluga_id'),
+                    ->doesntHave('doesntHaveoffersbysecond')->get()->groupBy('main_usluga_id'),
                 'user' => Auth::user(),
                 'flash' => ['message' => $request->session()->get(key: 'message')],
                 'cities' => cities::all(),
@@ -278,8 +276,20 @@ class UslugiController extends Controller
         $usluga->address = $request->address;
         $usluga->maps = $request->maps;
         $usluga->popular_question = $request->popular;
+        
         $usluga->expirience = $request->expirience;
         $usluga->price = $request->price;
+
+        
+        $arr = $request->video_links;
+        foreach($arr as $index => $entry) {
+            foreach($entry as $data){
+                $data = substr($data, 0, strpos($data, "\" width="));
+                $data = strstr($data, "https");
+                $arr[$index]['videolink'] =  $data;
+            }            
+        }
+        $usluga->video = $arr;
 
         if ($request->sity) {
             $usluga->sity = $request->sity;
@@ -292,8 +302,7 @@ class UslugiController extends Controller
 
         if ($request->second_usluga_id) {
             $usluga->second_usluga_id = $request->second_usluga_id;
-        }
-        else{
+        } else {
             $usluga->second_usluga_id = null;
         }
 

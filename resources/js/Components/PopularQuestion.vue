@@ -7,14 +7,6 @@ let props = defineProps({
 
 let items = ref(props.popular_question);
 
-/*
-if(props.popular_question == null){    
-    items.value = [{ 'question':'test', 'answer':'test'}];
-}
-else{
-    items.value = props.popular_question;
-}*/
-
 function buttonClickItems() {
     items.value.push({ question: '', answer: '' });
 }
@@ -27,7 +19,7 @@ function buttonClickUnpushItems() {
 <template>
     <div class="my-12 px-2 shadow-md">
         <p class="font-semibold mt-5">Ответы на частозадаваемые вопросы</p>
-        <div v-for="item in items" class="col-span-3 mb-5">
+        <div v-for="item in items" :key="item.id" class="col-span-3 mb-5">
 
             <label for="otzivbody" class="block text-sm font-medium leading-6 text-gray-900">вопрос</label>
             

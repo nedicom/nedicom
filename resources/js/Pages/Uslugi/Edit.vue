@@ -10,6 +10,7 @@ import FlashMessage from "@/Components/FlashMessage.vue";
 
 import Review from "@/Components/Review.vue";
 import PopularQuestion from "@/Components/PopularQuestion.vue";
+import AddVideo from "@/Components/AddVideo.vue";
 
 import "@vuepic/vue-datepicker/dist/main.css";
 
@@ -47,10 +48,13 @@ if (!set.uslugi.main_usluga_id) {
   set.uslugi.main_usluga_id = 0;
 }
 
+
 if (set.uslugi.popular_question == null) {
   set.uslugi.popular_question = [{ question: "", answer: "" }];
-} else {
-  set.uslugi.popular_question = set.uslugi.popular_question;
+}
+
+if (set.uslugi.video == null) {
+  set.uslugi.video = [{ videolink: ""}];
 }
 
 let form = reactive({
@@ -67,6 +71,7 @@ let form = reactive({
   second_usluga_id: set.uslugi.second_usluga_id,
   ids: set.uslugi.id,
   popular: set.uslugi.popular_question,
+  video_links: set.uslugi.video,
   sity: set.uslugi.sity,
   expirience: set.uslugi.expirience,
   price: set.uslugi.price,
@@ -90,6 +95,10 @@ function submit() {
 let title = ref("Редактировать услугу");
 
 const date = ref(new Date());
+
+
+
+
 </script>
 
 <template>
@@ -303,6 +312,7 @@ const date = ref(new Date());
                 <PopularQuestion
                   :popular_question="set.uslugi.popular_question"
                 />
+                <AddVideo :video="set.uslugi.video"/>
 
                 <!-- expirience price-->
                 <div class="flex justify-evenly">

@@ -6,6 +6,7 @@ import Body from "@/Layouts/Body.vue";
 import FlashMessage from "@/Components/FlashMessage.vue";
 import RatingReady from "@/Components/RatingReady.vue";
 import Prices from "@/Components/Prices.vue";
+import VideoBlock from "@/Components/VideoBlock.vue";
 
 import Breadcrumbs from "@/Components/Breadcrumbs.vue";
 import Tg from "@/Layouts/TG/TeleGram.vue";
@@ -66,9 +67,9 @@ details summary::-webkit-details-marker {
   <Head>
     <title>{{ vars.usluga.usl_name }}</title>
     <meta name="description" :content="vars.usluga.usl_desc" />
-    <link rel="canonical" :href="canonicalurl"/>
+    <link rel="canonical" :href="canonicalurl" />
   </Head>
-  
+
   <MainHeader />
 
   <Header :phone="usluga.phone" :address="usluga.address" />
@@ -265,6 +266,10 @@ details summary::-webkit-details-marker {
       </div>
       <!--reviews carousel-->
 
+      <!--video block-->
+      <VideoBlock :video="vars.usluga.video"/>
+      <!--video block-->
+
       <Address
         :usl_name="usluga.usl_name"
         :phone="usluga.phone"
@@ -377,7 +382,8 @@ details summary::-webkit-details-marker {
             class="md:w-4/6 w-11/12 mx-auto mt-20 divide-y shadow-gray-600 shadow-2xl rounded-xl list-none"
           >
             <li
-              v-for="item in vars.usluga.popular_question" :key="item.id"
+              v-for="item in vars.usluga.popular_question"
+              :key="item.id"
               class="py-5"
               itemscope
               itemprop="mainEntity"
