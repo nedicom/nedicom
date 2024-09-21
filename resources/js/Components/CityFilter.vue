@@ -26,15 +26,17 @@ function city(id, title) {
 
 
 function opencity() {
-    if (form.cities.length > 2) {
-        Inertia.get(
-            set.routeurl,
-            {
-                city: form.cities,
-            },
-            { preserveState: true }
-        );
-        visible = true;
+    if (form.cities) {
+        if (form.cities.length > 2) {
+            Inertia.get(
+                set.routeurl,
+                {
+                    city: form.cities,
+                },
+                { preserveState: true }
+            );
+            visible = true;
+        };
     };
 }
 

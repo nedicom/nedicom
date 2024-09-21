@@ -23,7 +23,7 @@ const { open, close } = useModal({
 </script>
 
 <template>
-  <Button @click="() => open()" class="inline-flex items-center w-full
+  <button @click="() => open()" class="inline-flex items-center w-full
       py-2.5 px-5 font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100
         justify-center cursor-grab  
         ">
@@ -42,7 +42,7 @@ const { open, close } = useModal({
         {{ set.secondtext }}
       </span>
     </span>
-  </Button>
+  </button>
 
   <ModalsContainer />
 </template>

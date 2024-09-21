@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\belongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+use Illuminate\Support\Facades\Auth;
+
 
 class Uslugi extends Model
 {
@@ -18,6 +20,7 @@ class Uslugi extends Model
     protected $casts = [
         'created_at'  => 'date:d.m.Y',
         'popular_question' => 'array',
+        'video' => 'array',
     ];
 
     public function scopeFilter($query, array $filters)
@@ -81,6 +84,22 @@ class Uslugi extends Model
         return $this->HasMany(Uslugi::class, 'main_usluga_id', 'id')
             ->where('is_second', 1)
             ->select(['id', 'usl_name', 'main_usluga_id', 'url', 'sity', 'url']);
+    }
+
+    public function doesntHaveoffersbymain(): HasMany
+    {
+        return $this->HasMany(Uslugi::class, 'main_usluga_id', 'id')
+            ->where('user_id', Auth::user()->id)            
+            ->where('second_usluga_id', null)
+            ->where('is_feed', 1)
+            ;
+    }
+
+    public function doesntHaveoffersbysecond(): HasMany
+    {
+        return $this->HasMany(Uslugi::class, 'second_usluga_id', 'id')
+            ->where('user_id', Auth::user()->id)
+            ->where('is_feed', 1);
     }
 
     public function mainhasoffer(): HasMany
