@@ -24,7 +24,7 @@ let phoneto = "tel:" + phone;
 
 <template>
     <!-- address -->
-    <div class="md:flex justify-center mt-20 md:my-20 p-5 md:p-0">
+    <div class="md:flex justify-center mt-5 md:my-20 p-5 md:p-0">
         <div v-if="props.maps" class="md:w-1/2 w-full" style="height:400px">
             <iframe :src="props.maps" width="100%" height="400" frameborder="0">
             </iframe>
