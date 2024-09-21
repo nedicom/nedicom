@@ -19,7 +19,6 @@ function deleteVideo() {
 </script>
 
 <template>
-  {{ props.video }}
   <div v-for="(item, numb) in props.video" :key="numb" class="col-span-3 mb-5">
     <label
       for="otzivbody"
