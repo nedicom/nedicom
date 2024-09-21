@@ -53,11 +53,11 @@ let submit = () => {
             type="text"
             maxlength="1"
             name="one"
-            id="one"
+            id="mone"
             v-model="form.one"
             onkeypress="return event.charCode >= 48 && event.charCode <= 57"
             data-focus-input-init
-            data-focus-input-next="two"
+            data-focus-input-next="mtwo"
             class="block w-6 h-6 px-0 md:w-10 md:h-10 md:text-2xl font-extrabold text-center text-gray-900 bg-white border border-gray-300 rounded-lg"
             required
           />
@@ -67,12 +67,12 @@ let submit = () => {
             type="text"
             maxlength="1"
             name="two"
-            id="two"
+            id="mtwo"
             v-model="form.two"
             onkeypress="return event.charCode >= 48 && event.charCode <= 57"
             data-focus-input-init
-            data-focus-input-next="three"
-            data-focus-input-prev="one"
+            data-focus-input-next="mthree"
+            data-focus-input-prev="mone"
             class="block w-6 h-6 px-0 md:w-10 md:h-10 md:text-2xl font-extrabold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
             required
           />
@@ -82,12 +82,12 @@ let submit = () => {
             type="text"
             maxlength="1"
             name="three"
-            id="three"
+            id="mthree"
             v-model="form.three"
             onkeypress="return event.charCode >= 48 && event.charCode <= 57"
             data-focus-input-init
-            data-focus-input-next="four"
-            data-focus-input-prev="two"
+            data-focus-input-next="mfour"
+            data-focus-input-prev="mtwo"
             class="block w-6 h-6 px-0 md:w-10 md:h-10 md:text-2xl font-extrabold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
             required
           />
@@ -105,12 +105,12 @@ let submit = () => {
             type="text"
             maxlength="1"
             name="four"
-            id="four"
+            id="mfour"
             v-model="form.four"
             onkeypress="return event.charCode >= 48 && event.charCode <= 57"
             data-focus-input-init
-            data-focus-input-next="five"
-            data-focus-input-prev="three"
+            data-focus-input-next="mfive"
+            data-focus-input-prev="mthree"
             class="block w-6 h-6 px-0 md:w-10 md:h-10 md:text-2xl font-extrabold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
             required
           />
@@ -120,12 +120,12 @@ let submit = () => {
             type="text"
             maxlength="1"
             name="five"
-            id="five"
+            id="mfive"
             v-model="form.five"
             onkeypress="return event.charCode >= 48 && event.charCode <= 57"
             data-focus-input-init
-            data-focus-input-next="six"
-            data-focus-input-prev="four"
+            data-focus-input-next="msix"
+            data-focus-input-prev="mfour"
             class="block w-6 h-6 px-0 md:w-10 md:h-10 md:text-2xl font-extrabold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
             required
           />
@@ -135,12 +135,12 @@ let submit = () => {
             type="text"
             maxlength="1"
             name="six"
-            id="six"
+            id="msix"
             v-model="form.six"
             onkeypress="return event.charCode >= 48 && event.charCode <= 57"
             data-focus-input-init
-            data-focus-input-next="seven"
-            data-focus-input-prev="five"
+            data-focus-input-next="mseven"
+            data-focus-input-prev="mfive"
             class="block w-6 h-6 px-0 md:w-10 md:h-10 md:text-2xl py-1 mx-0 font-extrabold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
             required
           />
@@ -150,12 +150,12 @@ let submit = () => {
             type="text"
             maxlength="1"
             name="seven"
-            id="seven"
+            id="mseven"
             v-model="form.seven"
             onkeypress="return event.charCode >= 48 && event.charCode <= 57"
             data-focus-input-init
-            data-focus-input-next="eight"
-            data-focus-input-prev="six"
+            data-focus-input-next="meight"
+            data-focus-input-prev="msix"
             class="block w-6 h-6 px-0 md:w-10 md:h-10 md:text-2xl font-extrabold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
             required
           />
@@ -165,12 +165,12 @@ let submit = () => {
             type="text"
             maxlength="1"
             name="eight"
-            id="eight"
+            id="meight"
             v-model="form.eight"
             onkeypress="return event.charCode >= 48 && event.charCode <= 57"
             data-focus-input-init
-            data-focus-input-next="nine"
-            data-focus-input-prev="seven"
+            data-focus-input-next="mnine"
+            data-focus-input-prev="mseven"
             class="block w-6 h-6 px-0 md:w-10 md:h-10 md:text-2xl font-extrabold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
             required
           />
@@ -180,12 +180,12 @@ let submit = () => {
             type="text"
             maxlength="1"
             name="nine"
-            id="nine"
+            id="mnine"
             v-model="form.nine"
             onkeypress="return event.charCode >= 48 && event.charCode <= 57"
             data-focus-input-init
-            data-focus-input-next="ten"
-            data-focus-input-prev="eight"
+            data-focus-input-next="mten"
+            data-focus-input-prev="meight"
             class="block w-6 h-6 px-0 md:w-10 md:h-10 md:text-2xl font-extrabold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
             required
           />
@@ -195,11 +195,11 @@ let submit = () => {
             type="text"
             maxlength="1"
             name="ten"
-            id="ten"
+            id="mten"
             v-model="form.ten"
             onkeypress="return event.charCode >= 48 && event.charCode <= 57"
             data-focus-input-init
-            data-focus-input-prev="nine"
+            data-focus-input-prev="mnine"
             class="block w-6 h-6 px-0 md:w-10 md:h-10 md:text-2xl font-extrabold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
             required
           />
@@ -211,7 +211,7 @@ let submit = () => {
       <div class="flex items-start">
         <div class="flex items-center h-5">
           <input
-            id="remember"
+            id="mremember"
             type="checkbox"
             value=""
             checked

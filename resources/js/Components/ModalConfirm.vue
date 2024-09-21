@@ -1,6 +1,6 @@
 <script setup>
 import { VueFinalModal } from "vue-final-modal";
-import PhoneForm from "@/Components/PhoneForm.vue";
+import PhoneFormModal from "@/Components/PhoneFormModal.vue";
 import { reactive } from "vue";
 import { Inertia } from "@inertiajs/inertia";
 
@@ -51,7 +51,7 @@ let submit = () => {
                 Ваш номер телефона для связи
             </h3>
 
-            <PhoneForm :modalPageTitle = "set.modalPageTitle"/>
+            <PhoneFormModal :modalPageTitle = "set.modalPageTitle" :modalid="'m'"/>
             <!--<form @submit.prevent="submit" class="space-y-6">
                 <div class="flex justify-center">
                     <div class="flex mb-2 space-x-0.5 md:space-x-1 rtl:space-x-reverse">
