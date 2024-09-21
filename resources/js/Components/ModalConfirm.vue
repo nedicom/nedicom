@@ -1,12 +1,9 @@
 <script setup>
 import { VueFinalModal } from "vue-final-modal";
-<<<<<<< HEAD
 import PhoneFormModal from "@/Components/PhoneFormModal.vue";
 import { reactive } from "vue";
 import { Inertia } from "@inertiajs/inertia";
-=======
 import PhoneForm from "@/Components/PhoneForm.vue";
->>>>>>> cadff44bc809edca920542e828c6c5a568ce6702
 
 let set = defineProps({
     modalPageTitle: String,
@@ -37,108 +34,11 @@ const emit = defineEmits({
                 Ваш номер телефона для связи
             </h3>
 
-<<<<<<< HEAD
             <PhoneFormModal :modalPageTitle = "set.modalPageTitle" :modalid="'m'"/>
-            <!--<form @submit.prevent="submit" class="space-y-6">
-                <div class="flex justify-center">
-                    <div class="flex mb-2 space-x-0.5 md:space-x-1 rtl:space-x-reverse">
-                        <div>
-                            <input type="text" value="+7" disabled
-                                class="block w-5 h-6 px-0 md:w-7 md:h-10 md:text-2xl font-extrabold text-center text-gray-900 bg-white border-none " />
-                        </div>
-                        <div>
-                            <input type="text" value="(" disabled
-                                class="block w-2 h-6 px-0 md:w-2 md:h-10 md:text-2xl font-extrabold text-center text-gray-900 bg-white border-none" />
-                        </div>
 
-                        <div>
-                            <input type="text" maxlength="1" name="one" id="one" v-model="form.one"
-                                onkeypress="return event.charCode >= 48 && event.charCode <= 57" data-focus-input-init
-                                data-focus-input-next="two"
-                                class="block w-6 h-6 px-0 md:w-10 md:h-10 md:text-2xl font-extrabold text-center text-gray-900 bg-white border border-gray-300 rounded-lg "
-                                required />
-                        </div>
-                        <div>
-                            <input type="text" maxlength="1" name="two" id="two" v-model="form.two"
-                                onkeypress="return event.charCode >= 48 && event.charCode <= 57" data-focus-input-init
-                                data-focus-input-next="three" data-focus-input-prev="one"
-                                class="block w-6 h-6 px-0 md:w-10 md:h-10 md:text-2xl font-extrabold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                required />
-                        </div>
-                        <div>
-                            <input type="text" maxlength="1" name="three" id="three" v-model="form.three"
-                                onkeypress="return event.charCode >= 48 && event.charCode <= 57" data-focus-input-init
-                                data-focus-input-next="four" data-focus-input-prev="two"
-                                class="block w-6 h-6 px-0 md:w-10 md:h-10 md:text-2xl font-extrabold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                required />
-                        </div>
-                        <div>
-                            <input type="text" value=")" disabled
-                                class="block w-2 h-6 px-0 md:w-2 md:h-10 md:text-2xl font-extrabold text-center text-gray-900 bg-white border-none" />
-                        </div>
-                        <div>
-                            <input type="text" maxlength="1" name="four" id="four" v-model="form.four"
-                                onkeypress="return event.charCode >= 48 && event.charCode <= 57" data-focus-input-init
-                                data-focus-input-next="five" data-focus-input-prev="three"
-                                class="block w-6 h-6 px-0 md:w-10 md:h-10 md:text-2xl font-extrabold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                required />
-                        </div>
-                        <div>
-                            <input type="text" maxlength="1" name="five" id="five" v-model="form.five"
-                                onkeypress="return event.charCode >= 48 && event.charCode <= 57" data-focus-input-init
-                                data-focus-input-next="six" data-focus-input-prev="four"
-                                class="block w-6 h-6 px-0 md:w-10 md:h-10 md:text-2xl font-extrabold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                required />
-                        </div>
-                        <div>
-                            <input type="text" maxlength="1" name="six" id="six" v-model="form.six"
-                                onkeypress="return event.charCode >= 48 && event.charCode <= 57" data-focus-input-init
-                                data-focus-input-next="seven" data-focus-input-prev="five"
-                                class="block w-6 h-6 px-0 md:w-10 md:h-10 md:text-2xl py-1 mx-0  font-extrabold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                required />
-                        </div>
-                        <div>
-                            <input type="text" maxlength="1" name="seven" id="seven" v-model="form.seven"
-                                onkeypress="return event.charCode >= 48 && event.charCode <= 57" data-focus-input-init
-                                data-focus-input-next="eight" data-focus-input-prev="six"
-                                class="block w-6 h-6 px-0 md:w-10 md:h-10 md:text-2xl font-extrabold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                required />
-                        </div>
-                        <div>
-                            <input type="text" maxlength="1" name="eight" id="eight" v-model="form.eight"
-                                onkeypress="return event.charCode >= 48 && event.charCode <= 57" data-focus-input-init
-                                data-focus-input-next="nine" data-focus-input-prev="seven"
-                                class="block w-6 h-6 px-0 md:w-10 md:h-10 md:text-2xl font-extrabold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                required />
-                        </div>
-                        <div>
-                            <input type="text" maxlength="1" name="nine" id="nine" v-model="form.nine"
-                                onkeypress="return event.charCode >= 48 && event.charCode <= 57" data-focus-input-init
-                                data-focus-input-next="ten" data-focus-input-prev="eight"
-                                class="block w-6 h-6 px-0 md:w-10 md:h-10 md:text-2xl font-extrabold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                required />
-                        </div>
-                        <div>
-                            <input type="text" maxlength="1" name="ten" id="ten" v-model="form.ten"
-                                onkeypress="return event.charCode >= 48 && event.charCode <= 57" data-focus-input-init
-                                data-focus-input-prev="nine"
-                                class="block w-6 h-6 px-0 md:w-10 md:h-10 md:text-2xl font-extrabold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                required />
-                        </div>
-                    </div>
-                </div>
-=======
             <PhoneForm :modalPageTitle = "set.modalPageTitle"/>
->>>>>>> cadff44bc809edca920542e828c6c5a568ce6702
+
             
         </div>
     </VueFinalModal>
 </template>
-
-<style>
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-</style>

@@ -284,9 +284,9 @@ class UslugiController extends Controller
         $arr = $request->video_links;
         foreach($arr as $index => $entry) {
             foreach($entry as $data){
-                $data = substr($data, 0, strpos($data, "\" width="));
-                $data = strstr($data, "https");
-                $arr[$index]['videolink'] =  $data;
+                if (str_contains($data, "\" width=")) $data = substr($data, 0, strpos($data, "\" width="));
+                if (str_contains($data, "https")) $data = strstr($data, "https");
+                if ($data) $arr[$index]['videolink'] =  $data;
             }            
         }
         $usluga->video = $arr;
