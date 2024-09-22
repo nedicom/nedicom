@@ -61,13 +61,14 @@ class CityController extends Controller
         $main = Uslugi::where('url', $main_usluga)->with('cities')->first(['id', 'usl_name', 'url', 'usl_desc']);
 
         $category = Uslugi::where('is_main', 1)
-            ->where('is_feed', 1)
-            ->with(['hasuslugi' => function ($query) use ($main) {
-                if ($main->id) {
-                    $query->where('main_usluga_id', $main->id);
-                }
-            }])
-            ->get();
+        ->where('is_feed', 1)
+        ->with(['mainhasoffer' => function ($query) {
+            if (session()->get('cityid')) {
+                $query->where('sity', session()->get('cityid'));
+            }
+        }])
+        ->with('mainhassecond')
+        ->get();
 
         CitySet::CitySet($request);
 
@@ -81,31 +82,8 @@ class CityController extends Controller
                 });
             })
             ->withCount('review')
-            ->withSum( 'review', 'rating')            
+            ->withSum('review', 'rating')
             ->get();
-
-        //session(['city' => 'Симферополь']);            
-
-        /*$uslugi = Uslugi::where('is_main', 1)->where('is_feed', 1)
-            ->with(['mainhasoffer' => function ($query) use ($city) {
-                if ($city->id) {
-                    $query->where('sity', $city->id);
-                }
-            }])
-            ->with(['hasuslugi' => function ($query) use ($main) {
-                if ($main->id) {
-                    $query->where('main_usluga_id', $main->id);
-                }
-            }])
-            ->paginate(12);
-            */
-
-        $seconduslugi = Uslugi::where('sity', $city->id)
-            ->where('main_usluga_id', $main->id)
-            ->where('second_usluga_id', '!=', 0)
-            ->with('second')
-            ->get(['id', 'second_usluga_id', 'url'])
-            ->groupBy('second.name');
 
         $cities = '';
         if ($request->city) {
@@ -139,13 +117,14 @@ class CityController extends Controller
         }
 
         $category = Uslugi::where('is_main', 1)
-            ->where('is_feed', 1)
-            ->with(['hasuslugi' => function ($query) use ($main) {
-                if ($main->id) {
-                    $query->where('main_usluga_id', $main->id);
-                }
-            }])
-            ->get();
+        ->where('is_feed', 1)
+        ->with(['mainhasoffer' => function ($query) {
+            if (session()->get('cityid')) {
+                $query->where('sity', session()->get('cityid'));
+            }
+        }])
+        ->with('mainhassecond')
+        ->get();
 
         CitySet::CitySet($request);
 

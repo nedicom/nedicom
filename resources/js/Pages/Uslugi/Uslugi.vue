@@ -16,6 +16,12 @@ let set = defineProps({
 });
 
 let title = ref("Услуги");
+
+let status = ref(false);
+
+function alertForm (x) {
+  status.value = x;
+}
 </script>
 
 <template>
@@ -28,29 +34,28 @@ let title = ref("Услуги");
   <div class="min-h-screen">
     <MainHeader />
 
-    <Header :modalPageTitle="title"/>
+    <Header :modalPageTitle="title" />
 
     <Body>
 
-      <div class="bg-white py-6 grid grid-cols-3">
+      <div class="bg-white py-6 grid grid-cols-1 md:grid-cols-3">
 
-        <CategoryFilter :category="set.uslugi.data" :cityUrl="set.city" />
+        <CategoryFilter :category="set.uslugi" :cityUrl="set.city" :main_usluga_url="'none'"
+          :second_usluga_url="'none'" @activeSts="alertForm"/>
 
-        <div class="w-full h-full col-span-2 mx-auto sm:px-6 lg:px-8">
+        <div class="w-full h-full col-span-2">
 
-            <CityFilter :cities="set.cities" :routeurl="'/uslugi'" />
+          <CityFilter :cities="set.cities" :routeurl="'/uslugi'" :status="status" @activeSts="alertForm"/>
 
-            <div v-if="set.uslugi.total > 0" class="">
-              <!-- card -->
-              <div v-for="u in set.uslugi.data" :key="u.id" class="">
-                <div v-for="offer in u.mainhasoffer" :key="offer.id" class=" mx-3 md:mx-0">
-
-                  <OfferCard :offer="offer" :city="set.cities" />
-                  
-                </div>
+          <div v-if="set.uslugi" class="">
+            <!-- card -->
+            <div v-for="u in set.uslugi" :key="u.id" class="">
+              <div v-for="offer in u.mainhasoffer" :key="offer.id" class=" mx-3 md:mx-0">
+                <OfferCard :offer="offer" :city="set.cities" />
               </div>
-              <!-- card -->
             </div>
+            <!-- card -->
+          </div>
 
         </div>
 

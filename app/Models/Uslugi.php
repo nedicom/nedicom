@@ -115,6 +115,15 @@ class Uslugi extends Model
             ;
     }
 
+    public function mainhassecond(): HasMany
+    {
+        return $this->HasMany(Uslugi::class, 'main_usluga_id', 'id')
+            ->where('is_second', 1)
+            ->where('is_feed', 1)
+            ->select(['id', 'main_usluga_id', 'is_second','usl_name', 'url'])
+            ;
+    }
+
     public function sets(): HasMany
     {
         return $this->HasMany(Offer::class, 'mainusl_id', 'main_usluga_id');

@@ -29,13 +29,16 @@ class UslugiController extends Controller
         }
 
         $city = CitySet::CitySet($request);
+        //dd(session()->get('cityid'));
 
         return Inertia::render('Uslugi/Uslugi', [
             'uslugi' => Uslugi::where('is_main', 1)->where('is_feed', 1)->with(['mainhasoffer' => function ($query) {
                 if (session()->get('cityid')) {
                     $query->where('sity', session()->get('cityid'));
                 }
-            }])->paginate(12),
+            }])
+            ->with('mainhassecond')
+            ->get(),
             'cities' => $cities,
             'city' => $city,
         ]);

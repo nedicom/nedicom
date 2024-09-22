@@ -96,9 +96,9 @@ Route::middleware('auth')->group(function () {
 
 Route::controller(UslugiController::class)->group(function () {
     Route::get('/uslugi', 'index')->name('uslugi');
-    Route::get('/uslugi/{url}', 'show')->name('uslugi.url');    
-    Route::get('/uslugi/{main_usluga}/{second_usluga}', 'showsecond')->name('uslugi.second.url');
-    Route::get('/uslugi/{main_usluga}/{second_usluga}/{city}/{url}', 'showcanonical')->name('uslugi.canonical.url');
+    Route::get('/uslugi/{url}', 'show')->name('uslugi.url'); //usluga del
+    Route::get('/uslugi/{main_usluga}/{second_usluga}', 'showsecond')->name('uslugi.second.url'); //del
+    Route::get('/uslugi/{main_usluga}/{second_usluga}/{city}/{url}', 'showcanonical')->name('uslugi.canonical.url'); //canonical
     Route::get('/uslugiadd', 'formadd')->name('uslugi.add')->middleware('auth');
     Route::post('/uslugi/create', 'create')->name('uslugi.create');
     Route::get('/usluga/{url}/edit', 'edit')->name('uslugi.edit')->middleware('auth');
@@ -107,11 +107,15 @@ Route::controller(UslugiController::class)->group(function () {
 });
 
 Route::controller(CityController::class)->group(function () {
-    Route::get('/uslugi/{main_usluga}/{second_usluga}/{city}', 'showCityFromUslugi')->name('show.city');
+
+    //Route::get('/uslugi', 'index')->name('uslugi'); filters переделать
+
     Route::get('/offers/{city}', 'showCities')->name('offers.city');
     Route::get('/offers/{city}/{main_usluga}', 'showOfferByMain')->name('offer.main');
     Route::get('/offers/{city}/{main_usluga}/{second_usluga}', 'showOfferBysecond')->name('offer.second');
     Route::get('/offers/{city}/{main_usluga}/{second_usluga}/{url}', 'showOffer')->name('offer.show');
+
+    Route::get('/uslugi/{main_usluga}/{second_usluga}/{city}', 'showCityFromUslugi')->name('show.city'); //del
 });
 
 

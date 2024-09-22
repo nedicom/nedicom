@@ -1,11 +1,15 @@
 <script setup>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { Inertia } from "@inertiajs/inertia";
 
 let set = defineProps({
     cities: Object,
     routeurl: String,
+    status: Boolean,
+    activeSts: Boolean,
 });
+
+defineEmits(['activeSts']);
 
 let form = reactive({
     cities: null,
@@ -50,39 +54,34 @@ function clear() {
 </script>
 
 <template>
-    <div class="flex items-center justify-left mb-6">
-        
-            <div class="w-full md:w-1/2 relative">
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-2.5 flex items-center pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                        </svg>
-                    </div>
+    <div class="flex items-center justify-center md:justify-left mx-5">
+        <div class="w-full md:w-1/2 relative">
+            <div class="relative z-0 w-full group">
+                <input v-model="form.cities" @focus="$emit('activeSts', false)" @keyup="opencity" type="text"
+                    name="city" id="city" :class="{ 'animate-pulse border-red-500 border-2': set.status }"
+                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" " autocomplete="off" />
+                <label for="floating_email"
+                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Ваш
+                    город</label>
 
-                    <input v-model="form.cities" @keyup="opencity" type="text" id="city" autocomplete="off"
-                        class="p-4 m-1 pl-10 bg-gray-50  border border-gray-300 text-gray-900 text-md rounded-lg focus:border-blue-500 block w-full "
-                        placeholder="Город" />
-
-                    <div @click="clear" class="absolute inset-y-0 right-2.5 flex items-center cursor-pointer">
-                        <svg class="w-5 h-5 text-gray-400 hover:text-gray-600" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                        </svg>
-                    </div>
-                </div>
-
-                <div v-if="visible"
-                    class="absolute z-10 h-14 -bottom-14 text-left text-gray-900 w-full text-md block p-2.5 cursor-pointer">
-                    <div v-for="(option, n) in cities" :key="option.id" v-bind:value="option.id"
-                        class="px-4 py-3 bg-white drop-shadow-xl">
-                        <div @click="city(option.id, option.title)">{{ option.title }}</div>
-                    </div>
+                <div @click="clear" class="absolute inset-y-0 right-2.5 flex items-center cursor-pointer">
+                    <svg class="w-5 h-5 text-gray-400 hover:text-gray-600" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
                 </div>
             </div>
-        
+
+            <div v-if="visible"
+                class="absolute z-10 h-14 -bottom-14 text-left text-gray-900 w-full text-md block cursor-pointer">
+                <div v-for="(option, n) in cities" :key="option.id" v-bind:value="option.id"
+                    class="px-4 py-3 bg-white drop-shadow-xl">
+                    <div @click="city(option.id, option.title)">{{ option.title }}</div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>

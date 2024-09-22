@@ -2,14 +2,13 @@
 import MainHeader from "@/Layouts/MainHeader.vue";
 import Header from "@/Layouts/Header.vue";
 import Body from "@/Layouts/Body.vue";
-import UslugiCard from "@/Layouts/UslugiCard.vue";
-import FlashMessage from "@/Components/FlashMessage.vue";
 import OfferCard from "@/Components/OfferCard.vue";
 import CategoryFilter from "@/Components/CategoryFilter.vue";
 import CityFilter from "@/Components/CityFilter.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import PopupDialogue from "@/Layouts/PopupDialogue/PopupDialogue.vue";
+import { ref } from "vue";
 
 let set = defineProps({
     city: Object,
@@ -20,6 +19,11 @@ let set = defineProps({
     cities:  Object,
 });
 
+let status = ref(false);
+
+function alertForm (x) {
+  status.value = x;
+}
 </script>
 
 <template>
@@ -31,11 +35,11 @@ let set = defineProps({
     <MainHeader />
 
     <Body>
-        <div class="bg-white py-6 grid grid-cols-3">
-            <CategoryFilter :category="set.category" :cityUrl="city.url"/>
+        <div class="bg-white py-6 grid grid-cols-1 md:grid-cols-3">
+            <CategoryFilter :category="set.category" :cityUrl="city.url" :main_usluga_url="main_usluga.url" :second_usluga_url="second_usluga.url" @activeSts="alertForm"/>
 
             <div class="w-full col-span-2 mx-auto sm:px-6 lg:px-8">
-                <CityFilter :cities="set.cities" :routeurl="'/offers/' + city.url + '/' + main_usluga.url + '/' + second_usluga.url" />
+                <CityFilter :cities="set.cities" :routeurl="'/offers/' + city.url + '/' + main_usluga.url + '/' + second_usluga.url" @activeSts="alertForm"/>
 
                 <div v-if="set.uslugi" class="">
                     <!-- card -->

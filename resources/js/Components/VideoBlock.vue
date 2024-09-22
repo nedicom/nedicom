@@ -25,8 +25,8 @@ defineProps({
 }
 </style>
 
-<template>
-  <div class="hidden md:block">
+<template> 
+  <div v-if="video" class="hidden md:block" >
     <div class="flex flex-wrap justify-center">
       <div v-for="(link, numb) in video" :key="numb" class="mt-1 w-full md:w-1/3 px-2">
         <div v-if="numb < 3">
@@ -44,8 +44,6 @@ defineProps({
 
     <div class="flex justify-center" v-if="video.length > 3">
       <div class="flex justify-center mt-2 border-t-2 w-1/2">
-
-
         <button @click="hideVideo = !hideVideo" type="button"
           class="mt-4 text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white hover:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center">
           <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -59,7 +57,7 @@ defineProps({
   </div>
 
   <!-- mobile-->
-  <div class="block md:hidden">
+  <div v-if="video" class="block md:hidden">
     <div class="flex flex-wrap justify-center">
       <div v-for="(link, numb) in video" :key="numb" class="mt-1 w-full md:w-1/3 px-2">
         <div v-if="numb < 1">
