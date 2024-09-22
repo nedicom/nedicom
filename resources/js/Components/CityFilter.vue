@@ -64,7 +64,6 @@ function clear() {
                 <label for="floating_email"
                     class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Ваш
                     город</label>
-
                 <div @click="clear" class="absolute inset-y-0 right-2.5 flex items-center cursor-pointer">
                     <svg class="w-5 h-5 text-gray-400 hover:text-gray-600" aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -73,6 +72,8 @@ function clear() {
                     </svg>
                 </div>
             </div>
+            <p v-if="status" id="helper-text-explanation" class="mt-2 text-xs md:text-sm text-gray-500 dark:text-gray-400">Мы
+                работаем в нескольких городах. Укажите свой</p>
 
             <div v-if="visible"
                 class="absolute z-10 h-14 -bottom-14 text-left text-gray-900 w-full text-md block cursor-pointer">

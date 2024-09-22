@@ -35,9 +35,6 @@ const emit = defineEmits({
             </h3>
 
             <PhoneFormModal :modalPageTitle = "set.modalPageTitle" :modalid="'m'"/>
-
-            <PhoneForm :modalPageTitle = "set.modalPageTitle"/>
-
             
         </div>
     </VueFinalModal>

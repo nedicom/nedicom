@@ -14,13 +14,13 @@ let secondtext = "";
 <template>
    
     <section >
-        <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+        <div class="mx-auto max-w-screen-xl px-4 mt-5 2xl:px-0">
             <div class="mb-4 grid gap-4 sm:grid-cols-1 md:mb-8  ">
                 <div 
-                    class="bg-white p-6">
+                    class="bg-white">
                     <div class="h-72 w-full">
                         <a :href="route('uslugi.url', [offer.url])">
-                            <img class="mx-auto h-full dark:hidden" :src="'https://nedicom.ru/' + offer.file_path"
+                            <img class="mx-auto h-full object-cover" :src="'https://nedicom.ru/' + offer.file_path"
                                 :alt="offer.usl_name" />
                         </a>
                     </div>
@@ -91,7 +91,7 @@ let secondtext = "";
                                         stroke-width="2"
                                         d="M13 7h6l2 4m-8-4v8m0-8V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v9h2m8 0H9m4 0h2m4 0h2v-4m0 0h-5m3.5 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm-10 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" />
                                 </svg>
-                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                                <p v-if="offer.cities" class="text-sm font-medium text-gray-500 dark:text-gray-400">
                                     {{offer.cities.title}}
                                 </p>
                             </li>

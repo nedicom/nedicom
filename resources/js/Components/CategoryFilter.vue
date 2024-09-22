@@ -59,7 +59,7 @@ defineEmits(['activeSts']);
                 class="flex justify-start md:justify-end w-full md:w-2/3 transition hover:-translate-x-1 duration-300 cursor-pointer">
                 <span :class="{ 'border-b-2 border-gray-300': u.url == main_usluga_url }">{{ u.usl_name }}</span>
               </a>
-              <a v-else href="#" 
+              <a v-else href="#" disabled
               @click="$emit('activeSts', true)"
                class="flex justify-start md:justify-end p-1 text-gray-900 text-right group">
                 {{ u.usl_name }}
@@ -87,10 +87,9 @@ defineEmits(['activeSts']);
             <div v-if="u.mainhassecond.length > 0">
               <span v-for="(second, secnumb) in u.mainhassecond" :key="secnumb">
                 <a v-if="cityUrl" :href="route('offer.second', [cityUrl, u.url, second.url])"
-                  :class="{ 'border-b-2 border-gray-300': second.url == second_usluga_url }"
                   class="flex justify-start md:justify-end transition hover:-translate-x-1 ml-5 md:ml-2 my-2 hover:ml-2 cursor-pointer text-sm md:text-base font-semibold md:font-normal text-gray-600">
-                  {{ second.usl_name
-                  }}</a>
+                  <span :class="{ 'border-b-2 border-gray-300': second.url == second_usluga_url }">{{ second.usl_name
+                  }}</span></a>
               </span>
 
             </div>

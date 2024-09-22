@@ -20,8 +20,8 @@ let set = defineProps({
 
 let status = ref(false);
 
-function alertForm (x) {
-  status.value = x;
+function alertForm(x) {
+    status.value = x;
 }
 </script>
 
@@ -32,30 +32,34 @@ function alertForm (x) {
         <meta name="description" :content="main_usluga.usl_desc" />
     </Head>
 
-    <MainHeader />
+    <div class="min-h-screen">
+        <MainHeader />
 
-    <Header />
+        <Header />
 
-    <Body>
-        <div class="bg-white py-6 grid grid-cols-1 md:grid-cols-3">
-            <CategoryFilter :category="set.category" :cityUrl="city.url" :main_usluga_url="main_usluga.url"
-                :second_usluga_url="'none'" @activeSts="alertForm"/>
+        <Body>
+            <div class="bg-white py-6 grid grid-cols-1 md:grid-cols-3">
 
-            <div class="w-full col-span-2 mx-auto sm:px-6 lg:px-8">
-                <CityFilter :cities="set.cities" :routeurl="'/offers/' + city.url + '/' + main_usluga.url" @activeSts="alertForm"/>
-                <div v-if="set.uslugi" class="">
-                    <!-- card -->
-                    <div v-for="offer in set.uslugi" :key="offer.id" class=" mx-3 md:mx-0">
-                        <OfferCard :offer="offer" :city="set.cities" />
+                <CategoryFilter :category="set.category" :cityUrl="city.url" :main_usluga_url="main_usluga.url"
+                    :second_usluga_url="'none'" @activeSts="alertForm" />
+
+                <div class="w-full col-span-2 mx-auto sm:px-6 lg:px-8">
+                    <CityFilter :cities="set.cities" :routeurl="'/offers/' + city.url + '/' + main_usluga.url"
+                        :status="status" @activeSts="alertForm" />
+                    <div v-if="set.uslugi" class="">
+                        <!-- card -->
+                        <div v-for="offer in set.uslugi" :key="offer.id" class=" mx-3 md:mx-0">
+                            <OfferCard :offer="offer" :city="set.cities" />
+                        </div>
+                        <!-- card -->
                     </div>
-                    <!-- card -->
                 </div>
+
             </div>
+        </Body>
 
-        </div>
-    </Body>
+        <MainFooter />
 
-    <MainFooter />
-
-    <PopupDialogue />
+        <PopupDialogue />
+    </div>
 </template>
