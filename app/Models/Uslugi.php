@@ -86,14 +86,15 @@ class Uslugi extends Model
             ->select(['id', 'usl_name', 'main_usluga_id', 'url', 'sity', 'url']);
     }
 
-    public function doesntHaveoffersbymain(): HasMany
+   /* тестим услугу без категории. Первичную выбирать можно всегда
+   public function doesntHaveoffersbymain(): HasMany
     {
         return $this->HasMany(Uslugi::class, 'main_usluga_id', 'id')
             ->where('user_id', Auth::user()->id)            
             ->where('second_usluga_id', null)
             ->where('is_feed', 1)
             ;
-    }
+    }*/
 
     public function doesntHaveoffersbysecond(): HasMany
     {

@@ -20,7 +20,7 @@ import { Inertia } from "@inertiajs/inertia";
 
 let set = defineProps({
   uslugi: Object,
-  all_uslugi: Object,
+  main_uslugi: Object,
   second_uslugi: Object,
   cities: Object,
   user: Object,
@@ -178,7 +178,7 @@ const date = ref(new Date());
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     >
                       <option
-                        v-for="option in set.all_uslugi"
+                        v-for="option in set.main_uslugi"
                         :key="option.id"
                         v-bind:value="option.id"
                       >
@@ -215,6 +215,12 @@ const date = ref(new Date());
                       v-model="form.second_usluga_id"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     >
+                    <option
+                        v-bind:value="0"
+                        :selected="set.uslugi.second_usluga_id == 0"
+                      >
+                        без категории
+                      </option>
                       <option
                         v-for="option in set.second_uslugi[form.main_usluga_id]"
                         :key="option.id"

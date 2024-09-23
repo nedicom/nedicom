@@ -16,6 +16,7 @@ defineProps({
         <!-- comment -->
         <div v-for="answer in answers" :key="answer.id">
             <div
+            :id="answer.id"
                 class="min-w-full p-6 bg-white max-w-sm flex flex-col" itemprop="suggestedAnswer" itemscope itemtype="https://schema.org/Answer"
             >
                 <div class="flex flex-right mb-2">
