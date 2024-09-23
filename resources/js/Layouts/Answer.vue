@@ -46,7 +46,7 @@ let submit = (x) => {
 };
 </script>
 
-<template>{{ set.answerid }}
+<template>
     <form v-if="user" @submit.prevent="submit(set.answerid)" class="mx-5" :class="answerclass">
         <textarea v-model="form.body" @input="onInput" spellcheck="true" :maxlength="maxlength" :disabled="!set.authid"
             required

@@ -83,7 +83,7 @@ defineProps({
             "
         >
             <div class="overflow-hidden">
-                <p class="pb-3">{{ answerid }}
+                <p class="pb-3">
                     <Answer
                         :question="{id: question}"
                         :answerid="answerid"
