@@ -10,9 +10,14 @@ import { ref } from "vue";
 import { Head } from "@inertiajs/inertia-vue3";
 
 let set = defineProps({
+  city: Object,
+  main_usluga: Object,
+  second_usluga: Object,
   uslugi: Object,
   cities: Object,
-  city: String
+  category: Object,
+  routeurl: String
+  
 });
 
 let title = ref("Услуги");
@@ -27,8 +32,8 @@ function alertForm(x) {
 <template>
 
   <Head>
-    <title>{{ title }}</title>
-    <meta name="description" content="Все услуги, которые мы оказываем" />
+    <title>{{ set.main_usluga.usl_name }} {{ set.second_usluga.usl_name }} {{ set.city.title }}</title>
+    <meta name="description" :content="main_usluga.usl_desc" />
   </Head>
 
   <div class="min-h-screen">
@@ -40,23 +45,27 @@ function alertForm(x) {
 
       <div class="bg-white py-6 grid grid-cols-1 md:grid-cols-4">
         <div>
-          <CityFilter :cities="set.cities" :routeurl="'/uslugi'" :status="status" @activeSts="alertForm" />
+          <CityFilter :cities="set.cities" :routeurl="set.routeurl" :status="status" :main_usluga_url="main_usluga.url"
+          :second_usluga_url="second_usluga.url" @activeSts="alertForm" />
 
-          <CategoryFilter :category="set.uslugi" :cityUrl="set.city" :main_usluga_url="'none'"
-            :second_usluga_url="'none'" @activeSts="alertForm" />
+          <CategoryFilter :category="set.category" :cityUrl="set.city.url" :main_usluga_url="main_usluga.url"
+          :second_usluga_url="second_usluga.url" @activeSts="alertForm" />
         </div>
         <div class="w-full h-full col-span-3 md:ml-10 my-5 md:my-10">
-          <div v-if="set.uslugi" class="">
+          <div v-if="set.uslugi">
+            <div v-if="set.uslugi[0]">
             <!-- card -->
-            <div v-for="u in set.uslugi" :key="u.id" class="">
-              <div v-for="offer in u.mainhasoffer" :key="offer.id" class="px-3 md:px-0 w-full md:w-4/5 ">
+            <div v-for="offer in set.uslugi" :key="offer.id" class="px-3 md:px-0 w-full md:w-4/5 ">
                 <OfferCard :offer="offer" :city="set.cities" />
                 <hr class="h-px my-8 bg-gray-200 md:my-10 border-0 dark:bg-gray-700">
-              </div>
             </div>
             <!-- card -->
           </div>
-
+          <div v-else>
+            Юристов не обнаружено
+          </div>   
+          </div>
+                 
         </div>
 
       </div>

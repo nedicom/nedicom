@@ -92,13 +92,14 @@ class CityController extends Controller
             });
         }
 
-        return Inertia::render('Offers/MainOffer', [
+        return Inertia::render('Uslugi/Uslugi', [
             'city' => $city,
             'category' => $category,
             'main_usluga' => $main,
+            'second_usluga' => Uslugi::where('is_main', 1)->first(),
             'uslugi' => $uslugi,
             'cities' => $cities,
-            'flash' => ['message' => $request->session()->get(key: 'message')],
+            'routeurl' => '/offers/'.$city->url.'/'.$main_usluga,
         ]);
     }
 
@@ -128,18 +129,18 @@ class CityController extends Controller
 
         CitySet::CitySet($request);
 
-        return Inertia::render('Offers/SecondOffer', [
+        return Inertia::render('Uslugi/Uslugi', [
             'city' => $city,
             'category' => $category,
             'main_usluga' => $main,
             'cities' => $cities,
             'second_usluga' => $second,
-            'uslugi' => Uslugi::where('second_usluga_id', $second->id)->where('sity', $city->id)
+            'uslugi' => Uslugi::where('second_usluga_id', $second->id)->where('sity', $city->id)->where('is_feed', 1)
                 ->withCount('review')
                 ->withSum('review', 'rating')
                 ->with('cities')
                 ->get(),
-            'flash' => ['message' => $request->session()->get(key: 'message')],
+            'routeurl' => '/offers/'.$city->url.'/'.$main_usluga.'/'.$second_usluga,            
         ]);
     }
 

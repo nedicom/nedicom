@@ -29,18 +29,36 @@ class UslugiController extends Controller
         }
 
         $city = CitySet::CitySet($request);
-        //dd(session()->get('cityid'));
+
+        $category = Uslugi::where('is_main', 1)
+        ->where('is_feed', 1)
+        ->with(['mainhasoffer' => function ($query) {
+            if (session()->get('cityid')) {
+                $query->where('sity', session()->get('cityid'));
+            }
+        }])
+        ->with('mainhassecond')
+        ->get();
 
         return Inertia::render('Uslugi/Uslugi', [
-            'uslugi' => Uslugi::where('is_main', 1)->where('is_feed', 1)->with(['mainhasoffer' => function ($query) {
-                if (session()->get('cityid')) {
-                    $query->where('sity', session()->get('cityid'));
-                }
-            }])
-            ->with('mainhassecond')
-            ->get(),
-            'cities' => $cities,
             'city' => $city,
+            'main_usluga' => collect(['url' => 0, 'usl_name' => 'Услуги', 'usl_desc' => 'Найдите квалифицированного юриста сейчас. Качество юридических услуг гарантировано.']),
+            'second_usluga' => collect(['url' => 0, 'usl_name' => ' юристов']),
+            'uslugi' => Uslugi::where('is_main', '!=', 1)
+            ->where('is_second', null)
+            ->where('is_feed', 1)            
+            ->with('cities')
+            ->when(session()->get('cityid') ?? null, function ($query, $sescity) {
+                $query->where(function ($query) use ($sescity) {
+                    $query->where('sity', $sescity);
+                });
+            })
+            ->withCount('review')
+            ->withSum('review', 'rating')
+            ->get(),          
+            'cities' => $cities,
+            'category' => $category,
+            'routeurl' => '/uslugi',
         ]);
     }
 

@@ -11,12 +11,12 @@ class CitySet
         if ($request->cityid) {
             $city = cities::where('id', $request->cityid)->first();
             session(['cityid' => $city->id, 'citytitle' => $city->title]);
-            $city = $city->url;
+            $city = $city;
         } else {
             if (session()->get('cityid')) {
-                $city = cities::where('id', session()->get('cityid'))->first()->url;
+                $city = cities::where('id', session()->get('cityid'))->first();
             } else {
-                $city = null;
+                $city = collect(['id' => 0, 'title' => '']);
             }
         }
         return $city;
