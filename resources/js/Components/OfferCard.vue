@@ -14,17 +14,19 @@ let secondtext = "";
 <template>
    
     <section >
-        <div class="mx-auto max-w-screen-xl px-4 mt-5 2xl:px-0">
-            <div class="mb-4 grid gap-4 sm:grid-cols-1 md:mb-8  ">
+        <div class="mx-auto 2xl:px-0">
+            <div class="grid gap-4 grid-cols-1 md:grid-cols-2">
                 <div 
                     class="bg-white">
                     <div class="h-72 w-full">
                         <a :href="route('uslugi.url', [offer.url])">
-                            <img class="mx-auto h-full object-cover" :src="'https://nedicom.ru/' + offer.file_path"
+                            <img class="h-full object-cover" :src="'https://nedicom.ru/' + offer.file_path"
                                 :alt="offer.usl_name" />
                         </a>
                     </div>
-                    <div class="pt-6">
+                    
+                </div>
+                <div class="pt-6">
                         <div class="mb-4 flex items-center justify-between gap-4">
                             <span
                                 class="me-2 bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300">
@@ -130,7 +132,6 @@ let secondtext = "";
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
     </section>

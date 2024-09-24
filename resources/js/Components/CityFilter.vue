@@ -54,8 +54,8 @@ function clear() {
 </script>
 
 <template>
-    <div class="flex items-center justify-center md:justify-left mx-5">
-        <div class="w-full md:w-1/2 relative">
+    <div class="flex justify-center md:justify-end mx-5 md:mx-0 mb-5">
+        <div class="w-full md:w-1/2 relative h-16 md:h-24">
             <div class="relative z-0 w-full group">
                 <input v-model="form.cities" @focus="$emit('activeSts', false)" @keyup="opencity" type="text"
                     name="city" id="city" :class="{ 'animate-pulse border-red-500 border-2': set.status }"
@@ -72,11 +72,12 @@ function clear() {
                     </svg>
                 </div>
             </div>
-            <p v-if="status" id="helper-text-explanation" class="mt-2 text-xs md:text-sm text-gray-500 dark:text-gray-400">Мы
+            <p v-if="status" id="helper-text-explanation"
+                class="mt-2 text-xs md:text-sm text-gray-500 dark:text-gray-400">Мы
                 работаем в нескольких городах. Укажите свой</p>
 
             <div v-if="visible"
-                class="absolute z-10 h-14 -bottom-14 text-left text-gray-900 w-full text-md block cursor-pointer">
+                class="absolute z-10 h-14 bottom-0 text-left text-gray-900 w-full text-md block cursor-pointer">
                 <div v-for="(option, n) in cities" :key="option.id" v-bind:value="option.id"
                     class="px-4 py-3 bg-white drop-shadow-xl">
                     <div @click="city(option.id, option.title)">{{ option.title }}</div>

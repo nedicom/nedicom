@@ -19,7 +19,7 @@ let title = ref("Услуги");
 
 let status = ref(false);
 
-function alertForm (x) {
+function alertForm(x) {
   status.value = x;
 }
 </script>
@@ -38,20 +38,20 @@ function alertForm (x) {
 
     <Body>
 
-      <div class="bg-white py-6 grid grid-cols-1 md:grid-cols-3">
+      <div class="bg-white py-6 grid grid-cols-1 md:grid-cols-4">
+        <div>
+          <CityFilter :cities="set.cities" :routeurl="'/uslugi'" :status="status" @activeSts="alertForm" />
 
-        <CategoryFilter :category="set.uslugi" :cityUrl="set.city" :main_usluga_url="'none'"
-          :second_usluga_url="'none'" @activeSts="alertForm"/>
-
-        <div class="w-full h-full col-span-2">
-
-          <CityFilter :cities="set.cities" :routeurl="'/uslugi'" :status="status" @activeSts="alertForm"/>
-
+          <CategoryFilter :category="set.uslugi" :cityUrl="set.city" :main_usluga_url="'none'"
+            :second_usluga_url="'none'" @activeSts="alertForm" />
+        </div>
+        <div class="w-full h-full col-span-3 md:ml-10 my-5 md:my-10">
           <div v-if="set.uslugi" class="">
             <!-- card -->
             <div v-for="u in set.uslugi" :key="u.id" class="">
-              <div v-for="offer in u.mainhasoffer" :key="offer.id" class=" mx-3 md:mx-0">
+              <div v-for="offer in u.mainhasoffer" :key="offer.id" class="px-3 md:px-0 w-full md:w-4/5 ">
                 <OfferCard :offer="offer" :city="set.cities" />
+                <hr class="h-px my-8 bg-gray-200 md:my-10 border-0 dark:bg-gray-700">
               </div>
             </div>
             <!-- card -->

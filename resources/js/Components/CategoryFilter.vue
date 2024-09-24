@@ -38,13 +38,15 @@ defineEmits(['activeSts']);
   <div class="mx-2">
     <h2 class="flex justify-center md:justify-end mb-2 md:mb-10">
       <div @click="hideLinks = !hideLinks"
-        class="flex justify-center md:justify-end md:w-2/3 font-bold border-b md:border-none ">Юристы</div>
+        class="flex justify-center md:justify-end md:w-2/3 font-bold border-b md:border-none ">специализация юриста</div>
       <button @click="hideLinks = !hideLinks" type="button"
         class="flex items-center justify-between ml-4 font-medium rtl:text-right text-gray-500">
-        <svg class="w-3 h-3 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor"
-            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+        class="w-4 h-4 shrink-0">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
         </svg>
+
       </button>
     </h2>
     <!-- Nested accordion -->
@@ -59,9 +61,8 @@ defineEmits(['activeSts']);
                 class="flex justify-start md:justify-end w-full md:w-2/3 transition hover:-translate-x-1 duration-300 cursor-pointer">
                 <span :class="{ 'border-b-2 border-gray-300': u.url == main_usluga_url }">{{ u.usl_name }}</span>
               </a>
-              <a v-else href="#" disabled
-              @click="$emit('activeSts', true)"
-               class="flex justify-start md:justify-end p-1 text-gray-900 text-right group">
+              <a v-else href="#" disabled @click="$emit('activeSts', true)"
+                class="flex justify-start md:justify-end p-1 text-gray-900 text-right group">
                 {{ u.usl_name }}
               </a>
               <button v-if="u.mainhassecond" type="button"
@@ -89,7 +90,7 @@ defineEmits(['activeSts']);
                 <a v-if="cityUrl" :href="route('offer.second', [cityUrl, u.url, second.url])"
                   class="flex justify-start md:justify-end transition hover:-translate-x-1 ml-5 md:ml-2 my-2 hover:ml-2 cursor-pointer text-sm md:text-base font-semibold md:font-normal text-gray-600">
                   <span :class="{ 'border-b-2 border-gray-300': second.url == second_usluga_url }">{{ second.usl_name
-                  }}</span></a>
+                    }}</span></a>
               </span>
 
             </div>
