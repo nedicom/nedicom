@@ -29,14 +29,14 @@
             @foreach ($sets as $set)
             <set id="s{{ $set->id }}">
                 <name>{{ $set->usl_name }} в Симферополе</name>
-                <url>@php echo url('/')@endphp/offers/simferopol/{{ $set->url }}</url>
+                <url>@php echo url('/')@endphp/uslugi/simferopol/{{ $set->url }}</url>
             </set>
 
             @if (count($set->hasuslugi) > 0)
             @foreach ($set->hasuslugi as $child)
             <set id="s{{ $child->id }}">
                 <name>{{ $child->usl_name }}</name>
-                <url>@php echo url('/')@endphp/offers/simferopol/{{ $set->url }}/{{ $child->url }}</url>
+                <url>@php echo url('/')@endphp/uslugi/simferopol/{{ $set->url }}/{{ $child->url }}</url>
             </set>
             @endforeach
             @endif
@@ -53,7 +53,7 @@
 
             <offer id="offer{{ $offer->id }}">
                 <name>{{ $offer->user->name }}</name>
-                <url> @php echo url('/') @endphp/offers/{{$offer->cities->url}}/{{$offer->main->url}}@php echo ($second) @endphp/{{ $offer->url }}
+                <url> @php echo url('/') @endphp/uslugi/{{$offer->cities->url}}/{{$offer->main->url}}@php echo ($second) @endphp/{{ $offer->url }}
                 </url>
                 <price>1000</price>
                 <currencyId>RUR</currencyId>

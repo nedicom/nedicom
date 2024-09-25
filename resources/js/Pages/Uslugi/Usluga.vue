@@ -33,9 +33,16 @@ let vars = defineProps({
   city: Object,
 });
 
-let canonicalurl = "https://nedicom.ru/uslugi/" + vars.usluga.url;
-
 let sliderheader = "Доверяйте делам";
+
+let url = '';
+if(vars.usluga.cities && vars.usluga.main && vars.usluga.second){
+  url = vars.usluga.cities.url + '/' + vars.usluga.main.url + '/' + vars.usluga.second.url + '/' + vars.usluga.url
+}
+else{
+  url =  vars.usluga.url;
+}
+
 
 let secondbannerpc = 'url("https://nedicom.ru/' + vars.usluga.file_path + '")';
 let secondbannerimgmobile =
@@ -66,8 +73,8 @@ details summary::-webkit-details-marker {
 
   <Head>
     <title>{{ vars.usluga.usl_name }}</title>
-    <meta name="description" :content="vars.usluga.usl_desc" />
-    <link rel="canonical" :href="canonicalurl" />
+    <meta head-key="description" name="description" :content="vars.usluga.usl_desc" />
+    <link rel="canonical" :href="'https://nedicom.ru/uslugi/' + url" />
   </Head>
 
   <MainHeader />

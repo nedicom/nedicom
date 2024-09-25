@@ -6,17 +6,24 @@ use App\Models\cities;
 
 class CitySet
 {
-    public static function CitySet($request)
+    public static function CitySet($request, $cityurl)
     {
-        if ($request->cityid) {
+        if ($request->cityid) {//form from Cityfilter
             $city = cities::where('id', $request->cityid)->first();
             session(['cityid' => $city->id, 'citytitle' => $city->title]);
-            $city = $city;
-        } else {
+            //$city = $city;          
+        } else { //session has cityid;
             if (session()->get('cityid')) {
                 $city = cities::where('id', session()->get('cityid'))->first();
-            } else {
-                $city = collect(['id' => 0, 'title' => '']);
+                
+            } else { //url has city url;                
+                if($cityurl != ''){
+                    $city = cities::where('url', $cityurl)->first();
+                    session(['cityid' => $city->id, 'citytitle' => $city->title]);
+                }   
+                else{
+                    $city = collect(['id' => 0, 'title' => '']);
+                }             
             }
         }
         return $city;

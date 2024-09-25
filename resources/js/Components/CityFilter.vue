@@ -26,6 +26,7 @@ function city(id, title) {
         { preserveState: true },
     );
     form.cities = title;
+    visible = false;
 }
 
 

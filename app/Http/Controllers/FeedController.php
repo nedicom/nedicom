@@ -15,13 +15,13 @@ class FeedController extends Controller
     public function simferopol()
     {
         $categories = Uslugi::where('is_main', '!=', 0)
+            ->where('is_feed', 1)
             ->with('hasuslugi')->get();
 
         $sets = Uslugi::where('is_main', '!=', 0)
             ->with('hasuslugi')
             ->where('is_feed', 1)
             ->get();
-
 
         $offers = Uslugi::where('is_main', 0)
             ->where('is_second', null)

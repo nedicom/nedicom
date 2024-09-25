@@ -21,6 +21,8 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\MyController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\LentaController;
+use App\Http\Controllers\SessionController;
+
 use App\Http\Controllers\Admin\ArticlesController as AdminArticleController;
 use App\Http\Controllers\Admin\UslugiController as AdminUslugiController;
 use App\Http\Controllers\Admin\UserController;
@@ -100,7 +102,7 @@ Route::controller(UslugiController::class)->group(function () {
     Route::get('/uslugi/{city}/{main_usluga}', 'showOfferByMain')->name('offer.main');
     Route::get('/uslugi/{city}/{main_usluga}/{second_usluga}', 'showOfferBysecond')->name('offer.second');
     //Route::get('/uslugi/{main_usluga}/{second_usluga}', 'showsecond')->name('uslugi.second.url'); //del
-    Route::get('/uslugi/{city}/ {main_usluga}/{second_usluga}/{url}', 'showcanonical')->name('uslugi.canonical.url'); //canonical
+    Route::get('/uslugi/{city}/{main_usluga}/{second_usluga}/{url}', 'showcanonical')->name('uslugi.canonical.url'); //canonical
     Route::get('/uslugiadd', 'formadd')->name('uslugi.add')->middleware('auth');
     Route::post('/uslugi/create', 'create')->name('uslugi.create');
     Route::get('/usluga/{url}/edit', 'edit')->name('uslugi.edit')->middleware('auth');
