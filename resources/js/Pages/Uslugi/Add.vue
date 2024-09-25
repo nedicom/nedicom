@@ -4,7 +4,7 @@ import Header from "@/Layouts/Header.vue";
 import Body from "@/Layouts/Body.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import Editor from "@/Components/Tiptap.vue";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
 import { reactive } from "vue";
@@ -32,6 +32,26 @@ let submit = () => {
 };
 
 let title = ref("Добавить услугу");
+
+let zero = ref(true);
+
+watch(
+  () => form.main_usluga_id,
+  (main_usluga_id) => {
+    let i = 0;
+    while (i < set.all_uslugi.length) {
+      if (set.all_uslugi[i].zerocategory) {
+        if (set.all_uslugi[i].zerocategory.main_usluga_id == main_usluga_id) {
+          zero.value = false;
+          break;
+        } else {
+          zero.value = true;
+        }
+      }
+      i = i + 1;
+    }
+  }
+);
 </script>
 
 <template>
@@ -47,7 +67,7 @@ let title = ref("Добавить услугу");
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
           <div class="flex md:justify-start justify-center px-6">
             <div class="mb-3 md:w-3/6 w-full">
-              <h2 class="text-lg font-medium text-gray-900 ">
+              <h2 class="text-lg font-medium text-gray-900">
                 Краткая информация об услуге
               </h2>
               <label
@@ -99,6 +119,27 @@ let title = ref("Добавить услугу");
                 </div>
                 <!-- is main? -->
 
+                <div v-if="!(form.is_main || form.is_second)">
+                  <label
+                    class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Выберите город</label
+                  >
+                  <select
+                    v-model="form.sity"
+                    required
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  >
+                    <option disabled value="">город</option>
+                    <option
+                      v-for="option in set.cities"
+                      :key="option.id"
+                      v-bind:value="option.id"
+                    >
+                      {{ option.title }}
+                    </option>
+                  </select>
+                </div>
+
                 <!-- main usluga -->
                 <div v-if="form.is_main !== true">
                   <div>
@@ -122,25 +163,29 @@ let title = ref("Добавить услугу");
                         {{ option.usl_name }}
                       </option>
                     </select>
-                    <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">На одну услугу доступно всего одно объявление. Чтобы разместить больше выбирайте подкатегорию. Если Вы не видите категории, которая Вам требуется проверьте, нет ли у Вас уже опубликованного объявления на странице
-                      <a :href="route('uslugi.user')" class="font-medium text-blue-600 hover:underline dark:text-blue-500" target="_blank">Ваших услуг</a>
+                    <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                      Главная услуга. Наличие уже опубликованных проверьте среди
+                      <a
+                        :href="route('uslugi.user')"
+                        class="font-medium text-blue-600 hover:underline dark:text-blue-500"
+                        target="_blank"
+                        >Ваших объявлений</a
+                      >
                     </p>
                   </div>
                   <!-- main usluga -->
-
+                 
                   <!-- second usluga -->
                   <div v-if="form.is_second !== true">
                     <label
                       class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >Выберите подкатегорию (необязательно)</label
+                      >Выберите подкатегорию</label
                     >
                     <select
                       v-model="form.second_usluga_id"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     >
-                      <option disabled value="">
-                        Выберите один из вариантов
-                      </option>
+                      <option v-if="zero" v-bind:value="0">Общая</option>
                       <option
                         v-for="option in set.second_uslugi[form.main_usluga_id]"
                         :key="option.id"
@@ -148,9 +193,21 @@ let title = ref("Добавить услугу");
                       >
                         {{ option.usl_name }}
                       </option>
+                      <option v-if="!zero && !set.second_uslugi[form.main_usluga_id]" disabled>
+                        свободных услуг не осталось
+                      </option>
                     </select>
-                    <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">Объявление будет показано в подкатегории и в основной категории на странице 
-                      <a :href="route('uslugi')" class="font-medium text-blue-600 hover:underline dark:text-blue-500" target="_blank">публичных услуг</a></p>
+                    
+                    <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                      Объявление будет показано в подкатегории и в основной
+                      категории на странице
+                      <a
+                        :href="route('uslugi')"
+                        class="font-medium text-blue-600 hover:underline dark:text-blue-500"
+                        target="_blank"
+                        >публичных услуг</a
+                      >
+                    </p>
                   </div>
                 </div>
                 <!-- second usluga -->
@@ -175,27 +232,6 @@ let title = ref("Добавить услугу");
                   rows="5"
                   placeholder="Ваше уникальное торговое предложение (до 150 символов, его видно в качестве описания в поисковой выдаче)"
                 ></textarea>
-
-                <div v-if="!(form.is_main || form.is_second)">
-                  <label
-                    class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >Выберите город</label
-                  >
-                  <select
-                    v-model="form.sity"
-                    required
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    <option disabled value="">город</option>
-                    <option
-                      v-for="option in set.cities"
-                      :key="option.id"
-                      v-bind:value="option.id"
-                    >
-                      {{ option.title }}
-                    </option>
-                  </select>
-                </div>
 
                 <button
                   type="submit"

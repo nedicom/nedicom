@@ -312,6 +312,7 @@ class UslugiController extends Controller
             [
                 'all_uslugi' => Uslugi::where('is_main', '=', 1)->select('id', 'usl_name')
                     //->doesntHave('doesntHaveoffersbymain')
+                    ->with('zerocategory')
                     ->get(),
                 'second_uslugi' => Uslugi::where('is_second', 1)->select('id', 'usl_name', 'main_usluga_id')
                     ->doesntHave('doesntHaveoffersbysecond')->get()->groupBy('main_usluga_id'),
@@ -347,6 +348,10 @@ class UslugiController extends Controller
 
         if ($request->second_usluga_id) {
             $usluga->second_usluga_id = $request->second_usluga_id;
+        }
+
+        if ($request->second_usluga_id == 0) {
+            $usluga->second_usluga_id = 0;
         }
 
         if ($request->sity) {
@@ -387,6 +392,7 @@ class UslugiController extends Controller
                 'uslugi' => Uslugi::where('id', '=', $url)->with('second')->with('main')->first(),
                 'main_uslugi' => Uslugi::where('is_main', '=', 1)->select('id', 'usl_name')
                     //->doesntHave('doesntHaveoffersbymain')
+                    ->with('zerocategory')
                     ->get(),
                 'second_uslugi' => Uslugi::where('is_second', 1)->select('id', 'usl_name', 'main_usluga_id')
                     ->doesntHave('doesntHaveoffersbysecond')->get()->groupBy('main_usluga_id'),
@@ -436,7 +442,6 @@ class UslugiController extends Controller
         }
 
         if ($request->second_usluga_id) {
-            dd($request->second_usluga_id);
             $usluga->second_usluga_id = $request->second_usluga_id;
         } else if ($request->second_usluga_id == 0) {
             $usluga->second_usluga_id = 0;

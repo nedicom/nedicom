@@ -96,6 +96,16 @@ class Uslugi extends Model
             ;
     }*/
 
+    public function zerocategory(): HasOne
+    {
+        return $this->HasOne(Uslugi::class, 'main_usluga_id', 'id')
+            ->where('user_id', Auth::user()->id)            
+            ->where('second_usluga_id', 0)
+            ->where('is_feed', 1)
+            ->select(['id', 'usl_name', 'main_usluga_id', 'second_usluga_id', 'is_feed', 'user_id'])
+            ;
+    }
+
     public function doesntHaveoffersbysecond(): HasMany
     {
         return $this->HasMany(Uslugi::class, 'second_usluga_id', 'id')

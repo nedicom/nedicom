@@ -48,13 +48,12 @@ if (!set.uslugi.main_usluga_id) {
   set.uslugi.main_usluga_id = 0;
 }
 
-
 if (set.uslugi.popular_question == null) {
   set.uslugi.popular_question = [{ question: "", answer: "" }];
 }
 
 if (set.uslugi.video == null) {
-  set.uslugi.video = [{ videolink: ""}];
+  set.uslugi.video = [{ videolink: "" }];
 }
 
 let form = reactive({
@@ -77,13 +76,28 @@ let form = reactive({
   price: set.uslugi.price,
 });
 
+let zero = ref(true);
+
+//clean second form
 watch(
   () => form.main_usluga_id,
   (main_usluga_id) => {
     if (form.main_usluga_id !== set.uslugi.main_usluga_id) {
       form.second_usluga_id = null;
-    } else { 
+    } else {
       form.second_usluga_id = set.uslugi.second_usluga_id;
+    };
+    let i = 0;
+    while (i < set.main_uslugi.length) {
+      if (set.main_uslugi[i].zerocategory) {
+        if (set.main_uslugi[i].zerocategory.main_usluga_id == main_usluga_id) {
+          zero.value = false;
+          break;
+        } else {
+          zero.value = true;
+        }
+      }
+      i = i + 1;
     }
   }
 );
@@ -95,10 +109,6 @@ function submit() {
 let title = ref("Редактировать услугу");
 
 const date = ref(new Date());
-
-
-
-
 </script>
 
 <template>
@@ -163,6 +173,28 @@ const date = ref(new Date());
                 </div>
                 <!-- is main? -->
 
+                <div v-if="!(form.is_main || form.is_second)">
+                  <label
+                    class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Выберите город</label
+                  >
+                  <select
+                    v-model="form.sity"
+                    required
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  >
+                    <option disabled value="">город</option>
+                    <option
+                      v-for="option in set.cities"
+                      :key="option.id"
+                      v-bind:value="option.id"
+                      :selected="option.id == set.uslugi.sity"
+                    >
+                      {{ option.title }}
+                    </option>
+                  </select>
+                </div>
+
                 <!-- main usluga -->
                 <div v-if="form.is_main !== true">
                   <div>
@@ -208,19 +240,21 @@ const date = ref(new Date());
                   <!-- second usluga -->
                   <div v-if="form.is_second !== true">
                     <span class="text-sm font-bold"
-                      >Выберите вторичную категорию услуг</span
-                    >
+                      >Выберите вторичную категорию услуг.<br/> Сейчас - {{ set.uslugi.second.name }}</span
+                    > 
                     <select
                       v-if="set.second_uslugi"
                       v-model="form.second_usluga_id"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     >
-                    <option
-                        v-bind:value="0"
+                      <option
+                        v-if="zero"
                         :selected="set.uslugi.second_usluga_id == 0"
+                        v-bind:value="0"
                       >
-                        без категории
+                        Общая
                       </option>
+
                       <option
                         v-for="option in set.second_uslugi[form.main_usluga_id]"
                         :key="option.id"
@@ -229,22 +263,9 @@ const date = ref(new Date());
                       >
                         {{ option.usl_name }}
                       </option>
-
-
-                      <option
-                        v-if="set.uslugi.second && form.main_usluga_id == set.uslugi.main.id"
-                        v-bind:value="set.uslugi.second.id"
-                        :selected="
-                          set.uslugi.second.id == set.uslugi.second_usluga_id
-                        "
-                      >
-                        {{ set.uslugi.second.name }}
-                      </option>
                     </select>
-
                     <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                      Объявление будет показано в подкатегории и в основной
-                      категории на странице
+                     Объявление на странице
                       <a
                         :href="route('uslugi')"
                         class="font-medium text-blue-600 hover:underline dark:text-blue-500"
@@ -285,28 +306,6 @@ const date = ref(new Date());
                   rows="3"
                 ></textarea>
 
-                <div v-if="!(form.is_main || form.is_second)">
-                  <label
-                    class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >Выберите город</label
-                  >
-                  <select
-                    v-model="form.sity"
-                    required
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  >
-                    <option disabled value="">город</option>
-                    <option
-                      v-for="option in set.cities"
-                      :key="option.id"
-                      v-bind:value="option.id"
-                      :selected="option.id == set.uslugi.sity"
-                    >
-                      {{ option.title }}
-                    </option>
-                  </select>
-                </div>
-
                 <label
                   for="longdescription"
                   class="block text-sm font-medium leading-6 text-gray-900"
@@ -318,7 +317,7 @@ const date = ref(new Date());
                 <PopularQuestion
                   :popular_question="set.uslugi.popular_question"
                 />
-                <AddVideo :video="set.uslugi.video"/>
+                <AddVideo :video="set.uslugi.video" />
 
                 <!-- expirience price-->
                 <div class="flex justify-evenly">
