@@ -87,6 +87,7 @@ class UslugiController extends Controller
         $uslugi = Uslugi::where('main_usluga_id', $main->id)
             ->where('is_main', '!=', 1)
             ->where('is_second', null)
+            ->where('second_usluga_id', 0)
             ->where('is_feed', 1)
             ->where('sity', $city->id)
             ->with('cities')
