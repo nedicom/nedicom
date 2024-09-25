@@ -63,7 +63,7 @@ defineProps({
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="m1 9 4-4-4-4" />
                     </svg>
-                    <a itemprop="item" :href="route('uslugi.second.url', [main_usluga.url, second_usluga.url])"
+                    <a itemprop="item" :href="route('offer.second', ['none', main_usluga.url, second_usluga.url])"
                         class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white truncate ">
                         <span itemprop="name">{{ second_usluga.usl_name }}</span></a>
                     <meta itemprop="position" content="4" />

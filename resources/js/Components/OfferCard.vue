@@ -19,7 +19,7 @@ let secondtext = "";
                 <div 
                     class="bg-white">
                     <div class="h-72 w-full">
-                        <a :href="route('uslugi.url', [offer.url])">
+                        <a :href="route('uslugi.canonical.url', [offer.cities.url, offer.main.url, offer.second.url, offer.url])">
                             <img class="h-full object-cover" :src="'https://nedicom.ru/' + offer.file_path"
                                 :alt="offer.usl_name" />
                         </a>

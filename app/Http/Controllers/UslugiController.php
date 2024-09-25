@@ -48,6 +48,8 @@ class UslugiController extends Controller
             ->where('is_second', null)
             ->where('is_feed', 1)            
             ->with('cities')
+            ->with('main')
+            ->with('second')
             ->when(session()->get('cityid') ?? null, function ($query, $sescity) {
                 $query->where(function ($query) use ($sescity) {
                     $query->where('sity', $sescity);
@@ -106,6 +108,95 @@ class UslugiController extends Controller
             'reviewscount' => $reviewscount,
             'rating' => $rating,
             'flash' => ['message' => $request->session()->get(key: 'message')],
+        ]);
+    }
+
+    public function showOfferByMain(string $city, string $main_usluga,  Request $request)
+    {
+        $city = cities::where('url', $city)->with('uslugies')->first();
+        $main = Uslugi::where('url', $main_usluga)->with('cities')->first(['id', 'usl_name', 'url', 'usl_desc']);
+
+        $category = Uslugi::where('is_main', 1)
+        ->where('is_feed', 1)
+        ->with(['mainhasoffer' => function ($query) {
+            if (session()->get('cityid')) {
+                $query->where('sity', session()->get('cityid'));
+            }
+        }])
+        ->with('mainhassecond')
+        ->get();
+
+        CitySet::CitySet($request);
+
+        $uslugi = Uslugi::where('main_usluga_id', $main->id)
+            ->where('is_feed', 1)
+            ->where('is_second', null)
+            ->with('cities')
+            ->when(session()->get('cityid') ?? null, function ($query, $sescity) {
+                $query->where(function ($query) use ($sescity) {
+                    $query->where('sity', $sescity);
+                });
+            })
+            ->withCount('review')
+            ->withSum('review', 'rating')
+            ->get();
+
+        $cities = '';
+        if ($request->city) {
+            $cities = cities::when($request->city ?? null, function ($query, $city) {
+                return $query->where('title', 'like', '%' . $city . '%')->get();
+            });
+        }
+
+        return Inertia::render('Uslugi/Uslugi', [
+            'city' => $city,
+            'category' => $category,
+            'main_usluga' => $main,
+            'second_usluga' => Uslugi::where('is_main', 1)->first(),
+            'uslugi' => $uslugi,
+            'cities' => $cities,
+            'routeurl' => '/uslugi/'.$city->url.'/'.$main_usluga,
+        ]);
+    }
+
+    public function showOfferBysecond(string $city, string $main_usluga, string $second_usluga, Request $request)
+    {
+        $city = cities::where('url', $city)->with('uslugies')->first();
+        $main = Uslugi::where('url', $main_usluga)->first(['id', 'usl_name', 'usl_desc', 'url']);
+        $second = Uslugi::where('url', $second_usluga)->with('cities')->with('main')->first(['id', 'usl_name', 'url']);
+
+
+        $cities = '';
+        if ($request->city) {
+            $cities = cities::when($request->city ?? null, function ($query, $city) {
+                return $query->where('title', 'like', '%' . $city . '%')->get();
+            });
+        }
+
+        $category = Uslugi::where('is_main', 1)
+        ->where('is_feed', 1)
+        ->with(['mainhasoffer' => function ($query) {
+            if (session()->get('cityid')) {
+                $query->where('sity', session()->get('cityid'));
+            }
+        }])
+        ->with('mainhassecond')
+        ->get();
+
+        CitySet::CitySet($request);
+
+        return Inertia::render('Uslugi/Uslugi', [
+            'city' => $city,
+            'category' => $category,
+            'main_usluga' => $main,
+            'cities' => $cities,
+            'second_usluga' => $second,
+            'uslugi' => Uslugi::where('second_usluga_id', $second->id)->where('sity', $city->id)->where('is_feed', 1)
+                ->withCount('review')
+                ->withSum('review', 'rating')
+                ->with('cities')
+                ->get(),
+            'routeurl' => '/uslugi/'.$city->url.'/'.$main_usluga.'/'.$second_usluga,            
         ]);
     }
 
@@ -326,8 +417,13 @@ class UslugiController extends Controller
         }
 
         if ($request->second_usluga_id) {
+            dd($request->second_usluga_id);
             $usluga->second_usluga_id = $request->second_usluga_id;
-        } else {
+        } 
+        else if($request->second_usluga_id == 0){
+            $usluga->second_usluga_id = 0;
+        }
+        else {
             $usluga->second_usluga_id = null;
         }
 
