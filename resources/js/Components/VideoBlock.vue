@@ -27,7 +27,7 @@ defineProps({
 
 <template> 
   <div v-if="video" class="hidden md:block" >
-    <div class="flex flex-wrap justify-center">
+    <div v-if="video[0].videolink" class="flex flex-wrap justify-center">
       <div v-for="(link, numb) in video" :key="numb" class="mt-1 w-full md:w-1/3 px-2">
         <div v-if="numb < 3">
           <iframe :src="link.videolink" width="100%" height="360"
