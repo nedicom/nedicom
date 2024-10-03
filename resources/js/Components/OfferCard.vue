@@ -1,4 +1,6 @@
 <script setup>
+import { ref, onMounted } from "vue";
+
 import Modal from "@/Components/Modal.vue";
 import RatingReady from "@/Components/RatingReady.vue";
 
@@ -9,6 +11,13 @@ defineProps({
 
 let ModalBtnText = "На консультацию";
 let secondtext = "";
+
+const animate = ref("animate-pulse blur");
+
+const onImgLoad = function(){
+  animate.value = false;
+}
+
 </script>
 
 <template>
@@ -16,8 +25,8 @@ let secondtext = "";
     <div class="mx-auto 2xl:px-0">
       <div class="grid gap-4 grid-cols-1 md:grid-cols-2">
         <div class="bg-white">
-          <div class="h-72 w-full">
-            <a
+          <div class="h-72 w-full bg-cover" :class="animate" style="background-image: url('storage/images/services/appeal.webp');">
+            <a             
               :href="
                 route('uslugi.canonical.url', [
                   offer.cities.url,
@@ -28,9 +37,11 @@ let secondtext = "";
               "
             >
               <img
-                class="h-full object-cover"
+                class="h-full object-cover bg-"
                 :src="'https://nedicom.ru/' + offer.file_path"
                 :alt="offer.usl_name"
+                @load="onImgLoad()"
+                loading="lazy"
               />
             </a>
           </div>

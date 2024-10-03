@@ -57,7 +57,7 @@ let description = "8 978 8838 978 юридические услуги по г. �
 
     <SliderUslug :uslugislider="uslugislider" />
 
-    <SecondBanner :statusonimage="statusonimage" :nameonimage="nameonimage"
+    <SecondBanner :statusonimage="null" :nameonimage="null"
       :secondbannerimgmobile="secondbannerimgmobile" :secondbannerpc="secondbannerpc" />
 
     <Slider :practice="practice" :sliderheader="'Каждая проблема для нас особенная'" />
@@ -187,7 +187,7 @@ let description = "8 978 8838 978 юридические услуги по г. �
 
     <!--reviews carousel-->
 
-    <Youtube />
+    <!--<Youtube />-->
 
     <!--<Address />-->
 

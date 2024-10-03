@@ -89,7 +89,7 @@ defineEmits(['activeSts']);
               <span v-for="(second, secnumb) in u.mainhassecond" :key="secnumb">
                 <a v-if="cityUrl" :href="route('offer.second', [cityUrl, u.url, second.url])"
                   class="flex justify-start md:justify-end transition hover:-translate-x-1 ml-5 md:ml-2 my-2 hover:ml-2 cursor-pointer text-sm md:text-base font-semibold md:font-normal text-gray-600">
-                  <span :class="{ 'border-b-2 border-gray-300': second.url == second_usluga_url }">{{ second.usl_name
+                  <span :class="{ 'border-b-2 border-gray-300': second.url == second_usluga_url }" class='md:text-right'>{{ second.usl_name
                     }}</span></a>
               </span>
 

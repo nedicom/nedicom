@@ -30,12 +30,12 @@ defineProps({
     <div v-if="video[0].videolink" class="flex flex-wrap justify-center">
       <div v-for="(link, numb) in video" :key="numb" class="mt-1 w-full md:w-1/3 px-2">
         <div v-if="numb < 3">
-          <iframe :src="link.videolink" width="100%" height="360"
+          <iframe :src="link.videolink" width="100%" height="360" loading="lazy"
             allow="encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0"
             allowfullscreen></iframe>
         </div>
         <div v-if="numb > 2" :class="{ active: hideVideo, passive: !hideVideo }">
-          <iframe :src="link.videolink" width="100%" height="360"
+          <iframe :src="link.videolink" width="100%" height="360" loading="lazy"
             allow="encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0"
             allowfullscreen></iframe>
         </div>
@@ -61,12 +61,12 @@ defineProps({
     <div class="flex flex-wrap justify-center">
       <div v-for="(link, numb) in video" :key="numb" class="mt-1 w-full md:w-1/3 px-2">
         <div v-if="numb < 1">
-          <iframe :src="link.videolink" width="100%" height="240"
+          <iframe :src="link.videolink" width="100%" height="240" loading="lazy"
             allow="encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0"
             allowfullscreen></iframe>
         </div>
         <div v-if="numb > 1" :class="{ active: hideVideo, passive: !hideVideo }">
-          <iframe :src="link.videolink" width="100%" height="240"
+          <iframe :src="link.videolink" width="100%" height="240" loading="lazy"
             allow="encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0"
             allowfullscreen></iframe>
         </div>

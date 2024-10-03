@@ -15,7 +15,7 @@ if (props.phone) {
 
 let phoneto = "tel:" + phone;
 
-let ModalBtnText = "записаться на консультацию";
+let ModalBtnText = "Записаться на консультацию";
 </script>
 
 

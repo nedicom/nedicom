@@ -51,7 +51,7 @@ function alertForm(x) {
           <CategoryFilter :category="set.category" :cityUrl="set.city.url" :main_usluga_url="main_usluga.url"
           :second_usluga_url="second_usluga.url" @activeSts="alertForm" />
         </div>
-        <div class="w-full h-full col-span-3 md:ml-10 my-5 md:my-10">
+        <div class="w-full h-full col-span-3 md:pl-10 my-5 md:my-10">
           <div v-if="set.uslugi">
             <div v-if="set.uslugi[0]">
             <!-- card -->

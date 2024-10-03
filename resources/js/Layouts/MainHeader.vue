@@ -96,7 +96,7 @@ const showingNavigationDropdown = ref(false);
                         <span v-if="$page.props.auth.user !== null">{{
                           $page.props.auth.user.name
                         }}</span>
-                        <span v-else>войти</span>
+                        <span v-else>Войти</span>
 
                         <svg
                           class="ml-2 -mr-0.5 h-4 w-4"
