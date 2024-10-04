@@ -7,7 +7,6 @@ use App\Models\Offer;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\JoinClause;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class FeedController extends Controller
 {
