@@ -239,7 +239,7 @@ const date = ref(new Date());
 
                   <!-- second usluga -->
                   <div v-if="form.is_second !== true">
-                    <span class="text-sm font-bold"
+                    <span v-if="set.uslugi.second" class="text-sm font-bold"
                       >Выберите вторичную категорию услуг.<br/> Сейчас - {{ set.uslugi.second.name }}</span
                     > 
                     <select
