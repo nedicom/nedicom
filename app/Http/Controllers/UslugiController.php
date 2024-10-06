@@ -322,7 +322,7 @@ class UslugiController extends Controller
         return Inertia::render(
             'Uslugi/Add',
             [
-                'all_uslugi' => Uslugi::where('is_main', '=', 1)->select('id', 'usl_name')
+                'all_uslugi' => Uslugi::where('is_main', '=', 1)->where('is_feed', '=', 1)->select('id', 'usl_name')
                     //->doesntHave('doesntHaveoffersbymain')
                     ->with('zerocategory')
                     ->get(),
