@@ -33,7 +33,7 @@ class AnswerController extends Controller
                 "url" => "https://nedicom.ru/questions/".$question->url,
                 "question" => $question->title,
             ];
-            Mail::to('m6132@yandex.ru')->send(new TestEmail($mailData));
+            Mail::to($user->email)->send(new TestEmail($mailData));
         }
     }
 
