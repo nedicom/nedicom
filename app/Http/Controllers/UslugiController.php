@@ -497,8 +497,6 @@ class UslugiController extends Controller
             "message" => 'объявление обновлено',
         ];
 
-        dd($mailData);
-
         Mail::to('m6132@yandex.ru')->send(new OfferEmail($mailData));
 
         return redirect()->route('uslugi.url', $usluga->url)->with('message', 'Обновлено успешно');
