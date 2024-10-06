@@ -7,9 +7,6 @@
 </head>
 <body>
     <p>Пользователь: <em>{{ $mailData['user'] }}<em></p>
-    <p>Главная услуга: <em>{{ $mailData['main'] }}<em></p>
-    <p>Вторичная услуга: <em>{{ $mailData['second'] }}<em></p>
-    <p>Город: <em>{{ $mailData['city'] }}<em></p>
     <p>Заголовок: <em>{{ $mailData['title'] }}<em></p>
     <p>Доступно по ссылке: {{ $mailData['url'] }}</p>
     

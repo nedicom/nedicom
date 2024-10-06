@@ -326,7 +326,7 @@ class UslugiController extends Controller
                     //->doesntHave('doesntHaveoffersbymain')
                     ->with('zerocategory')
                     ->get(),
-                'second_uslugi' => Uslugi::where('is_second', 1)->select('id', 'usl_name', 'main_usluga_id')
+                'second_uslugi' => Uslugi::where('is_second', 1)->where('is_feed', '=', 1)->select('id', 'usl_name', 'main_usluga_id')
                     ->doesntHave('doesntHaveoffersbysecond')->get()->groupBy('main_usluga_id'),
                 'user' => Auth::user(),
                 'cities' => cities::all(),
@@ -395,10 +395,7 @@ class UslugiController extends Controller
         
         $mailData = [
             "url" => "https://nedicom.ru/uslugi/".$usluga->url,
-            "user" => $usluga->user_id,
-            "main" => $usluga->main_usluga_id,
-            "second" => $usluga->second_usluga_id,
-            "city" => $usluga->sity,
+            "user" => User::where('id', $usluga->user_id)->first()->name,
             "title" => $usluga->usl_name,
         ];
 
@@ -413,11 +410,11 @@ class UslugiController extends Controller
             'Uslugi/Edit',
             [
                 'uslugi' => Uslugi::where('id', '=', $url)->with('second')->with('main')->first(),
-                'main_uslugi' => Uslugi::where('is_main', '=', 1)->select('id', 'usl_name')
+                'main_uslugi' => Uslugi::where('is_main', '=', 1)->where('is_feed', '=', 1)->select('id', 'usl_name')
                     //->doesntHave('doesntHaveoffersbymain')
                     ->with('zerocategory')
                     ->get(),
-                'second_uslugi' => Uslugi::where('is_second', 1)->select('id', 'usl_name', 'main_usluga_id')
+                'second_uslugi' => Uslugi::where('is_second', 1)->where('is_feed', '=', 1)->select('id', 'usl_name', 'main_usluga_id')
                     ->doesntHave('doesntHaveoffersbysecond')->get()->groupBy('main_usluga_id'),
                 'user' => Auth::user(),
                 'flash' => ['message' => $request->session()->get(key: 'message')],
