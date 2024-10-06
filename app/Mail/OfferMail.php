@@ -24,6 +24,7 @@ class OfferMail extends Mailable
         $this->mailData = $mailData;
     }
 
+    
        /**
      * Build the message.
      *
@@ -31,6 +32,6 @@ class OfferMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Поступил ответ на Ваш вопрос')->view('email.offer');
+        return $this->subject('Опубликовано объявление')->view('email.offer');
     }
 }

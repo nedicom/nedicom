@@ -3,10 +3,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>test</title>
+    <title>{{ $mailData['message'] }}</title>
 </head>
 <body>
-
+    <p>Пользователь: <em>{{ $mailData['user'] }}<em></p>
+    <p>Заголовок: <em>{{ $mailData['title'] }}<em></p>
+    <p>Доступно по ссылке: {{ $mailData['url'] }}</p>
     
     <blockquote>
         <p class="has-line-data" data-line-start="26" data-line-end="33">
