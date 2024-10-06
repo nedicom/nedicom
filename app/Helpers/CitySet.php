@@ -14,8 +14,7 @@ class CitySet
             //$city = $city;          
         } else { //session has cityid;
             if (session()->get('cityid')) {
-                $city = cities::where('id', session()->get('cityid'))->first();
-                
+                $city = cities::where('id', session()->get('cityid'))->first();                
             } else { //url has city url;                
                 if($cityurl != ''){
                     $city = cities::where('url', $cityurl)->first();

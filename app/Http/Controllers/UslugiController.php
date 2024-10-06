@@ -178,6 +178,13 @@ class UslugiController extends Controller
     public function show($url,  Request $request)
     {
         $usluga = Uslugi::where('url', '=', $url)->first();
+
+        if($usluga->sity){            
+            $cityurl = cities::where('id', $usluga->sity)->first()->url;
+            CitySet::CitySet($request, $cityurl);
+        }
+        
+
         $id = $usluga->id;
         $mainid = $usluga->main_usluga_id;
 
@@ -264,10 +271,12 @@ class UslugiController extends Controller
 
 
 
-    public function showcanonical($main_usluga, $second_usluga, $city, $url,  Request $request)
+    public function showcanonical($city, $main_usluga, $second_usluga, $url,  Request $request)
     {
 
         $usluga = Uslugi::where('url', '=', $url)->first();
+
+        CitySet::CitySet($request , $city);
 
         $id = $usluga->id;
         $mainid = $usluga->main_usluga_id;
