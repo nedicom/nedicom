@@ -30,8 +30,8 @@ class OfferMail extends Mailable
      *
      * @return $this
      */
-    public function build($mailData)
+    public function build()
     {
-        return $this->subject($mailData['message'])->view('email.offer');
+        return $this->subject('Привет. У нас объявление')->view('email.offer');
     }
 }
