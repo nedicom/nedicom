@@ -397,6 +397,7 @@ class UslugiController extends Controller
             "url" => "https://nedicom.ru/uslugi/".$usluga->url,
             "user" => User::where('id', $usluga->user_id)->first()->name,
             "title" => $usluga->usl_name,
+            "message" => 'новое объявление',
         ];
 
         Mail::to('m6132@yandex.ru')->send(new OfferEmail($mailData));
@@ -475,8 +476,6 @@ class UslugiController extends Controller
             $usluga->main_usluga_id = $id;
         }
 
-
-
         if ($request->is_second) {
             $usluga->is_second = $request->is_second;
             $usluga->is_main = null;
@@ -490,6 +489,16 @@ class UslugiController extends Controller
         }
 
         $usluga->save();
+
+        $mailData = [
+            "url" => "https://nedicom.ru/uslugi/".$usluga->url,
+            "user" => User::where('id', $usluga->user_id)->first()->name,
+            "title" => $usluga->usl_name,
+            "message" => 'объявление обновлено',
+        ];
+
+        Mail::to('m6132@yandex.ru')->send(new OfferEmail($mailData));
+
         return redirect()->route('uslugi.url', $usluga->url)->with('message', 'Обновлено успешно');
     }
 
