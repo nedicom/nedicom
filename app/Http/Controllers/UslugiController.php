@@ -61,6 +61,7 @@ class UslugiController extends Controller
                 })
                 ->withCount('review')
                 ->withSum('review', 'rating')
+                ->inRandomOrder()
                 ->get(),
             'cities' => $cities,
             'category' => $category,
@@ -399,14 +400,12 @@ class UslugiController extends Controller
             "title" => $usluga->usl_name,
             "message" => 'новое объявление',
         ];
-
-        Mail::to('m6132@yandex.ru')->send(new OfferMail($mailData));
+        Mail::to('m6132@yandex.ru')->send(new OfferMail($mailData));        
         return redirect()->route('uslugi.url', ['url' => $checkurl])->with('message', 'Услуга создана успешно.');
     }
 
     public function edit(string $url, Request $request)
     {
-
         return Inertia::render(
             'Uslugi/Edit',
             [
