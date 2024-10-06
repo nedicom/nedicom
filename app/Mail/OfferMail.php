@@ -3,10 +3,13 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class OfferEmail extends Mailable
+class OfferMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -21,7 +24,7 @@ class OfferEmail extends Mailable
         $this->mailData = $mailData;
     }
 
-    /**
+       /**
      * Build the message.
      *
      * @return $this

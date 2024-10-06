@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Review;
 use App\Models\cities;
-use App\Mail\OfferEmail;
+use App\Mail\OfferMail;
 use Illuminate\Support\Facades\Mail;
 
 use App\Helpers\CitySet;
@@ -400,7 +400,7 @@ class UslugiController extends Controller
             "message" => 'новое объявление',
         ];
 
-        Mail::to('m6132@yandex.ru')->send(new OfferEmail($mailData));
+        Mail::to('m6132@yandex.ru')->send(new OfferMail($mailData));
         return redirect()->route('uslugi.url', ['url' => $checkurl])->with('message', 'Услуга создана успешно.');
     }
 
@@ -497,7 +497,7 @@ class UslugiController extends Controller
             "message" => 'объявление обновлено',
         ];
 
-        Mail::to('m6132@yandex.ru')->send(new OfferEmail($mailData));
+        Mail::to('m6132@yandex.ru')->send(new OfferMail($mailData));
 
         return redirect()->route('uslugi.url', $usluga->url)->with('message', 'Обновлено успешно');
     }
