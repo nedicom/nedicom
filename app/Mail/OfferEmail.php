@@ -28,6 +28,6 @@ class OfferEmail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Поступил ответ на Ваш вопрос')->view('email.test');
+        return $this->subject('Поступил ответ на Ваш вопрос')->view('email.offer');
     }
 }
