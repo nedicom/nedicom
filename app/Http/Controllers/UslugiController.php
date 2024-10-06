@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Review;
 use App\Models\cities;
+use App\Mail\OfferEmail;
+use Illuminate\Support\Facades\Mail;
 
 use App\Helpers\CitySet;
 
@@ -390,6 +392,17 @@ class UslugiController extends Controller
         $usluga->url =  $checkurl;
 
         $usluga->save();
+        
+        $mailData = [
+            "url" => "https://nedicom.ru/uslugi/".$usluga->url,
+            "user" => $usluga->user_id,
+            "main" => $usluga->main_usluga_id,
+            "second" => $usluga->second_usluga_id,
+            "city" => $usluga->sity,
+            "title" => $usluga->usl_name,
+        ];
+
+        Mail::to('m6132@yandex.ru')->send(new OfferEmail($mailData));
         return redirect()->route('uslugi.url', ['url' => $checkurl])->with('message', 'Услуга создана успешно.');
     }
 
