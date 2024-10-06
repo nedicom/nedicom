@@ -6,8 +6,8 @@
     <title>{{ $mailData['message'] }}</title>
 </head>
 <body>
-    <p>Пользователь: <em>{{ $mailData['user'] }}<em></p>
-    <p>Заголовок: <em>{{ $mailData['title'] }}<em></p>
+    <p>Пользователь: {{ $mailData['user'] }}</p>
+    <p>Заголовок: {{ $mailData['title'] }}</p>
     <p>Доступно по ссылке: {{ $mailData['url'] }}</p>
     
     <blockquote>
