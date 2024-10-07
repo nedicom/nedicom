@@ -22,7 +22,7 @@ let title = ref("Статьи");
 
     <MainHeader />
 
-    <Header :ttl="title" />
+    <Header :ttl="title" :modalPageTitle="'статьи'"/>
 
     <Body>
         <div

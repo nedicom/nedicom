@@ -30,7 +30,6 @@ const emit = defineEmits({
         </div>
         <div class="px-6 py-6 lg:px-8">
             <h3 class="mb-4 text-xl font-medium text-center text-gray-900 dark:text-white">
-                {{ set.modalPageTitle }}
                 Ваш номер телефона для связи
             </h3>
 

@@ -40,7 +40,7 @@ ol {
 
     <MainHeader />
 
-    <Header :ttl="vars.article.header" />
+    <Header :ttl="vars.article.header" :modalPageTitle="'статья - ' + vars.article.header" />
 
     <Body>
         <div class="flex justify-center  text-gray-900" itemscope itemtype="https://schema.org/Article">

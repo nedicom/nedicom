@@ -23,7 +23,7 @@ let title = ref("Лента");
 
   <MainHeader />
 
-  <Header :ttl="title" />
+  <Header :ttl="title" :modalPageTitle="'лента'"/>
   <Body>
     <div class="grid grid-cols-4 bg-slate-100">
       <div class="flex justify-end mt-12 ml-16">

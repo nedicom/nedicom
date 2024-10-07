@@ -79,7 +79,7 @@ details summary::-webkit-details-marker {
 
   <MainHeader />
 
-  <Header :phone="usluga.phone" :address="usluga.address" />
+  <Header :phone="usluga.phone" :address="usluga.address" :modalPageTitle="'услуга - ' + vars.usluga.usl_name"/>
 
   <Body>
     <div itemscope itemtype="https://schema.org/Product">

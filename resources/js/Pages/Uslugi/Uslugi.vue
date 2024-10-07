@@ -39,7 +39,7 @@ function alertForm(x) {
   <div class="min-h-screen">
     <MainHeader />
 
-    <Header :modalPageTitle="title" />
+    <Header :modalPageTitle="title"/>
 
     <Body>
 

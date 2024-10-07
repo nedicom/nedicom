@@ -51,7 +51,7 @@ let title = ref(set.lawyer.name);
     <div class="min-h-screen">
         <MainHeader />
 
-        <Header :ttl="title" />
+        <Header :ttl="title" :modalPageTitle="'юрист - ' + set.lawyer.name"/>
 
         <Mainbanner
             :statusonimage="statusonimage"

@@ -51,13 +51,13 @@ let description = "8 978 8838 978 юридические услуги по г. �
   <div class="min-h-screen" itemscope itemtype="https://schema.org/LegalService">
     <MainHeader />
 
-    <Header />
+    <Header :modalPageTitle="'Модальное окно главная'"/>
 
     <Mainbanner :mainbannerimgmobile="mainbannerimgmobile" :mainbannerpc="mainbannerpc" />
 
     <SliderUslug :uslugislider="uslugislider" />
 
-    <SecondBanner :statusonimage="null" :nameonimage="null"
+    <SecondBanner :statusonimage="'© 2024 nedicom™'" :nameonimage="null"
       :secondbannerimgmobile="secondbannerimgmobile" :secondbannerpc="secondbannerpc" />
 
     <Slider :practice="practice" :sliderheader="'Каждая проблема для нас особенная'" />

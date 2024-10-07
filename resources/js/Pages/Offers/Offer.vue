@@ -22,7 +22,7 @@ let title = ref("Услуги по городу");
 
   <MainHeader />
 
-  <Header :ttl="title" />
+  <Header :ttl="title" :modalPageTitle="'услуга - ' + offer.title + offer.city.title"/>
 
   <Body>
     <div class="bg-white py-12">

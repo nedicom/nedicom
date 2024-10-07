@@ -234,7 +234,7 @@ const onImgLoad = function(){
             </p>
 
             <div class="hidden md:flex items-center justify-start px-2">
-              <Modal :ModalBtnText="ModalBtnText" :secondtext="secondtext" />
+              <Modal :ModalBtnText="ModalBtnText" :secondtext="secondtext" :modalPageTitle="'страница поиска услуг - ' + offer.usl_name + ' - ' + offer.cities.title"/>
             </div>
           </div>
         </div>

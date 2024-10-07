@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\URL;
                         } 
     
                     $sql = "INSERT INTO leads (source, description, phone, lawyer, created_at, responsible, status, service)
-                    VALUES ('nedicom.ru', 'На nedicom оставил номер со страницы - ".$request->url."', $phone, 2, CURRENT_TIME(), 2, 'поступил', 5)"; //2 - Mark, 4 - Анастасия, 5 - иск, 67 - вера
+                    VALUES ('nedicom.ru форма', 'На nedicom оставил номер со страницы - ".$request->url."', $phone, 2, CURRENT_TIME(), 2, 'поступил', 5)"; //2 - Mark, 4 - Анастасия, 5 - иск, 67 - вера
                     $conn->query($sql);
                     return redirect()->route('Welcome')->with('message', 'Ваш телефон успешно отправлен! Скоро мы свяжемся с Вами.');                        
                 }       

@@ -60,14 +60,14 @@ function recaptcha() {
         <div class="flex items-center justify-center">
           <div class="text-black text-center">
             <div class="m-5">
-              <span v-if="statusonimage"
+              <span class="flex justify-center">
+                <ApplicationLogo class="w-20 h-20 fill-current  text-gray-500" />
+              </span>
+              <span
                 itemprop="name"
                 class="goo text-2xl md:text-4xl font-semibold md:opacity-100 opacity-80 normal-case"
                 >{{ statusonimage }}</span
               >
-              <span v-else class="flex justify-center">
-                <ApplicationLogo class="w-20 h-20 fill-current  text-gray-500" />
-              </span>
             </div>
             <div class="m-5">
               <span

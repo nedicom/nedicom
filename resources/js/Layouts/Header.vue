@@ -33,7 +33,7 @@ let ModalBtnText = "Записаться на консультацию";
           <!--modal btn -->
           <div class="flex items-center justify-center md:justify-start px-2">
             <div class="">
-              <Modal :ModalBtnText="ModalBtnText" :modalPageTitle="modalPageTitle"/>
+              <Modal :ModalBtnText="ModalBtnText" :modalPageTitle="props.modalPageTitle"/>
             </div>
           </div>
           <!--modal btn -->

@@ -22,7 +22,7 @@ let title = ref("Юристы");
 
     <MainHeader />
 
-    <Header :ttl="title" />
+    <Header :ttl="title" :modalPageTitle="'юристы'"/>
 
     <Body>
         <div class="bg-white py-12">
