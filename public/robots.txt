@@ -12,6 +12,7 @@ Disallow: /authenticated/*
 
 Host: https://nedicom.ru/
 Sitemap: https://nedicom.ru/sitemap.xml
+Sitemap: https://nedicom.ru/sitemap/sets.xml
 Sitemap: https://nedicom.ru/sitemap/articles.xml
 Sitemap: https://nedicom.ru/sitemap/lawyers.xml
 Sitemap: https://nedicom.ru/sitemap/uslugi.xml
