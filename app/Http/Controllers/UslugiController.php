@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Review;
 use App\Models\cities;
-use App\Mail\OfferMail;
-use Illuminate\Support\Facades\Mail;
 
 use App\Helpers\CitySet;
 
@@ -61,7 +59,6 @@ class UslugiController extends Controller
                 })
                 ->withCount('review')
                 ->withSum('review', 'rating')
-                ->inRandomOrder()
                 ->get(),
             'cities' => $cities,
             'category' => $category,
@@ -323,11 +320,11 @@ class UslugiController extends Controller
         return Inertia::render(
             'Uslugi/Add',
             [
-                'all_uslugi' => Uslugi::where('is_main', '=', 1)->where('is_feed', '=', 1)->select('id', 'usl_name')
+                'all_uslugi' => Uslugi::where('is_main', '=', 1)->select('id', 'usl_name')
                     //->doesntHave('doesntHaveoffersbymain')
                     ->with('zerocategory')
                     ->get(),
-                'second_uslugi' => Uslugi::where('is_second', 1)->where('is_feed', '=', 1)->select('id', 'usl_name', 'main_usluga_id')
+                'second_uslugi' => Uslugi::where('is_second', 1)->select('id', 'usl_name', 'main_usluga_id')
                     ->doesntHave('doesntHaveoffersbysecond')->get()->groupBy('main_usluga_id'),
                 'user' => Auth::user(),
                 'cities' => cities::all(),
@@ -393,28 +390,21 @@ class UslugiController extends Controller
         $usluga->url =  $checkurl;
 
         $usluga->save();
-        
-        $mailData = [
-            "url" => "https://nedicom.ru/uslugi/".$usluga->url,
-            "user" => User::where('id', $usluga->user_id)->first()->name,
-            "title" => $usluga->usl_name,
-            "message" => 'новое объявление',
-        ];
-        Mail::to('m6132@yandex.ru')->send(new OfferMail($mailData));        
         return redirect()->route('uslugi.url', ['url' => $checkurl])->with('message', 'Услуга создана успешно.');
     }
 
     public function edit(string $url, Request $request)
     {
+
         return Inertia::render(
             'Uslugi/Edit',
             [
                 'uslugi' => Uslugi::where('id', '=', $url)->with('second')->with('main')->first(),
-                'main_uslugi' => Uslugi::where('is_main', '=', 1)->where('is_feed', '=', 1)->select('id', 'usl_name')
+                'main_uslugi' => Uslugi::where('is_main', '=', 1)->select('id', 'usl_name')
                     //->doesntHave('doesntHaveoffersbymain')
                     ->with('zerocategory')
                     ->get(),
-                'second_uslugi' => Uslugi::where('is_second', 1)->where('is_feed', '=', 1)->select('id', 'usl_name', 'main_usluga_id')
+                'second_uslugi' => Uslugi::where('is_second', 1)->select('id', 'usl_name', 'main_usluga_id')
                     ->doesntHave('doesntHaveoffersbysecond')->get()->groupBy('main_usluga_id'),
                 'user' => Auth::user(),
                 'flash' => ['message' => $request->session()->get(key: 'message')],
@@ -475,6 +465,8 @@ class UslugiController extends Controller
             $usluga->main_usluga_id = $id;
         }
 
+
+
         if ($request->is_second) {
             $usluga->is_second = $request->is_second;
             $usluga->is_main = null;
@@ -488,16 +480,6 @@ class UslugiController extends Controller
         }
 
         $usluga->save();
-
-        $mailData = [
-            "url" => "https://nedicom.ru/uslugi/".$usluga->url,
-            "user" => User::where('id', $usluga->user_id)->first()->name,
-            "title" => $usluga->usl_name,
-            "message" => 'объявление обновлено',
-        ];
-
-        Mail::to('m6132@yandex.ru')->send(new OfferMail($mailData));
-
         return redirect()->route('uslugi.url', $usluga->url)->with('message', 'Обновлено успешно');
     }
 

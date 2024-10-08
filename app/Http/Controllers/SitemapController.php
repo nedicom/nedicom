@@ -15,6 +15,18 @@ class SitemapController extends Controller
         ])->header('Content-Type', 'text/xml');
     }
 
+    public function sets()
+    {
+        $sets = Uslugi::where('is_main', 1)
+        ->where('is_feed', 1)
+        ->with('mainhassecond')
+        ->get();
+
+        return response()->view('sitemap/sets', [
+            'sets' => $sets,
+        ])->header('Content-Type', 'text/xml');
+    }
+
     public function articles()
     {
         $articles = Article::all();
@@ -26,7 +38,7 @@ class SitemapController extends Controller
 
     public function lawyers()
     {
-        $lawyers = User::all();
+        $lawyers = User::where('lawyer', 1)->get();
   
         return response()->view('sitemap/lawyers', [
             'lawyers' => $lawyers,

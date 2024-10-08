@@ -131,7 +131,7 @@ class Uslugi extends Model
         return $this->HasMany(Uslugi::class, 'main_usluga_id', 'id')
             ->where('is_second', 1)
             ->where('is_feed', 1)
-            ->select(['id', 'main_usluga_id', 'is_second','usl_name', 'url'])
+            ->select(['id', 'main_usluga_id', 'is_second','usl_name', 'url', 'updated_at'])
             ;
     }
 

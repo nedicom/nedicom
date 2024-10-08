@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     @foreach ($lawyers as $lawyer)
         <url>
-            <loc>https://nedicom.ru/lawyers/{{ $lawyer->url }}</loc>
+            <loc>https://nedicom.ru/lawyers/{{ $lawyer->id }}</loc>
             <lastmod>{{ $lawyer->created_at->tz('UTC')->toAtomString() }}</lastmod>
             <changefreq>weekly</changefreq>
             <priority>0.9</priority>
