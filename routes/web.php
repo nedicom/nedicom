@@ -44,6 +44,11 @@ Route::post('/message', [MessageController::class, 'send'])->name('message');
 Route::post('/messagesent', [MessageController::class, 'sent'])->name('message.sent');
 Route::post('/messagegetdata', [MessageController::class, 'getdata'])->name('message.get');
 
+Route::get('/message/{lawyer_id}', [MessageController::class, 'lawyer_mess'])->name('lawyer.message');
+Route::post('/msglwrsend', [MessageController::class, 'lawyer_send'])->name('lawyer.message.send');
+Route::post('/msglwrsent', [MessageController::class, 'lawyer_sent'])->name('lawyer.message.sent');
+Route::post('/msglwrdata', [MessageController::class, 'lawyer_get'])->name('lawyer.message.get');
+
 Route::controller(UserController::class)->group(function () {
     Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('/admin/users', 'index')->name('admin.users.list');
