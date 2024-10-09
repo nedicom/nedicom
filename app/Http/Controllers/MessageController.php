@@ -26,9 +26,12 @@ class MessageController extends Controller
     {
         $array = [];
         $dialogue_id = null;
-        $current_dialogue = false;
         if (Auth::user()) {
             $current_dialogue = Dialogue::where('user_id', Auth::user()->id)->where('lawyer_id', $id)->first();
+        } else if (session()->get('dialogue') && !Auth::user()) {            
+            $current_dialogue = Dialogue::where('id', session()->get('dialogue'))->where('lawyer_id', $id)->first();
+        } else {
+            $current_dialogue = false;
         }
         if ($current_dialogue) {
             $array = json_decode($current_dialogue->json, JSON_FORCE_OBJECT);
@@ -44,29 +47,41 @@ class MessageController extends Controller
 
     public function lawyer_send(Request $request)
     {
-        $current_dialogue = Dialogue::where('id', $request->dlg_id)->first();
-        if ($current_dialogue) {
-            $message = $current_dialogue;
-            $array = json_decode($current_dialogue->json, JSON_FORCE_OBJECT);
+        if ($request->dlg_id) {
+            $message = Dialogue::where('id', $request->dlg_id)->first();
+            $array = json_decode($message->json, JSON_FORCE_OBJECT);
             $array[] = ['user_message' => $request->mess];
-        } else {
+        } 
+        else if (session()->get('dialogue') && !Auth::user()){
+            $message = Dialogue::where('id', session()->get('dialogue'))
+            ->where('lawyer_id', $request->lawyer_id)
+            ->first();
+            $array = json_decode($message->json, JSON_FORCE_OBJECT);
+            $array[] = ['user_message' => $request->mess];
+        }
+        else {
             $message = new Dialogue;
             $array = array(array('user_message' => $request->mess));
         }
         $message->json = json_encode($array);
         Auth::user() ? $message->user_id = Auth::user()->id : null;
+        $message->lawyer_id = $request->lawyer_id;
         $message->location = $request->location;
         $message->location_header = $request->location_header;
         $message->save();
+        session(['dialogue' => $message->id]);
         return ($array);
     }
 
 
     public function lawyer_sent(Request $request)
     {
-        sleep(1);
-
-        $message = Dialogue::find($request->dlg_id);
+        //sleep(1);
+        if ($request->dlg_id) { //user auth
+            $message = Dialogue::find($request->dlg_id);
+        } else { //anonim
+            $message = Dialogue::find(session()->get('dialogue'));
+        }
         $array = json_decode($message->json, JSON_FORCE_OBJECT);
         $openAi = OpenAIDialogue::Answer($request->mess, $array);
         $gotit = strripos($openAi, 'challenge');

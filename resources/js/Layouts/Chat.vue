@@ -23,6 +23,7 @@ let block;
 let form = reactive({
     mess: "message.value.innerText",
     dlg_id: props.dialogue_id,
+    lawyer_id: props.user.id,
     location: 'nedicom',
     location_header: 'test',
 });
@@ -92,7 +93,7 @@ const send = async function () {
 </script>
 
 <template>
-    <div class="h-screen">
+    <div class="h-screen"> 22{{ props.user.id }}11
         <div
             class="w-full h-4/6 mt-10 md:w-96 md:right-1 rounded-t-2xl rounded-b-2xl border-y-8 border-x-4 border-gray-900  flex-col mr-0">
             <div class="h-full flex flex-col items-start bg-white">
@@ -129,9 +130,9 @@ const send = async function () {
                     <div class="grid grid-cols-1 content-end" id="scrollchild">
                         <div v-for="question in jsonresp" :key="question">
                             <Question v-if="question.user_message" :question="question.user_message" />
-                            <Answer v-if="question.ai_message" :answer="question.ai_message" :lawyer="user.name"/>
+                            <Answer v-if="question.ai_message" :answer="question.ai_message" :lawyer="user.name" :img="user.avatar_path"/>
                         </div>
-                        <Answer v-if="printing" :lawyer="user.name">
+                        <Answer v-if="printing" :lawyer="user.name" :img="user.avatar_path">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="animate-pulse bi bi-three-dots" viewBox="0 0 16 16">
                                 <path

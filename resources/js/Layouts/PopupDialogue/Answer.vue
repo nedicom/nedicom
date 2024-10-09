@@ -2,14 +2,20 @@
 let props = defineProps({
   answer: String,
   lawyer: String,
+  img: String,
 });
 </script>
 <template>
   <div class="flex justify-start pr-5">
     <div class="w-10 grid grid-col-1 mr-1 content-end">
-      <img
+      <img v-if="props.img"
         class="w-8 h-8 rounded-full"
-        src="https://nedicom.ru/storage/usr/94/avatar/1706103130avatar.webp"
+        :src="'https://nedicom.ru/' + props.img"
+        alt="онлайн юрист"
+      />
+      <img v-else
+        class="w-8 h-8 rounded-full"
+        src="https://nedicom.ru/storage/usr/94/avatar/1728156724avatar.webp"
         alt="онлайн юрист"
       />
     </div>

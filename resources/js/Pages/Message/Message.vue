@@ -28,6 +28,7 @@ let form = reactive({
     dlg_id: props.dialogue_id,
     location: 'nedicom',
     location_header: 'test',
+    lawyer_id: props.lawyer.id,
 });
 
 const send = async function () {
@@ -125,11 +126,11 @@ const send = async function () {
                         </div>
                     </div>
                 </div>
-
+                
                 <!-- dialogue -->
                 <div class="h-full w-full bg-[url('https://nedicom.ru/storage/default/wabg.jpg')] 
                     bg-cover overflow-y-auto scroll-smooth rounded-t-md py-5" id="scrollparent">
-                    <div v-if="!jsonresp"
+                    <div v-if="jsonresp.length == 0"
                         class="mx-5 h-full text-center  grid grid-cols-1 content-center font-semibold">
                         <div class="inline-block  mb-3"><span class="bg-white py-2 px-3 rounded-lg">Юрист на
                                 связи!</span></div>
@@ -141,9 +142,9 @@ const send = async function () {
                     <div class="grid grid-cols-1 content-end" id="scrollchild">
                         <div v-for="question in jsonresp" :key="question">
                             <Question v-if="question.user_message" :question="question.user_message" />
-                            <Answer v-if="question.ai_message" :answer="question.ai_message" :lawyer="lawyer.name"/>
+                            <Answer v-if="question.ai_message" :answer="question.ai_message" :lawyer="lawyer.name" :img="lawyer.avatar_path"/>
                         </div>
-                        <Answer v-if="printing" :lawyer="lawyer.name">
+                        <Answer v-if="printing" :lawyer="lawyer.name" :img="lawyer.avatar_path">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="animate-pulse bi bi-three-dots" viewBox="0 0 16 16">
                                 <path

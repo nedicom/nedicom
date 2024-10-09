@@ -133,7 +133,7 @@ const send = async function () {
                 class="h-[32rem] flex flex-col items-start bg-white rounded-t-2xl border-t-8 border-x-4 border-gray-900">
                 <div class="sticky top-0 w-full my-1 mr-3 pt-1 flex px-2">
                     <img class="w-8 h-8 rounded-full"
-                        src="https://nedicom.ru/storage/usr/94/avatar/1706103130avatar.webp" alt="юрист сайта" />
+                        src="https://nedicom.ru/storage/usr/94/avatar/1728156724avatar.webp" alt="юрист сайта" />
                     <div class="grid grid-cols-1 ml-3 content-end">
                         <div class="text-xs font-bold">Андрей Дмитриевич</div>
                         <div class="text-xs font-semibold text-gray-500">
