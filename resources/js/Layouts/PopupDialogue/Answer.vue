@@ -1,6 +1,7 @@
 <script setup>
-defineProps({
+let props = defineProps({
   answer: String,
+  lawyer: String,
 });
 </script>
 <template>
@@ -16,12 +17,13 @@ defineProps({
     <div
       class="w-full inline-block rounded-r-lg rounded-t-lg bg-white my-1 mr-5 pt-2 px-2"
     >
-      <div class="text-xs font-semibold text-green-500">Андрей Дмитриевич</div>
+      <div v-if="props.lawyer" class="text-xs font-semibold text-green-500">{{props.lawyer}}</div>
+      <div v-else class="text-xs font-semibold text-green-500">Андрей Дмитриевич</div>
 
       <div class="">
         <div class="grid grid-cols-1 content-end">
           <div class="text-sm font-normal text-gray-900">
-            {{ answer }} <slot />
+            {{ props.answer }} <slot />
           </div>
           <div class="text-xxs text-gray-500 text-right">сегодня</div>
         </div>

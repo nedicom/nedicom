@@ -7,15 +7,12 @@ const props = defineProps({
     dialogue_id: Number,
     messages: Object,
     question: Object,
-    lawyer: Object,
+    user: Object,
+    usluga: Object,
 });
 
 const message = ref(null);
 let jsonresp = ref(props.messages);
-
-function back(){
-    window.history.back();
-} 
 
 let processing = ref(false);
 let printing = ref(false);
@@ -95,55 +92,46 @@ const send = async function () {
 </script>
 
 <template>
-    <div class="w-full h-screen md:w-96 md:right-1">
-        <div class="flex flex-col mr-0">
-            <div class="h-screen flex flex-col items-start bg-white">
+    <div class="h-screen">
+        <div
+            class="w-full h-4/6 mt-10 md:w-96 md:right-1 rounded-t-2xl rounded-b-2xl border-y-8 border-x-4 border-gray-900  flex-col mr-0">
+            <div class="h-full flex flex-col items-start bg-white">
                 <div class="sticky top-0 w-full py-2 flex px-3">
-                    <a class="flex justify-center items-center mr-3" aria-label="Home" href="#" @click="back">
-                        <svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-                        </svg>
-                    </a>
                     <div class="w-full flex justify-between">
                         <div class="w-full flex justify-start">
-                            <img class="w-10 h-10 rounded-full" :src="'https://nedicom.ru/' + props.lawyer.avatar_path"
+                            <img class="w-10 h-10 rounded-full" :src="'https://nedicom.ru/' + props.user.avatar_path"
                                 alt="юрист сайта" />
                             <div class="grid grid-cols-1 ml-3 content-end">
-                                <div class="text-sm font-bold">{{ props.lawyer.name }} </div>
+                                <div class="text-sm font-bold">{{ props.user.name }} </div>
                                 <div class="text-xs font-semibold text-gray-500">
-                                    {{ props.lawyer.name }}
+                                    {{ props.usluga.usl_name }}
                                 </div>
                             </div>
                         </div>
                         <div class="grid grid-cols-1 content-end">
-                            <div class="text-xs font-semibold text-gray-500">
-                                <span class="flex items-center text-xs font-semibold text-gray-500 "><span
-                                        class="animate-pulse flex w-2.5 h-2.5 mr-1 bg-green-400 rounded-full me-1.5 flex-shrink-0"></span>онлайн</span>
+                            <div class="text-xs font-semibold text-gray-500">                                
+                                <span class="flex items-center text-xs font-semibold text-gray-500 "><span class="animate-pulse flex w-2.5 h-2.5 mr-1 bg-green-400 rounded-full me-1.5 flex-shrink-0"></span>онлайн</span>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <!-- dialogue -->
                 <div class="h-full w-full bg-[url('https://nedicom.ru/storage/default/wabg.jpg')] 
                     bg-cover overflow-y-auto scroll-smooth rounded-t-md py-5" id="scrollparent">
                     <div v-if="!jsonresp"
                         class="mx-5 h-full text-center  grid grid-cols-1 content-center font-semibold">
-                        <div class="inline-block  mb-3"><span class="bg-white py-2 px-3 rounded-lg">Юрист на
+                        <div class="inline-block  mb-3"><span class="bg-white py-2 px-3 rounded-lg">Автор статьи сейчас
+                                на
                                 связи!</span></div>
-                        <div class="inline-block mt-2 mb-3"><span class="bg-white  py-2 px-2 rounded-lg">Задайте
-                                вопрос,</span></div>
-                        <div class="inline-block mt-2"><span class="bg-white  py-2 px-2 rounded-lg">который Вас
-                                интересует</span></div>
+                        <div class="inline-block mt-2 mb-3"><span class="bg-white  py-2 px-2 rounded-lg">Можете задать
+                                вопрос</span></div>
                     </div>
                     <div class="grid grid-cols-1 content-end" id="scrollchild">
                         <div v-for="question in jsonresp" :key="question">
                             <Question v-if="question.user_message" :question="question.user_message" />
-                            <Answer v-if="question.ai_message" :answer="question.ai_message" :lawyer="lawyer.name"/>
+                            <Answer v-if="question.ai_message" :answer="question.ai_message" :lawyer="user.name"/>
                         </div>
-                        <Answer v-if="printing" :lawyer="lawyer.name">
+                        <Answer v-if="printing" :lawyer="user.name">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="animate-pulse bi bi-three-dots" viewBox="0 0 16 16">
                                 <path
