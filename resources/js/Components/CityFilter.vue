@@ -55,7 +55,7 @@ function clear() {
 </script>
 
 <template>
-    <div class="flex justify-center md:justify-end mx-5 md:mx-0 mb-5">
+    <div class="flex justify-center md:justify-end mx-5 md:mx-0 mb-5 pt-6">
         <div class="w-full md:w-2/3 relative h-16 md:h-24">
             <div class="relative z-0 w-full group">
                 <input v-model="form.cities" @focus="$emit('activeSts', false)" @keyup="opencity" type="text"

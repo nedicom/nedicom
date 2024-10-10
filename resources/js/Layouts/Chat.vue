@@ -93,7 +93,7 @@ const send = async function () {
 </script>
 
 <template>
-    <div class="h-screen"> 22{{ props.user.id }}11
+    <div class="h-screen">
         <div
             class="w-full h-4/6 mt-10 md:w-96 md:right-1 rounded-t-2xl rounded-b-2xl border-y-8 border-x-4 border-gray-900  flex-col mr-0">
             <div class="h-full flex flex-col items-start bg-white">

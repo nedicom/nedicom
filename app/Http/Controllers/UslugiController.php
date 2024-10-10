@@ -44,8 +44,9 @@ class UslugiController extends Controller
 
         return Inertia::render('Uslugi/Uslugi', [
             'city' => $city,
-            'main_usluga' => collect(['url' => 0, 'usl_name' => 'Услуги', 'usl_desc' => 'Найдите квалифицированного юриста сейчас. Качество юридических услуг гарантировано.']),
-            'second_usluga' => collect(['url' => 0, 'usl_name' => ' юристов']),
+            'main_usluga' => collect(['url' => 0, 'usl_name' => 'все услуги',
+             'usl_desc' => 'Найдите квалифицированного юриста сейчас. Качество юридических услуг гарантировано.',
+            'file_path' => 'storage/images/landing/main/1280on600.webp',]),
             'uslugi' => Uslugi::where('is_main', '!=', 1)
                 ->where('is_second', null)
                 ->where('is_feed', 1)
@@ -69,7 +70,7 @@ class UslugiController extends Controller
     public function showOfferByMain(string $city, string $main_usluga,  Request $request) // http://nedicom.ru/uslugi/city/main
     {
         $city = cities::where('url', $city)->with('uslugies')->first();
-        $main = Uslugi::where('url', $main_usluga)->with('cities')->first(['id', 'usl_name', 'url', 'usl_desc']);
+        $main = Uslugi::where('url', $main_usluga)->with('cities')->first(['id', 'usl_name', 'url', 'usl_desc', 'file_path']);
 
         $category = Uslugi::where('is_main', 1)
             ->where('is_feed', 1)
@@ -113,7 +114,7 @@ class UslugiController extends Controller
             'city' => $city,
             'category' => $category,
             'main_usluga' => $main,
-            'second_usluga' => Uslugi::where('is_main', 1)->first(),
+            //'second_usluga' => Uslugi::where('is_main', 1)->first(),
             'uslugi' => $uslugi,
             'cities' => $cities,
             'routeurl' => '/uslugi/' . $city->url . '/' . $main_usluga,
@@ -124,7 +125,7 @@ class UslugiController extends Controller
     {
         $city = cities::where('url', $city)->with('uslugies')->first();
         $main = Uslugi::where('url', $main_usluga)->first(['id', 'usl_name', 'usl_desc', 'url']);
-        $second = Uslugi::where('url', $second_usluga)->with('cities')->with('main')->first(['id', 'usl_name', 'url']);
+        $second = Uslugi::where('url', $second_usluga)->with('cities')->with('main')->first(['id', 'usl_name', 'usl_desc', 'url', 'file_path']);
 
 
         $cities = '';
