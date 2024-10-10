@@ -22,7 +22,7 @@ const onImgLoad = function () {
 
 <template>
   <section>
-    <div class="mx-auto 2xl:px-0" itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
+    <div class="mx-auto 2xl:px-0" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
       <div class="grid gap-4 grid-cols-1 md:grid-cols-2 content-center">
         <div class="bg-white flex items-center">
           <div class="h-72 w-full bg-cover" :class="animate"
