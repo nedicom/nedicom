@@ -27,11 +27,9 @@ const stars = [1, 2, 3, 4, 5];
       <span itemprop="bestRating" content="5"></span>
     </span>
 
-    <span v-else itemprop="reviewRating" class="flex items-center justify-center" itemscope itemtype="https://schema.org/Rating">
-      <meta itemprop="worstRating" content="1">
-      <span v-if="!isNaN(rating)" itemprop="ratingValue" class="ml-1 text-sm font-bold text-gray-900 dark:text-gray-400">{{rating}}</span>
-      <span v-else itemprop="ratingValue" class="ml-1 text-sm font-bold text-gray-900 dark:text-gray-400">0</span>
-      <span itemprop="bestRating" content="5"></span>
+    <span v-else class="flex items-center justify-center">
+      <span v-if="!isNaN(rating)" class="ml-1 text-sm font-bold text-gray-900 dark:text-gray-400">{{rating}}</span>
+      <span v-else class="ml-1 text-sm font-bold text-gray-900 dark:text-gray-400">0</span>
     </span>
   </div>
 </template>
