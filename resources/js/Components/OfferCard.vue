@@ -94,7 +94,7 @@ const onImgLoad = function () {
           <div class="mt-2 flex items-center gap-2">
             <div class="flex items-center">
               <RatingReady :rating="(offer.review_sum_rating / offer.review_count).toFixed(2)
-                " :reviewRating="true"/>
+                " :reviewRating="false"/>
             </div>
 
             <p class="text-sm font-medium text-gray-900 dark:text-white">
