@@ -89,9 +89,9 @@ function alertForm(x) {
                   <RatingReady :rating="(set.sumrating / set.countrating).toFixed(2)
                     " />
                 </span> из <span itemprop="bestRating">5.00</span>
-                <span itemprop="ratingCount">
-                  на основании {{ set.countrating }} отзывов
-                </span>
+                
+                  на основании <span itemprop="ratingCount">{{ set.countrating }} </span>отзывов
+                
               </div>
 
 
