@@ -64,9 +64,16 @@ function alertForm(x) {
         </div>
         <div class="w-full h-full col-span-3 md:pl-10 my-5 md:my-0" itemscope itemtype="https://schema.org/Product">
 
-          <meta v-if="set.second_usluga" itemprop="image"
-            :content="'https://nedicom.ru/' + set.second_usluga.file_path">
-          <meta v-else itemprop="image" :content="'https://nedicom.ru/' + set.main_usluga.file_path">
+          <span v-if="set.second_usluga">
+            <meta itemprop="image" :content="'https://nedicom.ru/' + set.second_usluga.file_path">
+            <meta name="description" :content="set.second_usluga.usl_desc" />
+          </span>
+          <span v-else>
+            <meta itemprop="image" :content="'https://nedicom.ru/' + set.main_usluga.file_path">
+            <meta name="description" :content="set.main_usluga.usl_desc" />
+          </span>
+
+          
 
           <div class="mx-auto grid max-w-screen-xl px-4 md:grid-cols-12 lg:gap-12 xl:gap-0 mb-6 md:mb-0">
             <div class="content-center justify-self-start md:col-span-7 md:text-start">
@@ -75,7 +82,7 @@ function alertForm(x) {
                   class="md:mb-4 text-sm leading-tight text-gray-900 dark:text-white md:max-w-2xl md:text-2xl xl:text-2xl">
                   <span v-if="set.second_usluga">Юристы в категории "<span itemprop="name" class="font-bold">{{
                     set.second_usluga.usl_name
-                  }}</span>"</span>
+                      }}</span>"</span>
                   <span v-else>Юристы в категории "<span itemprop="name" class="font-bold">{{ set.main_usluga.usl_name
                       }}</span>"</span>
                   по городу
@@ -83,15 +90,14 @@ function alertForm(x) {
                 </h1>
               </span>
 
-              <div v-if="set.sumrating && set.countrating" class="mb-4 flex justify-start gap-2 text-sm font-medium text-gray-900" itemprop="aggregateRating"
+              <div v-if="set.sumrating && set.countrating"
+                class="mb-4 flex justify-start gap-2 text-sm font-medium text-gray-900" itemprop="aggregateRating"
                 itemscope itemtype="https://schema.org/AggregateRating">
                 <span class="flex items-center" itemprop="ratingValue">
                   <RatingReady :rating="(set.sumrating / set.countrating).toFixed(2)
                     " />
                 </span> из <span itemprop="bestRating">5.00</span>
-                
-                  на основании <span itemprop="ratingCount">{{ set.countrating }} </span>отзывов
-                
+                на основании <span itemprop="ratingCount">{{ set.countrating }} </span>отзывов
               </div>
 
 
@@ -108,13 +114,15 @@ function alertForm(x) {
           <div v-if="set.uslugi">
             <div v-if="set.uslugi[0]">
               <!-- card -->
-              <div v-for="offer in set.uslugi" :key="offer.id" class="px-3 my-2 md:px-0 w-full md:w-4/5 text-sm font-medium text-gray-900" itemprop="offers"
-                itemscope itemtype="https://schema.org/AggregateOffer">
+              <div v-for="offer in set.uslugi" :key="offer.id"
+                class="px-3 my-2 md:px-0 w-full md:w-4/5 text-sm font-medium text-gray-900" itemprop="offers" itemscope
+                itemtype="https://schema.org/AggregateOffer">
                 Цены за консультацию
                 <meta itemprop="priceCurrency" content="RUB" />
                 от <span itemprop="lowPrice" content="1000">{{ set.min }}</span>
                 до <span itemprop="highPrice" content="2000">{{ set.max }} рублей</span>
-                у <span itemprop="offerCount">{{ set.count }}</span> <span v-if="set.count == 1">юриста</span><span v-else>юристов</span>
+                у <span itemprop="offerCount">{{ set.count }}</span> <span v-if="set.count == 1">юриста</span><span
+                  v-else>юристов</span>
                 <OfferCard :offer="offer" :city="set.cities" />
                 <hr class="h-px my-8 bg-gray-200 md:my-10 border-0 dark:bg-gray-700">
               </div>
