@@ -104,7 +104,7 @@ let description = "8 978 8838 978 юридические услуги по г. �
 
               </span>
 
-              <RatingReady :rating="card.rating" class="flex-none" />
+              <RatingReady :reviewRating="true" :rating="card.rating" class="flex-none" />
 
               <div class="grid grid-cols-2 place-content-between p-3">
                 <div class="text-start">

@@ -64,48 +64,45 @@ function alertForm(x) {
         </div>
         <div class="w-full h-full col-span-3 md:pl-10 my-5 md:my-0" itemscope itemtype="https://schema.org/Product">
 
-          <span v-if="set.second_usluga">
-            <meta itemprop="image" :content="'https://nedicom.ru/' + set.second_usluga.file_path">
-            <meta name="description" :content="set.second_usluga.usl_desc" />
-          </span>
-          <span v-else>
-            <meta itemprop="image" :content="'https://nedicom.ru/' + set.main_usluga.file_path">
-            <meta name="description" :content="set.main_usluga.usl_desc" />
-          </span>
+          <meta v-if="set.second_usluga" itemprop="image"
+            :content="'https://nedicom.ru/' + set.second_usluga.file_path">
+          <meta v-else itemprop="image" :content="'https://nedicom.ru/' + set.main_usluga.file_path">
 
-          
+          <div class="my-6 md:mb-0">
+            <span>
+              <h1 class="md:mb-4 text-sm leading-tight text-gray-900 dark:text-white md:text-2xl xl:text-2xl">
+                <span v-if="set.second_usluga">Юристы в категории "<span itemprop="name" class="font-bold">{{
+                  set.second_usluga.usl_name
+                }}</span>"</span>
+                <span v-else>Юристы в категории "<span itemprop="name" class="font-bold">{{ set.main_usluga.usl_name
+                    }}</span>"</span>
+                по городу
+                <span class="font-bold">{{ set.city.title }}</span>
+              </h1>
+              <span v-if="set.second_usluga" itemprop="description" class="font-bold">{{
+                set.second_usluga.usl_desc
+              }}</span>
+              <span v-else itemprop="description" class="font-bold">{{
+                set.main_usluga.usl_desc
+              }}</span>
+            </span>
 
-          <div class="mx-auto grid max-w-screen-xl px-4 md:grid-cols-12 lg:gap-12 xl:gap-0 mb-6 md:mb-0">
-            <div class="content-center justify-self-start md:col-span-7 md:text-start">
-              <span>
-                <h1
-                  class="md:mb-4 text-sm leading-tight text-gray-900 dark:text-white md:max-w-2xl md:text-2xl xl:text-2xl">
-                  <span v-if="set.second_usluga">Юристы в категории "<span itemprop="name" class="font-bold">{{
-                    set.second_usluga.usl_name
-                      }}</span>"</span>
-                  <span v-else>Юристы в категории "<span itemprop="name" class="font-bold">{{ set.main_usluga.usl_name
-                      }}</span>"</span>
-                  по городу
-                  <span class="font-bold">{{ set.city.title }}</span>
-                </h1>
-              </span>
+            <div v-if="set.sumrating && set.countrating"
+              class="mb-4 flex justify-start gap-2 text-sm font-medium text-gray-900" itemprop="aggregateRating"
+              itemscope itemtype="https://schema.org/AggregateRating">
+              <span class="flex items-center" itemprop="ratingValue">
+                <RatingReady :rating="(set.sumrating / set.countrating).toFixed(2)
+                  " :reviewRating="false"/>
+              </span> из <span itemprop="bestRating">5.00</span>
+              на основании <span itemprop="ratingCount">{{ set.countrating }} </span>отзывов
+            </div>
 
-              <div v-if="set.sumrating && set.countrating"
-                class="mb-4 flex justify-start gap-2 text-sm font-medium text-gray-900" itemprop="aggregateRating"
-                itemscope itemtype="https://schema.org/AggregateRating">
-                <span class="flex items-center" itemprop="ratingValue">
-                  <RatingReady :rating="(set.sumrating / set.countrating).toFixed(2)
-                    " />
-                </span> из <span itemprop="bestRating">5.00</span>
-                на основании <span itemprop="ratingCount">{{ set.countrating }} </span>отзывов
-              </div>
-
-
+            <div class="hidden md:block">
               <p
-                class="hidden md:block mb-4 max-w-2xl text-gray-500 dark:text-gray-400 md:mb-12 md:text-lg mb-3 lg:mb-5 lg:text-xl">
+                class="mb-4 max-w-2xl text-gray-500 dark:text-gray-400 md:mb-12 md:text-lg mb-3 lg:mb-5 lg:text-xl">
                 Не нашел своего? звони нам</p>
               <a href="tel:89788838978"
-                class="hidden md:inline-block rounded-lg bg-blue-700 px-6 py-3.5 text-center font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                class="rounded-lg bg-blue-700 px-6 py-3.5 text-center font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                 8 (978) 8838 978</a>
             </div>
 

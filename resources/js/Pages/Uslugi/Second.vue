@@ -110,7 +110,7 @@ details summary::-webkit-details-marker {
                   {{ card.created_at }}
                 </div>
 
-                <RatingReady :rating="card.rating" />
+                <RatingReady :reviewRating="true" :rating="card.rating" />
 
                 <div class="flex items-center justify-start">
                   <div class="rounded-full w-12">
