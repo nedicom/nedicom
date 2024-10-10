@@ -60,6 +60,10 @@ function alertForm(x) {
         <div class="w-full h-full col-span-3 md:pl-10 my-5 md:my-0" itemscope itemtype="https://schema.org/Service">
 
           <meta itemprop="serviceType" content="Юристы" />
+          <meta itemprop="priceRange" content="1000 - 2000" />
+          <meta v-if="set.second_usluga" itemprop="image" :content="'https://nedicom.ru/' + set.second_usluga.file_path" />
+          <meta v-else itemprop="image" :content="'https://nedicom.ru/' + set.main_usluga.file_path" />
+
           <div class="mx-auto grid max-w-screen-xl px-4 md:grid-cols-12 lg:gap-12 xl:gap-0 mb-6 md:mb-0">
             <div class="content-center justify-self-start md:col-span-7 md:text-start">
               <span itemprop="provider" itemscope itemtype="https://schema.org/LocalBusiness">
@@ -77,7 +81,7 @@ function alertForm(x) {
 
               <p class="hidden md:block mb-4 max-w-2xl text-gray-500 dark:text-gray-400 md:mb-12 md:text-lg mb-3 lg:mb-5 lg:text-xl">
                 Не нашел своего? звони нам</p>
-              <a href="tel:89788838978"
+              <a href="tel:89788838978" itemprop="telephone"
                 class="hidden md:inline-block rounded-lg bg-blue-700 px-6 py-3.5 text-center font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                 8 (978) 8838 978</a>
             </div>
