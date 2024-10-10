@@ -42,25 +42,33 @@ class UslugiController extends Controller
             ->with('mainhassecond')
             ->get();
 
+        $uslugi = Uslugi::where('is_main', '!=', 1)
+        ->where('is_second', null)
+        ->where('is_feed', 1)
+        ->with('cities')
+        ->with('main')
+        ->with('second')
+        ->when(session()->get('cityid') ?? null, function ($query, $sescity) {
+            $query->where(function ($query) use ($sescity) {
+                $query->where('sity', $sescity);
+            });
+        })
+        ->withCount('review')
+        ->withSum('review', 'rating')
+        ->with('review')
+        ->get();
+
         return Inertia::render('Uslugi/Uslugi', [
             'city' => $city,
             'main_usluga' => collect(['url' => 0, 'usl_name' => 'все услуги',
              'usl_desc' => 'Найдите квалифицированного юриста сейчас. Качество юридических услуг гарантировано.',
             'file_path' => 'storage/images/landing/main/1280on600.webp',]),
-            'uslugi' => Uslugi::where('is_main', '!=', 1)
-                ->where('is_second', null)
-                ->where('is_feed', 1)
-                ->with('cities')
-                ->with('main')
-                ->with('second')
-                ->when(session()->get('cityid') ?? null, function ($query, $sescity) {
-                    $query->where(function ($query) use ($sescity) {
-                        $query->where('sity', $sescity);
-                    });
-                })
-                ->withCount('review')
-                ->withSum('review', 'rating')
-                ->get(),
+            'uslugi' => $uslugi,
+            'count' => $uslugi->count(),
+            'max' => $uslugi->max('price'),
+            'min' => $uslugi->min('price'),
+            'sumrating' => $uslugi->sum('review_sum_rating'),
+            'countrating' => $uslugi->sum('review_count'),
             'cities' => $cities,
             'category' => $category,
             'routeurl' => '/uslugi',
@@ -116,6 +124,11 @@ class UslugiController extends Controller
             'main_usluga' => $main,
             //'second_usluga' => Uslugi::where('is_main', 1)->first(),
             'uslugi' => $uslugi,
+            'count' => $uslugi->count(),
+            'max' => $uslugi->max('price'),
+            'min' => $uslugi->min('price'),
+            'sumrating' => $uslugi->sum('review_sum_rating'),
+            'countrating' => $uslugi->sum('review_count'),
             'cities' => $cities,
             'routeurl' => '/uslugi/' . $city->url . '/' . $main_usluga,
         ]);
@@ -172,6 +185,11 @@ class UslugiController extends Controller
             'cities' => $cities,
             'second_usluga' => $second,
             'uslugi' => $uslugi,
+            'count' => $uslugi->count(),
+            'max' => $uslugi->max('price'),
+            'min' => $uslugi->min('price'),
+            'sumrating' => $uslugi->sum('review_sum_rating'),
+            'countrating' => $uslugi->sum('review_count'),
             'routeurl' => '/uslugi/' . $city->url . '/' . $main_usluga . '/' . $second_usluga,
         ]);
     }
