@@ -48,7 +48,11 @@ function opencity() {
 function clear() {
     form.cities = "";
     Inertia.get(
-        set.routeurl,
+        '/uslugi',
+        {
+            city: '',
+            cityid: 'zero',
+        },
         { preserveState: true },
     );
 }
