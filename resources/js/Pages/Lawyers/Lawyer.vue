@@ -20,6 +20,7 @@ import { ref } from "vue";
 });*/
 
 let sliderheader = ref("Практика юриста");
+let robots = false; 
 
 let set = defineProps({
     statusonimage: String,
@@ -34,6 +35,8 @@ let set = defineProps({
     flash: Object,
 });
 
+(set.lawyer.lawyer == 1) ? robots = false : robots = true;
+
 let mainbannerpc =  'url("https://nedicom.ru/'+set.lawyer.file_path+'")';
 let mainbannerimgmobile  = 'url("https://nedicom.ru/'+set.lawyer.avatar_path+'")';
 
@@ -46,12 +49,13 @@ let title = ref(set.lawyer.name);
     <Head>
         <title>{{ set.lawyer.name }}</title>
         <meta name="description" :content="'Юрист ' + set.lawyer.name" />
+        <meta v-if="robots" name="robots" content="noindex">
+        <meta v-else name="robots" content="all">
     </Head>
-
     <div class="min-h-screen">
         <MainHeader />
 
-        <Header :ttl="title" :modalPageTitle="'юрист - ' + set.lawyer.name"/>
+        <Header :modalPageTitle="'юрист - ' + set.lawyer.name"/>
 
         <Mainbanner
             :statusonimage="statusonimage"

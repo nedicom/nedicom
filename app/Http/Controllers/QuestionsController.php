@@ -33,19 +33,18 @@ class QuestionsController extends Controller
     {
         DB::table('questions')->where('questions.url', '=', $url)->increment('counter', 1);
 
-        $id = Questions::where('url', '=', $url)->pluck('id')->first();
-        $body = Questions::where('url', '=', $url)->pluck('body')->first();
+        $question = Questions::where('url', $url)->firstOrFail();
         $authid = null;
         if(Auth::user()){
             $authid = Auth::user()->id;
         }
         return Inertia::render('Questions/Question', [
-            'question' => Questions::where('id', '=', $id)->withCount('QuantityAns')->with('User')->first(),
-            'answers' => Answer::where('questions_id', '=', $id)
+            'question' => Questions::where('id', $question->id)->withCount('QuantityAns')->with('User')->first(),
+            'answers' => Answer::where('questions_id', $question->id)
                 ->with('UserAns')
                 ->with('subcomments')
                 ->get(),
-            'aianswer' => Inertia::lazy(fn() => OpenAI::Answer($body)),
+            'aianswer' => Inertia::lazy(fn() => OpenAI::Answer($question->body)),
             'authid' => $authid,
             //'countanswer' => Article::where('userid', $id)->count(), 
         ]);

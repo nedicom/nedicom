@@ -37,8 +37,8 @@ let submit = () => {
 
 <template>
     <Head>
-        <title>{{ ownercookie.questionTitle }}</title>
-        <meta name="description" :content="ownercookie.questionBody" />
+        <title>Проверка вопроса юристу перед публикацией</title>
+        <meta name="description" content="Здесь пользователи проверяют вопрос юристу перед публикацией." />
     </Head>
 
     <div class="min-h-screen">
