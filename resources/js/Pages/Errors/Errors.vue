@@ -7,7 +7,7 @@
 
                 <div class="flex flex-col justify-center">
                     <div>
-                        <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/404/404-computer.svg" />
+                        <img src="/404.svg" />
                     </div>
                     <div class="flex justify-center">
                         <ul
@@ -16,13 +16,13 @@
                                 href="https://nedicom.ru/">главная</a>
                         </li>
                         <li class="w-full px-4 py-2 rounded-t-lg dark:border-gray-600"><a class="border-b border-gray-200 hover:border-none"
-                                href="https://nedicom.ru/">лента</a>
+                                href="https://nedicom.ru/lenta/popular">лента</a>
                         </li>
                         <li class="w-full px-4 py-2 rounded-t-lg dark:border-gray-600"><a class="border-b border-gray-200 hover:border-none"
-                                href="https://nedicom.ru/">вопрос юристу</a>
+                                href="https://nedicom.ru/questions/add">вопрос юристу</a>
                         </li>
                         <li class="w-full px-4 py-2 rounded-t-lg dark:border-gray-600"><a class="border-b border-gray-200 hover:border-none"
-                                href="https://nedicom.ru/">услуги</a>
+                                href="https://nedicom.ru/uslugi">услуги</a>
                         </li>
                     </ul>
                     </div>

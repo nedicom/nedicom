@@ -31,11 +31,15 @@ class QuestionsController extends Controller
 
     public function questionsURL($url)
     {
-        DB::table('questions')->where('questions.url', '=', $url)->increment('counter', 1);
+        if (!app()->environment('local')) {
+            $question = Questions::where('url', $url)->firstOrFail();
+        }
+        else{
+            $question = Questions::where('url', $url)->first();
+        }
 
-        $question = Questions::where('url', $url)->firstOrFail();
         $authid = null;
-        if(Auth::user()){
+        if (Auth::user()) {
             $authid = Auth::user()->id;
         }
         return Inertia::render('Questions/Question', [
