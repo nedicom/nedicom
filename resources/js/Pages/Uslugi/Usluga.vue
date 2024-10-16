@@ -27,7 +27,7 @@ let vars = defineProps({
   flash: "Object",
   reviews: "Object",
   reviewscount: "String",
-  rating: String,
+  rating: Number,
   main_usluga: Object,
   second_usluga: Object,
   city: Object,
@@ -44,9 +44,8 @@ else{
 }
 
 
-let secondbannerpc = 'url("https://nedicom.ru/' + vars.usluga.file_path + '")';
-let secondbannerimgmobile =
-  'url("https://nedicom.ru/' + vars.usluga.mob_file_path + '")';
+let secondbannerpc = 'https://nedicom.ru/' + vars.usluga.file_path;
+let secondbannerimgmobile = 'https://nedicom.ru/' + vars.usluga.mob_file_path;
 
 let metaimage = "https://nedicom.ru/" + vars.usluga.file_path;
 </script>
@@ -176,7 +175,7 @@ details summary::-webkit-details-marker {
                   {{ card.created_at }}
                 </div>
 
-                <RatingReady :reviewRating="true" :rating="card.rating" />
+                <RatingReady :reviewRating="true" :rating="card.rating.toString()" />
 
                 <div class="flex items-center justify-start">
                   <div class="rounded-full w-12">
