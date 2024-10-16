@@ -57,9 +57,9 @@ onMounted(() => {
               <span class="flex justify-center">
                 <ApplicationLogo class="w-20 h-20 fill-current  text-gray-500" />
               </span>
-              <span itemprop="name"
+              <h1 itemprop="name"
                 class="goo text-2xl md:text-4xl font-semibold md:opacity-100 opacity-80 normal-case">{{ statusonimage
-                }}</span>
+                }}</h1>
             </div>
             <!-- Form on main banner-->
             <div class="flex justify-center">
