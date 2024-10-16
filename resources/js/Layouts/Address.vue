@@ -37,7 +37,7 @@ if (props.phone !== undefined) {
 
                             <Modal :ModalBtnText="'записаться'" :secondtext="'на консультацию'" />
 
-                            <a :href="'tel:' + props.phone" type="button" class="my-5 w-full inline-flex items-center justify-center text-white mr-2 bg-sky-400 hover:bg-sky-500                     
+                            <a :href="'tel:' + props.phone" type="button" class="my-5 w-full inline-flex items-center justify-center text-white mr-2 bg-blue-600 hover:bg-blue-700                     
     font-medium rounded-lg py-2.5
   ">
                                 <svg class="mr-2 w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
