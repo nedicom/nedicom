@@ -450,8 +450,6 @@ details summary::-webkit-details-marker {
   </Body>
 
   <MainFooter />
-
-  <PopupDialogue />
 </template>
 
 
