@@ -12,7 +12,7 @@ import Breadcrumbs from "@/Components/Breadcrumbs.vue";
 import Tg from "@/Layouts/TG/TeleGram.vue";
 import Address from "@/Layouts/Address.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
-import Slider from "@/Layouts/Slider.vue";
+import PracticeGallery from "@/Layouts/PracticeGallery.vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import PopupDialogue from "@/Layouts/PopupDialogue/PopupDialogue.vue";
 import { ref } from "vue";
@@ -283,7 +283,7 @@ details summary::-webkit-details-marker {
         :maps="usluga.maps"
       />
 
-      <Slider
+      <PracticeGallery
         v-if="practice != 0"
         :sliderheader="sliderheader"
         :practice="vars.practice"

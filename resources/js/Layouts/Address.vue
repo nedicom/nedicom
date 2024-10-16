@@ -22,7 +22,7 @@ if (props.phone !== undefined) {
 <template>
     <!-- address -->
     <div class="md:flex justify-center mt-5 md:my-20 p-5 md:p-0">
-        <div class="md:w-1/2 w-full" style="height:400px">
+        <div class="md:w-1/2 w-full">
             <section>
                 <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
                     <div class="mt-4 md:mt-0">
