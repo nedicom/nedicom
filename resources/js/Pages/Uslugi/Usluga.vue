@@ -145,9 +145,9 @@ details summary::-webkit-details-marker {
 
       <!--reviews carousel-->
       <div class="mt-12 py-12 bg-gray-100/75">
-        <h3 class="text-xl mx-12 my-1 font-semibold text-grey text-center">
+        <h2 class="text-xl mx-12 my-1 font-semibold text-grey text-center">
           Отзывы заказчиков
-        </h3>
+        </h2>
         <p
           itemprop="aggregateRating"
           itemscope

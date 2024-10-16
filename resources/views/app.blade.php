@@ -16,7 +16,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    
 
     <!-- Scripts -->
     @routes
@@ -24,12 +24,12 @@
     @inertiaHead
 </head>
 <style>
-    @font-face {
+    /*@font-face {
         font-family: 'nunito';
         src: local('Pacifico Regular'), local('Pacifico-Regular'),
             url(https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap) format('nunito');
         font-display: swap;
-    }
+    }*/
 </style>
 
 
@@ -43,7 +43,7 @@
         window.addEventListener('scroll', () => {
             if (fired === false) {
                 fired = true;
-                
+
                 setTimeout(() => {
                     (function(m, e, t, r, i, k, a) {
                         m[i] = m[i] || function() {
@@ -74,6 +74,12 @@
         <div><img src="https://mc.yandex.ru/watch/24900584" style="position:absolute; left:-9999px;" alt="" /></div>
     </noscript>
     <!-- /Yandex.Metrika counter -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function(event) {
+            document.head.innerHTML += '<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">';
+        });
+    </script>
 
     <!-- Grecaptcha 
         <script src="https://www.google.com/recaptcha/api.js?render=6Lf0-tAZAAAAAIxKP1YOtKrCfqSm_yl3QF-IzglK"></script>
