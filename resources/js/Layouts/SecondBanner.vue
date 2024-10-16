@@ -61,11 +61,6 @@ onMounted(() => {
                 class="goo text-2xl md:text-4xl font-semibold md:opacity-100 opacity-80 normal-case">{{ statusonimage
                 }}</span>
             </div>
-            <div class="m-5">
-              <span class="goo text-xl font-semibold bg-white rounded-lg py-1 px-4 md:opacity-100 opacity-100">Запись на
-                консультацию</span>
-            </div>
-
             <!-- Form on main banner-->
             <div class="flex justify-center">
               <PhoneForm :modalPageTitle="props.statusonimage" />
