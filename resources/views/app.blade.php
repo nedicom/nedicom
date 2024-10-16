@@ -39,10 +39,11 @@
     <!-- Yandex.Metrika counter -->
 
     <script type="text/javascript">
-        var fired = false;
-        window.addEventListener('scroll', () => {
-            if (fired === false) {
-                fired = true;
+       //var fired = false;
+       // window.addEventListener('scroll', () => {
+        //    if (fired === false) {
+        //        fired = true;
+
                 setTimeout(() => {
                     (function(m, e, t, r, i, k, a) {
                         m[i] = m[i] || function() {
@@ -66,8 +67,8 @@
                         trackHash: true
                     });
                 }, 1000)
-            }
-        });
+         //   }
+        //});
     </script>
     <noscript>
         <div><img src="https://mc.yandex.ru/watch/24900584" style="position:absolute; left:-9999px;" alt="" /></div>

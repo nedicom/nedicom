@@ -1,5 +1,6 @@
 <script setup>
-import { ref } from "vue";
+
+import { ref, watch } from "vue";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
@@ -7,6 +8,13 @@ import NavLink from "@/Components/NavLink.vue";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { Link } from "@inertiajs/inertia-vue3";
 const showingNavigationDropdown = ref(false);
+
+const ym = ref('');
+
+watch(ym, () => {
+  alert(1);
+})
+
 </script>
 
 <template>
