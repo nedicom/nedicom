@@ -43,7 +43,7 @@ defineProps({
                                     target="_blank"
                                     :href="'/articles/' + slide.url"
                                     >Подробнее
-                                    <span aria-hidden="true">→</span></a
+                                    <span>→</span></a
                                 >
                             </div>
                         </div>
