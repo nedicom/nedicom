@@ -16,7 +16,10 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
+
+    <!--
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    -->
 
     <!-- Scripts -->
     @routes
@@ -75,11 +78,13 @@
     </noscript>
     <!-- /Yandex.Metrika counter -->
 
+    <!-- Fonts to page speed -->
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
             document.head.innerHTML += '<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">';
         });
     </script>
+    <!-- Fonts to page speed -->
 
     <!-- Grecaptcha 
         <script src="https://www.google.com/recaptcha/api.js?render=6Lf0-tAZAAAAAIxKP1YOtKrCfqSm_yl3QF-IzglK"></script>
