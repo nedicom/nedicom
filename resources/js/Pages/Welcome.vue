@@ -27,8 +27,8 @@ defineProps({
 });
 
 
-let secondbannerimgmobile = 'url("https://nedicom.ru/storage/images/landing/main/secondm.webp")';
-let secondbannerpc = 'url("https://nedicom.ru/storage/images/landing/main/second.webp")';
+let secondbannerimgmobile = 'https://nedicom.ru/storage/images/landing/main/secondm.webp';
+let secondbannerpc = 'https://nedicom.ru/storage/images/landing/main/second.webp';
 
 let mainbannerimgmobile = 'url("https://nedicom.ru/storage/images/landing/main/firstm.webp")';
 let mainbannerpc = 'url("https://nedicom.ru/storage/images/landing/main/1280on600.webp")';
