@@ -30,5 +30,5 @@ InertiaProgress.init({ color: '#4B5563', showSpinner: true});
 
 Inertia.on('navigate', (event) => {
     const path = event.detail.page.url;
-    ym(24900584, 'hit', path);
+    //ym(24900584, 'hit', path);
 });

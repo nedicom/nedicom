@@ -135,6 +135,7 @@ details summary::-webkit-details-marker {
             <img
               :src="'https://nedicom.ru/' + lawyer.avatar_path"
               class="w-3/4 rounded-full"
+              :alt="vars.usluga.usl_name"
             />
           </div>
           <!-- short image -->
@@ -260,7 +261,6 @@ details summary::-webkit-details-marker {
                   </p>
                 </div>
               </div>
-
               <!-- card -->
             </div>
           </Slide>
