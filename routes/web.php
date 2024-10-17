@@ -118,7 +118,7 @@ Route::controller(UslugiController::class)->group(function () {
 Route::controller(CityController::class)->group(function () {
 
     //Route::get('/uslugi', 'index')->name('uslugi'); filters переделать
-    Route::get('/offers/{city}', 'showCities')->name('offers.city'); 
+    Route::get('/offers/{city}', 'showCities')->name('offers.city');
     Route::get('/offers/{city}/{main_usluga}/{second_usluga}/{url}', 'showOffer')->name('offer.show');
     Route::get('/uslugi/{main_usluga}/{second_usluga}/{city}', 'showCityFromUslugi')->name('show.city'); //del
 });
@@ -190,6 +190,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/imagepost', [ImageController::class, 'create'])->name('image.post');
     Route::post('/uslimagepost', [ImageController::class, 'imguslcreate'])->name('uslimage.post');
 });
+
+
+//aboutcompany
+Route::get('contacts/', function () {
+    return Inertia::render('About', []);
+})->name('contacts');
 
 //import
 Route::get('import/', [ImportController::class, 'import']);

@@ -1,6 +1,6 @@
 <script setup>
 defineProps({
-  rating: String,
+  rating: Number,
   reviewRating: Boolean,
 });
 const stars = [1, 2, 3, 4, 5];

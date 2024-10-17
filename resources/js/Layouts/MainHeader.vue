@@ -65,10 +65,10 @@ watch(ym, () => {
               </div>
               <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                 <NavLink
-                  :href="route('lawyers')"
-                  :active="route().current('lawyers')"
+                  :href="route('contacts')"
+                  :active="route().current('contacts')"
                 >
-                  Юристы
+                  Контакты
                 </NavLink>
                 <NavLink
                   :href="route('uslugi')"
