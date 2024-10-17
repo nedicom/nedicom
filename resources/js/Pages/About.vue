@@ -27,7 +27,7 @@ import { Head } from "@inertiajs/inertia-vue3";
             <div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
                 <div itemscope itemtype="https://schema.org/Organization" class="w-full justify-start items-center gap-8 grid lg:grid-cols-2 grid-cols-1">
                     <img itemprop="image" class="lg:mx-0 mx-auto h-full rounded-3xl object-cover"
-                        src="https://pagedone.io/asset/uploads/1717751272.png" alt="Юридическая компания Мина" />
+                        src="https://pagedone.io/asset/uploads/1717751272.png" alt="наследственный юрист Москва" />
                     <div class="w-full flex-col justify-start lg:items-start items-center gap-10 inline-flex">
                         <div class="w-full flex-col justify-start lg:items-start items-center gap-4 flex">
                             <div
@@ -250,7 +250,7 @@ import { Head } from "@inertiajs/inertia-vue3";
                     </div>
 
                     <img itemprop="image" class="lg:mx-0 mx-auto h-full rounded-3xl object-cover"
-                    src="https://pagedone.io/asset/uploads/1717751272.png" alt="Адвокат Мина" />
+                    src="https://nedicom.ru/storage/images/landing/main/secondm.webp" alt="Адвокат Мина Крым Симферополь" />
 
                 </div>
             </div>
