@@ -13,10 +13,10 @@ import { Head } from "@inertiajs/inertia-vue3";
         <meta name="description" :content="description" />
     </Head>
 
-    <div class="min-h-screen" itemscope itemtype="https://schema.org/LegalService">
+    <div class="min-h-screen">
         <MainHeader />
 
-        <Header :modalPageTitle="'Модальное окно главная'" />
+        <Header :modalPageTitle="'О компании'" />
 
         <h1
             class="pt-24 pb-12 w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto text-gray-900 text-4xl font-bold font-manrope leading-normal">
@@ -25,12 +25,12 @@ import { Head } from "@inertiajs/inertia-vue3";
 
         <section class="pb-24 relative">
             <div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
-                <div class="w-full justify-start items-center gap-8 grid lg:grid-cols-2 grid-cols-1">
-                    <img class="lg:mx-0 mx-auto h-full rounded-3xl object-cover"
-                        src="https://pagedone.io/asset/uploads/1717751272.png" alt="about Us image" />
+                <div itemscope itemtype="https://schema.org/Organization" class="w-full justify-start items-center gap-8 grid lg:grid-cols-2 grid-cols-1">
+                    <img itemprop="image" class="lg:mx-0 mx-auto h-full rounded-3xl object-cover"
+                        src="https://pagedone.io/asset/uploads/1717751272.png" alt="Юридическая компания Мина" />
                     <div class="w-full flex-col justify-start lg:items-start items-center gap-10 inline-flex">
                         <div class="w-full flex-col justify-start lg:items-start items-center gap-4 flex">
-                            <div itemscope itemtype="https://schema.org/Organization"
+                            <div
                                 class="text-gray-500 text-base font-normal leading-relaxed lg:text-start text-center">
                                 <h2 itemprop="name"
                                     class="text-gray-900 text-3xl font-bold font-manrope leading-normal lg:text-start text-center">
@@ -147,11 +147,11 @@ import { Head } from "@inertiajs/inertia-vue3";
 
         <section class="py-24 relative">
             <div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
-                <div class="w-full justify-start items-center gap-8 grid lg:grid-cols-2 grid-cols-1">
+                <div itemscope itemtype="https://schema.org/Organization" class="w-full justify-start items-center gap-8 grid lg:grid-cols-2 grid-cols-1">
 
                     <div class="w-full flex-col justify-start lg:items-start items-center gap-10 inline-flex">
                         <div class="w-full flex-col justify-start lg:items-start items-center gap-4 flex">
-                            <div itemscope itemtype="https://schema.org/Organization"
+                            <div 
                                 class="text-gray-500 text-base font-normal leading-relaxed lg:text-start text-center">
                                 <h2 itemprop="name"
                                     class="text-gray-900 text-3xl font-bold font-manrope leading-normal lg:text-start text-center">
@@ -249,8 +249,8 @@ import { Head } from "@inertiajs/inertia-vue3";
 
                     </div>
 
-                    <img class="lg:mx-0 mx-auto h-full rounded-3xl object-cover"
-                    src="https://pagedone.io/asset/uploads/1717751272.png" alt="about Us image" />
+                    <img itemscope itemtype="https://schema.org/Organization" class="lg:mx-0 mx-auto h-full rounded-3xl object-cover"
+                    src="https://pagedone.io/asset/uploads/1717751272.png" alt="Адвокат Мина" />
 
                 </div>
             </div>
