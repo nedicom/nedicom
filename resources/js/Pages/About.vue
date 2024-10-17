@@ -249,7 +249,7 @@ import { Head } from "@inertiajs/inertia-vue3";
 
                     </div>
 
-                    <img itemscope itemtype="https://schema.org/Organization" class="lg:mx-0 mx-auto h-full rounded-3xl object-cover"
+                    <img itemprop="image" class="lg:mx-0 mx-auto h-full rounded-3xl object-cover"
                     src="https://pagedone.io/asset/uploads/1717751272.png" alt="Адвокат Мина" />
 
                 </div>
