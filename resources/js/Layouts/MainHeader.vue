@@ -90,6 +90,7 @@ watch(ym, () => {
 
                       <button
                         type="button"
+                        aria-label="city"
                         class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                       >
                         <span v-if="$page.props.usercity.title">{{
@@ -99,6 +100,7 @@ watch(ym, () => {
 
                       <button
                         type="button"
+                        aria-label="enter"
                         class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                       >
                         <span v-if="$page.props.auth.user !== null">{{
