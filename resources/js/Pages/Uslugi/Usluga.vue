@@ -36,13 +36,14 @@ let vars = defineProps({
 let sliderheader = "Доверяйте делам";
 
 let url = '';
+let urlsymbol = false;
 if(vars.usluga.cities && vars.usluga.main && vars.usluga.second){
   url = vars.usluga.cities.url + '/' + vars.usluga.main.url + '/' + vars.usluga.second.url + '/' + vars.usluga.url
+  urlsymbol = 1;
 }
 else{
   url =  vars.usluga.url;
 }
-
 
 let secondbannerpc = 'https://nedicom.ru/' + vars.usluga.file_path;
 let secondbannerimgmobile = 'https://nedicom.ru/' + vars.usluga.mob_file_path;
@@ -73,10 +74,12 @@ details summary::-webkit-details-marker {
   <Head>
     <title>{{ vars.usluga.usl_name }}</title>
     <meta head-key="description" name="description" :content="vars.usluga.usl_desc" />
-    <link rel="canonical" :href="'https://nedicom.ru/uslugi/' + url" />
+
+    <link v-if="urlsymbol" rel="canonical" :href="'https://nedicom.ru/uslugi/' + url" />
   </Head>
 
   <MainHeader />
+
 
   <Header :phone="usluga.phone" :address="usluga.address" :modalPageTitle="'услуга - ' + vars.usluga.usl_name"/>
 
@@ -88,7 +91,7 @@ details summary::-webkit-details-marker {
         :secondbannerimgmobile="secondbannerimgmobile"
         :metaimage="metaimage"
       />
-
+{{ urlsymbol }}
       <!-- edit btn -->
       <div
         v-if="user"
