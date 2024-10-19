@@ -20,7 +20,7 @@ import { ref } from "vue";
 });*/
 
 let sliderheader = ref("Практика юриста");
-let robots = false; 
+let robots = false;
 
 let set = defineProps({
     statusonimage: String,
@@ -37,8 +37,8 @@ let set = defineProps({
 
 (set.lawyer.lawyer == 1) ? robots = false : robots = true;
 
-let mainbannerpc =  'url("https://nedicom.ru/'+set.lawyer.file_path+'")';
-let mainbannerimgmobile  = 'url("https://nedicom.ru/'+set.lawyer.avatar_path+'")';
+let mainbannerpc = 'url("https://nedicom.ru/' + set.lawyer.file_path + '")';
+let mainbannerimgmobile = 'url("https://nedicom.ru/' + set.lawyer.avatar_path + '")';
 
 let title = ref(set.lawyer.name);
 </script>
@@ -55,28 +55,18 @@ let title = ref(set.lawyer.name);
     <div class="min-h-screen">
         <MainHeader />
 
-        <Header :modalPageTitle="'юрист - ' + set.lawyer.name"/>
+        <Header :modalPageTitle="'юрист - ' + set.lawyer.name" />
 
-        <Mainbanner
-            :statusonimage="statusonimage"
-            :nameonimage="set.lawyer.name"
-            :mainbannerpc="mainbannerpc"
-            :mainbannerimgmobile="mainbannerimgmobile"
-        />
-
-        <Address />
+        <Mainbanner :statusonimage="statusonimage" :nameonimage="set.lawyer.name" :mainbannerpc="mainbannerpc"
+            :mainbannerimgmobile="mainbannerimgmobile" />
 
         <About :about="set.lawyer.about" />
 
-        <Specialization
-            :specializationOne="specializationOne"
-            :specializationTwo="specializationTwo"
-            :specializationThree="specializationThree"
-            :specialization="specialization"
-        />
-
-        <LawyerRating :lawyer="set.lawyer"
-        />
+        <!--
+        <Specialization :specializationOne="specializationOne" :specializationTwo="specializationTwo"
+            :specializationThree="specializationThree" :specialization="specialization" />
+-->
+        <LawyerRating :lawyer="set.lawyer" />
 
         <Articles :articles="articles" />
 

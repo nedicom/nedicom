@@ -23,9 +23,15 @@ class LawyerController extends Controller
         LawyerRating::PracticeRating();
         LawyerRating::QuestionRating();
         LawyerRating::AnswerRating();
-        //dd(Article::where('userid', $id)->orderBy('updated_at', 'desc')->pluck('header', 'description')->take(3));
+
+        $user = User::where('id', '=', $id)->first();
+
+        if(!$user->lawyer){
+            return redirect()->route('Welcome');
+        }
+
         return Inertia::render('Lawyers/Lawyer', [
-            'lawyer' => User::where('id', '=', $id)->first(),
+            'lawyer' => $user,
             'specializationOne' => User::find($id)->lawyerSpecOne,
             'specializationTwo' => User::find($id)->lawyerSpecTwo,
             'specializationThree' => User::find($id)->lawyerSpecThree,
