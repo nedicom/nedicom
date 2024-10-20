@@ -37,6 +37,7 @@
         "@tiptap/vue-3": "^2.0.3",
         "@vue/server-renderer": "^3.3.7",
         "@vuepic/vue-datepicker": "^8.1.1",
+        "apexcharts": "^3.54.1",
         "flowbite": "^1.8.1",
         "nodemon": "^2.0.20",
         "vue-advanced-cropper": "^2.8.8",
@@ -44,6 +45,7 @@
         "vue-meta": "^2.4.0",
         "vue-writer": "^1.2.0",
         "vue-yandex-metrika": "^1.8.3",
+        "vue3-apexcharts": "^1.7.0",
         "vue3-carousel": "^0.3.1"
     }
 }

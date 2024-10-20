@@ -35,16 +35,6 @@ let vars = defineProps({
 
 let sliderheader = "Доверяйте делам";
 
-let url = '';
-let urlsymbol = false;
-if(vars.usluga.cities && vars.usluga.main && vars.usluga.second){
-  url = vars.usluga.cities.url + '/' + vars.usluga.main.url + '/' + vars.usluga.second.url + '/' + vars.usluga.url
-  urlsymbol = 1;
-}
-else{
-  url =  vars.usluga.url;
-}
-
 let secondbannerpc = 'https://nedicom.ru/' + vars.usluga.file_path;
 let secondbannerimgmobile = 'https://nedicom.ru/' + vars.usluga.mob_file_path;
 
@@ -74,8 +64,6 @@ details summary::-webkit-details-marker {
   <Head>
     <title>{{ vars.usluga.usl_name }}</title>
     <meta head-key="description" name="description" :content="vars.usluga.usl_desc" />
-
-    <link v-if="urlsymbol" rel="canonical" :href="'https://nedicom.ru/uslugi/' + url" />
   </Head>
 
   <MainHeader />
@@ -84,6 +72,7 @@ details summary::-webkit-details-marker {
   <Header :phone="usluga.phone" :address="usluga.address" :modalPageTitle="'услуга - ' + vars.usluga.usl_name"/>
 
   <Body>
+
     <div itemscope itemtype="https://schema.org/Product">
       <SecondBanner
         :statusonimage="usluga.usl_name"
@@ -91,7 +80,6 @@ details summary::-webkit-details-marker {
         :secondbannerimgmobile="secondbannerimgmobile"
         :metaimage="metaimage"
       />
-{{ urlsymbol }}
       <!-- edit btn -->
       <div
         v-if="user"
@@ -179,7 +167,7 @@ details summary::-webkit-details-marker {
                   {{ card.created_at }}
                 </div>
 
-                <RatingReady :reviewRating="true" :rating="card.rating.toString()" />
+                <RatingReady :reviewRating="true" :rating="card.rating" />
 
                 <div class="flex items-center justify-start">
                   <div class="rounded-full w-12">
@@ -434,7 +422,7 @@ details summary::-webkit-details-marker {
         </div>
       </div>
       <!-- popular question -->
-
+ 
       <Prices
         :subheader="vars.main_usluga.usl_name"
         :city="vars.usluga.cities"
@@ -450,7 +438,7 @@ details summary::-webkit-details-marker {
       :second_usluga="vars.second_usluga ? vars.second_usluga : null"
       :usluga="vars.usluga" />
   </Body>
-
+    
   <MainFooter />
 </template>
 
@@ -490,4 +478,8 @@ export default defineComponent({
     },
   }),
 });
+
+
+
+
 </script>

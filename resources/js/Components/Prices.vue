@@ -1,4 +1,5 @@
 <script setup>
+import Chart from "@/Layouts/Chart.vue";
 
 defineProps({
   subheader: String,
@@ -96,6 +97,7 @@ const prices = [
 </script>
 
 <template>
+  
   <div itemscope itemtype="https://schema.org/Product" class="grid grid-cols-1 md:grid-cols-3 p-5 my-12">
     <div class="grid grid-cols-1 content-center p-5">
       <img itemprop="image" :src="metaimage" :alt="subheader" />
@@ -124,6 +126,8 @@ const prices = [
         общая оценка: <span itemprop="ratingValue">{{ rating }}</span>
         всего отзывов: <span itemprop="reviewCount">{{ reviewcoutnt }}</span>
       </p>
+
+      <Chart :prices="prices"/>
 
     </div>
 
