@@ -56,7 +56,7 @@ if (props.phone !== undefined) {
                             </a>
 
                             <a :href="'https://wa.me/' + props.phone.replace(/[^-0-9-.]/, '') + '?text=Здравствуйте.'"
-                                type="button" class="mb-5 w-full inline-flex items-center justify-center text-white mr-2 bg-emerald-500 hover:bg-emerald-700                     
+                                type="button" class="mb-5 w-full inline-flex items-center justify-center text-white mr-2 bg-emerald-700 hover:bg-emerald-800                     
     font-medium rounded-lg py-2.5
   ">
                                 <svg class="mr-2 w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"

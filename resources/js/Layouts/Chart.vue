@@ -1,5 +1,6 @@
 <script setup>
 import VueApexCharts from "vue3-apexcharts";
+import { ref, onMounted } from "vue";
 
 
 let set = defineProps({
@@ -9,7 +10,6 @@ let set = defineProps({
 let series = [];
 let test = [];
 
-//result = set.prices.map((item) => ({ price: item.price }));
 set.prices.map((item) => series.push(Number(item.price)));
 set.prices.map((item) => test.push(item.name));
 
@@ -31,10 +31,30 @@ const chartOptions = {
         }
     }]
 };
+
+let obs = ref(false);
+
+onMounted(() => {
+    const sections = document.querySelector('#apexchart')
+    const options = {
+        threshold: 0.5
+    }
+    const observer = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                obs.value = true;
+                observer.disconnect()
+            }
+        })
+    }, options)
+    observer.observe(sections)
+})
 </script>
 
 <template>
-    <VueApexCharts width="500" type="pie" :options="chartOptions" :series="series"></VueApexCharts>
+    <div id="apexchart">
+        <VueApexCharts v-if="obs" width="500" type="pie" :options="chartOptions" :series="series"></VueApexCharts>
+    </div>
 </template>
 
 <script>
