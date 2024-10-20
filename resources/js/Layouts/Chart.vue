@@ -1,4 +1,5 @@
 <script setup>
+/*
 import VueApexCharts from "vue3-apexcharts";
 import { ref, onMounted } from "vue";
 
@@ -113,6 +114,7 @@ onMounted(() => {
     }, options)
     observer.observe(sections)
 })
+    */
 </script>
 
 <template>
@@ -120,8 +122,3 @@ onMounted(() => {
         <VueApexCharts v-if="obs" width="500" type="pie" :options="chartOptions" :series="series"></VueApexCharts>
     </div>
 </template>
-
-<script>
-
-
-</script>
