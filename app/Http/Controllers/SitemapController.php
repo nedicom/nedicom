@@ -47,7 +47,7 @@ class SitemapController extends Controller
 
     public function uslugi()
     {
-        $uslugi = Uslugi::all()->with('main')->with('second')->with('city');
+        $uslugi = Uslugi::has('main')->has('second')->has('cities')->get();
   
         return response()->view('sitemap/uslugi', [
             'uslugi' => $uslugi,

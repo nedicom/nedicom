@@ -10,11 +10,6 @@ defineProps({
   metaimage: String
 })
 
-const header = "Средняя стоимость услуг";
-const description =
-  " рекомендуем стоимость и объем услуг определять на консультации. ";
-const body =
-  "Так Вы поймете насколько разрешимо Ваше дело и что нужно для достижения успеха.";
 const prices = [
   {
     id: "one",
@@ -97,13 +92,11 @@ const prices = [
 </script>
 
 <template>
-
   <div class="grid grid-cols-1 my-12 justify-items-center">
-    
-
+    <h2 class="text-4xl mx-12 my-1 font-semibold text-grey text-center mb-10">Цена услуг юриста</h2>
     <div class="w-full md:w-2/3 mb-5 px-2">
       <div class="relative overflow-x-auto">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" class="px-6 py-3">
@@ -115,27 +108,39 @@ const prices = [
               <th scope="col" class="px-6 py-3">
                 цена
               </th>
-              <th scope="col" class="px-6 py-3">
-                Дополнительно
-              </th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="item in prices" :key="item" itemprop="offers" itemscope itemtype="https://schema.org/Offer"
-              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">              
+              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
               <th scope="row" itemprop="name"
                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 {{ item.name }}
               </th>
               <td itemprop="description" class="px-6 py-4">
                 {{ item.value }}
+                <!-- Component Start -->
+                <div class="relative flex flex-col items-center group">
+                  <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                      clip-rule="evenodd" />
+                  </svg>
+                  <div class="absolute bottom-0 flex flex-col items-center hidden mb-5 group-hover:flex">
+                    <span
+                      class="relative rounded-md z-100 p-4 text-xs leading-none text-white whitespace-no-wrap bg-black shadow-lg">По статистике за 2024 год, диапазон
+                      цены услуги {{ subheader }} по городу {{ city.title }} от {{ item.price / 2 }} р. до {{ item.price
+                        * 2
+                      }} р.</span>
+                    <div class="w-3 h-3 -mt-2 rotate-45 bg-black"></div>
+                  </div>
+                </div>
+                <!-- Component End  -->
               </td>
               <td itemprop="price" :content="item.price" class="px-6 py-4">
-                {{ item.price }} <span itemprop="priceCurrency" class="inline" content="RUB"> р.</span>
+                {{ item.price }}<span itemprop="priceCurrency" class="inline" content="RUB">р.</span>
                 <meta itemprop="priceValidUntil" content="2027-01-01">
-              </td>
-              <td class="px-6 py-4">
-                *
+
                 <meta itemprop="availability" content="https://schema.org/InStock" />
 
                 <div itemprop="shippingDetails" itemtype="https://schema.org/OfferShippingDetails" itemscope>
@@ -172,54 +177,6 @@ const prices = [
           </tbody>
         </table>
       </div>
-
-
-      <!--
-      <div v-for="item in prices" :key="item" class="grid grid-cols-1 md:grid-cols-3">
-        <div class="rounded-full flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-            stroke="currentColor" class="size-6 w-5 md:visible invisible">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-          </svg>
-
-
-        </div>
-
-
-        
-        <div itemprop="offers" itemscope itemtype="https://schema.org/Offer"
-          class="col-span-2 grid grid-cols-1 content-center text-center md:text-start">
-          <meta itemprop="priceValidUntil" content="2027-01-01">
-          <div itemprop="name" class="text-2xl font-bold">
-            {{ item.name }}
-          </div>
-          <div itemprop="description" class="text-sm text-gray-500">
-            {{ item.value }}
-          </div>
-          <div class="mt-3">
-            <span itemprop="price" class="text-sm" :content="item.price">стоимость: </span>
-            <link itemprop="availability" href="https://schema.org/InStock" /> {{ item.price }} <span
-              itemprop="priceCurrency" content="RUB">рублей </span>
-
-          </div>
-
-          
-
-          <div itemprop="hasMerchantReturnPolicy" itemtype="https://schema.org/MerchantReturnPolicy" itemscope>
-            <meta itemprop="applicableCountry" content="RU" />
-            <meta itemprop="returnMethod" content="https://schema.org/ReturnByMail" />
-            <meta itemprop="returnFees" content="https://schema.org/FreeReturn" />
-            <meta itemprop="returnPolicyCategory" content="https://schema.org/MerchantReturnFiniteReturnWindow" />
-            <meta itemprop="merchantReturnDays" content="3" />
-          </div>
-
-        </div>
-
-         
-      </div>
-
-   -->
-
 
     </div>
 
