@@ -122,8 +122,7 @@ const prices = [
           </thead>
           <tbody>
             <tr v-for="item in prices" :key="item" itemprop="offers" itemscope itemtype="https://schema.org/Offer"
-              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              <meta itemprop="priceValidUntil" content="2027-01-01">
+              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">              
               <th scope="row" itemprop="name"
                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 {{ item.name }}
@@ -133,6 +132,7 @@ const prices = [
               </td>
               <td itemprop="price" :content="item.price" class="px-6 py-4">
                 {{ item.price }} <span itemprop="priceCurrency" class="inline" content="RUB"> р.</span>
+                <meta itemprop="priceValidUntil" content="2027-01-01">
               </td>
               <td class="px-6 py-4">
                 *
