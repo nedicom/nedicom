@@ -45,6 +45,7 @@ class UslugiController extends Controller
         $uslugi = Uslugi::where('is_main', '!=', 1)
             ->where('is_second', null)
             ->where('is_feed', 1)
+            ->inRandomOrder()
             ->with('cities')
             ->with('main')
             ->with('second')

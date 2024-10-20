@@ -91,10 +91,20 @@ const onImgLoad = function () {
             " class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white"
             ><span itemprop="name">{{ offer.usl_name }}</span></a>
 
-          <div class="mt-2 flex items-center gap-2">
+          <div v-if="offer.review_sum_rating && offer.review_count" class="mt-2 flex items-center gap-2">
             <div class="flex items-center">
               <RatingReady :rating="(offer.review_sum_rating / offer.review_count).toFixed(2)
                 " :reviewRating="false"/>
+            </div>
+
+            <p class="text-sm font-medium text-gray-900 dark:text-white">
+              отзывов - {{ offer.review_count }}
+            </p>
+          </div>
+
+          <div v-else class="mt-2 flex items-center gap-2">
+            <div class="flex items-center">
+              <RatingReady :rating=0 :reviewRating="false"/>
             </div>
 
             <p class="text-sm font-medium text-gray-900 dark:text-white">

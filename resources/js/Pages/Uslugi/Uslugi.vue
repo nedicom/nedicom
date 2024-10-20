@@ -27,6 +27,7 @@ let set = defineProps({
   sumrating: Number,
 });
 
+
 let title = ref("Услуги");
 
 let status = ref(false);
@@ -59,8 +60,22 @@ function alertForm(x) {
           <CityFilter :cities="set.cities" :routeurl="set.routeurl" :status="status" :main_usluga_url="main_usluga.url"
             :second_usluga_url="[second_usluga ? second_usluga.url : false]" @activeSts="alertForm" />
 
-          <CategoryFilter :category="set.category" :cityUrl="set.city.url" :main_usluga_url="main_usluga.url"
-            :second_usluga_url="[second_usluga ? second_usluga.url : false]" @activeSts="alertForm" />
+          <div v-if="set.allsities" сlass="flex justify-center md:justify-end">
+            <div class="mb-10 px-2">
+              <div class="flex flex-wrap gap-1 justify-center md:justify-end">
+                  <p class="w-full text-md font-bold text-center md:text-right">Недавно юристов искали в этих городах</p>
+                <div v-for="(allcity, n) in set.allsities" :key="n">
+                  <h3 class="m-0">
+                  <a :href="route('uslugi.url', [allcity.cities.url])"
+                    class="bg-gray-100 text-xs rounded-md px-2 py-1">{{
+                      allcity.cities.title }}</a></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <CategoryFilter :category="set.category" :cityUrl="set.city.url" :main_usluga_url="main_usluga.url ? main_usluga.url : '0'"
+            :second_usluga_url="second_usluga ? second_usluga.url : 'false'" @activeSts="alertForm" />
         </div>
         <div class="w-full h-full col-span-3 md:pl-10 my-5 md:my-0" itemscope itemtype="https://schema.org/Product">
 
@@ -87,7 +102,7 @@ function alertForm(x) {
               }}</span>
             </span>
 
-            <div v-if="set.sumrating && set.countrating"
+            <div v-if="set.sumrating !== 0 && set.countrating !== 0"
               class="mb-4 flex justify-start gap-2 text-sm font-medium text-gray-900" itemprop="aggregateRating"
               itemscope itemtype="https://schema.org/AggregateRating">
               <span class="flex items-center" itemprop="ratingValue">
@@ -96,6 +111,7 @@ function alertForm(x) {
               </span> из <span itemprop="bestRating">5.00</span>
               на основании <span itemprop="ratingCount">{{ set.countrating }} </span>отзывов
             </div>
+
           </div>
 
           <div v-if="set.uslugi">
