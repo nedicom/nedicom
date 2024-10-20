@@ -99,43 +99,7 @@ const prices = [
 <template>
 
   <div itemscope itemtype="https://schema.org/Product" class="grid grid-cols-1 my-12 justify-items-center">
-    <div class="grid grid-cols-2 gap-4 w-full md:w-1/2 mb-5 px-2">
-      <div>
-        <img itemprop="image" :src="metaimage" :alt="subheader" class="rounded-lg" />
-      </div>
-
-      <div>
-        <h2>
-          <span itemprop="name" class="text-3xl">{{ header }}</span> <span v-if="subheader"> в категории<br>
-            <span itemprop="name">
-              <span class="text-2xl">{{
-                subheader }}</span>
-              <span v-if="city">
-                по городу <span class="text-2xl">{{ city.title }}</span>
-              </span>
-            </span>
-          </span>
-        </h2>
-
-        <p itemprop="description" class="font-medium mt-5">
-          В категории {{
-            subheader }} <span v-if="city">по городу {{ city.title }} </span>{{ description }}
-        </p>
-        <p class="font-light mt-5">
-          {{ body }}
-        </p>
-
-        <p itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating"
-          class="text-xs mx-12 font-semibold text-grey text-center md:text-end py-5">
-          общая оценка:
-          <span v-if="rating" itemprop="ratingValue">{{ rating }}</span>
-          <span v-else itemprop="ratingValue">5</span>
-          всего отзывов:
-          <span v-if="reviewcoutnt" itemprop="reviewCount">{{ reviewcoutnt }}</span>
-          <span v-else itemprop="reviewCount">81</span>
-        </p>
-      </div>
-    </div>
+    
 
     <div class="w-full md:w-2/3 mb-5 px-2">
       <div class="relative overflow-x-auto">
@@ -173,7 +137,7 @@ const prices = [
               <td class="px-6 py-4">
                 *
                 <meta itemprop="availability" content="https://schema.org/InStock" />
-                
+
                 <div itemprop="shippingDetails" itemtype="https://schema.org/OfferShippingDetails" itemscope>
                   <div itemprop="shippingRate" itemtype="https://schema.org/MonetaryAmount" itemscope>
                     <meta itemprop="value" content="0" />
