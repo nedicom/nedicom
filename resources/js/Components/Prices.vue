@@ -98,7 +98,7 @@ const prices = [
 
 <template>
 
-  <div itemscope itemtype="https://schema.org/Product" class="grid grid-cols-1 my-12 justify-items-center">
+  <div class="grid grid-cols-1 my-12 justify-items-center">
     
 
     <div class="w-full md:w-2/3 mb-5 px-2">

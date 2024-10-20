@@ -38,7 +38,7 @@ defineProps({
                     <a itemprop="item" :href="route('uslugi')"
                         class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white"
                         :class="!city ? 'pointer-events-none' : null">
-                        <span itemprop="name">Услуги</span></a>
+                        <span itemprop="name">Услуги юриста</span></a>
                     <meta itemprop="position" content="2" />
                 </div>
             </li>
