@@ -7,5 +7,6 @@
             <changefreq>weekly</changefreq>
             <priority>0.9</priority>
         </url>
+        {{$usluga}}
     @endforeach
 </urlset>

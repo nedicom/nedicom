@@ -127,7 +127,7 @@ const prices = [
         всего отзывов: <span itemprop="reviewCount">{{ reviewcoutnt }}</span>
       </p>
 
-      <Chart :prices="prices"/>
+   
 
     </div>
 
