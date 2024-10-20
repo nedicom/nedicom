@@ -12,7 +12,7 @@ defineProps({
 
 const header = "Средняя стоимость услуг";
 const description =
-  "рекомендуем стоимость и объем услуг определять на консультации. ";
+  " рекомендуем стоимость и объем услуг определять на консультации. ";
 const body =
   "Так Вы поймете насколько разрешимо Ваше дело и что нужно для достижения успеха.";
 const prices = [
@@ -97,10 +97,14 @@ const prices = [
 </script>
 
 <template>
-  
-  <div itemscope itemtype="https://schema.org/Product" class="grid grid-cols-1 md:grid-cols-3 p-5 my-12">
-    <div class="grid grid-cols-1 content-center p-5">
-      <img itemprop="image" :src="metaimage" :alt="subheader" />
+
+  <div itemscope itemtype="https://schema.org/Product" class="grid grid-cols-1 my-12 justify-items-center">
+    <div class="grid grid-cols-2 gap-4 w-full md:w-1/2 mb-5 px-2">
+      <div>
+        <img itemprop="image" :src="metaimage" :alt="subheader" class="rounded-lg"/>
+      </div>
+
+      <div>
       <h2>
         <span itemprop="name" class="text-3xl">{{ header }}</span> <span v-if="subheader"> в категории<br>
           <span itemprop="name">
@@ -123,23 +127,61 @@ const prices = [
 
       <p itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating"
         class="text-xs mx-12 font-semibold text-grey text-center md:text-end py-5">
-        общая оценка: <span itemprop="ratingValue">{{ rating }}</span>
-        всего отзывов: <span itemprop="reviewCount">{{ reviewcoutnt }}</span>
+        общая оценка:
+        <span v-if="rating" itemprop="ratingValue">{{ rating }}</span>
+        <span v-else itemprop="ratingValue">5</span>
+        всего отзывов:
+        <span v-if="reviewcoutnt" itemprop="reviewCount">{{ reviewcoutnt }}</span>
+        <span v-else itemprop="reviewCount">81</span>
       </p>
-
-   
-
+    </div>
     </div>
 
-    <div class="col-span-2">
+    <div class="w-full md:w-2/3 mb-5 px-2">
+      <div class="relative overflow-x-auto">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" class="px-6 py-3">
+                Наименование услуги
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Описание услуги
+              </th>
+              <th scope="col" class="px-6 py-3">
+                цена
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Дополнительно
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in prices" :key="item" itemprop="offers" itemscope itemtype="https://schema.org/Offer"
+              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <meta itemprop="priceValidUntil" content="2027-01-01">
+              <th scope="row" itemprop="name"
+                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                {{ item.name }}
+              </th>
+              <td itemprop="description" class="px-6 py-4">
+                {{ item.value }}
+              </td>
+              <td itemprop="price" :content="item.price" class="px-6 py-4">
+                {{ item.price }} <span itemprop="priceCurrency" class="inline" content="RUB"> р.</span>
+              </td>
+              <td class="px-6 py-4">
+                *
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+      <!--
       <div v-for="item in prices" :key="item" class="grid grid-cols-1 md:grid-cols-3">
         <div class="rounded-full flex items-center justify-center">
-          <!--<img
-            :src="'https://nedicom.ru/storage/images/services/' + item.img"
-            width="120"
-            class="rounded-full"
-            :alt="item.name"
-          />-->
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
             stroke="currentColor" class="size-6 w-5 md:visible invisible">
             <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
@@ -148,6 +190,8 @@ const prices = [
 
         </div>
 
+
+        
         <div itemprop="offers" itemscope itemtype="https://schema.org/Offer"
           class="col-span-2 grid grid-cols-1 content-center text-center md:text-start">
           <meta itemprop="priceValidUntil" content="2027-01-01">
@@ -196,7 +240,13 @@ const prices = [
           </div>
 
         </div>
+
+         
       </div>
+
+   -->
+
+
     </div>
 
   </div>
