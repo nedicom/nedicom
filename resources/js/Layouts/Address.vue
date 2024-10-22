@@ -26,10 +26,10 @@ if (props.phone !== undefined) {
         <div class="md:w-1/2 w-full">
             <section>
                 <div class="px-4 mx-auto max-w-screen-xl">
-                    <div class="my-12 md:my-20 md:mt-0 text-center">
+                    <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress" class="my-12 md:my-20 md:mt-0 text-center">
                         <p v-if="dopadress" class="font-semibold text-3xl">Главный офис:</p>
                         <p v-else class="font-semibold text-3xl">Наш офис:</p>
-                        <h2 itemprop="streetAddress" class="mb-4 text-xl my-6 font-semibold">{{ address }}</h2>
+                        <h2  class="mb-4 text-xl my-6 font-semibold">{{ address }}</h2>
 
                         <meta itemprop="name" :content="usl_name" />
                         <meta itemprop="postalCode" content="295000" />
