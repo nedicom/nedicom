@@ -35,7 +35,11 @@ let vars = defineProps({
 
 let sliderheader = "Доверяйте делам";
 
-let secondbannerpc = 'https://nedicom.ru/' + vars.usluga.file_path;
+let pcimg = vars.lawyer.file_path;
+if(vars.usluga.file_path){
+  pcimg = vars.usluga.file_path;
+}
+let secondbannerpc = 'https://nedicom.ru/' + pcimg;
 let secondbannerimgmobile = 'https://nedicom.ru/' + vars.usluga.mob_file_path;
 
 let metaimage = "https://nedicom.ru/" + vars.usluga.file_path;
@@ -68,11 +72,9 @@ details summary::-webkit-details-marker {
 
   <MainHeader />
 
-
   <Header :phone="usluga.phone" :address="usluga.address" :modalPageTitle="'услуга - ' + vars.usluga.usl_name" />
 
   <Body>
-
     <div itemscope itemtype="https://schema.org/Product">
       <SecondBanner :statusonimage="usluga.usl_name" :phnform="false" :secondbannerpc="secondbannerpc"
         :secondbannerimgmobile="secondbannerimgmobile" :metaimage="metaimage" />

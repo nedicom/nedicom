@@ -30,7 +30,6 @@ onMounted(() => {
   loadImage();
 });
 //preloader img
-
 </script>
 
 <style scoped>

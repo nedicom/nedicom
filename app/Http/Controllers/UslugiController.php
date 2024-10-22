@@ -151,18 +151,19 @@ class UslugiController extends Controller
 
         if ($usluga) {
             if ($usluga->sity) {
+                $second_usluga_id = ($usluga->second_usluga_id) ? $usluga->second_usluga_id : 'second';
                 return redirect()->route(
                     'uslugi.canonical.url',
                     [
                         cities::findOrFail($usluga->sity)->url,
                         Uslugi::findOrFail($usluga->main_usluga_id)->url,
-                        Uslugi::findOrFail($usluga->second_usluga_id)->url,
+                        $second_usluga_id,
                         $usluga->url
                     ],
                     301
                 );
             }
-            else {
+            else {                
                 abort(404);
             }
         } else {
@@ -388,7 +389,6 @@ class UslugiController extends Controller
     public function showcanonical($city, $main_usluga, $second_usluga, $url,  Request $request)
     {
         $usluga = Uslugi::where('url', '=', $url)->first();
-
         CitySet::CitySet($request, $city);
 
         $id = $usluga->id;
