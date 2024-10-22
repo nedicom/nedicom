@@ -22,29 +22,6 @@ if (props.phone !== undefined) {
 
 <template>
     <!-- address -->
-
-
-    <div >
-  <span itemprop="name">Google.org (GOOG)</span>
-
-Contact Details:
-  <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-    Main address:
-      <span itemprop="streetAddress">38 avenue de l'Opéra</span>
-      <span itemprop="postalCode">F-75002</span>
-      <span itemprop="addressLocality">Paris, France</span>
-    ,
-  </div>
-    Tel:<span itemprop="telephone">( 33 1) 42 68 53 00 </span>,
-    Fax:<span itemprop="faxNumber">( 33 1) 42 68 53 01 </span>,
-    E-mail: <span itemprop="email">secretariat(at)google.org</span>
-    SIRET Code: 443 061 841 00039<meta itemprop="iso6523Code" content="0009:44306184100039" />
-    VAT Number: FR64443061841<meta itemprop="iso6523Code" content="9957:FR64443061841" />
-</div>
-
-
-
-
     <div itemscope itemtype="https://schema.org/Organization" class="md:flex justify-center md:my-20 p-5 md:p-0">
         <div class="md:w-1/2 w-full">
             <section>
@@ -59,7 +36,7 @@ Contact Details:
                         <meta itemprop="addressLocality" content="Russia" />
                         <meta itemprop="iso6523Code" content="317910200050560" />
                         <meta itemprop="iso6523Code" content="910305709385" />
-                        
+
                         <p v-if="dopadress" class="font-semibold text-3xl mt-6">Дополнительные офисы</p>
                         <h2 v-if="dopadress" v-html="dopadress" class="mb-4 text-xl my-6 font-semibold"></h2>
 
