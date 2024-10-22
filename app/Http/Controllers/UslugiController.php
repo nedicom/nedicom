@@ -28,7 +28,7 @@ class UslugiController extends Controller
             });
         }
 
-        $cityurl = '';       
+        $cityurl = '';
 
         $city = CitySet::CitySet($request, $cityurl);
 
@@ -83,9 +83,8 @@ class UslugiController extends Controller
 
     public function show($url,  Request $request) // http://nedicom.ru/uslugi/city
     {
-
         //check city in url
-        if (cities::where('url', $url)->first()) {
+        if (cities::where('url', $url)->first()) {            
             $cities = [];
             if ($request->city) {
                 $cities = cities::when($request->city ?? null, function ($query, $city) {
@@ -146,29 +145,26 @@ class UslugiController extends Controller
             ]);
         }
         //check city in url
-
-        $usluga = Uslugi::where('url', '=', $url)->first();
-
-        if ($usluga) {
-                $sity = ($usluga->sity) ? $usluga->sity : 'allcities';
-                $main_usluga_id = ($usluga->main_usluga_id) ? $usluga->main_usluga_id : 'main';
-                $second_usluga_id = ($usluga->second_usluga_id) ? $usluga->second_usluga_id : 'second';                
-                return redirect()->route(
-                    'uslugi.canonical.url',
-                    [
-                        $sity,
-                        $main_usluga_id,
-                        $second_usluga_id,
-                        $usluga->url
-                    ],
-                    301
-                );
-            }
-            else {                
-                abort(404);
-            }
-
-
+        $usluga = Uslugi::where('url', $url)->first();
+        if ($usluga) {            
+            $sity = ($usluga->sity) ? $usluga->sity : 'allcities';
+            $main_usluga_id = ($usluga->main_usluga_id) ? $usluga->main_usluga_id : 'main';
+            $second_usluga_id = ($usluga->second_usluga_id) ? Uslugi::findOrFail($usluga->second_usluga_id)->url : 'second';
+            return redirect()->route(
+                'uslugi.canonical.url',
+                [
+                    'city' => cities::findOrFail($sity)->url,
+                    'main_usluga' => Uslugi::findOrFail($main_usluga_id)->url,
+                    'second_usluga' => $second_usluga_id,
+                    'url' => $usluga->url,
+                ],
+                302
+            );
+        } else {            
+            abort(404);
+        }
+        dd(123);
+        abort(404);
         //del
         /*if ($usluga->sity) {
             $cityurl = cities::where('id', $usluga->sity)->first()->url;
@@ -235,7 +231,7 @@ class UslugiController extends Controller
                 }
             }])
             ->with('mainhassecond')
-            ->get();        
+            ->get();
 
         $city = CitySet::CitySet($request, $city->url);
 

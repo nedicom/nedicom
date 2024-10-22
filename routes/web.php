@@ -103,7 +103,7 @@ Route::middleware('auth')->group(function () {
 
 Route::controller(UslugiController::class)->group(function () {
     Route::get('/uslugi', 'index')->name('uslugi');
-    Route::get('/uslugi/{url}', 'show')->name('uslugi.url'); //usluga del
+    Route::get('/uslugi/{url}', 'show')->name('uslugi.url');
     Route::get('/uslugi/{city}/{main_usluga}', 'showOfferByMain')->name('offer.main');
     Route::get('/uslugi/{city}/{main_usluga}/{second_usluga}', 'showOfferBysecond')->name('offer.second');
     Route::get('/uslugi/{main_usluga}/{second_usluga}', 'showsecond')->name('uslugi.second.url'); //del
