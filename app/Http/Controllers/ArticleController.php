@@ -72,11 +72,9 @@ class ArticleController extends Controller
         $article->description = $request->description;
         $article->body = $request->body;
         $article->usluga_id = $request->usluga_id;
-        $article->youtube_file_path = $request->youtube;
-        $url = Translate::translit($request->header);
-        $article->url = $url;
+        $article->youtube_file_path = $request->youtube; 
         $article->save();
-        return redirect()->route('articles/url', $url);
+        return redirect()->route('articles/url', $article->url);
     }
 
     public function store(StoreArticleRequest $request)
