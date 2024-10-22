@@ -62,6 +62,7 @@ let form = reactive({
   longdescription: set.uslugi.longdescription,
   phone: set.uslugi.phone,
   address: set.uslugi.address,
+  dopadress: set.uslugi.dopadress,
   maps: set.uslugi.maps,
   is_main: checkbox,
   is_second: checkboxsecond,
@@ -391,13 +392,27 @@ const date = ref(new Date());
                 <label
                   for="address"
                   class="block text-sm font-medium leading-6 text-gray-900"
-                  >Адрес</label
+                  >Адрес (отображается в шапке и на странице услуги в разделе "адреса")</label
                 >
 
                 <textarea
                   v-model="form.address"
                   name="address"
                   maxlength="100"
+                  class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 mb-5 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  rows="2"
+                ></textarea>
+
+                <label
+                  for="dopadress"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                  >Дополнительный адрес (не отображается в шапке, только на странице услуги в разделе "адреса")</label
+                >
+
+                <textarea
+                  v-model="form.dopadress"
+                  name="dopadress"
+                  maxlength="300"
                   class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 mb-5 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   rows="2"
                 ></textarea>

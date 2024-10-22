@@ -7,6 +7,7 @@ let phone = "+7 978 8838 978";
 const props = defineProps({
     usl_name: String,
     address: String,
+    dopadress: String,
     phone: String,
     maps: String,
 });
@@ -21,19 +22,23 @@ if (props.phone !== undefined) {
 
 <template>
     <!-- address -->
-    <div class="md:flex justify-center mt-5 md:my-20 p-5 md:p-0">
+    <div class="md:flex justify-center md:my-20 p-5 md:p-0">
         <div class="md:w-1/2 w-full">
             <section>
-                <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
-                    <div class="mt-4 md:mt-0">
-                        <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">{{ address
-                            }}</h2>
-                        <p class="mb-6 font-light text-gray-500 md:text-lg dark:text-gray-400">Выбирайте удобный способ
-                            связи для Вас
-                        </p>
+                <div class="px-4 mx-auto max-w-screen-xl">
+                    <div class="text-md mt-4 md:mt-0">
+                        <p v-if="dopadress" class="font-semibold">Главный офис</p>
+                        <h2 class="mb-4">{{ address }}</h2>
+                        <p v-if="dopadress" class="font-semibold">Дополнительные офисы</p>
+                        <h2 v-if="dopadress" v-html="dopadress" class="mb-4"></h2>
+
                     </div>
                     <div class="flex justify-center">
+
                         <div class="mt-5 md:w-1/2 ">
+                            <p class="mb-6 text-center">Выбирайте удобный способ
+                                связи для Вас
+                            </p>
 
                             <Modal :ModalBtnText="'записаться'" :secondtext="'на консультацию'" />
 

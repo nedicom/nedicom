@@ -13,10 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('cities', function (Blueprint $table) {
-            $table->string('url')->nullable();
-            $table->string('region')->nullable();
-            $table->unsignedBigInteger('regionId')->nullable();
+        Schema::table('uslugis', function (Blueprint $table) {
+            $table->string('dopadress')->after('address')->nullable();
         });
     }
 
@@ -28,9 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('uslugis', function (Blueprint $table) {
-            $table->dropColumn('url');
-            $table->dropColumn('region');
-            $table->dropColumn('regionId');
+            $table->dropColumn('dopadress');
         });
     }
 };

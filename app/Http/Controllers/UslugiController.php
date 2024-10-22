@@ -538,6 +538,7 @@ class UslugiController extends Controller
         $usluga->preimushestvo3 = $request->preimushestvo3;
         $usluga->phone = $request->phone;
         $usluga->address = $request->address;
+        $usluga->dopadress = $request->dopadress;
         $usluga->maps = $request->maps;
         $usluga->popular_question = $request->popular;
 

@@ -57,7 +57,7 @@ let description = "8 978 8838 978 юридические услуги по г. �
 
     <SliderUslug :uslugislider="uslugislider" />
 
-    <SecondBanner :statusonimage="'© 2024 nedicom™'" :nameonimage="null"
+    <SecondBanner :statusonimage="'© 2024 nedicom™'" :nameonimage="null" :phnform="true"
       :secondbannerimgmobile="secondbannerimgmobile" :secondbannerpc="secondbannerpc" />
 
     <Slider :practice="practice" :sliderheader="'Каждая проблема для нас особенная'" />

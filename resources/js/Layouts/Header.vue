@@ -46,9 +46,8 @@ let ModalBtnText = "Записаться на консультацию";
             <a :href="phoneto" class="p-0 text-2xl">{{ phone }} </a>
           </div>
 
-          <div class="hidden md:flex text-sm items-center justify-start text-center px-2">
-            <span v-if="props.address">
-              {{ props.address }}
+          <div class="hidden md:flex text-sm items-center justify-start text-center text-nowrap">
+            <span v-if="props.address" class="text-nowrap" v-html="props.address">
             </span>
             <span v-else>
               Качество юридических услуг гарантировано

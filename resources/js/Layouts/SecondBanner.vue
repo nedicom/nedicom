@@ -10,6 +10,7 @@ const props = defineProps({
   secondbannerimgmobile: String,
   secondbannerpc: String,
   metaimage: String,
+  phnform: Boolean
 });
 
 //preloader img
@@ -54,18 +55,19 @@ onMounted(() => {
         <div class="flex items-center justify-center">
           <div class="text-black text-center">
             <div class="m-5">
-              <span class="flex justify-center">
-                <ApplicationLogo class="w-20 h-20 fill-current  text-gray-500" />
-              </span>
-              <h1 itemprop="name"
-                class="goo text-2xl md:text-4xl font-semibold md:opacity-100 opacity-80 normal-case">{{ statusonimage
+
+              <h1 itemprop="name" class="goo text-2xl md:text-4xl font-semibold normal-case">
+                {{ statusonimage
                 }}</h1>
+
             </div>
+
             <!-- Form on main banner-->
-            <div class="flex justify-center">
+            <div v-if="props.phnform" class="flex justify-center">
               <PhoneForm :modalPageTitle="props.statusonimage" />
             </div>
-            <!-- Form on main banner-->
+            <!--Form on main banner-->
+
           </div>
         </div>
       </div>
