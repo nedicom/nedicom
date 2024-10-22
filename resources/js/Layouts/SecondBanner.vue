@@ -61,7 +61,7 @@ onMounted(() => {
           <div class="pb-4 pt-2 md:py-8 px-4 bg-gray-100 rounded-lg">
             <h2 class="mb-2 md:text-xl tracking-tight font-bold leading-tight text-gray-900">
               Цены</h2>
-            <p class="hidden md:block mb-4 text-gray-500 text-sm">Справедливые цены, качественная работа</p>
+            <p class="hidden md:block mb-4 text-gray-900 text-sm">Справедливые цены, качественная работа</p>
             <a href="#prices"
               class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5">смотреть</a>
           </div>
@@ -69,7 +69,7 @@ onMounted(() => {
           <div class="pb-4 pt-2 md:py-8 px-4 bg-gray-100 rounded-lg">
             <h2 class="mb-2 md:text-xl tracking-tight font-bold leading-tight text-gray-900">
               Отзывы</h2>
-            <p class=" hidden md:block mb-4 text-gray-500 text-sm">Ждем Ваш отзыв в нашей
+            <p class=" hidden md:block mb-4 text-gray-900 text-sm">Ждем Ваш отзыв в нашей
               копилке</p>
             <a href="#reviews"
               class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5">смотреть</a>
@@ -78,7 +78,7 @@ onMounted(() => {
           <div class="pb-4 pt-2 md:py-8 px-4 bg-gray-100 rounded-lg">
             <h2 class="mb-2 md:text-xl tracking-tight font-bold leading-tight text-gray-900">
               Достижения</h2>
-            <p class="hidden md:block mb-4 text-gray-500 text-sm">Практика юриста в данной категории</p>
+            <p class="hidden md:block mb-4 text-gray-900 text-sm">Практика юриста в данной категории</p>
             <a href="#prctglr"
               class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5">смотреть</a>
           </div>
@@ -86,7 +86,7 @@ onMounted(() => {
           <div class="pb-4 pt-2 md:py-8 px-4 bg-gray-100 rounded-lg">
             <h2 class="mb-2 md:text-xl tracking-tight font-bold leading-tight text-gray-900">
               Вопросы</h2>
-            <p class="hidden md:block mb-4 text-gray-500 text-sm">Может Вы ищите то, на что уже ответили</p>
+            <p class="hidden md:block mb-4 text-gray-900 text-sm">Может Вы ищите то, на что уже ответили</p>
             <a href="#questions"
               class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5">смотреть</a>
           </div>

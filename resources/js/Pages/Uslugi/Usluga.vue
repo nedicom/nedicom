@@ -329,11 +329,11 @@ details summary::-webkit-details-marker {
         :reviewcoutnt="vars.main_usluga.mainreview_count" :rating="Number(vars.main_usluga.avg_review)"
         :secondbannerimgmobile="secondbannerimgmobile" :metaimage="metaimage" />
 
-      <Address :usl_name="usluga.usl_name" :phone="usluga.phone" :address="usluga.address" :dopadress="usluga.dopadress"
+      <Address v-if="usluga.cities" :usl_name="usluga.usl_name" :phone="usluga.phone" :address="usluga.address" :dopadress="usluga.dopadress"
         :maps="usluga.maps" :metaimage="metaimage" :company="lawyer.name + ' юрист по городу ' + usluga.cities.title"/>
     </div>
 
-    <BreadcrumbsUslugi :city="(vars.city) ? vars.city : null"
+    <BreadcrumbsUslugi v-if="vars.city" :city="(vars.city) ? vars.city : null"
       :main_usluga="(vars.main_usluga.url !== 0) ? vars.main_usluga : null"
       :second_usluga="vars.second_usluga ? vars.second_usluga : null" :usluga="vars.usluga" />
   </Body>

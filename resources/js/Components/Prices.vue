@@ -127,7 +127,7 @@ const prices = [
                       clip-rule="evenodd" />
                   </svg>
                   <div class="absolute bottom-0 flex flex-col items-center hidden mb-5 group-hover:flex">
-                    <span
+                    <span v-if="city"
                       class="relative rounded-md z-100 p-4 text-xs leading-none text-white whitespace-no-wrap bg-black shadow-lg">По статистике за 2024 год, диапазон
                       цены услуги {{ subheader }} по городу {{ city.title }} от {{ item.price / 2 }} р. до {{ item.price
                         * 2

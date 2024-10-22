@@ -150,13 +150,14 @@ class UslugiController extends Controller
         $usluga = Uslugi::where('url', '=', $url)->first();
 
         if ($usluga) {
-            if ($usluga->sity) {
-                $second_usluga_id = ($usluga->second_usluga_id) ? $usluga->second_usluga_id : 'second';
+                $sity = ($usluga->sity) ? $usluga->sity : 'allcities';
+                $main_usluga_id = ($usluga->main_usluga_id) ? $usluga->main_usluga_id : 'main';
+                $second_usluga_id = ($usluga->second_usluga_id) ? $usluga->second_usluga_id : 'second';                
                 return redirect()->route(
                     'uslugi.canonical.url',
                     [
-                        cities::findOrFail($usluga->sity)->url,
-                        Uslugi::findOrFail($usluga->main_usluga_id)->url,
+                        $sity,
+                        $main_usluga_id,
                         $second_usluga_id,
                         $usluga->url
                     ],
@@ -166,13 +167,10 @@ class UslugiController extends Controller
             else {                
                 abort(404);
             }
-        } else {
-            abort(404);
-        }
 
 
         //del
-        if ($usluga->sity) {
+        /*if ($usluga->sity) {
             $cityurl = cities::where('id', $usluga->sity)->first()->url;
             $city = CitySet::CitySet($request, $cityurl);
         }
@@ -218,7 +216,7 @@ class UslugiController extends Controller
             'reviewscount' => $reviewscount,
             'rating' => $rating,
             'flash' => ['message' => $request->session()->get(key: 'message')],
-        ]);
+        ]);*/
 
         //del
     }
