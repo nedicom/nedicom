@@ -10,7 +10,8 @@ const props = defineProps({
     dopadress: String,
     phone: String,
     maps: String,
-    metaimage: String
+    metaimage: String,
+    company: String
 });
 
 if (props.address !== undefined) {
@@ -107,7 +108,7 @@ if (props.phone !== undefined) {
                                     </span>
                                 </span>
                             </a>
-                            <p itemprop="name" class="text-center mt-6">{{ usl_name }}</p>
+                            <p itemprop="name" class="text-center mt-6">{{ props.company }}</p>
                             <meta itemprop="image" :content="metaimage" />
                         </div>
                     </div>
