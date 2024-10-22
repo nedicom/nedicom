@@ -130,7 +130,7 @@ ol {
                                     </div>
 
                                     <div v-if="usluga" itemprop="headline" class="my-4">
-                                        Категория: <a :href="'https://nedicom.ru/uslugi/' + usluga.newurl"
+                                        Категория юриста: <a :href="'https://nedicom.ru/uslugi/simferopol/' + usluga.newurl"
                                             class="font-bold hover:underline">{{ usluga.usl_name }}</a>
                                     </div>
 

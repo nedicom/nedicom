@@ -59,7 +59,7 @@ class ArticleController extends Controller
             'Articles/Edit',
             [
                 'article' => Article::where('url', '=', $url)->first(),
-                'uslugi' => Uslugi::where('is_main', '=', 1)->get(),
+                'uslugi' => Uslugi::where('is_main', '=', 1)->where('is_feed', 1)->get(),
             ],
         );
     }
@@ -93,18 +93,23 @@ class ArticleController extends Controller
     public function articleURL($url)
     {
 
-        DB::table('articles')->where('articles.url', '=', $url)->increment('counter', 1);
+        $article = DB::table('articles')->where('articles.url', '=', $url)->first();
+
+        if (Auth::user()) {
+            if (Auth::user()->id != $article->userid) {
+                DB::table('articles')->where('articles.url', '=', $url)->increment('counter', 1);
+            }
+        } else {
+            DB::table('articles')->where('articles.url', '=', $url)->increment('counter', 1);
+        }
 
         DB::statement("SET lc_time_names = 'ru_RU'");
-
-        $usluga_id = DB::table('articles')->where('articles.url', '=', $url)->first();
-            if($usluga_id->usluga_id == null){
-                $usluga_id_sec = 15;
-            }
-            else{
-                $usluga_id_sec = $usluga_id->usluga_id;
-            }
-
+        if ($article->usluga_id == null) {
+            $usluga_id_sec = 15;
+        } else {
+            $usluga_id_sec = $article->usluga_id;
+        }
+        //dd(Uslugi::where('id', $usluga_id_sec)->first());
         return Inertia::render('Articles/Article', [
             'article' => DB::table('articles')
                 ->where('articles.url', '=', $url)
@@ -119,7 +124,7 @@ class ArticleController extends Controller
                 )
                 ->first(),
             'user' => Auth::user(),
-            'usluga' => Uslugi::where('id', '=', $usluga_id_sec)->select('uslugis.url as newurl', 'uslugis.usl_name')->first(),
+            'usluga' => Uslugi::where('id', $usluga_id_sec)->select('uslugis.url as newurl', 'uslugis.usl_name')->first(),
         ]);
     }
 

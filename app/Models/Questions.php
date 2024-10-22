@@ -17,6 +17,11 @@ class Questions extends Model
         return $this->hasOne(User::class, 'id', 'user_id');
     }
 
+    public function Usluga(): HasOne
+    {
+        return $this->hasOne(Uslugi::class, 'id', 'usluga')->select(['id', 'usl_name', 'url']);;
+    }
+
     public function QuantityAns(): hasMany
     {
         return $this->hasMany(Answer::class,'questions_id',  'id');

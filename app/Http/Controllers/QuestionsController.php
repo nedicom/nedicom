@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Questions;
 use App\Models\Answer;
+use App\Models\Uslugi;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\Translate;
 use App\Helpers\OpenAI;
@@ -43,7 +44,8 @@ class QuestionsController extends Controller
             $authid = Auth::user()->id;
         }
         return Inertia::render('Questions/Question', [
-            'question' => Questions::where('id', $question->id)->withCount('QuantityAns')->with('User')->first(),
+            'question' => Questions::where('id', $question->id)->withCount('QuantityAns')->with('User')->with('Usluga')->first(),
+            'uslugi' => Uslugi::where('is_main', 1)->where('is_feed', 1)->select(['id', 'usl_name'])->get(),
             'answers' => Answer::where('questions_id', $question->id)
                 ->with('UserAns')
                 ->with('subcomments')
@@ -58,6 +60,13 @@ class QuestionsController extends Controller
     {
         //$id = Questions::where('url', '=', $url)->pluck('id')->first();  
         Inertia::share('appName', 'this testus');
+    }
+
+    public function setUsl(Request $request)
+    {
+        $Question = Questions::findOrFail($request->id);
+        $Question->usluga = $request->usluga;
+        $Question->save();
     }
 
 

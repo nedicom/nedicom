@@ -164,6 +164,7 @@ Route::controller(QuestionsController::class)->group(function () {
     Route::post('/questions/post', 'post')->name('articles/post');
     Route::get('/questions/{url}', 'questionsURL')->name('questions.url');
     Route::get('/question/nonauth', 'questionsNonAuth')->name('questions.nonauth');
+    Route::post('/questions/{id}/setusl', 'setUsl')->name('questions.setusl');
     Route::post('/questions/{id}/answer', 'getAIAnswer')->name('questions.AIanswer');
     Route::post('/questions/{id}/delete', 'delete')->name('questions.delete');
 });
