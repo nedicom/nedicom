@@ -93,7 +93,7 @@ const prices = [
 
 <template>
   <div id="prices" class="grid grid-cols-1 mt-12 justify-items-center">
-    <h2 class="text-4xl mx-12 my-1 font-semibold text-grey text-center mb-10">Цена услуг юриста</h2>
+    <h2 class="text-4xl mx-12 my-1 font-semibold text-grey text-center mb-10">Цены на юридические услуги</h2>
     <div class="w-full md:w-2/3 mb-5 px-2">
       <div class="relative overflow-x-auto">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">

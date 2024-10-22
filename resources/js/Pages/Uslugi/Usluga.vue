@@ -328,8 +328,7 @@ details summary::-webkit-details-marker {
         :secondbannerimgmobile="secondbannerimgmobile" :metaimage="metaimage" />
 
       <Address :usl_name="usluga.usl_name" :phone="usluga.phone" :address="usluga.address" :dopadress="usluga.dopadress"
-        :maps="usluga.maps" />
-
+        :maps="usluga.maps" :metaimage="metaimage"/>
     </div>
 
     <BreadcrumbsUslugi :city="(vars.city) ? vars.city : null"

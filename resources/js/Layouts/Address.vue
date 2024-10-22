@@ -10,6 +10,7 @@ const props = defineProps({
     dopadress: String,
     phone: String,
     maps: String,
+    metaimage: String
 });
 
 if (props.address !== undefined) {
@@ -30,8 +31,7 @@ if (props.phone !== undefined) {
                         <p v-if="dopadress" class="font-semibold text-3xl">Главный офис:</p>
                         <p v-else class="font-semibold text-3xl">Наш офис:</p>
                         <h2  class="mb-4 text-xl my-6 font-semibold">{{ address }}</h2>
-
-                        <meta itemprop="name" :content="usl_name" />
+                        
                         <meta itemprop="postalCode" content="295000" />
                         <meta itemprop="addressLocality" content="Russia" />
                         <meta itemprop="iso6523Code" content="317910200050560" />
@@ -107,13 +107,13 @@ if (props.phone !== undefined) {
                                     </span>
                                 </span>
                             </a>
-
+                            <p itemprop="name" class="text-center mt-6">{{ usl_name }}</p>
+                            <meta itemprop="iamge" :content="metaimage" />
                         </div>
                     </div>
-
-
                 </div>
             </section>
         </div>
+
     </div>
 </template>
