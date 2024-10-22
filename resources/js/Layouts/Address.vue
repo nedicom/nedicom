@@ -53,10 +53,13 @@ Contact Details:
                         <p v-if="dopadress" class="font-semibold text-3xl">Главный офис:</p>
                         <p v-else class="font-semibold text-3xl">Наш офис:</p>
                         <h2 itemprop="streetAddress" class="mb-4 text-xl my-6 font-semibold">{{ address }}</h2>
+
+                        <meta itemprop="name" :content="usl_name" />
                         <meta itemprop="postalCode" content="295000" />
                         <meta itemprop="addressLocality" content="Russia" />
                         <meta itemprop="iso6523Code" content="317910200050560" />
                         <meta itemprop="iso6523Code" content="910305709385" />
+                        
                         <p v-if="dopadress" class="font-semibold text-3xl mt-6">Дополнительные офисы</p>
                         <h2 v-if="dopadress" v-html="dopadress" class="mb-4 text-xl my-6 font-semibold"></h2>
 
