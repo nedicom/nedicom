@@ -74,7 +74,7 @@ details summary::-webkit-details-marker {
   <Body>
 
     <div itemscope itemtype="https://schema.org/Product">
-      <SecondBanner :statusonimage="usluga.usl_name" :phnform="false"  :secondbannerpc="secondbannerpc"
+      <SecondBanner :statusonimage="usluga.usl_name" :phnform="false" :secondbannerpc="secondbannerpc"
         :secondbannerimgmobile="secondbannerimgmobile" :metaimage="metaimage" />
       <!-- edit btn -->
       <div v-if="user" class="flex justify-center pt-2 max-w-5xl mx-auto sm:px-6 lg:px-8 sm:rounded-lg">
@@ -117,7 +117,7 @@ details summary::-webkit-details-marker {
 
       <!--video block-->
       <VideoBlock :video="vars.usluga.video" />
-      <!--video block-->      
+      <!--video block-->
 
       <PracticeGallery v-if="practice != 0" :sliderheader="sliderheader" :practice="vars.practice" />
 
@@ -203,11 +203,11 @@ details summary::-webkit-details-marker {
       -->
       <!-- preimushestva -->
       <!-- popular question -->
-      <div v-if="vars.usluga.popular_question">
+      <div id="questions" v-if="vars.usluga.popular_question">
         <div v-if="vars.usluga.popular_question[0].answer" class="my-12 pb-12" itemscope
           itemtype="https://schema.org/FAQPage">
           <h3 class="text-4xl mx-12 my-1 font-semibold text-grey text-center">
-           Частые вопросы
+            Частые вопросы
           </h3>
           <ul class="md:w-4/6 w-11/12 mx-auto mt-10 md:mt-20 divide-y shadow-gray-600 shadow-2xl rounded-xl list-none">
             <li v-for="item in vars.usluga.popular_question" :key="item.id" class="py-5" itemscope itemprop="mainEntity"
@@ -237,7 +237,7 @@ details summary::-webkit-details-marker {
       <!-- popular question -->
 
       <!--reviews carousel-->
-      <div class="mt-12 py-12 bg-gray-100/75">
+      <div id="reviews" class="mt-12 py-12 bg-gray-100/75">
         <h2 class="text-xl mx-12 my-1 font-semibold text-grey text-center">
           Отзывы заказчиков
         </h2>
@@ -301,7 +301,7 @@ details summary::-webkit-details-marker {
                 <div class="h-12 flex items-center justify-end col-span-2">
                   <p class="text-gray-900 subpixel-antialiased text-right line-clamp-2 font-bold">
                     <span itemprop="author" itemscope="" itemtype="http://schema.org/Person"><span itemprop="name">{{
-                        card.fio }}</span></span>
+                      card.fio }}</span></span>
                   </p>
                 </div>
 
@@ -327,7 +327,8 @@ details summary::-webkit-details-marker {
         :reviewcoutnt="vars.main_usluga.mainreview_count" :rating="Number(vars.main_usluga.avg_review)"
         :secondbannerimgmobile="secondbannerimgmobile" :metaimage="metaimage" />
 
-        <Address :usl_name="usluga.usl_name" :phone="usluga.phone" :address="usluga.address" :dopadress="usluga.dopadress" :maps="usluga.maps" />
+      <Address :usl_name="usluga.usl_name" :phone="usluga.phone" :address="usluga.address" :dopadress="usluga.dopadress"
+        :maps="usluga.maps" />
 
     </div>
 

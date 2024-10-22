@@ -6,7 +6,7 @@ defineProps({
 </script>
 
 <template>
-    <section>
+    <section id="prctglr">
         <h3 class="text-4xl mx-12 my-1 font-semibold text-grey md:text-center">Практика</h3>
         <p class="mb-6 mx-12 font-light text-gray-500 md:text-lg dark:text-gray-400 md:text-center">Возможно Ваше дело далеко не первое...</p>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

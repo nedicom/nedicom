@@ -51,27 +51,59 @@ onMounted(() => {
   <div id="secondbanner" class="relative overflow-hidden block md:bg-contain bg-cover w-full md:h-screen h-[40em]">
     <div class="grid grid-cols-1 md:justify-items-end w-full h-full">
       <div style="box-shadow: 0px 0px 40px 40px #fff"
-        class="md:w-1/2 w-full h-full md:float-right md:content-center content-end md:bg-white md:shadow-lg">
-        <div class="flex items-center justify-center">
-          <div class="text-black text-center">
-            <div class="m-5">
-
-              <h1 itemprop="name" class="goo text-2xl md:text-4xl font-semibold normal-case">
-                {{ statusonimage
-                }}</h1>
-
-            </div>
-
-            <!-- Form on main banner-->
-            <div v-if="props.phnform" class="flex justify-center">
-              <PhoneForm :modalPageTitle="props.statusonimage" />
-            </div>
-            <!--Form on main banner-->
-
-          </div>
+        class="md:w-1/2 w-full h-full md:float-right grid grid-cols-1 text-center md:text-left md:content-center content-end md:bg-white md:shadow-lg">
+        <div class="m-5">
+          <h1 itemprop="name" class="goo text-2xl md:text-4xl font-semibold normal-case">
+            {{ statusonimage
+            }}</h1>
         </div>
+
+        <section v-if="!props.phnform" class="grid grid-cols-2 mb-5 gap-5 px-10">
+          <div class="pb-4 pt-2 md:py-8 px-4 bg-gray-100 rounded-lg">
+            <h2 class="mb-2 md:text-xl tracking-tight font-bold leading-tight text-gray-900">
+              Цены</h2>
+            <p class="hidden md:block mb-4 text-gray-500 text-sm">Справедливые цены, качественная работа</p>
+            <a href="#prices"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5">смотреть</a>
+          </div>
+
+          <div class="pb-4 pt-2 md:py-8 px-4 bg-gray-100 rounded-lg">
+            <h2 class="mb-2 md:text-xl tracking-tight font-bold leading-tight text-gray-900">
+              Отзывы</h2>
+            <p class=" hidden md:block mb-4 text-gray-500 text-sm">Ждем Ваш отзыв в нашей
+              копилке</p>
+            <a href="#reviews"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5">смотреть</a>
+          </div>
+
+          <div class="pb-4 pt-2 md:py-8 px-4 bg-gray-100 rounded-lg">
+            <h2 class="mb-2 md:text-xl tracking-tight font-bold leading-tight text-gray-900">
+              Достижения</h2>
+            <p class="hidden md:block mb-4 text-gray-500 text-sm">Практика юриста в данной категории</p>
+            <a href="#prctglr"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5">смотреть</a>
+          </div>
+
+          <div class="pb-4 pt-2 md:py-8 px-4 bg-gray-100 rounded-lg">
+            <h2 class="mb-2 md:text-xl tracking-tight font-bold leading-tight text-gray-900">
+              Вопросы</h2>
+            <p class="hidden md:block mb-4 text-gray-500 text-sm">Может Вы ищите то, на что уже ответили</p>
+            <a href="#questions"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5">смотреть</a>
+          </div>
+
+        </section>
+
+        <!-- Form on main banner-->
+        <div v-if="props.phnform" class="flex justify-center">
+          <PhoneForm :modalPageTitle="props.statusonimage" />
+        </div>
+        <!--Form on main banner-->
+
       </div>
     </div>
+
+
   </div>
   <!-- banner -->
 

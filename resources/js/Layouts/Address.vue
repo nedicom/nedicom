@@ -22,15 +22,43 @@ if (props.phone !== undefined) {
 
 <template>
     <!-- address -->
-    <div class="md:flex justify-center md:my-20 p-5 md:p-0">
+
+
+    <div >
+  <span itemprop="name">Google.org (GOOG)</span>
+
+Contact Details:
+  <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+    Main address:
+      <span itemprop="streetAddress">38 avenue de l'Opéra</span>
+      <span itemprop="postalCode">F-75002</span>
+      <span itemprop="addressLocality">Paris, France</span>
+    ,
+  </div>
+    Tel:<span itemprop="telephone">( 33 1) 42 68 53 00 </span>,
+    Fax:<span itemprop="faxNumber">( 33 1) 42 68 53 01 </span>,
+    E-mail: <span itemprop="email">secretariat(at)google.org</span>
+    SIRET Code: 443 061 841 00039<meta itemprop="iso6523Code" content="0009:44306184100039" />
+    VAT Number: FR64443061841<meta itemprop="iso6523Code" content="9957:FR64443061841" />
+</div>
+
+
+
+
+    <div itemscope itemtype="https://schema.org/Organization" class="md:flex justify-center md:my-20 p-5 md:p-0">
         <div class="md:w-1/2 w-full">
             <section>
                 <div class="px-4 mx-auto max-w-screen-xl">
-                    <div class="text-md mt-4 md:mt-0">
-                        <p v-if="dopadress" class="font-semibold">Главный офис</p>
-                        <h2 class="mb-4">{{ address }}</h2>
-                        <p v-if="dopadress" class="font-semibold">Дополнительные офисы</p>
-                        <h2 v-if="dopadress" v-html="dopadress" class="mb-4"></h2>
+                    <div class="my-12 md:my-20 md:mt-0 text-center">
+                        <p v-if="dopadress" class="font-semibold text-3xl">Главный офис:</p>
+                        <p v-else class="font-semibold text-3xl">Наш офис:</p>
+                        <h2 itemprop="streetAddress" class="mb-4 text-xl my-6 font-semibold">{{ address }}</h2>
+                        <meta itemprop="postalCode" content="295000" />
+                        <meta itemprop="addressLocality" content="Russia" />
+                        <meta itemprop="iso6523Code" content="317910200050560" />
+                        <meta itemprop="iso6523Code" content="910305709385" />
+                        <p v-if="dopadress" class="font-semibold text-3xl mt-6">Дополнительные офисы</p>
+                        <h2 v-if="dopadress" v-html="dopadress" class="mb-4 text-xl my-6 font-semibold"></h2>
 
                     </div>
                     <div class="flex justify-center">
@@ -51,7 +79,7 @@ if (props.phone !== undefined) {
                                         d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
                                 </svg>
                                 <span class="flex flex-col">
-                                    <span class="">
+                                    <span itemprop="telephone">
                                         {{ props.phone }}
                                     </span>
                                     <span class="text-xs">
