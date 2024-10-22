@@ -28,7 +28,7 @@ class UslugiController extends Controller
             });
         }
 
-        $cityurl = '';
+        $cityurl = '';       
 
         $city = CitySet::CitySet($request, $cityurl);
 
@@ -81,7 +81,7 @@ class UslugiController extends Controller
     }
 
 
-    public function show($url,  Request $request)
+    public function show($url,  Request $request) // http://nedicom.ru/uslugi/city
     {
 
         //check city in url
@@ -94,6 +94,8 @@ class UslugiController extends Controller
             }
 
             $cityurl = $url;
+
+            $request->session()->forget('cityid');
 
             $city = CitySet::CitySet($request, $cityurl);
 
@@ -140,6 +142,7 @@ class UslugiController extends Controller
                 'cities' => $cities,
                 'category' => $category,
                 'routeurl' => '/uslugi',
+                'getLawyer' => (session()->get('questionTitle')) ? session()->get('questionTitle') : '0',
             ]);
         }
         //check city in url
@@ -233,7 +236,7 @@ class UslugiController extends Controller
                 }
             }])
             ->with('mainhassecond')
-            ->get();
+            ->get();        
 
         $city = CitySet::CitySet($request, $city->url);
 

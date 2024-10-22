@@ -69,6 +69,11 @@ class QuestionsController extends Controller
         $Question->save();
     }
 
+    public function getLawyer(Request $request)
+    {
+        session(['getLawyer' => 1]);
+    }
+
 
     public function questionsNonAuth()
     {

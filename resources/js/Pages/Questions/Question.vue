@@ -63,7 +63,7 @@ const setUsluga = () => {
     <meta property="og:title" :content="set.question.title" />
     <meta property="og:type" :content="website" />
     <meta property="og:url" :content="'https://nedicom.ru/questions/' + set.question.url" />
-    <meta property="og:image" content="https://nedicom.ru/logoquest.webp" />
+    <meta property="og:image" content="https://nedicom.ru/logoq.webp" />
   </Head>
 
   <div class="min-h-screen">
@@ -73,7 +73,7 @@ const setUsluga = () => {
 
     <Body>
       <div itemscope itemtype="https://schema.org/QAPage">
-        <div class="xl:w-1/2 sm:px-6 lg:px-4 mx-auto my-12 bg-white overflow-hidden shadow-sm sm:rounded-lg"
+        <div class="xl:w-1/2 sm:px-6 lg:px-4 px-3 md:px-0 mx-auto my-12 bg-white overflow-hidden shadow-sm sm:rounded-lg"
           itemprop="mainEntity" itemscope itemtype="https://schema.org/Question">
 
           <div class="grid grid-cols-2">
@@ -135,9 +135,9 @@ const setUsluga = () => {
             Получите ответ быстрее!
           </p>
 
-          <div class="flex justify-start">
+          <div class="md:flex justify-start">
 
-            <div class="mr-3" v-if="usluga_id == 0 || authid == 1">
+            <div class="mr-3 my-5 md:my-0" v-if="usluga_id == 0 || authid == 1">
               <label class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white">Выберите
                 категорию</label>
               <select v-model="form.usluga" @change="setUsluga()"
@@ -149,7 +149,7 @@ const setUsluga = () => {
               </select>
             </div>
 
-            <div class="mr-3">
+            <div class="mr-3 my-5 md:my-0">
               <AIAnswer v-if="btnAI">
                 <button :disabled="processing" @click="getAIAnswer()" type="button"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
@@ -168,11 +168,12 @@ const setUsluga = () => {
               </AIAnswer>
             </div>
 
-            <div class="">
+            <div class="mr-2 my-5 md:my-0">
               <label class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white">Поделиться
-                вопросом</label>
+              </label>
 
-              <a type="button" :href="'https://vk.com/share.php?url=https://nedicom.ru/questions/' + set.question.url"
+              <a type="button"
+                :href="'https://vk.com/share.php?url=https://nedicom.ru/questions/' + set.question.url + '&image=https://nedicom.ru/logoq.webp&title=Я пользуюсь nedicom.ru. Здесь юристы ответят на любой вопрос!'"
                 target="_blank"
                 class="mr-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 inline-flex items-center">
                 <svg class="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -185,7 +186,7 @@ const setUsluga = () => {
 
 
               <a type="button"
-                :href="'https://connect.ok.ru/offer?url=&quot;' + set.question.url + '&quot;&title=' + set.question.title + '&imageUrl=https://nedicom.ru/logoquest.webp'"
+                :href="'https://connect.ok.ru/offer?url=https://nedicom.ru/questions/' + set.question.url + '&title=Я пользуюсь nedicom.ru. Здесь юристы ответят на любой вопрос! &imageUrl=https://nedicom.ru/logoq.webp'"
                 target="_blank"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 inline-flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" class="w-4 h-4 mr-2" viewBox="0 0 48 48">
@@ -199,7 +200,30 @@ const setUsluga = () => {
 
             </div>
 
+
+
           </div>
+
+          <p class="font-extrabold mt-10">
+            Что самое эффективное!? (доступно только авторам)
+          </p>
+
+          <div class="my-5 md:my-0">
+              <label class="block mt-5 mb-5 md:mb-2 text-sm font-medium text-gray-900 dark:text-white">Конечно - позвать юриста! </label>
+              <label class="md:w-1/2 block mb-5 md:mb-2 text-xs font-medium text-gray-900 dark:text-white">Сейчас мы работаем в двух регионах. Перейдите по ссылке и нажимте на кнопку <span class="font-bold">"запросить ответ"</span> напротив фото юриста. Мы отправим юристу уведомление.</label>
+              <a type="button"
+                href="https://nedicom.ru/uslugi/simferopol"
+                target="_blank"
+                class="mr-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 inline-flex items-center">
+                Юристы из Крыма
+              </a>
+              <a type="button"
+                href="https://nedicom.ru/uslugi/moscow"
+                target="_blank"
+                class="mr-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 inline-flex items-center">
+                Юристы их Москвы
+              </a>
+            </div>
 
           <div class="flex justify-center">
             <Answers class="sm:px-6 lg:px-4 mx-5 py-12 md:w-4/6 w-full" :answers="set.answers"

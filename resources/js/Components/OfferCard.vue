@@ -4,9 +4,10 @@ import { ref, onMounted } from "vue";
 import Modal from "@/Components/Modal.vue";
 import RatingReady from "@/Components/RatingReady.vue";
 
-defineProps({
+let set = defineProps({
   offer: Object,
   city: Object,
+  getlwr: String,
 });
 
 let ModalBtnText = "На консультацию";
@@ -18,24 +19,33 @@ const onImgLoad = function () {
   animate.value = false;
 }
 
+const invitation = ref(true)
+const authoq = ref(true)
+
+if (set.getlwr == '0') {
+  invitation.value = false;
+  authoq.value = false;
+}
+
 </script>
 
 <template>
-  <section>
+  <section>{{ getlwr }}
     <div class="mx-auto 2xl:px-0" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
       <div class="grid gap-4 grid-cols-1 md:grid-cols-2 content-center">
         <div class="bg-white flex items-center">
           <div class="h-72 w-full bg-cover" :class="animate"
             style="background-image: url('storage/images/services/appeal.webp');">
             <a :href="route('uslugi.canonical.url', [
-              offer.cities.url,
-              offer.main.url,
-              offer.second.url,
-              offer.url,
+              set.offer.cities.url,
+              set.offer.main.url,
+              set.offer.second.url,
+              set.offer.url,
             ])
               ">
-              <img class="h-full md:rounded-lg md:shadow-xl object-cover bg-" :src="'https://nedicom.ru/' + offer.file_path" :alt="offer.usl_name"
-                @load="onImgLoad()" loading="lazy" itemprop="image"/>
+              <img class="h-full md:rounded-lg md:shadow-xl object-cover bg-"
+                :src="'https://nedicom.ru/' + set.offer.file_path" :alt="set.offer.usl_name" @load="onImgLoad()"
+                loading="lazy" itemprop="image" />
             </a>
           </div>
         </div>
@@ -47,6 +57,28 @@ const onImgLoad = function () {
             </span>
 
             <div class="flex items-center justify-end gap-1">
+
+              <div v-if="authoq">
+                <button v-if="invitation" type="button" @click="invitation = !invitation"
+                  class="rounded-lg p-2 text-gray-700 bg-gray-100 hover:bg-gray-200 hover:text-gray-900 text-center inline-flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-5 h-5 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M21.75 9v.906a2.25 2.25 0 0 1-1.183 1.981l-6.478 3.488M2.25 9v.906a2.25 2.25 0 0 0 1.183 1.981l6.478 3.488m8.839 2.51-4.66-2.51m0 0-1.023-.55a2.25 2.25 0 0 0-2.134 0l-1.022.55m0 0-4.661 2.51m16.5 1.615a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V8.844a2.25 2.25 0 0 1 1.183-1.981l7.5-4.039a2.25 2.25 0 0 1 2.134 0l7.5 4.039a2.25 2.25 0 0 1 1.183 1.98V19.5Z" />
+                  </svg>
+                  запросить ответ на вопрос
+                </button>
+                <button v-else type="button" @click="invitation = !invitation"
+                  class="rounded-lg p-2 text-gray-700 bg-gray-100 hover:bg-gray-200 hover:text-gray-900 text-center inline-flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-5 h-5 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                  </svg>
+                  приглашен для ответа
+                </button>
+              </div>
+
               <button type="button" data-tooltip-target="tooltip-quick-look"
                 class="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                 <span class="sr-only"> Перейти </span>
@@ -83,32 +115,32 @@ const onImgLoad = function () {
           </div>
 
           <a itemprop="url" :href="route('uslugi.canonical.url', [
-            offer.cities.url,
-            offer.main.url,
-            offer.second.url,
-            offer.url,
+            set.offer.cities.url,
+            set.offer.main.url,
+            set.offer.second.url,
+            set.offer.url,
           ])
-            " class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white"
-            ><span itemprop="name">{{ offer.usl_name }}</span></a>
+            " class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white"><span
+              itemprop="name">{{ set.offer.usl_name }}</span></a>
 
-          <div v-if="offer.review_sum_rating && offer.review_count" class="mt-2 flex items-center gap-2">
+          <div v-if="set.offer.review_sum_rating && set.offer.review_count" class="mt-2 flex items-center gap-2">
             <div class="flex items-center">
-              <RatingReady :rating="(offer.review_sum_rating / offer.review_count).toFixed(2)
-                " :reviewRating="false"/>
+              <RatingReady :rating="(set.offer.review_sum_rating / set.offer.review_count).toFixed(2)
+                " :reviewRating="false" />
             </div>
 
             <p class="text-sm font-medium text-gray-900 dark:text-white">
-              отзывов - {{ offer.review_count }}
+              отзывов - {{ set.offer.review_count }}
             </p>
           </div>
 
           <div v-else class="mt-2 flex items-center gap-2">
             <div class="flex items-center">
-              <RatingReady :rating=0 :reviewRating="false"/>
+              <RatingReady :rating=0 :reviewRating="false" />
             </div>
 
             <p class="text-sm font-medium text-gray-900 dark:text-white">
-              отзывов - {{ offer.review_count }}
+              отзывов - {{ set.offer.review_count }}
             </p>
           </div>
 
@@ -121,12 +153,12 @@ const onImgLoad = function () {
                   d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
               </svg>
 
-              <p v-if="offer.cities" class="text-sm font-medium text-gray-500 dark:text-gray-400">
-                {{ offer.cities.title }}
+              <p v-if="set.offer.cities" class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                {{ set.offer.cities.title }}
               </p>
             </li>
 
-            <li v-if="offer.main" class="flex items-center gap-2">
+            <li v-if="set.offer.main" class="flex items-center gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="h-4 w-4 text-gray-500 dark:text-gray-400">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -134,11 +166,11 @@ const onImgLoad = function () {
               </svg>
 
               <p class="text-sm font-medium text-gray-500 dark:text-gray-400">
-                {{ offer.main.name }}
+                {{ set.offer.main.name }}
               </p>
             </li>
 
-            <li v-if="offer.second" class="flex items-center gap-2">
+            <li v-if="set.offer.second" class="flex items-center gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="h-4 w-4 text-gray-500 dark:text-gray-400">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -146,23 +178,24 @@ const onImgLoad = function () {
               </svg>
 
               <p class="text-sm font-medium text-gray-500 dark:text-gray-400">
-                {{ offer.second.name }}
+                {{ set.offer.second.name }}
               </p>
             </li>
           </ul>
-          - "<span class="text-sm font-bold text-gray-700 dark:text-gray-400" itemprop="description">{{ offer.usl_desc}}</span>"
+          - "<span class="text-sm font-bold text-gray-700 dark:text-gray-400" itemprop="description">{{
+            set.offer.usl_desc }}</span>"
 
           <div class="mt-4 flex items-center justify-between gap-4">
             <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">
-              {{ offer.price }} р.
+              {{ set.offer.price }} р.
             </p>
-            <meta itemprop="price" :content="offer.price">
+            <meta itemprop="price" :content="set.offer.price">
             <meta itemprop="priceCurrency" content="RUB">
             <link itemprop="availability" href="http://schema.org/InStock">
 
             <div class="hidden md:flex items-center justify-start px-2">
               <Modal :ModalBtnText="ModalBtnText" :secondtext="secondtext"
-                :modalPageTitle="'страница поиска услуг - ' + offer.usl_name + ' - ' + offer.cities.title" />
+                :modalPageTitle="'страница поиска услуг - ' + set.offer.usl_name + ' - ' + set.offer.cities.title" />
             </div>
           </div>
         </div>

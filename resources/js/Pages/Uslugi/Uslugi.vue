@@ -25,6 +25,7 @@ let set = defineProps({
   min: Number,
   countrating: Number,
   sumrating: Number,
+  getLawyer: String
 });
 
 
@@ -126,7 +127,7 @@ function alertForm(x) {
                 до <span itemprop="highPrice" content="2000">{{ set.max }} рублей</span>
                 у <span itemprop="offerCount">{{ set.count }}</span> <span v-if="set.count == 1">юриста</span><span
                   v-else>юристов</span>
-                <OfferCard :offer="offer" :city="set.cities" />
+                <OfferCard :offer="offer" :city="set.cities" :getlwr="set.getLawyer" />
                 <hr class="h-px my-8 bg-gray-200 md:my-10 border-0 dark:bg-gray-700">
               </div>
 
