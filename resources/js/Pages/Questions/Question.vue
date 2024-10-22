@@ -75,6 +75,7 @@ const setUsluga = () => {
       <div itemscope itemtype="https://schema.org/QAPage">
         <div class="xl:w-1/2 sm:px-6 lg:px-4 px-3 md:px-0 mx-auto my-12 bg-white overflow-hidden shadow-sm sm:rounded-lg"
           itemprop="mainEntity" itemscope itemtype="https://schema.org/Question">
+          <meta itemprop="datePublished" :content="set.question.updated_at" />
 
           <div class="grid grid-cols-2">
 
@@ -83,6 +84,7 @@ const setUsluga = () => {
                 class="rounded-full m-3 p-1 ring-2 ring-gray-300 dark:ring-gray-500" />
               <p class="mr-3 text-sm text-gray-900 dark:text-white font-semibold h-min-24 flex items-center">
                 <span v-if="set.question.user" itemprop="author" itemscope itemtype="https://schema.org/Person">
+                  <meta itemprop="url" content="https://nedicom.ru/uslugi" />
                   <span itemprop="name">
                     {{ set.question.user.name }}
                   </span>
