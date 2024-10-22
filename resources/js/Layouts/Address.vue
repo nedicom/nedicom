@@ -108,7 +108,7 @@ if (props.phone !== undefined) {
                                 </span>
                             </a>
                             <p itemprop="name" class="text-center mt-6">{{ usl_name }}</p>
-                            <meta itemprop="iamge" :content="metaimage" />
+                            <meta itemprop="image" :content="metaimage" />
                         </div>
                     </div>
                 </div>
