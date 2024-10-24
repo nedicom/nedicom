@@ -33,8 +33,6 @@ let vars = defineProps({
   city: Object,
 });
 
-let sliderheader = "Доверяйте делам";
-
 let pcimg = vars.lawyer.file_path;
 if(vars.usluga.file_path){
   pcimg = vars.usluga.file_path;
@@ -121,7 +119,7 @@ details summary::-webkit-details-marker {
       <VideoBlock :video="vars.usluga.video" />
       <!--video block-->
 
-      <PracticeGallery v-if="practice != 0" :sliderheader="sliderheader" :practice="vars.practice" />
+      <PracticeGallery v-if="practice != 0" :sliderheader="'Доверяйте делам'" :practice="vars.practice" />
 
       <!-- seo description -->
       <div class="my-20">

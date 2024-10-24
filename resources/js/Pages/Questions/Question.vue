@@ -61,7 +61,7 @@ const setUsluga = () => {
     <title>{{ set.question.title }}</title>
     <meta name="description" :content="set.question.body" />
     <meta property="og:title" :content="set.question.title" />
-    <meta property="og:type" :content="website" />
+    <meta property="og:type" content="website" />
     <meta property="og:url" :content="'https://nedicom.ru/questions/' + set.question.url" />
     <meta property="og:image" content="https://nedicom.ru/logoq.webp" />
   </Head>

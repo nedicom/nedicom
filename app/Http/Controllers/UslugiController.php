@@ -404,13 +404,19 @@ class UslugiController extends Controller
 
         $rating =  round($rating / $reviewscount, 1);
 
+        $practice = Article::where('usluga_id', $mainid)->where('practice_file_path', '!=', null)->get(['id', 'created_at', 'description', 'header', 'url', 'practice_file_path']);
+        $practice->map(function ($practice) {
+            $practice['year'] =  $practice->created_at->format("Y");
+            return $practice;
+        });
+
         $user_id = Uslugi::where('url', '=', $url)->first()->user_id;
         return Inertia::render('Uslugi/Usluga', [
             'usluga' => Uslugi::where('url', $url)->with('cities')->first(),
             'user' => Auth::user(),
             'lawyer' => User::where('id', $usluga->user_id)->first(),
             'lawyers' => User::where('speciality_one_id', '=', $id)->orderBy('name', 'asc')->get()->take(3),
-            'practice' => Article::where('usluga_id', $mainid)->where('practice_file_path', '!=', null)->orderBy('updated_at', 'desc')->take(3)->get(),
+            'practice' => $practice->groupBy('year'),
             'firstlawyer' => User::where('id', $user_id)->get(),
             'reviews' => $reviews,
             'reviewscount' => $reviewscount,
