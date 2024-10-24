@@ -8,15 +8,12 @@ import RatingReady from "@/Components/RatingReady.vue";
 import Prices from "@/Components/Prices.vue";
 import VideoBlock from "@/Components/VideoBlock.vue";
 import BreadcrumbsUslugi from "@/Components/BreadcrumbsUslugi.vue";
-import Breadcrumbs from "@/Components/Breadcrumbs.vue";
-import Tg from "@/Layouts/TG/TeleGram.vue";
+import Totop from "@/Components/Totop.vue";
 import Address from "@/Layouts/Address.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import PracticeGallery from "@/Layouts/PracticeGallery.vue";
 import { Head } from "@inertiajs/inertia-vue3";
-import PopupDialogue from "@/Layouts/PopupDialogue/PopupDialogue.vue";
-import { ref } from "vue";
-import VueWriter from "vue-writer";
+
 
 let vars = defineProps({
   usluga: "Object",
@@ -335,7 +332,7 @@ details summary::-webkit-details-marker {
       :main_usluga="(vars.main_usluga.url !== 0) ? vars.main_usluga : null"
       :second_usluga="vars.second_usluga ? vars.second_usluga : null" :usluga="vars.usluga" />
   </Body>
-
+<Totop/>
   <MainFooter />
 </template>
 
