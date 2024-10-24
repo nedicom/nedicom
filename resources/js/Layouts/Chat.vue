@@ -149,7 +149,7 @@ const send = async function () {
                         :class="{ 'border-2 border-rose-600': empty }"></div>
                     <!-- send button -->
                     <div class="grid grid-cols-1 content-center ml-1">
-                        <button :disabled="processing" :onclick="send" type="button"
+                        <button :disabled="processing" :onclick="send" type="button" id="sendbtn"
                             class="flex items-center justify-center text-white bg-blue-700 rounded-lg w-7 h-7 hover:bg-blue-800">
                             <svg v-if="processing" aria-hidden="true" role="status"
                                 class="animate-spin inline w-4 h-4 me-3 mr-1 text-gray-200 dark:text-gray-600"

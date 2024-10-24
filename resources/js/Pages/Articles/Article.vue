@@ -13,22 +13,10 @@ let vars = defineProps({
     usluga: "Object",
 });
 
-let obs = ref(false);
+let img = ref(false);
 
 onMounted(() => {
-    const sections = document.querySelector('#articleimg')
-    const options = {
-        threshold: 0.5
-    }
-    const observer = new IntersectionObserver(function (entries, observer) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                obs.value = true;
-                observer.disconnect()
-            }
-        })
-    }, options)
-    observer.observe(sections)
+    img.value = true;
 })
 </script>
 
@@ -65,7 +53,7 @@ ol {
                             <div class="mx-auto sm:px-6 lg:px-8">
                                 <div class="px-6 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                                     <div v-if="vars.user" class="my-3">
-                                        <div v-if="vars.user.id == article.userid">
+                                        <div v-if="vars.user.id == article.userid || vars.user.is_admin == 1">
                                             <a :href="route(
                                                 'articles.edit',
                                                 article.url
@@ -83,7 +71,9 @@ ol {
                                                     " class="hover:underline">
                                                 <img :src="'https://nedicom.ru/' +
                                                     article.avatar_path
-                                                    " width="40" class="rounded-full" />
+                                                    "
+                                                    :alt="usluga.usl_name" 
+                                                    width="40" class="rounded-full" />
                                                 <span
                                                     class="-left-1 -top-1 animate-pulse absolute w-3.5 h-3.5 bg-green-500 border-2 border-white dark:border-gray-800 rounded-full"></span>
                                                 </Link>
@@ -98,7 +88,9 @@ ol {
                                                         'lawyer',
                                                         article.userid
                                                     )
-                                                        " class="hover:underline"> <span itemprop="name">{{
+                                                        " 
+                                                        :aria-label="'автор статьи - ' + article.name"
+                                                        class="hover:underline"> <span itemprop="name">{{
                                                             article.name }}</span>
                                                     </a>
                                                 </span>
@@ -107,6 +99,7 @@ ol {
 
                                         <div class="mr-2 my-5 md:my-0 flex">
                                             <a type="button"
+                                            aria-label="поделиться статьей в социальной сети ВКонтакте"
                                                 :href="'https://vk.com/share.php?url=https://nedicom.ru/articles/' + vars.article.url + '&image=https://nedicom.ru/' + vars.article.avatar_path + '&title=Интересная статья с nedicom.ru. ' + vars.article.header"
                                                 target="_blank" class="mr-1 inline-flex items-center">
                                                 <svg class="w-6 h-6 md:w-12 md:h-12 md:mr-1 fill-cyan-500 hover:fill-cyan-700"
@@ -117,6 +110,7 @@ ol {
                                                 </svg>
                                             </a>
                                             <a type="button"
+                                                aria-label="поделиться статьей в социальной сети Одноклассники"
                                                 :href="'https://connect.ok.ru/offer?url=https://nedicom.ru/articles/' + vars.article.url + '&title=Интересная статья с nedicom.ru. ' + vars.article.header + '&imageUrl=https://nedicom.ru/' + vars.article.avatar_path"
                                                 target="_blank" class="inline-flex items-center">
                                                 <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
@@ -193,8 +187,9 @@ ol {
                                     </div>
                                     <div v-if="vars.article.practice_file_path"
                                         class="float-none md:float-right w-full md:w-1/2 mx-1 md:ml-10 rounded-lg">
-                                        <img itemprop="image" id="articleimg"  class="transition-all duration-300 blur-sm hover:blur-none border border-2 border-gray-600 rounded-lg shadow-lg "
-                                            :src="'https://nedicom.ru/' + vars.article.practice_file_path">
+                                        <img v-if="img" itemprop="image" class="transition-all duration-300 blur-sm hover:blur-none border border-2 border-gray-600 rounded-lg shadow-lg "
+                                            :src="'https://nedicom.ru/' + vars.article.practice_file_path"
+                                            :alt="usluga.usl_name + ' - практика'" >
                                             <div class="text-sm font-bold text-center mt-3">{{ usluga.usl_name }} - практика</div>
                                     </div>
                                     <div class="text-justify" v-html="article.body" itemprop="text"></div>
