@@ -5,6 +5,7 @@ import Body from "@/Layouts/Body.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import Chat from "@/Layouts/Chat.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
+import { ref, onMounted } from "vue";
 
 let vars = defineProps({
     article: "Object",
@@ -12,6 +13,23 @@ let vars = defineProps({
     usluga: "Object",
 });
 
+let obs = ref(false);
+
+onMounted(() => {
+    const sections = document.querySelector('#articleimg')
+    const options = {
+        threshold: 0.5
+    }
+    const observer = new IntersectionObserver(function (entries, observer) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                obs.value = true;
+                observer.disconnect()
+            }
+        })
+    }, options)
+    observer.observe(sections)
+})
 </script>
 
 <style>
@@ -90,22 +108,20 @@ ol {
                                         <div class="mr-2 my-5 md:my-0 flex">
                                             <a type="button"
                                                 :href="'https://vk.com/share.php?url=https://nedicom.ru/articles/' + vars.article.url + '&image=https://nedicom.ru/' + vars.article.avatar_path + '&title=Интересная статья с nedicom.ru. ' + vars.article.header"
-                                                target="_blank"
-                                                class="mr-1 inline-flex items-center">
-                                                <svg class="w-6 h-6 md:w-12 md:h-12 md:mr-1 fill-cyan-500 hover:fill-cyan-700" aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                                    viewBox="0 0 24 24">
+                                                target="_blank" class="mr-1 inline-flex items-center">
+                                                <svg class="w-6 h-6 md:w-12 md:h-12 md:mr-1 fill-cyan-500 hover:fill-cyan-700"
+                                                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                    fill="currentColor" viewBox="0 0 24 24">
                                                     <path
-                                                        d="M15.07 2H8.93C3.33 2 2 3.33 2 8.93v6.14C2 20.67 3.33 22 8.93 22h6.14c5.6 0 6.93-1.33 6.93-6.93V8.93C22 3.33 20.67 2 15.07 2m3.08 14.27h-1.46c-.55 0-.72-.45-1.69-1.44c-.88-.83-1.26-.95-1.47-.95c-.29 0-.38.08-.38.5v1.31c0 .35-.11.57-1.04.57c-1.54 0-3.25-.94-4.45-2.67c-1.81-2.54-2.3-4.46-2.3-4.84c0-.21.07-.41.49-.41h1.47c.37 0 .51.16.65.56c.72 2.1 1.92 3.9 2.41 3.9c.19 0 .27-.09.27-.55V10.1c-.05-.98-.58-1.07-.58-1.42c0-.18.14-.34.37-.34h2.29c.31 0 .42.16.42.54v2.89c0 .31.13.42.23.42c.18 0 .34-.11.67-.45c1.05-1.17 1.8-2.98 1.8-2.98c.1-.21.26-.41.65-.41h1.43c.44 0 .54.23.44.54c-.18.85-1.96 3.36-1.94 3.36c-.16.25-.22.36 0 .65c.15.21.66.65 1 1.04c.62.71 1.1 1.3 1.23 1.71c.11.41-.09.62-.51.62z"
-                                                       />
+                                                        d="M15.07 2H8.93C3.33 2 2 3.33 2 8.93v6.14C2 20.67 3.33 22 8.93 22h6.14c5.6 0 6.93-1.33 6.93-6.93V8.93C22 3.33 20.67 2 15.07 2m3.08 14.27h-1.46c-.55 0-.72-.45-1.69-1.44c-.88-.83-1.26-.95-1.47-.95c-.29 0-.38.08-.38.5v1.31c0 .35-.11.57-1.04.57c-1.54 0-3.25-.94-4.45-2.67c-1.81-2.54-2.3-4.46-2.3-4.84c0-.21.07-.41.49-.41h1.47c.37 0 .51.16.65.56c.72 2.1 1.92 3.9 2.41 3.9c.19 0 .27-.09.27-.55V10.1c-.05-.98-.58-1.07-.58-1.42c0-.18.14-.34.37-.34h2.29c.31 0 .42.16.42.54v2.89c0 .31.13.42.23.42c.18 0 .34-.11.67-.45c1.05-1.17 1.8-2.98 1.8-2.98c.1-.21.26-.41.65-.41h1.43c.44 0 .54.23.44.54c-.18.85-1.96 3.36-1.94 3.36c-.16.25-.22.36 0 .65c.15.21.66.65 1 1.04c.62.71 1.1 1.3 1.23 1.71c.11.41-.09.62-.51.62z" />
                                                 </svg>
                                             </a>
                                             <a type="button"
                                                 :href="'https://connect.ok.ru/offer?url=https://nedicom.ru/articles/' + vars.article.url + '&title=Интересная статья с nedicom.ru. ' + vars.article.header + '&imageUrl=https://nedicom.ru/' + vars.article.avatar_path"
-                                                target="_blank"
-                                                class="inline-flex items-center">
+                                                target="_blank" class="inline-flex items-center">
                                                 <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    class="w-6 h-6 md:w-12 md:h-12 fill-amber-500 hover:fill-amber-600" viewBox="0 0 48 48">
+                                                    class="w-6 h-6 md:w-12 md:h-12 fill-amber-500 hover:fill-amber-600"
+                                                    viewBox="0 0 48 48">
                                                     <path
                                                         d="M42,37c0,2.8-2.2,5-5,5H11c-2.8,0-5-2.2-5-5V11c0-2.8,2.2-5,5-5h26c2.8,0,5,2.2,5,5V37z">
                                                     </path>
@@ -175,8 +191,13 @@ ol {
                                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                             allowfullscreen></iframe>
                                     </div>
-
-                                    <div v-html="article.body" itemprop="text"></div>
+                                    <div v-if="vars.article.practice_file_path"
+                                        class="float-none md:float-right w-full md:w-1/2 mx-1 md:ml-10 rounded-lg">
+                                        <img id="articleimg"  class="transition-all duration-300 blur-sm hover:blur-none border border-2 border-gray-600 rounded-lg shadow-lg "
+                                            :src="'https://nedicom.ru/' + vars.article.practice_file_path">
+                                            <div class="text-sm font-bold text-center mt-3">{{ usluga.usl_name }} - практика</div>
+                                    </div>
+                                    <div class="text-justify" v-html="article.body" itemprop="text"></div>
                                 </div>
                             </div>
                         </div>
