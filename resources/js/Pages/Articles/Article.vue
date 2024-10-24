@@ -57,7 +57,7 @@ ol {
     <Header :ttl="vars.article.header" :modalPageTitle="'статья - ' + vars.article.header" />
 
     <Body>
-        <div class="flex justify-center  text-gray-900" itemscope itemtype="https://schema.org/Article">
+        <div class="flex justify-center text-gray-900" itemscope itemtype="https://schema.org/Article">
             <div class="py-6 md:w-4/6">
                 <div class="max-w-5xl sm:px-6 lg:px-4">
                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -175,7 +175,7 @@ ol {
                                         {{ vars.article.header }}
                                     </div>
 
-                                    <div v-if="usluga" itemprop="headline" class="my-4">
+                                    <div v-if="usluga" class="my-4">
                                         Категория юриста: <a
                                             :href="'https://nedicom.ru/uslugi/simferopol/' + usluga.newurl"
                                             class="font-bold hover:underline">{{ usluga.usl_name }}</a>
@@ -193,7 +193,7 @@ ol {
                                     </div>
                                     <div v-if="vars.article.practice_file_path"
                                         class="float-none md:float-right w-full md:w-1/2 mx-1 md:ml-10 rounded-lg">
-                                        <img id="articleimg"  class="transition-all duration-300 blur-sm hover:blur-none border border-2 border-gray-600 rounded-lg shadow-lg "
+                                        <img itemprop="image" id="articleimg"  class="transition-all duration-300 blur-sm hover:blur-none border border-2 border-gray-600 rounded-lg shadow-lg "
                                             :src="'https://nedicom.ru/' + vars.article.practice_file_path">
                                             <div class="text-sm font-bold text-center mt-3">{{ usluga.usl_name }} - практика</div>
                                     </div>
