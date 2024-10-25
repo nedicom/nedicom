@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Inertia\Inertia;
 use App\Helpers\Rating\LawyerRating;
+use Illuminate\Support\Facades\Auth;
 
 class LawyerController extends Controller
 {
@@ -15,6 +16,7 @@ class LawyerController extends Controller
     {
         return Inertia::render('Lawyers/Lawyers', [
             'lawyers' => User::where('lawyer', 1)->select('id', 'name', 'about', 'avatar_path')-> paginate(9),
+            'auth' => Auth::user(), 
         ]);
     }
 
@@ -39,6 +41,7 @@ class LawyerController extends Controller
             'articles' => Article::where('userid', $id)->where('practice_file_path', '=', null)->orderBy('updated_at', 'desc')->take(3)->get(),
             'practice' => Article::where('userid', $id)->where('practice_file_path', '!=', null)->orderBy('updated_at', 'desc')->take(3)->get(),
             'countarticles' => Article::where('userid', $id)->count(), 
+            'auth' => Auth::user(), 
         ]);
     }
 

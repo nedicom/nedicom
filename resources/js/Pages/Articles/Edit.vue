@@ -11,6 +11,7 @@ import { reactive } from "vue";
 let set = defineProps({
   article: Object,
   uslugi: Object,
+  auth: Object,
 });
 
 let form = reactive({
@@ -20,6 +21,7 @@ let form = reactive({
   usluga_id: set.article.usluga_id,
   id: set.article.id,
   youtube: set.article.youtube_file_path,
+  auth: Object,
 });
 
 
@@ -34,7 +36,7 @@ function submit() {
 
   <Head title="Редактировать статью" />
 
-  <MainHeader />
+  <MainHeader :auth="set.auth" />
 
   <Body>
     <div class="bg-white py-12 m-3">

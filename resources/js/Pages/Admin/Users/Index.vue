@@ -32,6 +32,7 @@ const { open, close } = useModal({
 defineProps({
   users: "Array",
   filters: "Object",
+  auth: Object,
 });
 
 const handleDelete = (id, title) => {
@@ -47,7 +48,7 @@ let title = ref("Пользователи");
 <template>
   <Head title="Пользователи" />
 
-  <MainHeader />
+  <MainHeader :auth="auth" />
 
   <ModalsContainer />
 

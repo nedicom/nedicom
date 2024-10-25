@@ -1,6 +1,5 @@
 <script setup>
 import MainHeader from "@/Layouts/MainHeader.vue";
-import Header from "@/Layouts/Header.vue";
 import Body from "@/Layouts/Body.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import DeleteUserForm from "./Partials/DeleteUserForm.vue";
@@ -18,15 +17,14 @@ defineProps({
   islawyer: Number,
   uslugi: Array,
   userspec: "String",
-  specializationOne: Object,
+  auth: Object,
 });
 </script>
 
 <template>
-
   <Head title="Профиль" />
 
-  <MainHeader />
+  <MainHeader :auth="auth" />
 
   <Body>
     <div class="py-12">
@@ -36,23 +34,19 @@ defineProps({
             :must-verify-email="mustVerifyEmail"
             :status="status"
             :islawyer="islawyer"
-            :specializationOne="specializationOne"
             :uslugi="uslugi"
-            :userspec="userspec"             
+            :userspec="userspec"
+            :auth="auth"
             class="max-w-xl"
           />
         </div>
 
         <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-          <UpdateAvatarForm 
-          :avatarurl="avatarurl"          
-          class="w-full" />
+          <UpdateAvatarForm :avatarurl="avatarurl" />
         </div>
-        
+
         <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-          <UpdateImageForm 
-          :imgurl="imgurl"
-          class="w-full" />
+          <UpdateImageForm :imgurl="imgurl" />
         </div>
 
         <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">

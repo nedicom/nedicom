@@ -13,6 +13,7 @@ let vars = defineProps({
   uslugi: Object,
   flash: Object,
   mainuslugi: Object,
+  auth: Object,
 });
 </script>
 
@@ -24,7 +25,7 @@ let vars = defineProps({
     <meta name="description" :content="city.title" />
   </Head>
 
-  <MainHeader />
+  <MainHeader :auth="auth" />
 
   <Body>
     <div>

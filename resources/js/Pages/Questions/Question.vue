@@ -15,6 +15,7 @@ let set = defineProps({
   answers: "Object",
   authid: "Number",
   uslugi: "Number",
+  auth: Object,
 });
 
 let processing = ref(false);
@@ -67,7 +68,7 @@ const setUsluga = () => {
   </Head>
 
   <div class="min-h-screen">
-    <MainHeader />
+    <MainHeader :auth="set.auth" />
 
     <Header />
 

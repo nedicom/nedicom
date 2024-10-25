@@ -27,6 +27,8 @@ use App\Http\Controllers\Admin\ArticlesController as AdminArticleController;
 use App\Http\Controllers\Admin\UslugiController as AdminUslugiController;
 use App\Http\Controllers\Admin\UserController;
 
+use Illuminate\Support\Facades\Auth;
+
 
 
 use App\Mail\TestEmail;
@@ -80,11 +82,6 @@ Route::get('/yurist-po-krymenergo', function () {
     return Inertia::render('Welcome', []);
 })->name('krymenergo');
 
-
-Route::get('/yurist-po-nasledstvu', function () {
-    return Inertia::render('Nasledstvo', []);
-})->name('Nasledstvo');
-
 Route::controller(DashboardController::class)->group(function () {
     Route::get('/dashboard', 'index')->name('dashboard');
 });
@@ -134,7 +131,7 @@ Route::controller(OffersController::class)->group(function () {
 });
 
 Route::get('/policy', function () {
-    return Inertia::render('Policy', []);
+    return Inertia::render('Policy', ['auth' => Auth::user()]);
 })->name('policy');
 
 Route::controller(LentaController::class)->group(function () {
@@ -196,7 +193,7 @@ Route::middleware('auth')->group(function () {
 
 //aboutcompany
 Route::get('contacts/', function () {
-    return Inertia::render('About', []);
+    return Inertia::render('About', ['auth' => Auth::user()]);
 })->name('contacts');
 
 //import

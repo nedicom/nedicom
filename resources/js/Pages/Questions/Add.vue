@@ -21,6 +21,7 @@ let form = reactive({
 defineProps({
   lawyers: "Object",
   SliderQ: Array,
+  auth: Object,
 });
 
 const buttonDisabled = ref(false);
@@ -41,7 +42,7 @@ let title = ref("Задать вопрос юристу");
     <meta name="description" content="Лучшие юристы ответят на Ваш вопрос онлайн бесплатно, без регистрации и смс" />
   </Head>
 
-  <MainHeader />
+  <MainHeader :auth="auth" />
 
   <Header :ttl="title" />
 

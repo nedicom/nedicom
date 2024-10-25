@@ -15,10 +15,11 @@ let userId = ref(null);
 let title = ref("Услуги");
 
 defineProps({
-  uslugi: Array,
+  uslugi: Object,
   filters: Object,
   lawyers: Object,
   cities: Object,
+  auth: Object, 
 });
 
 const { open, close } = useModal({
@@ -52,7 +53,7 @@ const handleDelete = (id, title) => {
     <meta name="description" content="Услуги админа" />
   </Head>
 
-  <MainHeader />
+  <MainHeader :auth="auth" />
 
   <ModalsContainer />
 

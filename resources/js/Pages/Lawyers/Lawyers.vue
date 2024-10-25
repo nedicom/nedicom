@@ -9,6 +9,7 @@ import { Head, Link } from "@inertiajs/inertia-vue3";
 
 defineProps({
     lawyers: "Array",
+    auth: Object,
 });
 
 let title = ref("Юристы");
@@ -20,7 +21,7 @@ let title = ref("Юристы");
         <meta name="description" content="Все юристы сайта nedicom.ru на этой странице" />
     </Head>
 
-    <MainHeader />
+    <MainHeader :auth="auth" />
 
     <Header :ttl="title" :modalPageTitle="'юристы'"/>
 

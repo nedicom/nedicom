@@ -30,6 +30,7 @@ let vars = defineProps({
   secondUslugi: Object,
   second_usluga: Object,
   city: Object,
+  auth: Object,
 });
 
 const writerarr = [vars.usluga.preimushestvo1, vars.usluga.preimushestvo2, vars.usluga.preimushestvo3];
@@ -65,7 +66,7 @@ details summary::-webkit-details-marker {
     <meta name="description" :content="vars.usluga.usl_desc" />
   </Head>
 
-  <MainHeader />
+  <MainHeader :auth="vars.auth" />
 
   <Body>
     <div itemscope itemtype="https://schema.org/Product">

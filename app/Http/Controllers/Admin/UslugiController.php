@@ -8,6 +8,7 @@ use App\Models\cities;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 
 
 class UslugiController extends Controller
@@ -29,6 +30,7 @@ class UslugiController extends Controller
             'uslugi' => $uslugi,
             'lawyers' => User::Has('HasUslugi')->get(),
             'cities' => cities::get(),
+            'auth' => Auth::user(), 
         ]);
     }
 

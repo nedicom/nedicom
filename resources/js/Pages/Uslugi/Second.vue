@@ -67,7 +67,7 @@ details summary::-webkit-details-marker {
     <meta name="description" :content="vars.usluga.usl_desc" />
   </Head>
 
-  <MainHeader />
+  <MainHeader :auth="vars.auth" />
   <Body>
     <div itemscope itemtype="https://schema.org/Product">
       <Header :phone="usluga.phone" :address="usluga.address" />

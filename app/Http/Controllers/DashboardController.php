@@ -13,6 +13,7 @@ class DashboardController extends Controller
     {        
         return Inertia::render('Dashboard', [
             'articles' => Article::where('userid', '=', optional(Auth::user())->id)->paginate(6),
+            'auth' => Auth::user(),
         ]);
         
     }

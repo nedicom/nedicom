@@ -20,6 +20,7 @@ class QuestionsController extends Controller
     {
         return Inertia::render('Questions/Questions', [
             'questions' => Questions::orderBy('created_at', 'desc')->paginate(9),
+            'auth' => Auth::user(),    
         ]);
     }
 
@@ -27,6 +28,7 @@ class QuestionsController extends Controller
     {
         return Inertia::render('Questions/MyQuestions', [
             'questions' => Questions::where('user_id', '=', Auth::user()->id)->select('id', 'title', 'body', 'url')->withCount('QuantityAns')->orderBy('updated_at', 'desc')->paginate(9),
+            'auth' => Auth::user(),    
         ]);
     }
 
@@ -52,6 +54,7 @@ class QuestionsController extends Controller
                 ->get(),
             'aianswer' => Inertia::lazy(fn() => OpenAI::Answer($question->body)),
             'authid' => $authid,
+            'auth' => Auth::user(),    
             //'countanswer' => Article::where('userid', $id)->count(), 
         ]);
     }
@@ -81,7 +84,8 @@ class QuestionsController extends Controller
             'ownercookie' => [
                 'questionTitle' => session()->get(key: 'questionTitle'),
                 'questionBody' => session()->get(key: 'questionBody'),
-            ]
+            ],
+            'auth' => Auth::user(),  
         ]);
     }
 
@@ -91,6 +95,7 @@ class QuestionsController extends Controller
         return Inertia::render('Questions/Add', [
             'lawyers' => User::where('lawyer', 1)->inRandomOrder()->limit(5)->get(),
             'SliderQ' => Questions::limit(20)->withCount('QuantityAns')->orderBy('updated_at', 'desc')->get(),
+            'auth' => Auth::user(),    
         ]);
     }
 
@@ -118,7 +123,8 @@ class QuestionsController extends Controller
     public function ai()
     {
         return Inertia::render('Questions/QuestionNA', [
-            'test' => 'test'
+            'test' => 'test',
+            'auth' => Auth::user(),    
         ]);
         //return OpenAI::Answer('привет, расскажи кто ты?'); 
     }

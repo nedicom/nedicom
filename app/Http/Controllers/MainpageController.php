@@ -7,8 +7,7 @@ use App\Models\Article;
 use App\Http\Controllers\Controller;
 use App\Models\Review;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\DB;
-use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -27,6 +26,7 @@ class MainpageController extends Controller
             'reviews' => Review::inRandomOrder()->with('usluga')->get(),
             'reviewscount' => $reviewscount,
             'rating' => $rating,
+            'auth' => Auth::user(), 
         ]);
     }
     

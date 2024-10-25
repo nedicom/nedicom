@@ -15,6 +15,10 @@ let form = reactive({
   body: "",
 });
 
+defineProps({
+  auth: Object,
+});
+
 let submit = () => {
   Inertia.post("/articles/create", form);
 };
@@ -28,9 +32,9 @@ let title = ref("Добавить статью");
     <meta name="description" content="Страница статьи" />
   </Head>
 
-  <MainHeader />
+  <MainHeader :auth="auth" />
 
-  <Header :ttl="title" />
+  <Header/>
 
   <Body>
     <div class="bg-white py-12">

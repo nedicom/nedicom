@@ -18,6 +18,7 @@ let questionId = ref(null);
 
 defineProps({
   answers: "Array",
+  auth: Object,
 });
 
 const { open, close } = useModal({
@@ -48,7 +49,7 @@ const handleDelete = (id, title) => {
   <Head title="Панель управления" />
 
   <div class="min-h-screen flex flex-col">
-    <MainHeader />
+    <MainHeader :auth="auth" />
 
     <ModalsContainer />
 
@@ -56,7 +57,7 @@ const handleDelete = (id, title) => {
       <div
         class="bg-white py-12 max-w-7xl mx-auto sm:px-6 lg:px-8 overflow-hidden shadow-sm sm:rounded-lg"
       >
-        <ContentHero v-if="answers.total > 0" :data="answers" :routeurl="'questions.url'"/>
+        <ContentHero v-if="answers.total > 0" :data="answers" :routeurl="'questions.url'" :auth="auth"/>
 
         <EmptyHero
           v-else

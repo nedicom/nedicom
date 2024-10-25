@@ -37,6 +37,7 @@ class CityController extends Controller
             'uslugi' => $uslugi,
             'mainuslugi' => $mainuslugi,
             'flash' => ['message' => $request->session()->get(key: 'message')],
+            'auth' => Auth::user(),
         ]);
     }
 
@@ -50,6 +51,7 @@ class CityController extends Controller
             'main_usluga' => Uslugi::where('url', $main_usluga)->first(['usl_name', 'url']),
             'second_usluga' => Uslugi::where('url', $second_usluga)->first(['usl_name', 'url']),
             'flash' => ['message' => $request->session()->get(key: 'message')],
+            'auth' => Auth::user(),
         ]);
     }  
 
@@ -98,6 +100,7 @@ class CityController extends Controller
             'reviewscount' => $reviewscount,
             'rating' => $rating,
             'flash' => ['message' => $request->session()->get(key: 'message')],
+            'auth' => Auth::user(),
         ]);
     }
 }

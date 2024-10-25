@@ -9,6 +9,7 @@ import { ref } from "vue";
 
 defineProps({
     articles: "Array",
+    auth: Object,
 });
 
 let title = ref("Статьи");
@@ -20,7 +21,7 @@ let title = ref("Статьи");
         <meta name="description" content="Перечень статей сайта" />
     </Head>
 
-    <MainHeader />
+    <MainHeader :auth="auth" />
 
     <Header :ttl="title" :modalPageTitle="'статьи'"/>
 

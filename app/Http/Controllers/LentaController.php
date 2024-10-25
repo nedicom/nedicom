@@ -9,6 +9,7 @@ use App\Models\Questions;
 use App\Models\Article;
 use App\Casts\humandate;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class LentaController extends Controller
 {
@@ -58,6 +59,7 @@ class LentaController extends Controller
 
         return Inertia::render('Lenta/Lenta', [
             'bundles' => $bundles,
+            'auth' => Auth::user(),    
         ]);
     }
 
@@ -106,6 +108,7 @@ class LentaController extends Controller
 
         return Inertia::render('Lenta/Lenta', [
             'bundles' => $bundles,
+            'auth' => Auth::user(),    
         ]);
     }
 
@@ -137,6 +140,7 @@ class LentaController extends Controller
 
         return Inertia::render('Lenta/Lenta', [
             'bundles' => $bundles,
+            'auth' => Auth::user(),    
         ]);
     }
 
@@ -168,6 +172,7 @@ class LentaController extends Controller
 
         return Inertia::render('Lenta/Lenta', [
             'bundles' => $bundles,
+            'auth' => Auth::user(),    
         ]);
     }
 }

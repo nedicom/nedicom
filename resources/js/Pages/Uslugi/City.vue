@@ -14,6 +14,7 @@ let vars = defineProps({
   city: Object,
   main_usluga: Object,
   second_usluga: Object,
+  auth: Object,
 });
 
 
@@ -26,7 +27,7 @@ let vars = defineProps({
     <meta name="description" :content="'Объявления в городе ' + vars.city.title" />
   </Head>
 
-  <MainHeader />
+  <MainHeader :auth="vars.auth" />
 
   <Body>
 

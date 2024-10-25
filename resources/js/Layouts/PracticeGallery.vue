@@ -1,7 +1,7 @@
 <script setup>
 defineProps({
     sliderheader: String,
-    practice: Array,
+    practice: Object,
 });
 </script>
 

@@ -3,6 +3,7 @@ import { reactive } from "vue";
 import { Inertia } from "@inertiajs/inertia";
 import CrossButton from '@/Components/CrossButton.vue';
 import Tooltip from '@/Components/Tooltip.vue';
+import { Link } from '@inertiajs/vue3'
 
 defineProps( {
     specdata: Array,

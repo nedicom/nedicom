@@ -10,6 +10,7 @@ import { Head, Link } from "@inertiajs/inertia-vue3";
 
 defineProps({
   questions: "Array",
+  auth: Object,
 });
 
 let title = ref("Вопросы");
@@ -22,7 +23,7 @@ let title = ref("Вопросы");
     <meta name="description" content="вопросы" />
   </Head>
 
-  <MainHeader />
+  <MainHeader :auth="auth" />
 
   <Header :ttl="title" />
 
@@ -31,7 +32,7 @@ let title = ref("Вопросы");
     <div class="bg-white py-12 md:mx-12">
       <div v-if="questions.total > 0" class="grid md:grid-cols-3 gap-9 m-5">
         <!-- card -->
-        <div v-for="question in questions.data" class="flex justify-center">
+        <div v-for="question in questions.data" :key="question.id" class="flex justify-center">
           <div class="
                 grid grid-cols-1 gap-4 content-between
                 min-w-full

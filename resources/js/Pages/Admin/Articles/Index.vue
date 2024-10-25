@@ -16,6 +16,7 @@ let userId = ref(null);
 defineProps({
   articles: "Array",
   filters: "Object",
+  auth: Object,
 });
 
 const { open, close } = useModal({
@@ -49,7 +50,7 @@ const handleDelete = (id, title) => {
 <template>
   <Head title="Статьи" />
 
-  <MainHeader />
+  <MainHeader :auth="auth" />
 
   <ModalsContainer />
 

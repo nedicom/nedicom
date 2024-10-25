@@ -6,8 +6,6 @@ import { Cropper, ResizeEvent } from 'vue-advanced-cropper';
 import 'vue-advanced-cropper/dist/style.css';
 import { usePage } from '@inertiajs/inertia-vue3';
 
-const user = usePage().props.value.auth.user;
-
 defineProps({
   imgurl: String,
   user: Array,
@@ -52,7 +50,7 @@ defineProps({
     <InputLabel value="Текущее изображение" />
     <div class="flex h-full w-full justify-center items-center">       
     <img
-      :src="imgurl"
+      :src="'https://nedicom.ru/' + imgurl"
       alt="Большое фото юриста" 
     />
     </div>
