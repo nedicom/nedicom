@@ -16,6 +16,7 @@ let userId = ref(null);
 
 defineProps({
   articles: "Array",
+  auth: Object,
 });
 
 const { open, close } = useModal({
@@ -50,7 +51,7 @@ const handleDelete = (id, title) => {
     
   <div class="min-h-screen flex flex-col">
 
-    <MainHeader />
+    <MainHeader :auth="auth" />
 
     <ModalsContainer />
 

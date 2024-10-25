@@ -4,17 +4,22 @@ import Header from "@/Layouts/Header.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import Modal from "@/Components/Modal.vue";
 import { Head } from "@inertiajs/inertia-vue3";
+
+defineProps({
+  auth: Object,
+});
+
 </script>
 
 <template>
 
     <Head>
         <title>О компании</title>
-        <meta name="description" :content="description" />
+        <meta name="description" content="Компания Мина - юристы всех категорий по Республике Крым и городу Москва." />
     </Head>
 
     <div class="min-h-screen">
-        <MainHeader />
+        <MainHeader :auth="auth" />
 
         <Header :modalPageTitle="'О компании'" />
 

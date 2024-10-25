@@ -26,6 +26,7 @@ let set = defineProps({
   user: Object,
   errors: Object,
   flash: Object,
+  auth: Object,
 });
 
 let checkbox = false;
@@ -117,7 +118,7 @@ const date = ref(new Date());
 
   <Head title="Редактировать услугу" />
 
-  <MainHeader />
+  <MainHeader :auth="set.auth" />
 
   <Header />
 

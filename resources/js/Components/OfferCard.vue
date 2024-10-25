@@ -125,7 +125,7 @@ if (set.getlwr == '0') {
 
           <div v-if="set.offer.review_sum_rating && set.offer.review_count" class="mt-2 flex items-center gap-2">
             <div class="flex items-center">
-              <RatingReady :rating="(set.offer.review_sum_rating / set.offer.review_count).toFixed(2)
+              <RatingReady :rating="Number((set.offer.review_sum_rating / set.offer.review_count).toFixed(2))
                 " :reviewRating="false" />
             </div>
 

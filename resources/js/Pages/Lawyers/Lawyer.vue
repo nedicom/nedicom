@@ -26,13 +26,11 @@ let set = defineProps({
     statusonimage: String,
     mainbannerimg: String,
     lawyer: "$string",
-    specializationOne: Object,
-    specializationTwo: Object,
-    specializationThree: Object,
     specialization: String,
     articles: "$Array",
     practice: Array,
     flash: Object,
+    auth: Object,
 });
 
 (set.lawyer.lawyer == 1) ? robots = false : robots = true;
@@ -53,7 +51,7 @@ let title = ref(set.lawyer.name);
         <meta v-else name="robots" content="all">
     </Head>
     <div class="min-h-screen">
-        <MainHeader />
+        <MainHeader :auth="auth" />
 
         <Header :modalPageTitle="'юрист - ' + set.lawyer.name" />
 

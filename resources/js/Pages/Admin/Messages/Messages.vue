@@ -10,6 +10,7 @@ import { Head, Link } from "@inertiajs/inertia-vue3";
 
 defineProps({
   messages: "Array",
+  auth: Object,
 });
 
 let title = ref("Сообщения");
@@ -22,7 +23,7 @@ let title = ref("Сообщения");
     <meta name="description" content="Сообщения" />
   </Head>
 
-  <MainHeader />
+  <MainHeader :auth="auth" />
 
   <Header :ttl="title" />
 

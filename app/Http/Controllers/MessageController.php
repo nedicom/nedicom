@@ -18,6 +18,7 @@ class MessageController extends Controller
     {
         return Inertia::render('Admin/Messages/Messages', [
             'messages' => Dialogue::orderBy('created_at', 'desc')->paginate(99),
+            'auth' => Auth::user(), 
         ]);
     }
 

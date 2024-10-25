@@ -10,6 +10,7 @@ import { ref } from "vue";
 
 defineProps({
   bundles: "Array",
+  auth: Object,
 });
 
 let title = ref("Лента");
@@ -21,7 +22,7 @@ let title = ref("Лента");
     <meta name="description" content="Перечень статей сайта" />
   </Head>
 
-  <MainHeader />
+  <MainHeader :auth="auth" />
 
   <Header :ttl="title" :modalPageTitle="'лента'"/>
   <Body>

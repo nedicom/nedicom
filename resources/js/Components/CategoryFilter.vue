@@ -3,12 +3,6 @@ import { ref } from "vue";
 
 const hideLinks = ref(true);
 
-let scr = screen.width;
-
-if (scr < 500) {
-  hideLinks.value = false;
-}
-
 defineProps({
   category: Object,
   cityUrl: String,

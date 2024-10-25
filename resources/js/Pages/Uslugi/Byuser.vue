@@ -16,6 +16,7 @@ let title = ref("Мои услуги");
 defineProps({
     uslugi: "Array",
     filters: "Object",
+    auth: Object,
 });
 
 
@@ -51,7 +52,7 @@ const handleDelete = (id, title) => {
     <meta name="description" content="Услуги юриста" />
   </Head>
 
-  <MainHeader />
+  <MainHeader :auth="auth" />
 
   <Header :ttl="title" />
 

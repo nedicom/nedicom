@@ -14,6 +14,7 @@ let set = defineProps({
   second_uslugi: Object,
   cities: Object,
   user: Object,
+  auth: Object,
 });
 
 let form = reactive({
@@ -57,9 +58,9 @@ watch(
 <template>
   <Head title="Добавить услугу" />
 
-  <MainHeader />
+  <MainHeader :auth="set.auth" />
 
-  <Header :ttl="title" />
+  <Header/>
 
   <Body>
     <div class="bg-white py-12">

@@ -24,6 +24,7 @@ defineProps({
   reviewscount: Number,
   rating: Number,
   users: Object,
+  auth: Object,
 });
 
 
@@ -49,7 +50,7 @@ let description = "8 978 8838 978 юридические услуги по г. �
   </Head>
 
   <div class="min-h-screen" itemscope itemtype="https://schema.org/LegalService">
-    <MainHeader />
+    <MainHeader :auth="auth" />
 
     <Header :modalPageTitle="'Модальное окно главная'"/>
 

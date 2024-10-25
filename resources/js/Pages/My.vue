@@ -18,6 +18,7 @@ defineProps({
   myPractice: Number,
   myUslugi: Number,
   SliderQ: Array,
+  auth: Object,
 });
 </script>
 
@@ -25,7 +26,7 @@ defineProps({
   <Head title="Мой кабинет" />
 
   <div class="min-h-screen flex flex-col">
-    <MainHeader />
+    <MainHeader :auth="auth" />
 
     <Body>
       <div

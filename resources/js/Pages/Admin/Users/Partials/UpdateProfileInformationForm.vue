@@ -14,8 +14,8 @@ const props = defineProps({
     status: String,
     islawyer: String,
     uslugi: Array,
-    specializationOne: String,
     userspec: "String",
+    auth: Object,
 });
 
 const user = usePage().props.value.user;
@@ -78,7 +78,6 @@ let form = useForm({
                 <InputLabel for="speciality" value="Специализация (не больше трех)" />                
                     <Multiselect                                
                         :specdata="uslugi"
-                        :specializationOne="specializationOne"   
                         :userspec="userspec"                      
                     >      
                     </Multiselect>

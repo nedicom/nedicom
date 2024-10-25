@@ -7,6 +7,7 @@ import { ref } from "vue";
 defineProps({
   data: "Array",
   routeurl: String,
+  auth: Object,
 });
 
 let title = ref(null);
@@ -71,7 +72,7 @@ const handleDelete = (qid, qtitle) => {
             </span>
           </p>
 
-          <button v-if="$page.props.auth.user.isadmin && data.title" @click="handleDelete(data.id, data.title)"
+          <button v-if="auth.isadmin && data.title" @click="handleDelete(data.id, data.title)"
             class="btn btn-light w-100 ml-5">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
               stroke="currentColor" class="w-6 h-6">

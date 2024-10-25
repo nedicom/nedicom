@@ -9,6 +9,7 @@ import { Head } from "@inertiajs/inertia-vue3";
 defineProps({
     offer: Object,
     offers: Object,
+    auth: Object,
 });
 
 let title = ref("Услуги по городу");
@@ -20,7 +21,7 @@ let title = ref("Услуги по городу");
     <meta name="description" content="Услуги по городу" />
   </Head>
 
-  <MainHeader />
+  <MainHeader :auth="auth" />
 
   <Header :ttl="title" :modalPageTitle="'услуга - ' + offer.title + offer.city.title"/>
 

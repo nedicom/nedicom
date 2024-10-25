@@ -11,6 +11,10 @@ const showingNavigationDropdown = ref(false);
 
 const ym = ref('');
 
+let props = defineProps({
+  auth: Object,
+});
+
 watch(ym, () => {
   alert(1);
 })
@@ -18,7 +22,7 @@ watch(ym, () => {
 </script>
 
 <template>
-  <div class="mh">
+  <div class="mh" id="mh">
     <div class="bg-gray-100">
       <nav class="bg-white border-b border-gray-100">
         <!-- Primary Navigation Menu -->
@@ -88,23 +92,24 @@ watch(ym, () => {
                   <template #trigger>
                     <span class="inline-flex rounded-md">
 
+                      <!--
                       <button
                         type="button"
                         aria-label="city"
                         class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                       >
-                        <span v-if="$page.props.usercity.title">{{
-                          $page.props.usercity.title
+                        <span v-if="$page.propscity.title">{{
+                          $page.propscity.title
                         }}</span>
                       </button>
-
+-->
                       <button
                         type="button"
                         aria-label="enter"
                         class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                       >
-                        <span v-if="$page.props.auth.user !== null">{{
-                          $page.props.auth.user.name
+                        <span v-if="props.auth !== null">{{
+                          props.auth.name
                         }}</span>
                         <span v-else>Войти</span>
 
@@ -125,66 +130,59 @@ watch(ym, () => {
                   </template>
 
                   <template #content>
-                    <div v-if="$page.props.auth.user">
+                    <div v-if="props.auth">
                       <DropdownLink :href="route('profile.edit')">
                         Профиль
                       </DropdownLink>
                       <DropdownLink
-                        v-if="$page.props.auth.user.lawyer == 1"
+                        v-if="props.auth.lawyer == 1"
                         :href="route('my')"
                       >
                         Мой кабинет
                       </DropdownLink>
                       <DropdownLink
-                        v-if="$page.props.auth.user.lawyer == 0"
+                        v-if="props.auth.lawyer == 0"
                         :href="route('questions.add')"
                       >
                         Задать вопрос
                       </DropdownLink>
                       <DropdownLink
-                        v-if="$page.props.auth.user.lawyer == 0"
+                        v-if="props.auth.lawyer == 0"
                         :href="route('my.questions')"
                       >
                         Мои вопросы
                       </DropdownLink>
 
                       <DropdownLink
-                        v-if="$page.props.auth.user.isadmin"
+                        v-if="props.auth.isadmin"
                         :href="route('offers.all')"
                       >
                         Сеты
                       </DropdownLink>
 
                       <DropdownLink
-                        v-if="$page.props.auth.user.isadmin"
+                        v-if="props.auth.isadmin"
                         :href="route('admin.articles.list')"
                       >
                         Все статьи
                       </DropdownLink>
 
                       <DropdownLink
-                        v-if="$page.props.auth.user.isadmin"
+                        v-if="props.auth.isadmin"
                         :href="route('admin.uslugi.list')"
                       >
                         Все услуги
                       </DropdownLink>
 
                       <DropdownLink
-                        v-if="$page.props.auth.user.isadmin"
-                        :href="route('admin.users.list')"
-                      >
-                        Пользователи
-                      </DropdownLink>
-
-                      <DropdownLink
-                        v-if="$page.props.auth.user.isadmin"
+                        v-if="props.auth.isadmin"
                         :href="route('offers.all')"
                       >
                         Города
                       </DropdownLink>
 
                       <DropdownLink
-                        v-if="$page.props.auth.user.isadmin"
+                        v-if="props.auth.isadmin"
                         :href="route('messages')"
                       >
                         Сообщения
@@ -271,31 +269,31 @@ watch(ym, () => {
           <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4">
               <div class="font-medium text-base text-gray-800">
-                <!-- {{ $page.props.auth.user.name }} -->
+                <!-- {{ props.auth.name }} -->
               </div>
               <div class="font-medium text-sm text-gray-500">
-                <!-- {{ $page.props.auth.user.email }} -->
+                <!-- {{ props.auth.email }} -->
               </div>
             </div>
 
-            <div v-if="$page.props.auth.user" class="mt-3 space-y-1">
+            <div v-if="props.auth" class="mt-3 space-y-1">
               <ResponsiveNavLink :href="route('profile.edit')">
-                {{ $page.props.auth.user.name }}
+                {{ props.auth.name }}
               </ResponsiveNavLink>
               <ResponsiveNavLink
-                v-if="$page.props.auth.user.isadmin"
+                v-if="props.auth.isadmin"
                 :href="route('offers.all')"
               >
                 Сеты
               </ResponsiveNavLink>
               <ResponsiveNavLink
-                v-if="$page.props.auth.user.lawyer == 1"
+                v-if="props.auth.lawyer == 1"
                 :href="route('my')"
               >
                 Мой кабинет
               </ResponsiveNavLink>
               <ResponsiveNavLink
-                v-if="$page.props.auth.user.lawyer == 0"
+                v-if="props.auth.lawyer == 0"
                 :href="route('questions.add')"
               >
                 Задать вопрос
@@ -305,19 +303,19 @@ watch(ym, () => {
               </ResponsiveNavLink>
 
               <ResponsiveNavLink
-                v-if="$page.props.auth.user.lawyer == 0"
+                v-if="props.auth.lawyer == 0"
                 :href="route('articles')"
               >
                 Статьи
               </ResponsiveNavLink>
               <ResponsiveNavLink
-                v-if="$page.props.auth.user.lawyer == 0"
+                v-if="props.auth.lawyer == 0"
                 :href="route('lawyers')"
               >
                 Юристы
               </ResponsiveNavLink>
               <ResponsiveNavLink
-                v-if="$page.props.auth.user.lawyer == 0"
+                v-if="props.auth.lawyer == 0"
                 :href="route('uslugi')"
               >
                 Услуги

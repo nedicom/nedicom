@@ -19,6 +19,7 @@ let questionId = ref(null);
 
 defineProps({
   articles: "Array",
+  auth: Object,
 });
 
 const { open, close } = useModal({
@@ -49,7 +50,7 @@ const handleDelete = (id, title) => {
   <Head title="Мои статьи" />
 
   <div class="min-h-screen flex flex-col">
-    <MainHeader />
+    <MainHeader :auth="auth" />
 
     <ModalsContainer />
 
@@ -57,7 +58,7 @@ const handleDelete = (id, title) => {
       <div
         class="bg-white py-12 max-w-7xl mx-auto sm:px-6 lg:px-8 overflow-hidden shadow-sm sm:rounded-lg"
       >
-        <ContentHero v-if="articles" :data="articles" :routeurl="'articles/url'"/>
+        <ContentHero v-if="articles" :data="articles" :routeurl="'articles/url'" :auth="auth"/>
 
         <EmptyHero
           v-else

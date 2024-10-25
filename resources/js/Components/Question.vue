@@ -2,7 +2,9 @@
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { usePage } from "@inertiajs/inertia-vue3";
 
-const user = usePage().props.value.auth.user;
+defineProps({
+  user: Object,
+});
 </script>
 
 

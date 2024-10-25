@@ -11,6 +11,7 @@ let vars = defineProps({
     article: "Object",
     user: "Object",
     usluga: "Object",
+    auth: Object,
 });
 
 </script>
@@ -35,7 +36,7 @@ ol {
         <meta name="description" :content="article.description" />
     </Head>
 
-    <MainHeader />
+    <MainHeader :auth="vars.auth" />
 
     <Header :ttl="vars.article.header" :modalPageTitle="'статья - ' + vars.article.header" />
 

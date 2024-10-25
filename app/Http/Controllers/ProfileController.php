@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Redirect;
 use App\Models\Uslugi;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Support\Arr;
 
 class ProfileController extends Controller
 {
@@ -33,7 +32,8 @@ class ProfileController extends Controller
             ->select('id', 'usl_name')
             ->where('is_main', 1)
             ->get(),
-            'userspec' => User::find($id)->arrayspec,         
+            'userspec' => User::find($id)->arrayspec,
+            'auth' => Auth::user(),          
             //'specializationOne' => User::find($id)->lawyerSpecOne,
             //'specializationTwo' => User::find($id)->lawyerSpecTwo,
             //'specializationThree' => User::find($id)->lawyerSpecThree,

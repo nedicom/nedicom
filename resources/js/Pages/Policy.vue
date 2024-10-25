@@ -4,6 +4,10 @@ import Header from "@/Layouts/Header.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import { Head } from "@inertiajs/inertia-vue3";
 
+defineProps({
+  auth: Object,
+});
+
 </script>
 
 <template>
@@ -14,7 +18,7 @@ import { Head } from "@inertiajs/inertia-vue3";
 
     <div class="h-screen">
     
-        <MainHeader />
+      <MainHeader :auth="auth" />
 
         <Header ttl="Политика использования персональных данных" />    
 

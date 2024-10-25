@@ -53,6 +53,7 @@ class AnswerController extends Controller
             'answers' => Answer::where('users_id', '=', Auth::user()->id)
             ->with('Question')
             ->paginate(9),
+            'auth' => Auth::user(), 
         ]);
     }
 }

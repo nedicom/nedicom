@@ -8,6 +8,7 @@ import { Head } from "@inertiajs/inertia-vue3";
 
 defineProps({
   cities: Object,
+  auth: Object,
 });
 
 let title = ref("Услуги по городам");
@@ -19,7 +20,7 @@ let title = ref("Услуги по городам");
     <meta name="description" content="Все услуги и объявления юристов по городам" />
   </Head>
 
-  <MainHeader />
+  <MainHeader :auth="auth" />
 
   <Header :ttl="title" />
 

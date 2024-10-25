@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\Translate;
 
-
 class ArticlesController extends Controller
 {
 
@@ -28,7 +27,8 @@ class ArticlesController extends Controller
 
         return Inertia::render('Admin/Articles/Index', [
             'filters' => $request->all('search'),
-            'articles' => $articles
+            'articles' => $articles,
+            'auth' => Auth::user(), 
         ]);
     }
 
@@ -55,6 +55,7 @@ class ArticlesController extends Controller
         return Inertia::render('Articles/Edit', [
             'article' => Article::where('url', '=', $url)->first(),
             'uslugi' => Uslugi::where('is_main', '=', 1)->get(),
+            'auth' => Auth::user(), 
         ],  
     );
     }

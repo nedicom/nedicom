@@ -22,6 +22,7 @@ class ArticleController extends Controller
             'articles' => DB::table('articles')
                 ->leftJoin('users', 'articles.userid', '=', 'users.id')
                 ->paginate(9),
+            'auth' => Auth::user(),
         ]);
     }
 
@@ -31,12 +32,18 @@ class ArticleController extends Controller
             'articles' => Article::where('userid', '=', Auth::user()->id)
                 ->select(['id', 'header', 'description', 'url'])
                 ->paginate(100),
+            'auth' => Auth::user(),
         ]);
     }
 
     public function formadd()
     {
-        return Inertia::render('Articles/Add');
+        return Inertia::render('Articles/Add', [
+            'articles' => Article::where('userid', '=', Auth::user()->id)
+                ->select(['id', 'header', 'description', 'url'])
+                ->paginate(100),
+            'auth' => Auth::user(),
+        ]);
     }
 
     public function create(Request $request)
@@ -60,6 +67,7 @@ class ArticleController extends Controller
             [
                 'article' => Article::where('url', '=', $url)->first(),
                 'uslugi' => Uslugi::where('is_main', '=', 1)->where('is_feed', 1)->get(),
+                'auth' => Auth::user(), 
             ],
         );
     }
@@ -72,7 +80,7 @@ class ArticleController extends Controller
         $article->description = $request->description;
         $article->body = $request->body;
         $article->usluga_id = $request->usluga_id;
-        $article->youtube_file_path = $request->youtube; 
+        $article->youtube_file_path = $request->youtube;
         $article->save();
         return redirect()->route('articles/url', $article->url);
     }
@@ -122,6 +130,7 @@ class ArticleController extends Controller
                 )
                 ->first(),
             'user' => Auth::user(),
+            'auth' => Auth::user(), 
             'usluga' => Uslugi::where('id', $usluga_id_sec)->select('uslugis.url as newurl', 'uslugis.usl_name')->first(),
         ]);
     }

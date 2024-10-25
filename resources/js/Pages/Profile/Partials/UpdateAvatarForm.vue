@@ -50,7 +50,7 @@ defineProps({
       <InputLabel value="Ваш текущий аватар" />
       <div class="flex h-full w-full justify-center items-center">  
       <img class="rounded-full h-1/2"
-        :src="avatarurl"
+        :src="'https://nedicom.ru/' + avatarurl"
         alt="Аватар юриста" 
       />
       </div>

@@ -19,6 +19,7 @@ class MyController extends Controller
             'myPractice' => Article::where('userid', '=', Auth::user()->id)->select('id')->count(),
             'myUslugi' => Uslugi::where('user_id', '=', Auth::user()->id)->select('id')->count(),
             'SliderQ' => Questions::limit(30)->withCount('QuantityAns')->orderBy('updated_at', 'desc')->get(),
+            'auth' => Auth::user(),
         ]);
     }
 }

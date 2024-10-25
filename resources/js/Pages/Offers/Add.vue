@@ -12,6 +12,7 @@ import { reactive } from "vue";
 defineProps({
     mainusl_id: Object,
     cities: Object,
+    auth: Object,
   });
 
 let form = reactive({
@@ -30,7 +31,7 @@ let title = ref("Добавить список услуг (offers)");
 <template>
   <Head title="Добавить список услуг (offers)" />
 
-  <MainHeader />
+  <MainHeader :auth="auth" />
 
   <Header :ttl="title" />
 
