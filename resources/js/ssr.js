@@ -21,7 +21,7 @@ createServer((page) =>
                 .use(vfm)
                 .use(ZiggyVue, {
                     ...page.props.ziggy,
-                    location: new URL(page.props.ziggy.location),
+                    location: new URL(page.props.ziggy.url),
                 });
         },
     })
