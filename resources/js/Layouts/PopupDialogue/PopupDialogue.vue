@@ -28,16 +28,9 @@ let block;
 
 let form = reactive({
     mess: "message.value.innerText",
-    //location: usePage().props.value.ziggy.url,
-    //location_header: usePage().props.value.ziggy.url,
     location: 'nedicom',
     location_header: 'test',
 });
-
-/* delay
-setTimeout(() => {
-    vision.value = true;
-}, 60000);*/
 
 const opendialogue = function(){
    if (vision.value == false) {

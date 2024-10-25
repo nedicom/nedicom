@@ -51,46 +51,6 @@ const props = defineProps({
   </svg>
 </template>
 
-<script>
-/*
-import { useForm } from '@inertiajs/inertia-vue3'
-
-export default {
-    name: 'form-loading-spinner-example',
-    data(){  
-        return{
-            success: false,
-            error: false,
-            loading: true,
-            form : {
-                phone: "",
-                token: null,
-                url: '',//location.href,                
-            },
-        }
-    },
-    methods:{
-            recaptcha(){
-                this.loading = false; 
-
-                setTimeout(() => {
-                    this.loading = true;
-                }, 1500);
-                               
-                let form = this.form;                    
-                grecaptcha.ready(function() {
-                    grecaptcha.execute('6Lf0-tAZAAAAAIxKP1YOtKrCfqSm_yl3QF-IzglK', {action: 'submit'}).then(function(token) {                                                                
-                        form.token =  token;
-                        Inertia.post("/phone/send", form, {
-                            preserveScroll: true,
-                        })
-                    })                     
-                })  
-            },   
-    }
-}*/
-</script>
-
 <style lang="scss">
 #mainbanner {
     background-image: v-bind(mainbannerpc);
