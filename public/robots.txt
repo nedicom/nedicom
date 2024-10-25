@@ -7,6 +7,8 @@ Disallow: /register
 Disallow: /login
 Disallow: /profile
 Disallow: /authenticated/*
+Disallow: /message
+Disallow: /message/*
 
 
 
