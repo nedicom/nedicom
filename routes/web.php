@@ -21,6 +21,8 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\MyController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\LentaController;
+use App\Http\Controllers\ErrorController;
+use Illuminate\Http\Request;
 use App\Http\Controllers\SessionController;
 
 use App\Http\Controllers\Admin\ArticlesController as AdminArticleController;
@@ -219,3 +221,7 @@ Route::post('/send/review', [ReviewController::class, 'store'])->name('create.re
     ->name('test');*/
 
 require __DIR__ . '/auth.php';
+
+Route::fallback(function (): void {
+    abort(404);
+});
