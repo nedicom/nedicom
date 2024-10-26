@@ -6,13 +6,13 @@ const props = defineProps(['href', 'active']);
 
 const classes = computed(() =>
     props.active
-        ? 'flex justify-center min-w-full mx-5 p-3 my-1 rounded-lg bg-white  text-gray-600 focus:outline-none'
-        : 'flex justify-center min-w-full mx-5 p-3 my-1 text-gray-600  rounded-lg hover:text-gray-800 hover:bg-white focus:outline-none focus:text-gray-700'
+        ? 'border-b-2 border-indigo-500'
+        : ''
 );
 </script>
 
 <template>
-    <Link :href="href" :class="classes">
-        <div class="w-1/2"><slot /></div>
+    <Link :href="href" class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-x-1 duration-100"> 
+        <div :class="classes"><slot /></div>
     </Link>
 </template>

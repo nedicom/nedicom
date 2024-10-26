@@ -20,7 +20,7 @@ class QuestionsController extends Controller
     {
         return Inertia::render('Questions/Questions', [
             'questions' => Questions::orderBy('created_at', 'desc')->paginate(9),
-            'auth' => Auth::user(),    
+            'auth' => Auth::user(),
         ]);
     }
 
@@ -28,23 +28,16 @@ class QuestionsController extends Controller
     {
         return Inertia::render('Questions/MyQuestions', [
             'questions' => Questions::where('user_id', '=', Auth::user()->id)->select('id', 'title', 'body', 'url')->withCount('QuantityAns')->orderBy('updated_at', 'desc')->paginate(9),
-            'auth' => Auth::user(),    
+            'auth' => Auth::user(),
         ]);
     }
 
     public function questionsURL($url)
     {
-        if (!app()->environment('local')) {
-            $question = Questions::where('url', $url)->firstOrFail();
-        }
-        else{
-            $question = Questions::where('url', $url)->first();
-        }
+        $question = Questions::where('url', $url)->firstOrFail();
 
-        $authid = null;
-        if (Auth::user()) {
-            $authid = Auth::user()->id;
-        }
+        DB::table('questions')->where('questions.url', $url)->increment('counter', 1);
+
         return Inertia::render('Questions/Question', [
             'question' => Questions::where('id', $question->id)->withCount('QuantityAns')->with('User')->with('Usluga')->first(),
             'uslugi' => Uslugi::where('is_main', 1)->where('is_feed', 1)->select(['id', 'usl_name'])->get(),
@@ -53,8 +46,8 @@ class QuestionsController extends Controller
                 ->with('subcomments')
                 ->get(),
             'aianswer' => Inertia::lazy(fn() => OpenAI::Answer($question->body)),
-            'authid' => $authid,
-            'auth' => Auth::user(),    
+            'authid' => (Auth::user()) ? Auth::user()->id : null,
+            'auth' => (Auth::user()) ? Auth::user() : null,
             //'countanswer' => Article::where('userid', $id)->count(), 
         ]);
     }
@@ -85,7 +78,7 @@ class QuestionsController extends Controller
                 'questionTitle' => session()->get(key: 'questionTitle'),
                 'questionBody' => session()->get(key: 'questionBody'),
             ],
-            'auth' => Auth::user(),  
+            'auth' => Auth::user(),
         ]);
     }
 
@@ -95,7 +88,7 @@ class QuestionsController extends Controller
         return Inertia::render('Questions/Add', [
             'lawyers' => User::where('lawyer', 1)->inRandomOrder()->limit(5)->get(),
             'SliderQ' => Questions::limit(20)->withCount('QuantityAns')->orderBy('updated_at', 'desc')->get(),
-            'auth' => Auth::user(),    
+            'auth' => Auth::user(),
         ]);
     }
 
@@ -124,7 +117,7 @@ class QuestionsController extends Controller
     {
         return Inertia::render('Questions/QuestionNA', [
             'test' => 'test',
-            'auth' => Auth::user(),    
+            'auth' => Auth::user(),
         ]);
         //return OpenAI::Answer('привет, расскажи кто ты?'); 
     }
