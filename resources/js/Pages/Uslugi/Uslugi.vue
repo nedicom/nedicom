@@ -59,24 +59,27 @@ function alertForm(x) {
       <div class="bg-white grid grid-cols-1 md:grid-cols-4">
 
         <div>
-          <CityFilter :cities="set.cities" :routeurl="set.routeurl" :status="status" :main_usluga_url="set.main_usluga.url"
+          <CityFilter :cities="set.cities" :routeurl="set.routeurl" :status="status"
+            :main_usluga_url="set.main_usluga.url"
             :second_usluga_url="[set.second_usluga ? set.second_usluga.url : false]" @activeSts="alertForm" />
 
           <div v-if="set.allsities" сlass="flex justify-center md:justify-end">
             <div class="mb-10 px-2">
               <div class="flex flex-wrap gap-1 justify-center md:justify-end">
-                  <p class="w-full text-md font-bold text-center md:text-right">Недавно юристов искали в этих городах</p>
+                <p class="w-full text-md font-bold text-center md:text-right">Недавно юристов искали в этих городах</p>
                 <div v-for="(allcity, n) in set.allsities" :key="n">
                   <h3 class="m-0">
-                  <a :href="route('uslugi.url', [allcity.cities.url])"
-                    class="bg-gray-100 text-xs rounded-md px-2 py-1">{{
-                      allcity.cities.title }}</a></h3>
+                    <a :href="route('uslugi.url', [allcity.cities.url])"
+                      class="bg-gray-100 text-xs rounded-md px-2 py-1">{{
+                        allcity.cities.title }}</a>
+                  </h3>
                 </div>
               </div>
             </div>
           </div>
 
-          <CategoryFilter :category="set.category" :cityUrl="set.city.url" :main_usluga_url="set.main_usluga.url ? set.main_usluga.url : '0'"
+          <CategoryFilter :category="set.category" :cityUrl="set.city.url"
+            :main_usluga_url="set.main_usluga.url ? set.main_usluga.url : '0'"
             :second_usluga_url="set.second_usluga ? set.second_usluga.url : 'false'" @activeSts="alertForm" />
         </div>
         <div class="w-full h-full col-span-3 md:pl-10 my-5 md:my-0" itemscope itemtype="https://schema.org/Product">
@@ -90,7 +93,7 @@ function alertForm(x) {
               <h1 class="md:mb-4 text-sm leading-tight text-gray-900 dark:text-white md:text-2xl xl:text-2xl">
                 <span v-if="set.second_usluga">Юристы в категории "<span itemprop="name" class="font-bold">{{
                   set.second_usluga.usl_name
-                }}</span>"</span>
+                    }}</span>"</span>
                 <span v-else>Юристы в категории "<span itemprop="name" class="font-bold">{{ set.main_usluga.usl_name
                     }}</span>"</span>
                 по городу
@@ -117,17 +120,18 @@ function alertForm(x) {
           </div>
 
           <div v-if="set.uslugi">
+            <div class="px-3 my-2 md:px-0 w-full md:w-4/5 text-sm font-medium text-gray-900 text-center" itemprop="offers" itemscope
+              itemtype="https://schema.org/AggregateOffer">
+              Цены за консультацию
+              <meta itemprop="priceCurrency" content="RUB" />
+              от <span itemprop="lowPrice" content="1000">{{ set.min }}</span>
+              до <span itemprop="highPrice" content="2000">{{ set.max }} рублей</span>
+              у <span itemprop="offerCount">{{ set.count }}</span> <span v-if="set.count == 1">юриста</span><span
+                v-else>юристов</span>
+            </div>
             <div v-if="set.uslugi[0]">
               <!-- card -->
-              <div v-for="offer in set.uslugi" :key="offer.id"
-                class="px-3 my-2 md:px-0 w-full md:w-4/5 text-sm font-medium text-gray-900" itemprop="offers" itemscope
-                itemtype="https://schema.org/AggregateOffer">
-                Цены за консультацию
-                <meta itemprop="priceCurrency" content="RUB" />
-                от <span itemprop="lowPrice" content="1000">{{ set.min }}</span>
-                до <span itemprop="highPrice" content="2000">{{ set.max }} рублей</span>
-                у <span itemprop="offerCount">{{ set.count }}</span> <span v-if="set.count == 1">юриста</span><span
-                  v-else>юристов</span>
+              <div v-for="offer in set.uslugi" :key="offer.id">
                 <OfferCard :offer="offer" :city="set.cities" :getlwr="set.getLawyer" />
                 <hr class="h-px my-8 bg-gray-200 md:my-10 border-0 dark:bg-gray-700">
               </div>

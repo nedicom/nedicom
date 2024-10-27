@@ -25,7 +25,7 @@
         .selectParentNode()
         .setImage({ src: 'https://nedicom.ru/' + auth.avatar_path, alt: auth.name, title: auth.name, })
         .selectParentNode()
-        .setLink({ href: 'https://nedicom.ru/lawyers' + auth.avatar_path, })
+        .setLink({ href: 'https://nedicom.ru/lawyers/' + auth.id, })
         .run()
         " class="
       text-gray-1000 bg-white  focus:outline-none hover:underline focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700
