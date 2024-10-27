@@ -21,9 +21,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\MyController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\LentaController;
-use App\Http\Controllers\ErrorController;
-use Illuminate\Http\Request;
-use App\Http\Controllers\SessionController;
+use App\Http\Middleware\owner;
 
 use App\Http\Controllers\Admin\ArticlesController as AdminArticleController;
 use App\Http\Controllers\Admin\UslugiController as AdminUslugiController;
@@ -150,7 +148,7 @@ Route::controller(ArticleController::class)->group(function () {
 
     Route::get('/articlesadd', 'formadd')->name('articles.add');
     Route::post('/articles/create', 'create')->name('articles/create');
-    Route::get('/articles/{url}/edit', 'edit')->name('articles.edit');
+    Route::get('/articles/{url}/edit', 'edit')->middleware([owner::class, 'admin'])->name('articles.edit');
     Route::post('/articles/{url}/update', 'update')->name('articles.update');
     Route::get('/articles/{id}/delete', 'delete')->name('article.delete');
 });

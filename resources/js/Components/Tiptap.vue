@@ -1,28 +1,39 @@
-<template> 
-<div class="">
-  <div v-if="editor" class="flex mt-5 border rounded-top p-3">
-      <div @click="editor.chain().focus().toggleBold().run()" :disabled="!editor.can().chain().focus().toggleBold().run()" :class="{ 'bg-gray-100': editor.isActive('bold') }" 
-      class="text-gray-1000 bg-white  focus:outline-none hover:underline  focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-      >
+<template>
+  <div class="">
+    <div v-if="editor" class="flex mt-5 border rounded-top p-3">
+      <div @click="editor.chain().focus().toggleBold().run()"
+        :disabled="!editor.can().chain().focus().toggleBold().run()" :class="{ 'bg-gray-100': editor.isActive('bold') }"
+        class="text-gray-1000 bg-white  focus:outline-none hover:underline  focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
         Жирный
       </div>
-      <div @click="editor.chain().focus().toggleHeading({ level: 3 }).updateAttributes('heading', { color: 'pink'}).run()" :class="{ 'bg-gray-100': editor.isActive('heading', { level: 3 }) }" 
-      class="
+      <div
+        @click="editor.chain().focus().toggleHeading({ level: 3 }).updateAttributes('heading', { color: 'pink' }).run()"
+        :class="{ 'bg-gray-100': editor.isActive('heading', { level: 3 }) }" class="
       text-gray-1000 bg-white  focus:outline-none hover:underline focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700
       ">
         Заголовок
       </div>
-      <div @click="editor.chain().focus().toggleBulletList().run()" :class="{ 'bg-gray-100': editor.isActive('bulletList') }" 
-      class="
+      <div @click="editor.chain().focus().toggleBulletList().run()"
+        :class="{ 'bg-gray-100': editor.isActive('bulletList') }" class="
       text-gray-1000 bg-white  focus:outline-none hover:underline focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700
        ">
         Список
       </div>
-  </div>
 
-  <editor-content :editor="editor"
-        name="body" 
-        class="form-control
+      <div @click="editor.chain().focus()
+        .toggleBlockquote()
+        .selectParentNode()
+        .setImage({ src: 'https://nedicom.ru/' + auth.avatar_path, alt: auth.name, title: auth.name, })
+        .selectParentNode()
+        .setLink({ href: 'https://nedicom.ru/lawyers' + auth.avatar_path, })
+        .run()
+        " class="
+      text-gray-1000 bg-white  focus:outline-none hover:underline focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700
+       ">
+        Мнение эксперта
+      </div>
+    </div>
+    <editor-content :editor="editor" name="body" class="form-control
               overflow-auto                  
               text-base
               font-normal
@@ -30,16 +41,18 @@
               rounded-bottom                 
               ease-in-out                
               border                
-      "
-      required
-      />
+      " required />
 
   </div>
 </template>
 
 <script>
+
+import Image from '@tiptap/extension-image'
+import Blockquote from '@tiptap/extension-blockquote'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
+import Link from '@tiptap/extension-link'
 
 export default {
   components: {
@@ -47,6 +60,7 @@ export default {
   },
 
   props: {
+    auth: Object,
     modelValue: {
       type: String,
       default: '',
@@ -68,7 +82,6 @@ export default {
 
       // JSON
       // const isSame = JSON.stringify(this.editor.getJSON()) === JSON.stringify(value)
-
       if (isSame) {
         return
       }
@@ -80,7 +93,21 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        StarterKit, 
+        StarterKit,
+        Blockquote,
+        Image.configure({
+          inline: true,
+          HTMLAttributes: {
+            class: 'inline-flex mr-4 artlwrimg',
+          },
+        }),
+        Link.configure({
+          openOnClick: false,
+          defaultProtocol: 'https',
+          HTMLAttributes: {
+            class: 'border-none artlwrhref',
+          },
+        }),
       ],
       content: this.modelValue,
       onUpdate: () => {
@@ -103,67 +130,74 @@ export default {
 /* Basic editor styles */
 
 .ProseMirror-focused {
-    outline: none;
+  outline: none;
 }
 
 .ProseMirror {
-height: 400px;
-padding: 10px;
-> * + * {
- // margin-top: 0.75em;
-  
-}
+  height: 400px;
+  padding: 10px;
 
-p{
-  border : none;
-}
-ul,
-ol {
-  padding: 0 2rem;
-  margin: 1rem 0;
-  list-style-type: square;
-}
+  >*+* {
+    // margin-top: 0.75em;
 
-h3{
-  line-height: 1.3;
-  font-size: 1.5rem;
-  border : none;
-  margin: 1rem;
-}
+  }
 
-code {
-  background-color: rgba(#616161, 0.1);
-  color: #616161;
-}
+  p {
+    border: none;
+  }
 
-pre {
-  background: #0D0D0D;
-  color: #FFF;
-  font-family: 'JetBrainsMono', monospace;
-  padding: 0.75rem 1rem;
+  ul,
+  ol {
+    padding: 0 2rem;
+    margin: 1rem 0;
+    list-style-type: square;
+  }
+
+  h3 {
+    line-height: 1.3;
+    font-size: 1.5rem;
+    border: none;
+    margin: 1rem;
+  }
 
   code {
-    color: inherit;
-    padding: 0;
-    background: none;
-    font-size: 0.8rem;
+    background-color: rgba(#616161, 0.1);
+    color: #616161;
   }
-}
 
-img {
-  max-width: 100%;
-  height: auto;
-}
+  pre {
+    background: #0D0D0D;
+    color: #FFF;
+    font-family: 'JetBrainsMono', monospace;
+    padding: 0.75rem 1rem;
 
-blockquote {
-  padding-left: 1rem;
-  border-left: 2px solid rgba(#0D0D0D, 0.1);
-}
+    code {
+      color: inherit;
+      padding: 0;
+      background: none;
+      font-size: 0.8rem;
+    }
+  }
 
-hr {
-  border: none;
-  border-top: 2px solid rgba(#0D0D0D, 0.1);
-  margin: 2rem 0;
-}
+  .artlwrimg {
+    border-radius: 50%;
+    width: 80px;
+    height: auto;
+  }
+
+  .artlwrhref {
+    display: inline-block;
+  }
+
+  blockquote {
+    padding-left: 1rem;
+    border-left: 2px solid rgba(#0D0D0D, 0.1);
+  }
+
+  hr {
+    border: none;
+    border-top: 2px solid rgba(#0D0D0D, 0.1);
+    margin: 2rem 0;
+  }
 }
 </style>

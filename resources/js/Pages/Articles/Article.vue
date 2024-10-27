@@ -27,6 +27,33 @@ ol {
     margin-left: 1rem;
     list-style-type: square;
 }
+
+.artlwrhref {
+    vertical-align: top;
+    max-width: 100%;
+    border: none;
+}
+
+.artlwrimg {
+    border-radius: 50%;
+    width: 80px;
+    float: inline-start;
+  }
+
+  .artlwrhref::before {
+    content: "Мнение эксперта";
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1.2rem;
+}
+
+  blockquote {
+    padding-left: 1rem;
+    margin: 2rem;
+    font-style: italic;
+    border-left: solid red;;
+}
 </style>
 
 <template>
@@ -38,7 +65,7 @@ ol {
 
     <MainHeader :auth="vars.auth" />
 
-    <Header :ttl="vars.article.header" :modalPageTitle="'статья - ' + vars.article.header" />
+    <Header :modalPageTitle="'статья - ' + vars.article.header" />
 
     <Body>
         <div class="flex justify-center text-gray-900" itemscope itemtype="https://schema.org/Article">
@@ -49,7 +76,7 @@ ol {
                             <div class="mx-auto sm:px-6 lg:px-8">
                                 <div class="px-6 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                                     <div v-if="vars.user" class="my-3">
-                                        <div v-if="vars.user.id == article.userid || vars.user.is_admin == 1">
+                                        <div v-if="vars.user.id == article.userid || vars.user.isadmin == 1">
                                             <a :href="route(
                                                 'articles.edit',
                                                 article.url

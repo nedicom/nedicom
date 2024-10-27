@@ -176,6 +176,4 @@ let title = ref("Лента");
   </Body>
 
   <MainFooter />
-
-  <PopupDialogue />
 </template>

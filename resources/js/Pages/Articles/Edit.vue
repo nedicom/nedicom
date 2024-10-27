@@ -218,7 +218,7 @@ function submit() {
             </div>
 
 
-            <editor spellcheck="true" v-model="form.body" />
+            <editor spellcheck="true" v-model="form.body" :auth="set.auth"/>
             <div class="flex justify-center">
               <button type="submit" class="
                         my-5
