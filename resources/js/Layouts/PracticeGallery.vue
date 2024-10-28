@@ -7,7 +7,7 @@ defineProps({
 
 <template>
     <section id="prctglr" class="w-full flex justify-center">
-        <div class="md:w-3/4 px-3 md:px-0">
+        <div class="md:w-11/12 xl:w-3/4 px-3 md:px-0">
             <h3 class="text-4xl mx-12 my-1 font-semibold">Практика</h3>
             <p class="mb-6 mx-12 font-light text-gray-500 md:text-lg">Возможно Ваше дело
                 далеко не первое...</p>
@@ -23,12 +23,12 @@ defineProps({
                     </span>
                     <time class="ml-3 text-4xl text-gray-400">
                         {{ name }} год</time>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
-                        <div v-for="card in cards" :key="card.id" class="w-full flex justify-center md:p-10">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3 md:mt-0">
+                        <div v-for="card in cards" :key="card.id" class="w-full flex justify-center xl:p-10">
                             <a :href="route('articles/url', card.url)" target="_blank"
                                 :aria-label="'практика юриста - ' + card.header"
                                 class="md:flex w-full items-center bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
-                                <img class="object-cover w-full md:w-1/2 md:rounded-l-lg"
+                                <img class="object-cover w-full md:h-full md:w-1/2 rounded-t-lg md:rounded-s-lg"
                                     :src="'https://nedicom.ru/' + card.practice_file_path" :alt="card.header">
                                 <div class="flex flex-col justify-between p-4 leading-normal">
                                     <h4 class="mb-2 text-lg font-bold text-gray-900">{{
