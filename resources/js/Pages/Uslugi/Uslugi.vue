@@ -32,6 +32,8 @@ let set = defineProps({
 
 let title = ref("Услуги");
 
+title.value = set.second_usluga ? set.second_usluga.usl_name : set.main_usluga.usl_name;
+title.value = set.city.title != '' ? title.value + ' по городу ' + set.city.title : title.value + " по всем городам";
 let status = ref(false);
 
 function alertForm(x) {
@@ -42,10 +44,7 @@ function alertForm(x) {
 <template>
 
   <Head>
-    <title v-if="set.second_usluga"> {{ set.second_usluga.usl_name }} <span v-if="set.city"> по городу {{ set.city.title
-        }}</span>
-    </title>
-    <title v-else>{{ set.main_usluga.usl_name }} по городу {{ set.city.title }}</title>
+    <title> {{ title }} </title>
     <meta v-if="set.second_usluga" name="description" :content="set.second_usluga.usl_desc" />
     <meta v-else name="description" :content="set.main_usluga.usl_desc" />
   </Head>
@@ -95,9 +94,8 @@ function alertForm(x) {
                   set.second_usluga.usl_name
                     }}</span>"</span>
                 <span v-else>Юристы в категории "<span itemprop="name" class="font-bold">{{ set.main_usluga.usl_name
-                    }}</span>"</span>
-                по городу
-                <span class="font-bold">{{ set.city.title }}</span>
+                    }}</span>"</span>                
+                <span v-if="set.city.title != ''" class="font-bold"> по городу {{ set.city.title }}</span>
               </h1>
               <span v-if="set.second_usluga" itemprop="description" class="font-bold">{{
                 set.second_usluga.usl_desc

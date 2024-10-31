@@ -9,8 +9,9 @@ import { Head, Link } from "@inertiajs/inertia-vue3";
 import { ref } from "vue";
 
 defineProps({
-  bundles: "Array",
+  bundles: Array,
   auth: Object,
+  h1: String,
 });
 
 let title = ref("Лента");
@@ -49,6 +50,7 @@ let title = ref("Лента");
 
       <div class="md:col-span-3 md:max-w-7xl md:mt-12 md:mx-auto sm:px-6 lg:px-8 overflow-hidden">
         <div class="flex flex-col gap-9">
+          <h1 class="text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ h1 }} у юристов</h1>
           <!-- card -->
           <div v-for="bundles in bundles" :key="bundles.id" class="flex justify-center mx-3 md:mx-0 bg-white rounded">
             <article

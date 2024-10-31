@@ -59,7 +59,8 @@ class LentaController extends Controller
 
         return Inertia::render('Lenta/Lenta', [
             'bundles' => $bundles,
-            'auth' => Auth::user(),    
+            'auth' => Auth::user(),
+            'h1' => 'Популярное', 
         ]);
     }
 
@@ -108,7 +109,8 @@ class LentaController extends Controller
 
         return Inertia::render('Lenta/Lenta', [
             'bundles' => $bundles,
-            'auth' => Auth::user(),    
+            'auth' => Auth::user(),  
+            'h1' => 'Свежее',   
         ]);
     }
 
@@ -140,7 +142,8 @@ class LentaController extends Controller
 
         return Inertia::render('Lenta/Lenta', [
             'bundles' => $bundles,
-            'auth' => Auth::user(),    
+            'auth' => Auth::user(),  
+            'h1' => 'Статьи',   
         ]);
     }
 
@@ -173,6 +176,7 @@ class LentaController extends Controller
         return Inertia::render('Lenta/Lenta', [
             'bundles' => $bundles,
             'auth' => Auth::user(),    
+            'h1' => 'Вопросы', 
         ]);
     }
 }
