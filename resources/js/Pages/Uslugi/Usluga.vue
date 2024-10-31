@@ -14,6 +14,7 @@ import MainFooter from "@/Layouts/MainFooter.vue";
 import PracticeGallery from "@/Layouts/PracticeGallery.vue";
 import { Head } from "@inertiajs/inertia-vue3";
 
+
 let vars = defineProps({
   usluga: "Object",
   user: "Object",
