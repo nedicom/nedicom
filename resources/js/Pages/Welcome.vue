@@ -84,7 +84,7 @@ let description = "8 978 8838 978 юридические услуги по г. �
 
               <span itemprop='itemReviewed' itemscope
                   itemtype='https://schema.org/LegalService'>
-                <a :href="'https://nedicom.ru/uslugi/' + card.usluga.url">
+                <a v-if="card.usluga" :href="'https://nedicom.ru/uslugi/' + card.usluga.url">
                   <img v-if="card.usluga.file_path" class="rounded-t-lg object-cover  h-72 w-full"
                     :src="'https://nedicom.ru/' + card.usluga.file_path" :alt='card.usluga.usl_name'  itemprop='image'/>
                   <img v-else class="rounded-t-lg object-cover  h-72 w-full"

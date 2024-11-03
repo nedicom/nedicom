@@ -77,7 +77,7 @@ class UslugiController extends Controller
             'allsities' => $uslugi->unique('cities'),
             'category' => $category,
             'routeurl' => '/uslugi',
-            'auth' => Auth::user(),    
+            'auth' => Auth::user(),
         ]);
     }
 
@@ -85,7 +85,7 @@ class UslugiController extends Controller
     public function show($url,  Request $request) // http://nedicom.ru/uslugi/city
     {
         //check city in url
-        if (cities::where('url', $url)->first()) {            
+        if (cities::where('url', $url)->first()) {
             $cities = [];
             if ($request->city) {
                 $cities = cities::when($request->city ?? null, function ($query, $city) {
@@ -143,12 +143,12 @@ class UslugiController extends Controller
                 'category' => $category,
                 'routeurl' => '/uslugi',
                 'getLawyer' => (session()->get('questionTitle')) ? session()->get('questionTitle') : '0',
-                'auth' => Auth::user(),    
+                'auth' => Auth::user(),
             ]);
         }
         //check city in url
         $usluga = Uslugi::where('url', $url)->first();
-        if ($usluga) {            
+        if ($usluga) {
             $sity = ($usluga->sity) ? $usluga->sity : 'allcities';
             $main_usluga_id = ($usluga->main_usluga_id) ? $usluga->main_usluga_id : 'main';
             $second_usluga_id = ($usluga->second_usluga_id) ? Uslugi::findOrFail($usluga->second_usluga_id)->url : 'second';
@@ -162,7 +162,7 @@ class UslugiController extends Controller
                 ],
                 302
             );
-        } else {            
+        } else {
             abort(404);
         }
         dd(123);
@@ -276,7 +276,7 @@ class UslugiController extends Controller
             'countrating' => $uslugi->sum('review_count'),
             'cities' => $cities,
             'routeurl' => '/uslugi/' . $city->url . '/' . $main_usluga,
-            'auth' => Auth::user(),    
+            'auth' => Auth::user(),
         ]);
     }
 
@@ -337,7 +337,7 @@ class UslugiController extends Controller
             'sumrating' => $uslugi->sum('review_sum_rating'),
             'countrating' => $uslugi->sum('review_count'),
             'routeurl' => '/uslugi/' . $city->url . '/' . $main_usluga . '/' . $second_usluga,
-            'auth' => Auth::user(),    
+            'auth' => Auth::user(),
         ]);
     }
 
@@ -379,7 +379,7 @@ class UslugiController extends Controller
             'reviewscount' => $reviewscount,
             'rating' => $rating,
             'flash' => ['message' => $request->session()->get(key: 'message')],
-            'auth' => Auth::user(),    
+            'auth' => Auth::user(),
         ]);
     }
 
@@ -397,17 +397,7 @@ class UslugiController extends Controller
             $mainid = $id;
         }
 
-        if (Review::where('usl_id', $id)->orWhere('usl_id', $mainid)->count() !== 0) {
-            $reviews = Review::where('usl_id', $id)->orWhere('usl_id', $mainid)->orderBy('id', 'desc')->get();
-            $reviewscount = Review::where('usl_id', $id)->orWhere('usl_id', $mainid)->count();
-            $rating = Review::select('rating')->where('usl_id', $id)->orWhere('usl_id', $mainid)->sum('rating');
-        } else {
-            $reviews = Review::orderBy('id', 'desc')->get();
-            $reviewscount = Review::count();
-            $rating = Review::sum('rating');
-        }
-
-        $rating =  round($rating / $reviewscount, 1);
+        $user_id = Uslugi::where('url', '=', $url)->first()->user_id;                
 
         $practice = Article::where('usluga_id', $mainid)->where('practice_file_path', '!=', null)->get(['id', 'created_at', 'description', 'header', 'url', 'practice_file_path']);
         $practice->map(function ($practice) {
@@ -415,22 +405,37 @@ class UslugiController extends Controller
             return $practice;
         });
 
-        $user_id = Uslugi::where('url', '=', $url)->first()->user_id;
+        $auth = Auth::user();
+
+        if ($auth) {
+            $auth->has_comment = ($usluga->reviews->where('user_id', $auth->id)->first()) ? true : false;
+        }
+
+        $lawyer = User::where('id', $usluga->user_id)->first();
+
+        $main_usluga = Uslugi::where('id', $usluga->main_usluga_id)->first(['id', 'usl_name', 'url']);
+
+        $reviews = Review::where('lawyer_id', $lawyer->id)
+        ->orWhere('mainusl_id', $main_usluga->id)
+        ->orWhere('usl_id', $usluga->id)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
         return Inertia::render('Uslugi/Usluga', [
+            'auth' => $auth,
             'usluga' => Uslugi::where('url', $url)->with('cities')->first(),
-            'user' => Auth::user(),
-            'lawyer' => User::where('id', $usluga->user_id)->first(),
+            'lawyer' => $lawyer,
+            'reviews' => $reviews,
             'lawyers' => User::where('speciality_one_id', '=', $id)->orderBy('name', 'asc')->get()->take(3),
             'practice' => $practice->groupBy('year'),
             'firstlawyer' => User::where('id', $user_id)->get(),
             'reviews' => $reviews,
-            'reviewscount' => $reviewscount,
-            'rating' => $rating,
-            'main_usluga' => Uslugi::where('id', $usluga->main_usluga_id)->first(['id', 'usl_name', 'url']),
+            'reviewscount' => $reviews->count(),
+            'rating' => $reviews->sum('rating'),
+            'main_usluga' =>  $main_usluga,
             'second_usluga' => Uslugi::where('id', $usluga->second_usluga_id)->first(['id', 'usl_name', 'url']),
             'city' => cities::where('id', $usluga->sity)->first(),
-            'flash' => ['message' => $request->session()->get(key: 'message')],
-            'auth' => Auth::user(),    
+            'flash' => ['message' => $request->session()->get(key: 'message')],            
         ]);
     }
 
@@ -447,7 +452,7 @@ class UslugiController extends Controller
                     ->doesntHave('doesntHaveoffersbysecond')->get()->groupBy('main_usluga_id'),
                 'user' => Auth::user(),
                 'cities' => cities::all(),
-                'auth' => Auth::user(),    
+                'auth' => Auth::user(),
             ],
         );
     }
@@ -529,7 +534,7 @@ class UslugiController extends Controller
                 'user' => Auth::user(),
                 'flash' => ['message' => $request->session()->get(key: 'message')],
                 'cities' => cities::all(),
-                'auth' => Auth::user(),    
+                'auth' => Auth::user(),
             ],
         );
     }
@@ -621,7 +626,7 @@ class UslugiController extends Controller
         return Inertia::render('Uslugi/Byuser', [
             'filters' => $request->all('search'),
             'uslugi' =>  $uslugi,
-            'auth' => Auth::user(), 
+            'auth' => Auth::user(),
         ]);
     }
 

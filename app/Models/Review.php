@@ -16,17 +16,21 @@ class Review extends Model
 
     protected $fillable = [
 
+        'created_at',
+
         'mainusl_id',
 
         'usl_id',
+
+        'user_id',
+
+        'lawyer_id',
 
         'rating',
 
         'fio',
 
-        'description',
-
-        'created_at',
+        'description',        
     ];
 
     protected $casts = [

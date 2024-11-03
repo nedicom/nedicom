@@ -38,9 +38,9 @@ class ReviewController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(StoreReviewRequest $request)
-    {        
+    {   
         Review::create($request->validated());
-        return back()->with('message', 'Отзыв опубликован. Сделайте еще один');
+        return back()->with('message', 'Отзыв опубликован!');
     }
 
     /**

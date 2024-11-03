@@ -24,24 +24,26 @@ class StoreReviewRequest extends FormRequest
     public function rules()
     {
         return [            
+            'created_at' => 'date',    
+            'mainusl_id' => 'nullable|numeric',
+            'usl_id' => 'nullable|numeric',    
+            'user_id' => 'numeric',
+            'lawyer_id' => 'numeric',
+            'rating' => 'numeric',
             'fio' => 'required|min:5',
             'description' => 'required|min:15',
-            'mainusl_id'=> 'numeric',
-            'usl_id' => 'numeric',
-            'rating' => 'numeric',
-            'created_at' => 'required',
         ];
     }
 
     public function messages(): array
 {
     return [
-        'created_at.required' => 'Дата',
         'fio.required' => 'Имя для отзыва обязательно',
-        'description.required' => 'Описание самого отзыва обязательно',
-        'mainusl_id.numeric' => 'Выберите главную услугу (выше на странице, потом нажмите обновить услугу (не отзыв))',
+        'description.required' => 'Описание самого отзыва обязательно',        
         'fio.min' => 'Не короче 5 символов',
         'description.min' => 'Слишком короткий отзыв',
     ];
 }
 }
+
+

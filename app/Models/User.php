@@ -70,6 +70,12 @@ class User extends Authenticatable
         return $this->hasOne(Uslugi::class, 'id', 'speciality_three_id');
     }
 
+    
+    public function reviews(): HasMany
+    {
+        return $this->HasMany(Review::class, 'lawyer_id', 'id')->orderBy('created_at', 'desc');
+    }
+
     public function scopeFilter($query, array $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {

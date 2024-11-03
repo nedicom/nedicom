@@ -2,15 +2,13 @@
 import MainHeader from "@/Layouts/MainHeader.vue";
 import Header from "@/Layouts/Header.vue";
 import Mainbanner from "@/Layouts/Mainbanner.vue";
-import Specialization from "@/Layouts/Specialization.vue";
 import Slider from "@/Layouts/Slider.vue";
+import ReviewCarousel from "@/Layouts/ReviewCarousel.vue";
 import Articles from "@/Layouts/Articles.vue";
 import About from "@/Layouts/About.vue";
-import Address from "@/Layouts/Address.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import FlashMessage from "@/Components/FlashMessage.vue";
 import LawyerRating from "@/Components/LawyerRating.vue";
-import PopupDialogue from "@/Layouts/PopupDialogue/PopupDialogue.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import { ref } from "vue";
 
@@ -25,12 +23,13 @@ let robots = false;
 let set = defineProps({
     statusonimage: String,
     mainbannerimg: String,
-    lawyer: "$string",
+    lawyer: Object,
     specialization: String,
     articles: "$Array",
     practice: Array,
     flash: Object,
     auth: Object,
+    errors: Object,
 });
 
 (set.lawyer.lawyer == 1) ? robots = false : robots = true;
@@ -60,18 +59,20 @@ let title = ref(set.lawyer.name);
 
         <About :about="set.lawyer.about" />
 
+        <ReviewCarousel :reviews="set.lawyer.reviews" :rating="set.lawyer.reviews_sum_rating" 
+        :reviewscount="set.lawyer.reviews_count" :lwrid="set.lawyer.id" :auth="set.auth" :errors="set.errors"
+        :mainuslugaid="null" :uslugaid="null"/>
+
         <!--
         <Specialization :specializationOne="specializationOne" :specializationTwo="specializationTwo"
             :specializationThree="specializationThree" :specialization="specialization" />
 -->
         <LawyerRating :lawyer="set.lawyer" />
 
-        <Articles :articles="articles" />
+        <Articles :articles="set.articles" />
 
-        <Slider :sliderheader="sliderheader" :sldimg="practice" :practice="set.practice" />
+        <Slider :sliderheader="set.sliderheader" :practice="set.practice" />
 
         <MainFooter />
-
-        <PopupDialogue />
     </div>
 </template>
