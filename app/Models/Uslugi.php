@@ -67,13 +67,6 @@ class Uslugi extends Model
         ;
     }
 
-
-    public function firstlawyer(): belongsTo
-    {
-        return $this->belongsTo(User::class, 'user_id', 'id') //->select(['id', 'avatar_path', 'name'])
-        ;
-    }
-
     public function HasArticles(): HasMany
     {
         return $this->HasMany(Article::class, 'usluga_id', 'id');

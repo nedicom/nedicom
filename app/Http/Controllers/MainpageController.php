@@ -21,7 +21,7 @@ class MainpageController extends Controller
         $rating =  round($rating / $reviewscount , 1);
 
         return Inertia::render('Welcome', [
-            'uslugislider' => Uslugi::with('firstlawyer')->where('is_main', '=', 1)->get(),
+            'uslugislider' => Uslugi::where('is_main', 1)->where('is_feed', 1)->get(),
             'practice' => Article::where('practice_file_path', '!=', null)->orderBy('updated_at', 'desc')->take(10)->get(),
             'reviews' => Review::inRandomOrder()->with('usluga')->get(),
             'reviewscount' => $reviewscount,

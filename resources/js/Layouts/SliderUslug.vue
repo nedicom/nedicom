@@ -33,18 +33,6 @@ let ModalBtnText = "на консультацию";
               </h5>
             </div>
 
-            <div class="group flex items-center justify-center h-24">
-              <div class="rounded-full">
-                <img
-                    v-if="card.firstlawyer"
-                    :src="'https://nedicom.ru/' + card.firstlawyer.avatar_path"
-                    width="120"
-                    class="rounded-full border-2 border-white dark:border-gray-800"
-                />
-              
-              </div>
-            </div>
-
             <div class="h-24 grid grid-cols-1 content-center">
               <p class="text-gray-700/75 line-clamp-3 px-5">
                 {{ card.usl_desc }}
