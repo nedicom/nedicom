@@ -23,7 +23,7 @@ let vars = defineProps({
   practice: Object,
   flash: "Object",
   reviews: "Object",
-  reviewscount: "String",
+  reviewscount: Number,
   rating: Number,
   main_usluga: Object,
   second_usluga: Object,

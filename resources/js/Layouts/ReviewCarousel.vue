@@ -4,7 +4,7 @@ import ReviewLawyer from "@/Components/ReviewLawyer.vue";
 
 defineProps({
   reviewscount: Number,
-  rating: String,
+  rating: Number,
   reviews: Object,
   lwrid: Number,
   auth: Object,

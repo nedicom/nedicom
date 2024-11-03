@@ -59,7 +59,7 @@ let title = ref(set.lawyer.name);
 
         <About :about="set.lawyer.about" />
 
-        <ReviewCarousel :reviews="set.lawyer.reviews" :rating="set.lawyer.reviews_sum_rating" 
+        <ReviewCarousel :reviews="set.lawyer.reviews" :rating="Number(set.lawyer.reviews_sum_rating)" 
         :reviewscount="set.lawyer.reviews_count" :lwrid="set.lawyer.id" :auth="set.auth" :errors="set.errors"
         :mainuslugaid="null" :uslugaid="null"/>
 
