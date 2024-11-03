@@ -35,8 +35,6 @@ let ModalBtnText = "на консультацию";
 
             <div class="group flex items-center justify-center h-24">
               <div class="rounded-full">
-                <a class="hover:underline flex -space-x-24" :href="'https://nedicom.ru/uslugi/' + card.url" 
-                  >
                 <img
                     v-if="card.firstlawyer"
                     :src="'https://nedicom.ru/' + card.firstlawyer.avatar_path"
@@ -44,7 +42,6 @@ let ModalBtnText = "на консультацию";
                     class="rounded-full border-2 border-white dark:border-gray-800"
                 />
               
-              </a>
               </div>
             </div>
 
@@ -56,11 +53,6 @@ let ModalBtnText = "на консультацию";
 
             <div class="h-24 grid grid-cols-1 content-center">
               <Modal :ModalBtnText="ModalBtnText" />
-              <a
-                :href="'https://nedicom.ru/uslugi/' + card.url"
-                class="my-3 text-sm text-gray-700/75"
-                >подробнее</a
-              >
             </div>
           </div>
 
