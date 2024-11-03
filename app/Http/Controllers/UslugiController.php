@@ -407,9 +407,7 @@ class UslugiController extends Controller
 
         $auth = Auth::user();
 
-        if ($auth) {
-            $auth->has_comment = ($usluga->reviews->where('user_id', $auth->id)->first()) ? true : false;
-        }
+
 
         $lawyer = User::where('id', $usluga->user_id)->first();
 
@@ -420,6 +418,10 @@ class UslugiController extends Controller
         ->orWhere('usl_id', $usluga->id)
         ->orderBy('created_at', 'desc')
         ->get();
+
+        if ($auth && $reviews) {
+            $auth->has_comment = ($reviews->where('user_id', $auth->id)->first()) ? true : false;            
+        }
 
         return Inertia::render('Uslugi/Usluga', [
             'auth' => $auth,
