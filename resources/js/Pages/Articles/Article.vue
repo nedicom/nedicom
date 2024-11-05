@@ -67,17 +67,16 @@ blockquote {
 
   <Body>
     <div
-      class="flex justify-center text-gray-900"
+      class="justify-center flex text-gray-900 md:px-10"
       itemscope
       itemtype="https://schema.org/Article"
     >
-      <div class="py-6 md:w-4/6">
-        <div class="max-w-5xl sm:px-6 lg:px-4">
+      <div class="py-6 md:px-20 w-full md:w-3/4">
           <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="md:py-12">
               <div class="mx-auto sm:px-6 lg:px-8">
                 <div
-                  class="px-6 bg-white overflow-hidden shadow-sm sm:rounded-lg"
+                  class="px-6 bg-white overflow-hidden"
                 >
                   <div v-if="vars.user" class="my-3">
                     <div
@@ -120,7 +119,7 @@ blockquote {
                         itemtype="https://schema.org/Person"
                       >
                         <span
-                          class="md:h-1/2 group-hover:opacity-100 transition-opacity bg-gray-800 mx-3 px-1 text-sm text-gray-100 rounded-md md:opacity-0"
+                          class="group-hover:opacity-100 transition-opacity bg-gray-800 mx-3 px-1 py-2 text-sm text-gray-100 rounded-md md:opacity-0"
                         >
                           автор -
                           <a
@@ -197,12 +196,20 @@ blockquote {
                     <div
                       class="flex items-center justify-center text-xs md:text-sm"
                     >
+                    <div
+                        class="md:block hidden mr-6"
+                        itemprop="dateModified"
+                        :content="article.updated_at"
+                      >
+                        <div class="md:block hidden font-bold text-gray-600">время чтения:</div>
+                        <div>{{  (vars.article.body.length/1000).toFixed(0) }} мин</div>
+                      </div>
                       <div
                         class="mr-3"
                         itemprop="datePublished"
                         :content="article.created_at"
                       >
-                        <div class="md:block hidden">создано:</div>
+                        <div class="md:block hidden font-bold text-gray-600">создано:</div>
                         <div>{{ article.created }}</div>
                       </div>
 
@@ -211,7 +218,7 @@ blockquote {
                         itemprop="dateModified"
                         :content="article.updated_at"
                       >
-                        <div class="md:block hidden">обновлено:</div>
+                        <div class="md:block hidden font-bold text-gray-600">обновлено:</div>
                         <div>{{ article.updated }}</div>
                       </div>
                     </div>
@@ -219,12 +226,13 @@ blockquote {
 
                   <!-- tooltip component -->
 
+                  <!-- cta AI 
                   <section class="bg-white dark:bg-gray-900 visible md:hidden">
                     <div
                       class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400"
                       role="alert"
                     >
-                      <span class="font-medium">Ванимание.</span> Автор статьи
+                      <span class="font-medium">Внимание.</span> Автор статьи
                       сейчас онлайн.
                     </div>
                     <div class="px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
@@ -242,6 +250,7 @@ blockquote {
                       </div>
                     </div>
                   </section>
+                  cta AI -->
 
                   <h1
                     v-if="vars.article.header"
@@ -269,6 +278,41 @@ blockquote {
                   >
                     {{ article.description }}
                   </div>
+
+                  <!-- CTA wa -->
+                  <div
+                    class="md:hidden md:h-96 md:w-1/4 grid grid-cols-1 place-content-center px-5"
+                  >
+                    <a
+                      :href="'https://wa.me/79855582170?text=Здравствуйте. Меня заинтересовала статья.' + vars.article.header + ' Не могли бы Вы мне помочь?'"
+                      type="button"
+                      aria-label="Calltowhatsapp"
+                      class="mb-5 w-full inline-flex items-center justify-center text-white mr-2 bg-emerald-700 hover:bg-emerald-800 font-medium rounded-lg py-2.5"
+                    >
+                      <svg
+                        class="mr-2 w-6 h-6 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"
+                        />
+                      </svg>
+
+                      <span class="flex flex-col">
+                        <span class=""> 8 (985) 558 2170 </span>
+                        <span class="text-xs">
+                          свзяаться с автором в whatsapp
+                        </span>
+                      </span>
+                    </a>
+                  </div>
+                  <!-- CTA wa -->
 
                   <div v-if="article.youtube_file_path" class="my-6">
                     <iframe
@@ -309,13 +353,47 @@ blockquote {
               </div>
             </div>
           </div>
-        </div>
       </div>
+      <!--
       <Chat
         :user="vars.article"
         :usluga="vars.usluga"
         class="hidden md:block"
       />
+    -->
+
+      <!-- call to action -->
+      <div
+        class="hidden h-96 md:w-1/4 md:grid grid-cols-1 place-content-center px-5"
+      >
+        <a
+          :href="'https://wa.me/79855582170?text=Здравствуйте.'"
+          type="button"
+          aria-label="Calltowhatsapp"
+          class="mb-5 w-full inline-flex items-center justify-center text-white mr-2 bg-emerald-700 hover:bg-emerald-800 font-medium rounded-lg py-2.5"
+        >
+          <svg
+            class="mr-2 w-6 h-6 text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"
+            />
+          </svg>
+
+          <span class="flex flex-col">
+            <span class=""> 8 (985) 558 2170 </span>
+            <span class="text-xs"> свзяаться с автором в whatsapp </span>
+          </span>
+        </a>
+      </div>
+      <!-- call to action -->
     </div>
   </Body>
 
