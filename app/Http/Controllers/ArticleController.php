@@ -6,6 +6,7 @@ use App\Models\Article;
 use App\Models\Uslugi;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreArticleRequest;
+use App\Models\cities;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
@@ -62,12 +63,15 @@ class ArticleController extends Controller
 
     public function edit(string $url)
     {
+
+        $unique = cities::select('region','regionid')->get()->unique('regionid');
         return Inertia::render(
             'Articles/Edit',
             [
                 'article' => Article::where('url', '=', $url)->first(),
                 'uslugi' => Uslugi::where('is_main', '=', 1)->where('is_feed', 1)->get(),
-                'auth' => Auth::user(), 
+                'auth' => Auth::user(),
+                'region' => $unique->values()->all(),
             ],
         );
     }
@@ -81,6 +85,7 @@ class ArticleController extends Controller
         $article->body = $request->body;
         $article->usluga_id = $request->usluga_id;
         $article->youtube_file_path = $request->youtube;
+        $article->region = $request->region;
         $article->save();
         return redirect()->route('articles/url', $article->url);
     }

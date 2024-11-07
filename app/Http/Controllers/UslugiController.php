@@ -16,6 +16,8 @@ use App\Models\cities;
 
 use App\Helpers\CitySet;
 
+use Illuminate\Database\Eloquent\Builder;
+
 class UslugiController extends Controller
 {
 
@@ -397,9 +399,21 @@ class UslugiController extends Controller
             $mainid = $id;
         }
 
-        $user_id = Uslugi::where('url', '=', $url)->first()->user_id;                
+        $user_id = Uslugi::where('url', '=', $url)->first()->user_id;
 
-        $practice = Article::where('usluga_id', $mainid)->where('practice_file_path', '!=', null)->get(['id', 'created_at', 'description', 'header', 'url', 'practice_file_path']);
+        $city_id = $usluga->sity;
+
+        if ($city_id) {
+            $region_id = cities::where('id', $city_id)->first()->regionId;
+            $practice = Article::where('usluga_id', $mainid)->where(function (Builder $query) use ($region_id) {
+                $query->where ('region', $region_id)
+                      ->orWhere('region', null);
+            })
+            ->where('practice_file_path', '!=', null)->get(['id', 'created_at', 'description', 'header', 'url', 'practice_file_path', 'region']);
+        } else {
+            $practice = Article::where('usluga_id', $mainid)->where('practice_file_path', '!=', null)->get(['id', 'created_at', 'description', 'header', 'url', 'practice_file_path']);
+        }
+
         $practice->map(function ($practice) {
             $practice['year'] =  $practice->created_at->format("Y");
             return $practice;
@@ -414,13 +428,13 @@ class UslugiController extends Controller
         $main_usluga = Uslugi::where('id', $usluga->main_usluga_id)->first(['id', 'usl_name', 'url']);
 
         $reviews = Review::where('lawyer_id', $lawyer->id)
-        ->orWhere('mainusl_id', $main_usluga->id)
-        ->orWhere('usl_id', $usluga->id)
-        ->orderBy('usl_id', 'desc')
-        ->get();
+            ->orWhere('mainusl_id', $main_usluga->id)
+            ->orWhere('usl_id', $usluga->id)
+            ->orderBy('usl_id', 'desc')
+            ->get();
 
         if ($auth && $reviews) {
-            $auth->has_comment = ($reviews->where('user_id', $auth->id)->first()) ? true : false;            
+            $auth->has_comment = ($reviews->where('user_id', $auth->id)->first()) ? true : false;
         }
 
         return Inertia::render('Uslugi/Usluga', [
@@ -437,7 +451,7 @@ class UslugiController extends Controller
             'main_usluga' =>  $main_usluga,
             'second_usluga' => Uslugi::where('id', $usluga->second_usluga_id)->first(['id', 'usl_name', 'url']),
             'city' => cities::where('id', $usluga->sity)->first(),
-            'flash' => ['message' => $request->session()->get(key: 'message')],            
+            'flash' => ['message' => $request->session()->get(key: 'message')],
         ]);
     }
 
