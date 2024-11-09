@@ -14,7 +14,7 @@
 
         gtag('config', 'G-EBPD2D669T');
     </script>
-    
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -51,12 +51,8 @@
 
 
 <body class="font-sans antialiased">
-    @inertia
 
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5M5B7BKS"
-            height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+    @inertia
 
     <!-- Yandex.Metrika counter -->
 
