@@ -59,7 +59,7 @@ const setUsluga = () => {
 <template>
 
   <Head>
-    <title>{{ set.question.title }}</title>
+    <title>Вопрос юристу - {{ set.question.title }}</title>
     <meta name="description" :content="set.question.body" />
     <meta property="og:title" :content="set.question.title" />
     <meta property="og:type" content="website" />
