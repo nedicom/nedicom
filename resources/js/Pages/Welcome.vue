@@ -50,7 +50,7 @@ let mainbannerpc =
     городу Москва и Республике Крым" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://nedicom.ru" />
-    <meta property="og:image" :content="mainbannerimgmobile" />
+    <meta property="og:image" :content="secondbannerpc" />
     <meta property="og:site_name" content="nedicom.ru" />
     <meta property="og:locale" content="ru_RU" />
   </Head>
