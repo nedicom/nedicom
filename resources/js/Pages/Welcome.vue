@@ -36,34 +36,36 @@ let mainbannerimgmobile =
   'url("https://nedicom.ru/storage/images/landing/main/firstm.webp")';
 let mainbannerpc =
   'url("https://nedicom.ru/storage/images/landing/main/1280on600.webp")';
-
-let statusonimage = ref("Юридическая компания");
-let nameonimage = ref("Мина");
-
-let title = "Юридическая компания 'Мина'";
-let description =
-  "8 978 8838 978 юридические услуги по г. Москва и по Республике Крым";
 </script>
 
 <template>
   <FlashMessage :message="flash.message" />
 
   <Head>
-    <title>{{ title }}</title>
-    <meta name="description" :content="description" />
+    <title>Услуги юриста: бесплатно, онлайн, телефон, задать вопрос, консультация</title>
+    <meta name="description" content="Ресурс позволяет найти юриста по своей проблеме, получить консультацию юриста, задать вопрос юристу онлайн, поулчить телефон юриста. Оказываем услуги по \
+    городу Москва и Республике Крым" />
+    <meta property="og:title" content="Услуги юриста: бесплатно, онлайн, телефон, задать вопрос, консультация" />
+    <meta property="og:description" content="Ресурс позволяет найти юриста по своей проблеме, получить консультацию юриста, задать вопрос юристу онлайн, поулчить телефон юриста. Оказываем услуги по \
+    городу Москва и Республике Крым" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://nedicom.ru" />
+    <meta property="og:image" :content="mainbannerimgmobile" />
+    <meta property="og:site_name" content="nedicom.ru" />
+    <meta property="og:locale" content="ru_RU" />
   </Head>
 
   <div class="min-h-screen" itemscope itemtype="https://schema.org/LegalService">
     <MainHeader :auth="auth" />
 
-    <Header :modalPageTitle="'Модальное окно главная'"/>
+    <Header :modalPageTitle="'Модальное окно главная'" />
 
     <SecondBanner :statusonimage="'Юридическая компания МИНА'" :nameonimage="null" :phnform="true"
-      :secondbannerimgmobile="secondbannerimgmobile" :secondbannerpc="secondbannerpc" />    
+      :secondbannerimgmobile="secondbannerimgmobile" :secondbannerpc="secondbannerpc" />
 
     <SliderUslug :uslugislider="uslugislider" />
 
-    <Mainbanner :mainbannerimgmobile="mainbannerimgmobile" :mainbannerpc="mainbannerpc" />    
+    <Mainbanner :mainbannerimgmobile="mainbannerimgmobile" :mainbannerpc="mainbannerpc" />
 
     <Slider :practice="practice" :sliderheader="'Практика юристов'" />
 
