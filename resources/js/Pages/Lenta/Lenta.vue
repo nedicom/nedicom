@@ -3,10 +3,8 @@ import MainHeader from "@/Layouts/MainHeader.vue";
 import Header from "@/Layouts/Header.vue";
 import Body from "@/Layouts/Body.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
-import PopupDialogue from "@/Layouts/PopupDialogue/PopupDialogue.vue";
 import NavLinkLeft from "@/Components/NavLinkLeft.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
-import { ref } from "vue";
 
 defineProps({
   bundles: Array,

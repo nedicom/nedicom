@@ -2,21 +2,21 @@
 defineProps({
     sliderheader: String,
     practice: Object,
+    keyword: String,
 });
 </script>
 
 <template>
     <section id="prctglr" class="w-full flex justify-center">
         <div class="md:w-11/12 xl:w-3/4 px-3 md:px-0">
-            <h3 class="text-4xl mx-12 my-1 font-semibold">Практика</h3>
+            <h2 class="text-4xl mx-12 my-1 font-semibold">{{ keyword }} - практика</h2>
             <p class="mb-6 mx-12 font-light text-gray-500 md:text-lg">Возможно Ваше дело
                 далеко не первое...</p>
             <ol class="relative border-l border-gray-200 list-none">
                 <li v-for="(cards, name) in practice" :key="name" class="mb-10 ml-4">
-                    <span
-                        class="absolute flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full -left-5">
-                        <svg class="w-5 h-5 text-gray-600" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <span class="absolute flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full -left-5">
+                        <svg class="w-5 h-5 text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor" viewBox="0 0 20 20">
                             <path
                                 d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                         </svg>
@@ -33,7 +33,7 @@ defineProps({
                                 <div class="flex flex-col justify-between p-4 leading-normal">
                                     <h4 class="mb-2 text-lg font-bold text-gray-900">{{
                                         card.header
-                                    }}</h4>
+                                        }}</h4>
                                     <p class="mb-3 text-base font-normal text-gray-500">{{ card.description }}
                                     </p>
                                     <div>

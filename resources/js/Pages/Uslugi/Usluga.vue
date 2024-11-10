@@ -61,14 +61,21 @@ details summary::-webkit-details-marker {
 
 <template>
   <FlashMessage :message="flash.message" />
-
+  
   <Head>
-    <title>{{ vars.usluga.usl_name }}</title>
+    <title>{{ vars.usluga.usl_name }} в категории {{ vars.main_usluga }} по городу {{ vars.usluga.cities.title }} </title>
     <meta
       head-key="description"
       name="description"
-      :content="vars.usluga.usl_desc"
+      :content="vars.usluga.usl_name + ' - ' + vars.usluga.usl_desc"
     />
+    <meta property="og:title" :content="vars.usluga.usl_name" />
+    <meta property="og:description" :content="vars.usluga.usl_desc" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" :content="'https://nedicom.ru/uslugi/' + vars.usluga.cities.url + '/' + vars.second_usluga.url +'/' + vars.main_usluga.url +'/' +  vars.usluga.url" />
+    <meta property="og:image" :content="metaimage" />
+    <meta property="og:site_name" content="nedicom.ru" />
+    <meta property="og:locale" content="ru_RU" />
   </Head>
 
   <MainHeader :auth="vars.auth" />
@@ -149,6 +156,7 @@ details summary::-webkit-details-marker {
       <PracticeGallery
         v-if="practice != 0"
         :sliderheader="'Доверяйте делам'"
+        :keyword="vars.main_usluga.usl_name"
         :practice="vars.practice"
       />
 
@@ -232,6 +240,7 @@ details summary::-webkit-details-marker {
         :rating="Number(vars.main_usluga.avg_review)"
         :secondbannerimgmobile="secondbannerimgmobile"
         :metaimage="metaimage"
+        :keyword="vars.main_usluga.usl_name"
       />
 
       <Address

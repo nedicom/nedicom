@@ -7,7 +7,8 @@ defineProps({
   secondbannerimgmobile: String,
   reviewcoutnt: Number,
   rating: Number,
-  metaimage: String
+  metaimage: String,
+  keyword: String,
 })
 
 const prices = [
@@ -93,7 +94,7 @@ const prices = [
 
 <template>
   <div id="prices" class="grid grid-cols-1 mt-12 justify-items-center">
-    <h2 class="text-4xl mx-12 my-1 font-semibold text-grey text-center mb-10">Цены на юридические услуги</h2>
+    <h2 class="text-4xl mx-12 my-1 font-semibold text-grey text-center mb-10">{{ keyword }} - цены ({{ city.title }})</h2>
     <div class="w-full md:w-2/3 mb-5 px-2">
       <div class="relative overflow-x-auto">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -128,7 +129,8 @@ const prices = [
                   </svg>
                   <div class="absolute bottom-0 flex flex-col items-center hidden mb-5 group-hover:flex">
                     <span v-if="city"
-                      class="relative rounded-md z-100 p-4 text-xs leading-none text-white whitespace-no-wrap bg-black shadow-lg">По статистике за 2024 год, диапазон
+                      class="relative rounded-md z-100 p-4 text-xs leading-none text-white whitespace-no-wrap bg-black shadow-lg">По
+                      статистике за 2024 год, диапазон
                       цены услуги {{ subheader }} по городу {{ city.title }} от {{ item.price / 2 }} р. до {{ item.price
                         * 2
                       }} р.</span>
