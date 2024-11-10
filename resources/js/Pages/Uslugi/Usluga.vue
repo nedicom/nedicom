@@ -63,7 +63,7 @@ details summary::-webkit-details-marker {
   <FlashMessage :message="flash.message" />
   
   <Head>
-    <title>{{ vars.usluga.usl_name }} в категории {{ vars.main_usluga }} по городу {{ vars.usluga.cities.title }} </title>
+    <title>{{ vars.usluga.usl_name }} по городу {{ vars.usluga.cities.title }} </title>
     <meta
       head-key="description"
       name="description"
