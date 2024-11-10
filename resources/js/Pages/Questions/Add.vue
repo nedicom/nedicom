@@ -5,7 +5,6 @@ import Body from "@/Layouts/Body.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import SendButton from "@/Components/SendButton.vue";
 import SliderQuestions from "@/Layouts/SliderQuestions.vue";
-import PopupDialogue from "@/Layouts/PopupDialogue/PopupDialogue.vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import { ref } from "vue";
 import { Inertia } from "@inertiajs/inertia";
@@ -32,18 +31,19 @@ let submit = () => {
 };
 
 //import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-let title = ref("Задать вопрос юристу");
+
 </script>
 
 <template>
+
   <Head>
     <title>Задать вопрос юристу онлайн</title>
-    <meta name="description" content="Лучшие юристы ответят на Ваш вопрос онлайн бесплатно, без регистрации и смс" />
+    <meta name="description" content="Консультация юриста онлайн, бесплатно, без телефона и смс" />
   </Head>
 
   <MainHeader :auth="auth" />
 
-  <Header :ttl="title" />
+  <Header />
 
   <Body>
     <div class="bg-white py-6">
@@ -51,62 +51,62 @@ let title = ref("Задать вопрос юристу");
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
           <div class="flex flex-col items-center">
             <h1 class="text-center mx-5 pb-6 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
-              Задать вопрос юристу онлайн
+              Задайте вопрос юристу онлайн бесплатно
             </h1>
 
             <div class="flex -space-x-2 overflow-hidden pb-6">
               <img v-for="value in lawyers" :key="value" class="inline-block h-10 w-10 rounded-full ring-2 ring-white"
                 :src="'https://nedicom.ru/' + value.avatar_path" width="40" height="40" alt="" />
               <a class="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800"
-                href="#">+19</a>
+                href="#">+27</a>
             </div>
             <h6 class="text-center mx-5 md:pb-6 font-semibold tracking-tight text-gray-900 dark:text-white">
-              <vue-writer :array="arr" :eraseSpeed="20" :typeSpeed="50" :iterations='1'/>
+              <vue-writer :array="arr" :eraseSpeed="20" :typeSpeed="50" :iterations='1' />
             </h6>
 
           </div>
 
-          <div class="p-5">
-            <form @submit.prevent=" submit ">
-              <div class="flex justify-center">
-                <div class="mb-3 w-full md:w-3/4">
-                  <textarea v-model=" form.header " @input="onInputheader" maxlength="55" required
-                    class="box-content p-5 form-control text-xl md:text-4xl block w-full text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                    id="" rows="2" placeholder="Заголовок или коротко о чем Ваш вопрос"></textarea>
-                  <div class="my-1 w-full bg-gray-200 rounded-full h-1 dark:bg-gray-700">
-                    <div class="bg-blue-600 h-1 rounded-full" :style="
-                      {
-                        width: progresswidth + '%',
-                                          }
+
+          <form @submit.prevent="submit" class="p-5">
+            <div class="grid grid-cols-1 md:grid-cols-3">
+              <div class="mb-3 w-full col-span-2">
+                <textarea v-model="form.header" @input="onInputheader" maxlength="55" required
+                  class="p-5 form-control text-xl block w-full text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  id="" rows="2" placeholder="Заголовок или коротко о чем Ваш вопрос"></textarea>
+                <div class="my-1 w-full bg-gray-200 rounded-full h-1 dark:bg-gray-700">
+                  <div class="bg-blue-600 h-1 rounded-full" :style="{
+                    width: progresswidth + '%',
+                  }
                     "></div>
-                  </div>
-                  <p class="text-xs text-gray-900 dark:text-white">
-                    Символов: {{ wordscounter }}
-                  </p>
-
-                  <textarea v-model=" form.body " required
-                    class="box-content p-5 h-50 form-control mt-3 block w-full text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                    id="" name="body" rows="8"
-                    placeholder="Подробное описание вопроса. Важно максимально точно задавать вопрос, по статистике успех ответа зависит от детального описания"></textarea>
                 </div>
+                <p class="text-xs text-gray-900 dark:text-white">
+                  Символов: {{ wordscounter }}
+                </p>
 
+                <textarea v-model="form.body" required
+                  class="p-5 h-50 form-control mt-3 block w-full text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  id="" name="body" rows="8"
+                  placeholder="Подробное описание вопроса. Важно максимально точно задавать вопрос, по статистике успех ответа зависит от детального описания"></textarea>
+
+                <div class="text-center items-center">
+                  <SendButton class="m-5" id="SendButton" :disabled="buttonDisabled">
+                    задать вопрос</SendButton>
+                </div>
               </div>
-              <div class="text-center items-center">
-                <SendButton class="m-5" id="SendButton" :disabled=" buttonDisabled ">
-                  задать вопрос</SendButton>
-              </div>
-            </form>
-          </div>
+
+              <div class="flex justify-center"> <img class="h-36 md:h-auto w-full" src="/lawyernewyear2024.webp"
+                  alt="image description"> </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
+
   </Body>
 
-  <SliderQuestions :sliderq=" SliderQ " />
+  <SliderQuestions :sliderq="SliderQ" />
 
   <MainFooter />
-
-  <PopupDialogue />
 </template>
 
 <script>

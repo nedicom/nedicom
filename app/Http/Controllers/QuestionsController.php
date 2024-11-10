@@ -86,7 +86,7 @@ class QuestionsController extends Controller
     public function questionAdd()
     {
         return Inertia::render('Questions/Add', [
-            'lawyers' => User::where('lawyer', 1)->inRandomOrder()->limit(5)->get(),
+            'lawyers' => User::where('lawyer', 1)->where('avatar_path', '!=', '/storage/default/avatar.webp')->inRandomOrder()->limit(5)->get(),
             'SliderQ' => Questions::limit(20)->withCount('QuantityAns')->orderBy('updated_at', 'desc')->get(),
             'auth' => Auth::user(),
         ]);

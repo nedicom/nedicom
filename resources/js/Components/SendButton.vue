@@ -5,10 +5,8 @@
           my-5
           inline-flex
           items-center
-          px-5
-          py-2.5
-          text-sm
-          font-medium
+          px-6 py-3.5
+          text-base font-medium
           text-center text-white
           bg-blue-700
           rounded-lg
