@@ -162,12 +162,11 @@ class UslugiController extends Controller
                     'second_usluga' => $second_usluga_id,
                     'url' => $usluga->url,
                 ],
-                302
+                301
             );
         } else {
             abort(404);
         }
-        dd(123);
         abort(404);
         //del
         /*if ($usluga->sity) {
