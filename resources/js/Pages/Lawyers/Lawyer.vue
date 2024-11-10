@@ -9,15 +9,8 @@ import About from "@/Layouts/About.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import FlashMessage from "@/Components/FlashMessage.vue";
 import LawyerRating from "@/Components/LawyerRating.vue";
-import { Head, Link } from "@inertiajs/inertia-vue3";
-import { ref } from "vue";
+import { Head } from "@inertiajs/inertia-vue3";
 
-/*defineProps({
-  canLogin: Boolean,
-  canRegister: Boolean,
-});*/
-
-let sliderheader = ref("Практика юриста");
 let robots = false;
 
 let set = defineProps({
@@ -34,18 +27,19 @@ let set = defineProps({
 
 (set.lawyer.lawyer == 1) ? robots = false : robots = true;
 
+let description = (set.lawyer.about) ? set.lawyer.about : set.lawyer.name
+
 let mainbannerpc = 'url("https://nedicom.ru/' + set.lawyer.file_path + '")';
 let mainbannerimgmobile = 'url("https://nedicom.ru/' + set.lawyer.avatar_path + '")';
 
-let title = ref(set.lawyer.name);
 </script>
 
 <template>
     <FlashMessage :message="flash.message" />
 
     <Head>
-        <title>{{ set.lawyer.name }}</title>
-        <meta name="description" :content="'Юрист ' + set.lawyer.name" />
+        <title>Юрист - {{ set.lawyer.name }}</title>
+        <meta name="description" :content="description" />
         <meta v-if="robots" name="robots" content="noindex">
         <meta v-else name="robots" content="all">
     </Head>
@@ -57,11 +51,11 @@ let title = ref(set.lawyer.name);
         <Mainbanner :statusonimage="statusonimage" :nameonimage="set.lawyer.name" :mainbannerpc="mainbannerpc"
             :mainbannerimgmobile="mainbannerimgmobile" />
 
-        <About :about="set.lawyer.about" />
+        <About :about="description" :name="set.lawyer.name" />
 
-        <ReviewCarousel :reviews="set.lawyer.reviews" :rating="Number(set.lawyer.reviews_sum_rating)" 
-        :reviewscount="set.lawyer.reviews_count" :lwrid="set.lawyer.id" :auth="set.auth" :errors="set.errors"
-        :mainuslugaid="null" :uslugaid="null"/>
+        <ReviewCarousel :reviews="set.lawyer.reviews" :rating="Number(set.lawyer.reviews_sum_rating)"
+            :reviewscount="set.lawyer.reviews_count" :lwrid="set.lawyer.id" :auth="set.auth" :errors="set.errors"
+            :mainuslugaid="null" :uslugaid="null" />
 
         <!--
         <Specialization :specializationOne="specializationOne" :specializationTwo="specializationTwo"

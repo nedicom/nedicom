@@ -23,9 +23,9 @@ if (set.lawyer.total_rating < 2.0) {
 </script>
 
 <template>
-  <h1 class="text-4xl font-semibold text-grey text-center py-10">
+  <h2 class="text-4xl font-semibold text-grey text-center py-10">
     Рейтинг юриста
-  </h1>
+  </h2>
   <div class="w-full flex justify-center mb-5">
     <div class="md:w-1/2">
       <div class="flex items-center mb-5">

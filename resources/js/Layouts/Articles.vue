@@ -6,9 +6,9 @@ const props = defineProps({
 
 <template>
 <!-- case card -->   
-       <h1 class="text-4xl font-semibold text-grey text-center py-10">
+       <h2 class="text-4xl font-semibold text-grey text-center py-10">
         Публикации юриста
-      </h1>
+      </h2>
 
       <div class="max-w-6xl mx-auto md:my-9 sm:px-6 lg:px-8 text-center">
         

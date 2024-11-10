@@ -19,7 +19,7 @@ defineProps({
 
   <Head>
     <title>{{ h1 }} у юристов</title>
-    <meta name="description" Жcontent="р1 + ' у юристов на сайте. Выбирайте контент с умом и комментируйте'" />
+    <meta name="description" :content="h1 + ' у юристов на сайте. Тут юристы дают консультации онлайн, бесплатно, без регистрации и смс.'" />
   </Head>
 
   <MainHeader :auth="auth" />
