@@ -58,14 +58,14 @@ let description =
 
     <Header :modalPageTitle="'Модальное окно главная'"/>
 
-    <Mainbanner :mainbannerimgmobile="mainbannerimgmobile" :mainbannerpc="mainbannerpc" />
+    <SecondBanner :statusonimage="'Юридическая компания МИНА'" :nameonimage="null" :phnform="true"
+      :secondbannerimgmobile="secondbannerimgmobile" :secondbannerpc="secondbannerpc" />    
 
     <SliderUslug :uslugislider="uslugislider" />
 
-    <SecondBanner :statusonimage="'© 2024 nedicom™'" :nameonimage="null" :phnform="true"
-      :secondbannerimgmobile="secondbannerimgmobile" :secondbannerpc="secondbannerpc" />
+    <Mainbanner :mainbannerimgmobile="mainbannerimgmobile" :mainbannerpc="mainbannerpc" />    
 
-    <Slider :practice="practice" :sliderheader="'Каждая проблема для нас особенная'" />
+    <Slider :practice="practice" :sliderheader="'Практика юристов'" />
 
     <Testimonials />
 

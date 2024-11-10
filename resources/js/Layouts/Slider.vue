@@ -7,9 +7,9 @@ defineProps({
 
 <template>
     <div class="mb-12 md:my-12">
-        <h3 class="text-4xl mx-12 font-semibold text-grey text-center py-10">
+        <h2 class="text-4xl mx-12 font-semibold text-grey text-center py-10">
             {{ sliderheader }}
-        </h3>
+        </h2>
 
         <div v-if="practice">
             <Carousel

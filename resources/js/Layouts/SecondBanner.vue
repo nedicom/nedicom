@@ -50,9 +50,10 @@ onMounted(() => {
   <div id="secondbanner" class="relative overflow-hidden block md:bg-contain bg-cover w-full md:h-screen h-[40em]">
     <div class="grid grid-cols-1 md:justify-items-end w-full h-full">
       <div style="box-shadow: 0px 0px 40px 40px #fff"
-        class="md:w-1/2 w-full h-full md:float-right grid grid-cols-1 text-center md:text-left md:content-center content-end md:bg-white md:shadow-lg">
-        <div class="m-5">
-          <h1 itemprop="name" class="goo text-2xl md:text-4xl font-semibold normal-case">
+        class="md:w-1/2 w-full h-full grid grid-cols-1 text-center md:float-right md:text-left md:content-center content-end md:bg-white md:shadow-lg">
+        
+        <div class="text-center">
+          <h1 itemprop="name" class="goo m-auto text-2xl md:text-4xl font-semibold normal-case ">
             {{ statusonimage
             }}</h1>
         </div>

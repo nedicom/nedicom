@@ -14,9 +14,9 @@ let ModalBtnText = "на консультацию";
 </script>
 
 <template>
-  <h1 class="text-4xl font-semibold text-grey text-center py-10" itemprop="name">
-    Юридическая компания "Мина"
-  </h1>
+  <h2 class="text-4xl font-semibold text-grey text-center py-10" itemprop="name">
+    услуги юристов
+  </h2>
   <div class="py-10 bg-gray-200">
     <Carousel v-bind="settings" :breakpoints="breakpoints">
       <Slide v-for="card in props.uslugislider" :key="card">
@@ -26,11 +26,11 @@ let ModalBtnText = "на консультацию";
             class="w-full mx-1 rounded-lg border-1 border-gray-600 flex flex-col bg-white"
           >
             <div class="h-24 mx-3 grid grid-cols-1 content-center">
-              <h5
+              <h3
                 class="text-gray-900 subpixel-antialiased text-center text-lg line-clamp-2 font-bold px-1"
               >
                 {{ card.usl_name }}
-              </h5>
+              </h3>
             </div>
 
             <div class="h-24 grid grid-cols-1 content-center">

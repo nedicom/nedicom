@@ -27,35 +27,28 @@ let ModalBtnText = "Записаться на консультацию";
     </div>
   </noscript>
   <header class="bg-white shadow sticky inset-x-0 -top-1 h-22 md:h-16 z-40">
-    <div class="max-w-7xl mx-auto pt-2 pb-1 md:py-3 px-4 sm:px-6 lg:px-4">
-      <h2 class="font-semibold text-gray-800 leading-tight text-center">
-        <div class="grid md:grid-cols-3 md:gap-4">
-          <!--modal btn -->
-          <div class="flex items-center justify-center md:justify-start px-2">
-            <div class="">
-              <Modal :ModalBtnText="ModalBtnText" :modalPageTitle="props.modalPageTitle"/>
-            </div>
-          </div>
-          <!--modal btn -->
-
-          <div v-if="props.phone" class="grid grid-cols-1 content-center">
-            <a :href="phoneto" class="p-0 text-2xl">{{ phone }} </a>
-          </div>
-
-          <div v-else class="grid grid-cols-1 content-center">
-            <a :href="phoneto" class="p-0 text-2xl">{{ phone }} </a>
-          </div>
-
-          <div class="hidden md:flex text-sm items-center justify-start text-center text-nowrap">
-            <span v-if="props.address" class="text-nowrap" v-html="props.address">
-            </span>
-            <span v-else>
-              Качество юридических услуг гарантировано
-            </span>
-          </div>
-
+      <div class="grid md:grid-cols-3 md:gap-4 font-semibold text-gray-800 leading-tight text-center max-w-7xl mx-auto pt-2 pb-1 md:py-3 px-4 sm:px-6 lg:px-4">
+        <!--modal btn -->
+        <div class="flex items-center justify-center md:justify-start px-2">
+            <Modal :ModalBtnText="ModalBtnText" :modalPageTitle="props.modalPageTitle" />
         </div>
-      </h2>
-    </div>
+        <!--modal btn -->
+
+        <div v-if="props.phone" class="grid grid-cols-1 content-center">
+          <a :href="phoneto" class="p-0 text-2xl">{{ phone }} </a>
+        </div>
+
+        <div v-else class="grid grid-cols-1 content-center">
+          <a :href="phoneto" class="p-0 text-2xl">{{ phone }} </a>
+        </div>
+
+        <div class="hidden md:flex text-sm items-center justify-start text-center text-nowrap">
+          <span v-if="props.address" class="text-nowrap" v-html="props.address">
+          </span>
+          <span v-else>
+            Качество юридических услуг гарантировано
+          </span>
+        </div>
+      </div>
   </header>
 </template>
