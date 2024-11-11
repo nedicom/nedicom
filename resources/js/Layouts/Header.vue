@@ -1,12 +1,16 @@
 <script setup>
 import Modal from "@/Components/Modal.vue";
+import ModalPhone from "@/Components/ModalPhone.vue";
+import WaBtn from "@/Components/WaBtn.vue";
 
 let phone = "89788838978";
 
 const props = defineProps({
   address: String,
   phone: String,
-  modalPageTitle: String
+  modalPageTitle: String,
+  avatarPath: String,
+  lawyer: String,
 });
 
 if (props.phone) {
@@ -15,7 +19,7 @@ if (props.phone) {
 
 let phoneto = "tel:" + phone;
 
-let ModalBtnText = "Записаться на консультацию";
+let ModalBtnText = "Обратный звонок";
 </script>
 
 
@@ -27,28 +31,33 @@ let ModalBtnText = "Записаться на консультацию";
     </div>
   </noscript>
   <header class="bg-white shadow sticky inset-x-0 -top-1 h-22 md:h-16 z-40">
-      <div class="grid md:grid-cols-3 md:gap-4 font-semibold text-gray-800 leading-tight text-center max-w-7xl mx-auto pt-2 pb-1 md:py-3 px-4 sm:px-6 lg:px-4">
-        <!--modal btn -->
-        <div class="flex items-center justify-center md:justify-start px-2">
-            <Modal :ModalBtnText="ModalBtnText" :modalPageTitle="props.modalPageTitle" />
-        </div>
-        <!--modal btn -->
-
-        <div v-if="props.phone" class="grid grid-cols-1 content-center">
-          <a :href="phoneto" class="p-0 text-2xl">{{ phone }} </a>
-        </div>
-
-        <div v-else class="grid grid-cols-1 content-center">
-          <a :href="phoneto" class="p-0 text-2xl">{{ phone }} </a>
-        </div>
-
-        <div class="hidden md:flex text-sm items-center justify-start text-center text-nowrap">
-          <span v-if="props.address" class="text-nowrap" v-html="props.address">
-          </span>
-          <span v-else>
-            Качество юридических услуг гарантировано
-          </span>
-        </div>
+    <div
+      class="grid grid-cols-2 md:grid-cols-4 md:gap-1 font-semibold text-gray-800 leading-tight text-center mx-auto pt-2 pb-1 md:py-3 px-4 sm:px-6 lg:px-4">
+      <!--modal btn -->
+      <div class="hidden md:flex items-center justify-center md:justify-start px-2">
+        <Modal :ModalBtnText="ModalBtnText" :modalPageTitle="props.modalPageTitle" />
       </div>
+      <!--modal btn -->
+
+      <div v-if="props.phone" class="flex justify-center">
+        <ModalPhone :phone="props.phone" :lawyer="props.lawyer" :phoneto="phoneto" :avatarPath="props.avatarPath" />
+      </div>
+
+      <div v-else class="grid grid-cols-1 content-center">
+        <ModalPhone :phone="phone" :lawyer="props.lawyer" :phoneto="phoneto" :avatarPath="props.avatarPath" />
+      </div>
+
+      <div class="grid grid-cols-1 content-center">
+        <WaBtn :phone="phone" />
+      </div>
+
+      <div class="hidden md:flex text-xs xl:text-sm items-center justify-start text-center text-nowrap">
+        <span v-if="props.address" class="text-nowrap" v-html="props.address">
+        </span>
+        <span v-else>
+          Качество юридических услуг гарантировано
+        </span>
+      </div>
+    </div>
   </header>
 </template>

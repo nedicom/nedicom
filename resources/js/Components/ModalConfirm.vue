@@ -1,9 +1,6 @@
 <script setup>
 import { VueFinalModal } from "vue-final-modal";
 import PhoneFormModal from "@/Components/PhoneFormModal.vue";
-import { reactive } from "vue";
-import { Inertia } from "@inertiajs/inertia";
-import PhoneForm from "@/Components/PhoneForm.vue";
 
 let set = defineProps({
     modalPageTitle: String,

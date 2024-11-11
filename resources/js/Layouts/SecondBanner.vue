@@ -52,7 +52,7 @@ onMounted(() => {
       <div style="box-shadow: 0px 0px 40px 40px #fff"
         class="md:w-1/2 w-full h-full grid grid-cols-1 text-center md:float-right md:text-left md:content-center content-end md:bg-white md:shadow-lg">
         
-        <div class="text-center">
+        <div class="text-center mb-5">
           <h1 itemprop="name" class="goo m-auto text-2xl md:text-4xl font-semibold normal-case ">
             {{ statusonimage
             }}</h1>
