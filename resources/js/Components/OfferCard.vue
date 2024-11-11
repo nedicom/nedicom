@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 
 import Modal from "@/Components/Modal.vue";
 import RatingReady from "@/Components/RatingReady.vue";
@@ -13,12 +13,6 @@ let set = defineProps({
 let ModalBtnText = "На консультацию";
 let secondtext = "";
 
-const animate = ref("animate-pulse blur");
-
-const onImgLoad = function () {
-  animate.value = false;
-}
-
 const invitation = ref(true)
 const authoq = ref(true)
 
@@ -30,11 +24,11 @@ if (set.getlwr == '0') {
 </script>
 
 <template>
-  <section>{{ getlwr }}
+  <section>
     <div class="mx-auto 2xl:px-0" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
       <div class="grid gap-4 grid-cols-1 md:grid-cols-2 content-center">
         <div class="bg-white flex items-center">
-          <div class="h-72 w-full bg-cover" :class="animate"
+          <div class="h-72 w-full bg-cover" 
             style="background-image: url('storage/images/services/appeal.webp');">
             <a :href="route('uslugi.canonical.url', [
               set.offer.cities.url,
@@ -44,7 +38,7 @@ if (set.getlwr == '0') {
             ])
               ">
               <img class="h-full md:rounded-lg md:shadow-xl object-cover bg-"
-                :src="'https://nedicom.ru/' + set.offer.file_path" :alt="set.offer.usl_name" @load="onImgLoad()"
+                :src="'https://nedicom.ru/' + set.offer.file_path" :alt="set.offer.usl_name"
                 loading="lazy" itemprop="image" />
             </a>
           </div>
