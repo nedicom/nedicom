@@ -8,7 +8,7 @@ let set = defineProps({
 </script>
 
 <template>
-<a :href="'https://wa.me/' + set.phone.replace(/[^-0-9-.]/, '') + '?text=Здравствуйте. Когда к Вам можно обратиться за консультацией?'"
+<a :href="'https://wa.me/' + set.phone.replace(/\D/g, '') + '?text=Здравствуйте. Когда к Вам можно обратиться за консультацией?'"
                                     type="button" class="inline-flex items-center md:w-64 mx-auto
                                                         py-2.5 px-5 font-medium focus:outline-none rounded-lg border border-gray-200 
                                                         text-white hover:bg-[#25d366] bg-emerald-600 focus:z-10 focus:ring-4 focus:ring-gray-100
