@@ -1,8 +1,7 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { onMounted } from "vue";
 
 import PhoneForm from "@/Components/PhoneForm.vue";
-import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 
 const props = defineProps({
   statusonimage: String,
