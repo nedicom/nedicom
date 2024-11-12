@@ -3,7 +3,7 @@ import Modal from "@/Components/Modal.vue";
 import ModalPhone from "@/Components/ModalPhone.vue";
 import WaBtn from "@/Components/WaBtn.vue";
 
-let phone = "89788838978";
+let phone = "+79788838978";
 
 const props = defineProps({
   address: String,
