@@ -82,9 +82,7 @@ blockquote {
       "@context": "https://schema.org",
       "@type": "Article",
       "headline": "{{vars.article.header}}",
-      "image": [
-        "https://nedicom.ru/{{vars.article.practice_file_path}}",
-       ],
+      "image": "https://nedicom.ru/{{vars.article.practice_file_path}}",
       "datePublished": "{{ vars.article.created_at }}",
       "dateModified": "{{ vars.article.updated_at }}",
       "author": [{
