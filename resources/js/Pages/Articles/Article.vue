@@ -3,9 +3,7 @@ import MainHeader from "@/Layouts/MainHeader.vue";
 import Header from "@/Layouts/Header.vue";
 import Body from "@/Layouts/Body.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
-import Chat from "@/Layouts/Chat.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
-import { ref, onMounted } from "vue";
 
 let vars = defineProps({
   article: "Object",
@@ -58,7 +56,17 @@ blockquote {
 <template>
   <Head title="{{ vars.article.header }}">
     <title>Консультация юриста - {{ vars.article.header }}</title>
-    <meta name="description" :content="article.description" />
+    <meta name="description" :content="vars.article.description" />
+    <meta property="og:title" :content="vars.article.header" />
+    <meta property="og:description" :content="vars.article.description" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url"
+      :content="'https://nedicom.ru/articles/' + vars.article.url" />
+    <meta property="og:image" :content="
+                        'https://nedicom.ru/' + vars.article.practice_file_path
+                      " />
+    <meta property="og:site_name" content="nedicom.ru" />
+    <meta property="og:locale" content="ru_RU" />
   </Head>
 
   <MainHeader :auth="vars.auth" />
@@ -338,7 +346,7 @@ blockquote {
                       :src="
                         'https://nedicom.ru/' + vars.article.practice_file_path
                       "
-                      :alt="usluga.usl_name + ' - практика'"
+                      :alt="vars.article.header  + ' - практика'"
                     />
                     <div class="text-sm font-bold text-center mt-3">
                       {{ usluga.usl_name }} - практика
