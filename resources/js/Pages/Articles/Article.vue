@@ -75,6 +75,27 @@ blockquote {
   <Header :modalPageTitle="'статья - ' + vars.article.header" />
 
   <Body>
+
+    <teleport to="head">
+    <component :is="'script'" type="application/ld+json">
+      {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "{{vars.article.header}}",
+      "image": [
+        "https://nedicom.ru/{{vars.article.practice_file_path}}",
+       ],
+      "datePublished": "{{ vars.article.created_at }}",
+      "dateModified": "{{ vars.article.updated_at }}",
+      "author": [{
+          "@type": "Person",
+          "name": "{{ article.name }}",
+          "url": "{{ route('lawyer', article.userid) }}"
+        }]
+    }
+    </component>
+  </teleport>
+
     <div
       class="justify-center flex text-gray-900 md:px-10"
       itemscope
@@ -208,7 +229,7 @@ blockquote {
                     <div
                         class="md:block hidden mr-6"
                         itemprop="dateModified"
-                        :content="article.updated_at"
+                        :content="vars.article.updated_at"
                       >
                         <div class="md:block hidden font-bold text-gray-600">время чтения:</div>
                         <div>{{  (vars.article.body.length/1000).toFixed(0) }} мин</div>
@@ -216,10 +237,10 @@ blockquote {
                       <div
                         class="mr-3"
                         itemprop="datePublished"
-                        :content="article.created_at"
+                        :content="vars.article.created_at"
                       >
                         <div class="md:block hidden font-bold text-gray-600">создано:</div>
-                        <div>{{ article.created }}</div>
+                        <div>{{ vars.article.created }}</div>
                       </div>
 
                       <div
