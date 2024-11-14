@@ -75,25 +75,6 @@ blockquote {
   <Header :modalPageTitle="'статья - ' + vars.article.header" />
 
   <Body>
-
-    <teleport to="head">
-    <component :is="'script'" type="application/ld+json">
-      {
-      "@context": "https://schema.org",
-      "@type": "Article",
-      "headline": "{{vars.article.header}}",
-      "image": "https://nedicom.ru/{{vars.article.practice_file_path}}",
-      "datePublished": "{{ vars.article.created_at }}",
-      "dateModified": "{{ vars.article.updated_at }}",
-      "author": [{
-          "@type": "Person",
-          "name": "{{ article.name }}",
-          "url": "{{ route('lawyer', article.userid) }}"
-        }]
-    }
-    </component>
-  </teleport>
-
     <div
       class="justify-center flex text-gray-900 md:px-10"
       itemscope
