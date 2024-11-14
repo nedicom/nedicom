@@ -101,10 +101,8 @@ blockquote {
       itemscope
       itemtype="https://schema.org/Article"
     >
-      <div class="py-6 md:px-20 w-full md:w-3/4">
-          <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="md:py-12">
-              <div class="mx-auto sm:px-6 lg:px-8">
+      <div class="py-6 md:py-12 md:px-20 w-full md:w-3/4 mx-auto sm:px-6 lg:px-8 bg-white overflow-hidden">  
+              
                 <div
                   class="px-6 bg-white overflow-hidden"
                 >
@@ -290,8 +288,8 @@ blockquote {
                     {{ vars.article.header }}
                   </h1>
 
-                  <div v-if="usluga" class="my-4">
-                    Найти юриста по этой проблеме:
+                  <div v-if="usluga" class="my-9 text-lg">
+                    Здесь Вы можете найти подходящего юриста:
                     <a
                       :href="
                         'https://nedicom.ru/uslugi/' + vars.region.url +'/' + vars.usluga.url
@@ -300,13 +298,13 @@ blockquote {
                       >{{ usluga.usl_name }} ({{ vars.region.title }})</a
                     >
                   </div>
-                  <div
+                  <p
                     v-if="article.description"
-                    class="my-3"
+                    class="my-9 text-2xl lead text-gray-800"
                     itemprop="description"
                   >
                     {{ article.description }}
-                  </div>
+                </p>
 
                   <!-- CTA wa -->
                   <div
@@ -374,14 +372,14 @@ blockquote {
                     </div>
                   </div>
                   <div
-                    class="text-justify"
+                    class="text-justify text-lg text-gray-800"
                     v-html="article.body"
                     itemprop="text"
                   ></div>
                 </div>
-              </div>
-            </div>
-          </div>
+              
+            
+          
       </div>
       <!--
       <Chat
