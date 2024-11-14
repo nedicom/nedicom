@@ -64,7 +64,7 @@ class ArticleController extends Controller
     public function edit(string $url)
     {
 
-        $unique = cities::select('region','regionid')->get()->unique('regionid');
+        $unique = cities::select('region', 'regionid')->get()->unique('regionid');
         return Inertia::render(
             'Articles/Edit',
             [
@@ -113,13 +113,13 @@ class ArticleController extends Controller
         } else {
             DB::table('articles')->where('articles.url', '=', $url)->increment('counter', 1);
         }
-
-        DB::statement("SET lc_time_names = 'ru_RU'");
         if ($article->usluga_id == null) {
             $usluga_id_sec = 15;
         } else {
             $usluga_id_sec = $article->usluga_id;
         }
+        DB::statement("SET lc_time_names = 'ru_RU'");
+
         //dd(Uslugi::where('id', $usluga_id_sec)->first());
         return Inertia::render('Articles/Article', [
             'article' => DB::table('articles')
@@ -135,8 +135,9 @@ class ArticleController extends Controller
                 )
                 ->first(),
             'user' => Auth::user(),
-            'auth' => Auth::user(), 
-            'usluga' => Uslugi::where('id', $usluga_id_sec)->select('uslugis.url as newurl', 'uslugis.usl_name')->first(),
+            'auth' => Auth::user(),
+            'region' =>  cities::where('regionId', $article->region)->first(),
+            'usluga' => Uslugi::where('id', $usluga_id_sec)->select('uslugis.url', 'uslugis.usl_name')->first(),
         ]);
     }
 

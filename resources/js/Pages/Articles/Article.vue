@@ -6,10 +6,11 @@ import MainFooter from "@/Layouts/MainFooter.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 
 let vars = defineProps({
-  article: "Object",
-  user: "Object",
-  usluga: "Object",
+  article: Object,
+  user: Object,
+  usluga: Object,
   auth: Object,
+  region: Object,
 });
 </script>
 
@@ -269,16 +270,15 @@ blockquote {
                   </h1>
 
                   <div v-if="usluga" class="my-4">
-                    Категория юриста:
+                    Найти юриста по этой проблеме:
                     <a
                       :href="
-                        'https://nedicom.ru/uslugi/simferopol/' + usluga.newurl
+                        'https://nedicom.ru/uslugi/' + vars.region.url +'/' + vars.usluga.url
                       "
                       class="font-bold hover:underline"
-                      >{{ usluga.usl_name }}</a
+                      >{{ usluga.usl_name }} ({{ vars.region.title }})</a
                     >
                   </div>
-
                   <div
                     v-if="article.description"
                     class="my-3"
