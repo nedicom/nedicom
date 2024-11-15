@@ -429,7 +429,7 @@ class UslugiController extends Controller
         $reviews = Review::where('lawyer_id', $lawyer->id)
             ->orWhere('mainusl_id', $main_usluga->id)
             ->orWhere('usl_id', $usluga->id)
-            ->orderBy('usl_id', 'desc')
+            ->orderBy('created_at', 'desc')
             ->get();
 
         if ($auth && $reviews) {
