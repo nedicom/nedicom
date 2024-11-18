@@ -143,7 +143,7 @@ onBeforeMount(() => {
     <div class="min-h-screen">
         <MainHeader :auth="auth" />
 
-        <Header :modalPageTitle="'Успешно отправленный телефон'" />
+        <Header :modalPageTitle="null" />
 
         <h1
             class="pt-6 md:pt-24 pb-6 w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto text-gray-900 text-4xl font-bold font-manrope leading-normal">
