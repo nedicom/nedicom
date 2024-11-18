@@ -121,8 +121,6 @@ Route::controller(CityController::class)->group(function () {
 });
 
 
-
-
 Route::controller(OffersController::class)->group(function () {
     //Route::get('/offer/{url}', 'show')->name('offer.url');
     Route::get('/offeradd', 'formadd')->name('offer.add');
@@ -195,6 +193,11 @@ Route::middleware('auth')->group(function () {
 Route::get('contacts/', function () {
     return Inertia::render('About', ['auth' => Auth::user()]);
 })->name('contacts');
+
+//success page
+Route::get('success', function () {
+    return Inertia::render('Success', ['auth' => Auth::user()]);
+})->name('success');
 
 //import
 Route::get('import/', [ImportController::class, 'import']);

@@ -27,7 +27,6 @@ let submit = () => {
 
 
 <template>
-  {{ set.modalPageTitle }}
   <!--phone form-->
   <form @submit.prevent="submit" class="space-y-6">
     <div class="flex justify-center bg-white py-2 px-1 rounded-lg">
