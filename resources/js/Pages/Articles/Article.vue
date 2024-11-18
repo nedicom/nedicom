@@ -56,7 +56,7 @@ blockquote {
 
 <template>
   <Head title="{{ vars.article.header }}">
-    <title>Консультация юриста - {{ vars.article.header }}</title>
+    <title>{{ vars.article.header }} - {{ usluga.usl_name }}</title>
     <meta name="description" :content="vars.article.description" />
     <meta property="og:title" :content="vars.article.header" />
     <meta property="og:description" :content="vars.article.description" />
