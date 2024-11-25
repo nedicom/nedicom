@@ -79,6 +79,13 @@ class Uslugi extends Model
             ->select(['id', 'usl_name', 'main_usluga_id', 'url', 'sity', 'url']);
     }
 
+    public function firstlawyer(): HasOne
+    {
+        return $this->HasOne(User::class, 'id', 'user_id');
+    }
+
+
+    
    /* тестим услугу без категории. Первичную выбирать можно всегда
    public function doesntHaveoffersbymain(): HasMany
     {

@@ -5,14 +5,20 @@ import { Carousel, Navigation, Slide } from "vue3-carousel";
 
 const props = defineProps({
   sliderq: Array,
+  filters: Object
 });
 
 </script>
 
 <template>
-  <h2 class="text-4xl font-semibold text-grey text-center py-10">
+  {{ filters.header }}
+  <h2 v-if="!filters.header" class="text-4xl font-semibold text-grey text-center py-10">
     Последние 20 вопросов юристу 
   </h2>
+  <h2 v-else class="text-4xl font-semibold text-grey text-center py-10">
+    Похожие вопросы
+  </h2>
+
   <div class="py-10 bg-gray-200">
     <Carousel v-bind="settings" :breakpoints="breakpoints">
       <Slide v-for="card in props.sliderq" :key="card">
@@ -66,6 +72,9 @@ const props = defineProps({
         <Navigation />
       </template>
     </Carousel>
+  </div>
+  <div>
+Похожих вопросов не найдено
   </div>
 </template>
 

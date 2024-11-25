@@ -6,10 +6,10 @@ import MainFooter from "@/Layouts/MainFooter.vue";
 import SendButton from "@/Components/SendButton.vue";
 import SliderQuestions from "@/Layouts/SliderQuestions.vue";
 import { Head } from "@inertiajs/inertia-vue3";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { Inertia } from "@inertiajs/inertia";
 import { reactive } from "vue";
-import VueWriter from 'vue-writer';
+import VueWriter from "vue-writer";
 
 let form = reactive({
   header: "",
@@ -20,25 +20,60 @@ defineProps({
   lawyers: "Object",
   SliderQ: Array,
   auth: Object,
+  filters: Object,
 });
 
+const data = ref(null);
 const buttonDisabled = ref(false);
-let arr = ['юристы, которые точно помогут', 'ответят на вопрос бесплатно', 'без телефона и смс'];
+
+let arr = [
+  "юристы, которые точно помогут",
+  "ответят на вопрос бесплатно",
+  "без телефона и смс",
+];
 
 let submit = () => {
   buttonDisabled.value = true;
   Inertia.post("/questions/post", form);
 };
 
-//import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+watch(
+  () => form.header,
+  async () => {
+    let wordArray = form.header.split(" ").length;
+    //if (wordArray == 3) {
+      let json = JSON.stringify(form.header);
+      const response = await fetch(`/questions/similar/${json}`);
+      data.value = await response.json();
+    //}
+  }
+  /*(header) => {
+    let wordArray = header.split(" ").length;
+    if (wordArray == 3) {      
+      Inertia.get(
+        "/questions/add",
+        {
+          search: header,
+        },
+        { preserveState: true }
+      );
+    }
+  },
+  { once: true }*/
+);
 
+//import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 </script>
 
 <template>
-
   <Head>
-    <title>Задать вопрос юристу онлайн</title>
-    <meta name="description" content="Консультация юриста онлайн, бесплатно, без телефона и смс" />
+    <title>
+      Вопрос юристу бесплатно - юрист онлайн, без телефона, консультация
+    </title>
+    <meta
+      name="description"
+      content="Консультация юриста и вопрос юристу онлайн, бесплатно, без телефона и смс."
+    />
   </Head>
 
   <MainHeader :auth="auth" />
@@ -46,65 +81,109 @@ let submit = () => {
   <Header />
 
   <Body>
+    {{ data }}
     <div class="bg-white py-6">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
           <div class="flex flex-col items-center">
-            <h1 class="text-center mx-5 pb-6 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+            <h1
+              class="text-center mx-5 pb-6 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
               Задайте вопрос юристу онлайн бесплатно
             </h1>
 
             <div class="flex -space-x-2 overflow-hidden pb-6">
-              <img v-for="value in lawyers" :key="value" class="inline-block h-10 w-10 rounded-full ring-2 ring-white"
-                :src="'https://nedicom.ru/' + value.avatar_path" width="40" height="40" alt="" />
-              <a class="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800"
-                href="#">+27</a>
+              <img
+                v-for="value in lawyers"
+                :key="value"
+                class="inline-block h-10 w-10 rounded-full ring-2 ring-white"
+                :src="'https://nedicom.ru/' + value.avatar_path"
+                width="40"
+                height="40"
+                alt=""
+              />
+              <a
+                class="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800"
+                href="#"
+                >+27</a
+              >
             </div>
-            <h6 class="text-center mx-5 md:pb-6 font-semibold tracking-tight text-gray-900 dark:text-white">
-              <vue-writer :array="arr" :eraseSpeed="20" :typeSpeed="50" :iterations='1' />
+            <h6
+              class="text-center mx-5 md:pb-6 font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
+              <vue-writer
+                :array="arr"
+                :eraseSpeed="20"
+                :typeSpeed="50"
+                :iterations="1"
+              />
             </h6>
-
           </div>
-
 
           <form @submit.prevent="submit" class="p-5">
             <div class="grid grid-cols-1 md:grid-cols-3">
               <div class="mb-3 w-full col-span-2">
-                <textarea v-model="form.header" @input="onInputheader" maxlength="55" required
-                  class="p-5 form-control text-xl block w-full text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  id="" rows="2" placeholder="Заголовок или коротко о чем Ваш вопрос"></textarea>
-                <div class="my-1 w-full bg-gray-200 rounded-full h-1 dark:bg-gray-700">
-                  <div class="bg-blue-600 h-1 rounded-full" :style="{
-                    width: progresswidth + '%',
-                  }
-                    "></div>
+                <textarea
+                  v-model="form.header"
+                  @input="onInputheader"
+                  maxlength="55"
+                  name="header"
+                  required
+                  class="p-5 form-control text-xl block w-full font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  id=""
+                  rows="2"
+                  placeholder="Заголовок или коротко о чем Ваш вопрос"
+                ></textarea>
+                <div
+                  class="my-1 w-full bg-gray-200 rounded-full h-1 dark:bg-gray-700"
+                >
+                  <div
+                    class="bg-blue-600 h-1 rounded-full"
+                    :style="{
+                      width: progresswidth + '%',
+                    }"
+                  ></div>
                 </div>
                 <p class="text-xs text-gray-900 dark:text-white">
                   Символов: {{ wordscounter }}
                 </p>
 
-                <textarea v-model="form.body" required
+                <textarea
+                  v-model="form.body"
+                  required
                   class="p-5 h-50 form-control mt-3 block w-full text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  id="" name="body" rows="8"
-                  placeholder="Подробное описание вопроса. Важно максимально точно задавать вопрос, по статистике успех ответа зависит от детального описания"></textarea>
+                  id=""
+                  name="body"
+                  rows="8"
+                  placeholder="Подробное описание вопроса. Важно максимально точно задавать вопрос, по статистике успех ответа зависит от детального описания"
+                ></textarea>
 
                 <div class="text-center items-center">
-                  <SendButton class="m-5" id="SendButton" :disabled="buttonDisabled">
-                    задать вопрос</SendButton>
+                  <SendButton
+                    class="m-5"
+                    id="SendButton"
+                    :disabled="buttonDisabled"
+                  >
+                    задать вопрос</SendButton
+                  >
                 </div>
               </div>
 
-              <div class="flex justify-center"> <img class="h-36 md:h-auto w-full" src="/lawyernewyear2024.webp"
-                  alt="image description"> </div>
+              <div class="flex justify-center">
+                <img
+                  class="h-36 md:h-auto w-full"
+                  src="/lawyernewyear2024.webp"
+                  alt="image description"
+                />
+              </div>
             </div>
           </form>
         </div>
       </div>
     </div>
-
   </Body>
 
-  <SliderQuestions :sliderq="SliderQ" />
+  <SliderQuestions :sliderq="SliderQ" :filters="filters" />
 
   <MainFooter />
 </template>
@@ -115,8 +194,27 @@ export default {
     return {
       progresswidth: 0,
       wordscounter: 0,
+      form: {
+        header: this.filters.header,
+      },
     };
   },
+
+  watch: {
+    form: {
+      deep: true,
+      handler: function (value) {
+        this.$inertia.get(
+          "/questions/add",
+          {
+            header: this.form.header,
+          },
+          { preserveState: true }
+        );
+      },
+    },
+  },
+
   methods: {
     onInputheader(e) {
       //event, what is e

@@ -20,9 +20,9 @@ class UslugiController extends Controller
         $query = Uslugi::query();
 
         if ($request->author || $request->search || $request->city || $request->main || $request->second || $request->feed) {
-            $query = $query->uslfilter($request->all());
+            $query = $query->uslfilter($request->all());            
         }
-        
+
         $uslugi = $query->with('firstlawyer')->with('cities')->paginate(50);
 
         return Inertia::render('Admin/Uslugi/Index', [

@@ -30,4 +30,16 @@ class Questions extends Model
     protected $casts = [
         'created_at' => humandate::class,
     ];
+
+    public function scopeFilter($query, string $filters)
+    {
+        $query->when($filters ?? null, function ($query, $search) {           
+            $arrsearch = preg_split('/\s+/', $search);
+            //dd($arrsearch);
+            $query->where(function ($query) use ($arrsearch) {
+                $query->where('title', 'like', '%' . $arrsearch[0] . '%'//. $arrsearch[1] . '%' . $arrsearch[2] . '%'
+            );
+            });
+        });
+    }
 }

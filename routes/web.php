@@ -158,6 +158,7 @@ Route::controller(QuestionsController::class)->group(function () {
     Route::get('/questions', 'index')->name('questions');
     Route::get('/questions/my', 'myQuestions')->name('my.questions');
     Route::get('/questions/add', 'questionAdd')->name('questions.add');
+    Route::get('/questions/similar/{url}', 'similar')->name('questions.similar');
     Route::post('/questions/post', 'post')->name('articles/post');
     Route::get('/questions/{url}', 'questionsURL')->name('questions.url');
     Route::get('/question/nonauth', 'questionsNonAuth')->name('questions.nonauth');
