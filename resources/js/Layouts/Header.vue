@@ -35,7 +35,7 @@ let ModalBtnText = "Обратный звонок";
       class="grid grid-cols-2 md:grid-cols-4 md:gap-1 font-semibold text-gray-800 leading-tight text-center mx-auto pt-2 pb-1 md:py-3 px-4 sm:px-6 lg:px-4">
       <!--modal btn -->
       <div class="hidden md:flex items-center justify-center md:justify-start px-2">
-        <Modal :ModalBtnText="ModalBtnText" :modalPageTitle="props.modalPageTitle" />
+        <Modal v-if="props.modalPageTitle" :ModalBtnText="ModalBtnText" :modalPageTitle="props.modalPageTitle" />
       </div>
       <!--modal btn -->
 
