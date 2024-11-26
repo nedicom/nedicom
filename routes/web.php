@@ -113,8 +113,6 @@ Route::controller(UslugiController::class)->group(function () {
 });
 
 Route::controller(CityController::class)->group(function () {
-
-    //Route::get('/uslugi', 'index')->name('uslugi'); filters переделать
     Route::get('/offers/{city}', 'showCities')->name('offers.city');
     Route::get('/offers/{city}/{main_usluga}/{second_usluga}/{url}', 'showOffer')->name('offer.show');
     Route::get('/uslugi/{main_usluga}/{second_usluga}/{city}', 'showCityFromUslugi')->name('show.city'); //del
@@ -122,7 +120,6 @@ Route::controller(CityController::class)->group(function () {
 
 
 Route::controller(OffersController::class)->group(function () {
-    //Route::get('/offer/{url}', 'show')->name('offer.url');
     Route::get('/offeradd', 'formadd')->name('offer.add');
     Route::post('/offer/create', 'create')->name('offer.create');
     Route::get('/offers/', 'all')->name('offers.all');

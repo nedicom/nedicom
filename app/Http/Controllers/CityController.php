@@ -44,6 +44,7 @@ class CityController extends Controller
 
     public function showCityFromUslugi($main_usluga, $second_usluga, $city,  Request $request)
     {
+        abort(404);
         $city = cities::where('url', $city)->with('uslugies')->first();
         return Inertia::render('Uslugi/City', [
             'uslugi' => Uslugi::where('sity', $city->id)->paginate(12),
@@ -53,10 +54,11 @@ class CityController extends Controller
             'flash' => ['message' => $request->session()->get(key: 'message')],
             'auth' => Auth::user(),
         ]);
-    }  
+    }
 
-        public function showOffer($city, $main, $second, $url,  Request $request)
+    public function showOffer($city, $main, $second, $url,  Request $request)
     {
+        abort(404);
         $usluga = Uslugi::where('url', '=', $url)->first();
         $id = $usluga->id;
         $mainid = $usluga->main_usluga_id;

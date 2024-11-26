@@ -281,7 +281,8 @@ class UslugiController extends Controller
         ]);
     }
 
-    public function showOfferBysecond(string $city, string $main_usluga, string $second_usluga, Request $request)
+    public function showOfferBysecond(string $city, string $main_usluga, string $second_usluga, Request $request) 
+    // http://nedicom.ru/uslugi/city/main/second ??
     {
         $city = cities::where('url', $city)->with('uslugies')->first();
         $main = Uslugi::where('url', $main_usluga)->first(['id', 'usl_name', 'usl_desc', 'url']);
@@ -343,6 +344,7 @@ class UslugiController extends Controller
     }
 
     public function showsecond($main_usluga, $second_usluga, Request $request)
+    // http://nedicom.ru/uslugi/city/main/second ??
     {
         $usluga = Uslugi::where('url', '=', $second_usluga)->first();
         $id = $usluga->id;
@@ -384,10 +386,9 @@ class UslugiController extends Controller
         ]);
     }
 
-
-
     public function showcanonical($city, $main_usluga, $second_usluga, $url,  Request $request)
     {
+        // http://nedicom.ru/uslugi/city/main/second/usl-name
         $usluga = Uslugi::where('url', '=', $url)->first();
         CitySet::CitySet($request, $city);
 
@@ -424,10 +425,10 @@ class UslugiController extends Controller
 
         $lawyer = User::where('id', $usluga->user_id)->first();
 
-        $main_usluga = Uslugi::where('id', $usluga->main_usluga_id)->first(['id', 'usl_name', 'url']);
+        $main = Uslugi::where('id', $usluga->main_usluga_id)->first(['id', 'usl_name', 'url']);
 
         $reviews = Review::where('lawyer_id', $lawyer->id)
-            ->orWhere('mainusl_id', $main_usluga->id)
+            ->orWhere('mainusl_id', $main->id)
             ->orWhere('usl_id', $usluga->id)
             ->orderBy('created_at', 'desc')
             ->get();
@@ -447,9 +448,10 @@ class UslugiController extends Controller
             'reviews' => $reviews,
             'reviewscount' => $reviews->count(),
             'rating' => $reviews->sum('rating'),
-            'main_usluga' =>  $main_usluga,
+            'main_usluga' =>  $main,
             'second_usluga' => Uslugi::where('id', $usluga->second_usluga_id)->first(['id', 'usl_name', 'url']),
-            'city' => cities::where('id', $usluga->sity)->first(),
+            'city' => is_null(cities::find($usluga->sity)) ? cities::find(0) : cities::find($usluga->sity),
+            'url' => $city.'/'.$main_usluga.'/'.$second_usluga.'/'.$url,
             'flash' => ['message' => $request->session()->get(key: 'message')],
         ]);
     }

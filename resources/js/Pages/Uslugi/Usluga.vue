@@ -29,6 +29,7 @@ let vars = defineProps({
   second_usluga: Object,
   city: Object,
   auth: Object,
+  url: String,
   errors: Object,
 });
 
@@ -63,20 +64,17 @@ details summary::-webkit-details-marker {
   <FlashMessage :message="flash.message" />
 
   <Head>
-    <title>{{ vars.usluga.usl_name }} по городу {{ vars.usluga.cities.title }} </title>
-    <meta
-      name="description"
-      :content="vars.usluga.usl_name + ' - ' + vars.usluga.usl_desc"
-    />
+    <title>{{ vars.usluga.usl_name }} ({{vars.city.title}}) </title>
     <meta head-key="description" name="description" :content="vars.usluga.usl_name + ' - ' + vars.usluga.usl_desc" />
     <meta property="og:title" :content="vars.usluga.usl_name" />
     <meta property="og:description" :content="vars.usluga.usl_desc" />
     <meta property="og:type" content="website" />
     <meta property="og:url"
-      :content="'https://nedicom.ru/uslugi/' + vars.usluga.cities.url + '/' + vars.second_usluga.url + '/' + vars.main_usluga.url + '/' + vars.usluga.url" />
+      :content="'https://nedicom.ru/uslugi/' + vars.url" />
     <meta property="og:image" :content="metaimage" />
     <meta property="og:site_name" content="nedicom.ru" />
     <meta property="og:locale" content="ru_RU" />
+    <link rel="canonical" :href="'https://nedicom.ru/uslugi/' + vars.url" />
   </Head>
 
   <MainHeader :auth="vars.auth" />
@@ -179,7 +177,7 @@ details summary::-webkit-details-marker {
         :lwrid="vars.lawyer.id" :auth="vars.auth" :errors="vars.errors" :mainuslugaid="vars.usluga.main_usluga_id"
         :uslugaid="vars.usluga.id" />
 
-      <Prices :subheader="vars.main_usluga.usl_name" :city="vars.usluga.cities"
+      <Prices :subheader="vars.main_usluga.usl_name" :city="vars.city"
         :reviewcoutnt="vars.main_usluga.mainreview_count" :rating="Number(vars.main_usluga.avg_review)"
         :secondbannerimgmobile="secondbannerimgmobile" :metaimage="metaimage" :keyword="vars.main_usluga.usl_name" />
 

@@ -59,7 +59,8 @@ class OffersController extends Controller
     }
 
     public function formadd()
-    {       
+    {   
+        abort(404);    
         return Inertia::render('Offers/Add', [
             'mainusl_id' => Uslugi::where('is_main', "!=", 0)->get(),
             'cities' => cities::all(),
