@@ -16,14 +16,13 @@ let form = reactive({
   body: "",
 });
 
-defineProps({
+let set = defineProps({
   lawyers: "Object",
   SliderQ: Array,
   auth: Object,
-  filters: Object,
 });
 
-const data = ref(null);
+const data = ref(set.SliderQ);
 const buttonDisabled = ref(false);
 
 let arr = [
@@ -37,32 +36,32 @@ let submit = () => {
   Inertia.post("/questions/post", form);
 };
 
-watch(
-  () => form.header,
-  async () => {
-    let wordArray = form.header.split(" ").length;
-    //if (wordArray == 3) {
-      let json = JSON.stringify(form.header);
-      const response = await fetch(`/questions/similar/${json}`);
-      data.value = await response.json();
-    //}
-  }
-  /*(header) => {
-    let wordArray = header.split(" ").length;
-    if (wordArray == 3) {      
-      Inertia.get(
-        "/questions/add",
-        {
-          search: header,
-        },
-        { preserveState: true }
-      );
-    }
-  },
-  { once: true }*/
-);
+let flag = 0;
+let words = [];
 
-//import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+const getQuestions = () => {
+  let wordArray = form.header.split(" ");
+  wordArray.forEach((item) => {
+    if (item.length > 6 && flag < 2) {
+      flag++;
+      words.push(item.slice(0, -2));
+    }
+  });
+
+  async function asyncCall() {
+    if (flag === 2) {
+      flag++;
+      const response = await fetch(`/questions/similar/` + words.toString());
+      if (response.ok) {
+        data.value = await response.json();
+      } else {
+        alert("Ошибка HTTP: " + response.status);
+      }
+    }
+  }
+
+  asyncCall();
+};
 </script>
 
 <template>
@@ -76,13 +75,13 @@ watch(
     />
   </Head>
 
-  <MainHeader :auth="auth" />
+  <MainHeader :auth="set.auth" />
 
   <Header />
 
   <Body>
-    {{ data }}
-    <div class="bg-white py-6">
+    <div class="bg-white py-6" itemscope itemtype="https://schema.org/WebSite">
+      <link itemprop="url" href="http://nedicom.ru/" />
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
           <div class="flex flex-col items-center">
@@ -94,7 +93,7 @@ watch(
 
             <div class="flex -space-x-2 overflow-hidden pb-6">
               <img
-                v-for="value in lawyers"
+                v-for="value in set.lawyers"
                 :key="value"
                 class="inline-block h-10 w-10 rounded-full ring-2 ring-white"
                 :src="'https://nedicom.ru/' + value.avatar_path"
@@ -120,10 +119,22 @@ watch(
             </h6>
           </div>
 
-          <form @submit.prevent="submit" class="p-5">
+          <form
+            @submit.prevent="submit"
+            class="p-5"
+            itemprop="potentialAction"
+            itemscope
+            itemtype="https://schema.org/SearchAction"
+          >
             <div class="grid grid-cols-1 md:grid-cols-3">
               <div class="mb-3 w-full col-span-2">
+                <meta
+                  itemprop="target"
+                  :content="'http://nedicom.ru/questions/similar/' + words.toString()"
+                />
                 <textarea
+                  itemprop="query"
+                  :onBlur="getQuestions"
                   v-model="form.header"
                   @input="onInputheader"
                   maxlength="55"
@@ -183,7 +194,7 @@ watch(
     </div>
   </Body>
 
-  <SliderQuestions :sliderq="SliderQ" :filters="filters" />
+  <SliderQuestions :sliderq="data" />
 
   <MainFooter />
 </template>
@@ -194,27 +205,8 @@ export default {
     return {
       progresswidth: 0,
       wordscounter: 0,
-      form: {
-        header: this.filters.header,
-      },
     };
   },
-
-  watch: {
-    form: {
-      deep: true,
-      handler: function (value) {
-        this.$inertia.get(
-          "/questions/add",
-          {
-            header: this.form.header,
-          },
-          { preserveState: true }
-        );
-      },
-    },
-  },
-
   methods: {
     onInputheader(e) {
       //event, what is e

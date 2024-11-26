@@ -3,25 +3,24 @@ import "vue3-carousel/dist/carousel.css";
 import { defineComponent } from "vue";
 import { Carousel, Navigation, Slide } from "vue3-carousel";
 
-const props = defineProps({
+const set = defineProps({
   sliderq: Array,
-  filters: Object
 });
 
 </script>
 
 <template>
-  {{ filters.header }}
-  <h2 v-if="!filters.header" class="text-4xl font-semibold text-grey text-center py-10">
-    Последние 20 вопросов юристу 
+  <h2 v-if="!set.sliderq[0].status" class="text-4xl font-semibold text-grey text-center py-10">
+    {{ set.sliderq[0].status }}
+    Последние 20 вопросов юристам 
   </h2>
   <h2 v-else class="text-4xl font-semibold text-grey text-center py-10">
-    Похожие вопросы
+    Мы нашли похожие вопросы
   </h2>
 
   <div class="py-10 bg-gray-200">
     <Carousel v-bind="settings" :breakpoints="breakpoints">
-      <Slide v-for="card in props.sliderq" :key="card">
+      <Slide v-for="card in set.sliderq" :key="card">
         <div class="carousel__item w-full mx-3">
           <!-- card -->
           <div
@@ -72,9 +71,6 @@ const props = defineProps({
         <Navigation />
       </template>
     </Carousel>
-  </div>
-  <div>
-Похожих вопросов не найдено
   </div>
 </template>
 

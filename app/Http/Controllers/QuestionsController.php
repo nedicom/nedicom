@@ -84,32 +84,29 @@ class QuestionsController extends Controller
 
     public function similar($url)
     {
-        //return $url;
-        //return Questions::limit(20)->withCount('QuantityAns')->orderBy('updated_at', 'desc')->get();
-
-
-        if ($url) {
-            dd($url);
-            //$query = $query->filter($url);
-            //return($query);
-            return Questions::where('title', 'like', '%' . $url . '%')->withCount('QuantityAns')->orderBy('updated_at', 'desc')->get();
-        }
-
-        return Questions::limit(20)->withCount('QuantityAns')->orderBy('updated_at', 'desc')->get();
+            $url = preg_split('/\,/', $url);
+            if (count($url) == 2) {
+                $questions = Questions::limit(20)->where('title', 'like', '%' . $url[0] . '%')
+                    ->orwhere('title', 'like', '%' . $url[1] . '%')
+                    ->orwhere('body', 'like', '%' . $url[0] . '%' . $url[1])
+                    ->withCount('QuantityAns')->orderBy('updated_at', 'desc')
+                    ->get();
+                $questions->map(function ($item) {
+                    $item['status'] = 'new';
+                    return $item;
+                });
+                if(count($questions) == 0){
+                    $questions = Questions::limit(20)->withCount('QuantityAns')->orderBy('updated_at', 'desc')->get();
+                }
+            } else {
+                $questions = Questions::limit(20)->withCount('QuantityAns')->orderBy('updated_at', 'desc')->get();
+            }
+        return $questions;
     }
 
     public function questionAdd(Request $request)
     {
-        //$questions = Questions::limit(20)->withCount('QuantityAns')->orderBy('updated_at', 'desc')->get();
-
-        $query = Questions::query();
-
-        if ($request->search) {
-            $query = $query->filter($request->all());
-        }
-
-        $questions = $query->limit(20)->withCount('QuantityAns')->orderBy('updated_at', 'desc')->get();
-
+        $questions = Questions::limit(20)->withCount('QuantityAns')->orderBy('updated_at', 'desc')->get();
 
         return Inertia::render('Questions/Add', [
             'lawyers' => User::where('lawyer', 1)->where('avatar_path', '!=', '/storage/default/avatar.webp')->inRandomOrder()->limit(5)->get(),
