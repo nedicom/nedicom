@@ -73,6 +73,12 @@ const getQuestions = () => {
       name="description"
       content="Консультация юриста и вопрос юристу онлайн, бесплатно, без телефона и смс."
     />
+    <meta property="og:title" content="Вопрос юристу бесплатно - юрист онлайн, без телефона, консультация"/>
+    <meta property="og:description" content="Консультация юриста и вопрос юристу онлайн, бесплатно, без телефона и смс." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://nedicom.ru/questions/add" />
+    <meta property="og:site_name" content="nedicom.ru" />
+    <meta property="og:locale" content="ru_RU" />
   </Head>
 
   <MainHeader :auth="set.auth" />
@@ -97,9 +103,9 @@ const getQuestions = () => {
                 :key="value"
                 class="inline-block h-10 w-10 rounded-full ring-2 ring-white"
                 :src="'https://nedicom.ru/' + value.avatar_path"
+                alt="вопрос юристу онлайн бесплатно"
                 width="40"
                 height="40"
-                alt=""
               />
               <a
                 class="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800"

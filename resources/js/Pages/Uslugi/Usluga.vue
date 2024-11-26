@@ -64,6 +64,10 @@ details summary::-webkit-details-marker {
 
   <Head>
     <title>{{ vars.usluga.usl_name }} по городу {{ vars.usluga.cities.title }} </title>
+    <meta
+      name="description"
+      :content="vars.usluga.usl_name + ' - ' + vars.usluga.usl_desc"
+    />
     <meta head-key="description" name="description" :content="vars.usluga.usl_name + ' - ' + vars.usluga.usl_desc" />
     <meta property="og:title" :content="vars.usluga.usl_name" />
     <meta property="og:description" :content="vars.usluga.usl_desc" />
