@@ -33,7 +33,7 @@ let set = defineProps({
 let title = ref("Услуги");
 
 title.value = set.second_usluga ? set.second_usluga.usl_name : set.main_usluga.usl_name;
-title.value = set.city.title != '' ? title.value + ' по городу ' + set.city.title : title.value + " по всем городам";
+title.value = set.city.title != '' ? title.value + ' город - ' + set.city.title : title.value + " по всем городам";
 let status = ref(false);
 
 function alertForm(x) {
@@ -95,7 +95,7 @@ function alertForm(x) {
                     }}</span>"</span>
                 <span v-else>Юристы в категории "<span itemprop="name" class="font-bold">{{ set.main_usluga.usl_name
                     }}</span>"</span>                
-                <span v-if="set.city.title != ''" class="font-bold"> по городу {{ set.city.title }}</span>
+                <span v-if="set.city.title != ''" class="font-bold"> город - {{ set.city.title }}</span>
               </h1>
               <span v-if="set.second_usluga" itemprop="description" class="font-bold">{{
                 set.second_usluga.usl_desc
@@ -193,7 +193,7 @@ function alertForm(x) {
     <MainFooter>
 
       <BreadcrumbsUslugi class="p-4 bg-white flex flex-col items-center mb-2"
-        :city="(set.city.id !== 0) ? set.city : null"
+        :city="(set.city.title !== '') ? set.city : null"
         :main_usluga="(set.main_usluga.url !== 0) ? set.main_usluga : null"
         :second_usluga="set.second_usluga ? set.second_usluga : null" :usluga="null" />
     </MainFooter>
