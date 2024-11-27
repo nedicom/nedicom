@@ -143,7 +143,7 @@ Route::controller(ArticleController::class)->group(function () {
 
     Route::get('/articlesadd', 'formadd')->name('articles.add');
     Route::post('/articles/create', 'create')->name('articles/create');
-    Route::get('/articles/{url}/edit', 'edit')->middleware([owner::class, 'admin'])->name('articles.edit');
+    Route::get('/articles/{url}/edit', 'edit')->middleware(owner::class)->name('articles.edit');
     Route::post('/articles/{url}/update', 'update')->name('articles.update');
     Route::get('/articles/{id}/delete', 'delete')->name('article.delete');
 });
