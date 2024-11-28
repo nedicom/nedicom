@@ -7,6 +7,7 @@ import CategoryFilter from "@/Components/CategoryFilter.vue";
 import CityFilter from "@/Components/CityFilter.vue";
 import OfferCard from "@/Components/OfferCard.vue";
 import RatingReady from "@/Components/RatingReady.vue";
+import Pagination from "@/Components/Pagination.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import { ref } from "vue";
 import { Head } from "@inertiajs/inertia-vue3";
@@ -51,7 +52,7 @@ function alertForm(x) {
 
   <div class="min-h-screen">
     <MainHeader :auth="set.auth" />
-
+    
     <Header :modalPageTitle="title" />
 
     <Body>
@@ -92,9 +93,9 @@ function alertForm(x) {
               <h1 class="md:mb-4 text-sm leading-tight text-gray-900 dark:text-white md:text-2xl xl:text-2xl">
                 <span v-if="set.second_usluga">Юристы в категории "<span itemprop="name" class="font-bold">{{
                   set.second_usluga.usl_name
-                    }}</span>"</span>
+                }}</span>"</span>
                 <span v-else>Юристы в категории "<span itemprop="name" class="font-bold">{{ set.main_usluga.usl_name
-                    }}</span>"</span>                
+                    }}</span>"</span>
                 <span v-if="set.city.title != ''" class="font-bold"> город - {{ set.city.title }}</span>
               </h1>
               <span v-if="set.second_usluga" itemprop="description" class="font-bold">{{
@@ -118,8 +119,8 @@ function alertForm(x) {
           </div>
 
           <div v-if="set.uslugi">
-            <div class="px-3 my-2 md:px-0 w-full md:w-4/5 text-sm font-medium text-gray-900 text-center" itemprop="offers" itemscope
-              itemtype="https://schema.org/AggregateOffer">
+            <div class="px-3 my-2 md:px-0 w-full md:w-4/5 text-sm font-medium text-gray-900 text-center"
+              itemprop="offers" itemscope itemtype="https://schema.org/AggregateOffer">
               Цены за консультацию
               <meta itemprop="priceCurrency" content="RUB" />
               от <span itemprop="lowPrice" content="1000">{{ set.min }}</span>
@@ -127,13 +128,12 @@ function alertForm(x) {
               у <span itemprop="offerCount">{{ set.count }}</span> <span v-if="set.count == 1">юриста</span><span
                 v-else>юристов</span>
             </div>
-            <div v-if="set.uslugi[0]">
+            <div v-if="set.uslugi.data[0]">
               <!-- card -->
-              <div v-for="offer in set.uslugi" :key="offer.id">
+              <div v-for="offer in set.uslugi.data" :key="offer.id">
                 <OfferCard :offer="offer" :city="set.cities" :getlwr="set.getLawyer" />
                 <hr class="h-px my-8 bg-gray-200 md:my-10 border-0 dark:bg-gray-700">
               </div>
-
               <!-- card -->
             </div>
 
@@ -190,6 +190,8 @@ function alertForm(x) {
       </div>
     </div>
 
+    <Pagination v-if="uslugi.total > 10" :links="uslugi.links" />
+
     <MainFooter>
 
       <BreadcrumbsUslugi class="p-4 bg-white flex flex-col items-center mb-2"
@@ -199,12 +201,3 @@ function alertForm(x) {
     </MainFooter>
   </div>
 </template>
-
-<script>
-import Pagination from "@/Components/Pagination.vue";
-export default {
-  components: {
-    Pagination,
-  },
-};
-</script>

@@ -59,7 +59,7 @@ class UslugiController extends Controller
             ->withCount('review')
             ->withSum('review', 'rating')
             ->with('review')
-            ->get();
+            ->paginate(10);
 
         return Inertia::render('Uslugi/Uslugi', [
             'city' => $city,
@@ -76,7 +76,9 @@ class UslugiController extends Controller
             'sumrating' => $uslugi->sum('review_sum_rating'),
             'countrating' => $uslugi->sum('review_count'),
             'cities' => $cities,
-            'allsities' => $uslugi->unique('cities'),
+            'allsities' => Uslugi::where('is_main', '!=', 1)
+                ->where('is_second', null)
+                ->where('is_feed', 1)->get()->unique('cities'),
             'category' => $category,
             'routeurl' => '/uslugi',
             'auth' => Auth::user(),
@@ -125,7 +127,7 @@ class UslugiController extends Controller
                 ->withCount('review')
                 ->withSum('review', 'rating')
                 ->with('review')
-                ->get();
+                ->paginate(10);
 
             return Inertia::render('Uslugi/Uslugi', [
                 'city' => $city,
@@ -168,56 +170,6 @@ class UslugiController extends Controller
             abort(404);
         }
         abort(404);
-        //del
-        /*if ($usluga->sity) {
-            $cityurl = cities::where('id', $usluga->sity)->first()->url;
-            $city = CitySet::CitySet($request, $cityurl);
-        }
-
-        $id = $usluga->id;
-        $mainid = $usluga->main_usluga_id;
-
-        if (!$mainid) {
-            $mainid = $id;
-        }
-
-        if (Review::where('usl_id', $id)->orWhere('usl_id', $mainid)->count() !== 0) {
-            $reviews = Review::where('usl_id', $id)->orWhere('usl_id', $mainid)->orderBy('id', 'desc')->get();
-            $reviewscount = Review::where('usl_id', $id)->orWhere('usl_id', $mainid)->count();
-            $rating = Review::select('rating')->where('usl_id', $id)->orWhere('usl_id', $mainid)->sum('rating');
-        } else {
-            $reviews = Review::orderBy('id', 'desc')->get();
-            $reviewscount = Review::count();
-            $rating = Review::sum('rating');
-        }
-
-        $rating =  round($rating / $reviewscount, 1);
-
-        //views
-        if ($usluga->is_main) {
-            $view = 'Uslugi/Main';
-        } else {
-            $view = 'Uslugi/Usluga';
-        }
-
-        //data
-        return Inertia::render($view, [
-            'usluga' => Uslugi::where('url', $url)->with('cities')->with('main')->with('second')->first(),
-            'city' => $city,
-            'secondUslugi' => Uslugi::where('main_usluga_id', $id)->where('is_second', '!=', 0)->get(),
-            'uslugi' => Uslugi::where('second_usluga_id', $id)->with('cities')->get(),
-            'main_usluga' => Uslugi::where('id', $mainid)->withCount('mainreview')->withAvg('mainreview as avg_review', 'rating')->first(['id', 'usl_name', 'url']),
-            'user' => Auth::user(),
-            'lawyers' => User::where('speciality_one_id', '=', $id)->orderBy('name', 'asc')->get()->take(3),
-            'practice' => Article::where('usluga_id', $mainid)->where('practice_file_path', '!=', null)->orderBy('updated_at', 'desc')->take(3)->get(),
-            'lawyer' => User::where('id', $usluga->user_id)->first(),
-            'reviews' => $reviews,
-            'reviewscount' => $reviewscount,
-            'rating' => $rating,
-            'flash' => ['message' => $request->session()->get(key: 'message')],
-        ]);*/
-
-        //del
     }
 
 
@@ -255,7 +207,7 @@ class UslugiController extends Controller
             })*/
             ->withCount('review')
             ->withSum('review', 'rating')
-            ->get();
+            ->paginate(10);
 
         $cities = '';
         if ($request->city) {
@@ -281,8 +233,8 @@ class UslugiController extends Controller
         ]);
     }
 
-    public function showOfferBysecond(string $city, string $main_usluga, string $second_usluga, Request $request) 
-    // http://nedicom.ru/uslugi/city/main/second ??
+    public function showOfferBysecond(string $city, string $main_usluga, string $second_usluga, Request $request)
+    // http://nedicom.ru/uslugi/city/main/second
     {
         $city = cities::where('url', $city)->with('uslugies')->first();
         $main = Uslugi::where('url', $main_usluga)->first(['id', 'usl_name', 'usl_desc', 'url']);
@@ -323,7 +275,7 @@ class UslugiController extends Controller
             })
             ->withCount('review')
             ->withSum('review', 'rating')
-            ->get();
+            ->paginate(10);
 
 
         return Inertia::render('Uslugi/Uslugi', [
@@ -406,10 +358,10 @@ class UslugiController extends Controller
         if ($city_id) {
             $region_id = cities::where('id', $city_id)->first()->regionId;
             $practice = Article::where('usluga_id', $mainid)->where(function (Builder $query) use ($region_id) {
-                $query->where ('region', $region_id)
-                      ->orWhere('region', null);
+                $query->where('region', $region_id)
+                    ->orWhere('region', null);
             })
-            ->where('practice_file_path', '!=', null)->get(['id', 'created_at', 'description', 'header', 'url', 'practice_file_path', 'region']);
+                ->where('practice_file_path', '!=', null)->get(['id', 'created_at', 'description', 'header', 'url', 'practice_file_path', 'region']);
         } else {
             $practice = Article::where('usluga_id', $mainid)->where('practice_file_path', '!=', null)->get(['id', 'created_at', 'description', 'header', 'url', 'practice_file_path']);
         }
@@ -451,7 +403,7 @@ class UslugiController extends Controller
             'main_usluga' =>  $main,
             'second_usluga' => Uslugi::where('id', $usluga->second_usluga_id)->first(['id', 'usl_name', 'url']),
             'city' => is_null(cities::find($usluga->sity)) ? cities::find(0) : cities::find($usluga->sity),
-            'url' => $city.'/'.$main_usluga.'/'.$second_usluga.'/'.$url,
+            'url' => $city . '/' . $main_usluga . '/' . $second_usluga . '/' . $url,
             'flash' => ['message' => $request->session()->get(key: 'message')],
         ]);
     }

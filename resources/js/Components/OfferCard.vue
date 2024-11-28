@@ -26,10 +26,11 @@ if (set.getlwr == '0') {
 <template>
   <section>
     <div class="mx-auto 2xl:px-0" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-      <div class="grid gap-4 grid-cols-1 md:grid-cols-2 content-center">
+      <div class="flex flex-col md:flex-row">
+
         <div class="bg-white flex items-center">
-          <div class="h-72 w-full bg-cover" 
-            style="background-image: url('storage/images/services/appeal.webp');">
+          <div class="h-72 w-full" 
+            >
             <a :href="route('uslugi.canonical.url', [
               set.offer.cities.url,
               set.offer.main.url,
@@ -43,7 +44,8 @@ if (set.getlwr == '0') {
             </a>
           </div>
         </div>
-        <div class="">
+
+        <div class="grow px-5 md:mr-10">
           <div class="mb-4 flex items-center justify-between gap-4">
             <span
               class="me-2 bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300">
@@ -193,6 +195,7 @@ if (set.getlwr == '0') {
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </section>
