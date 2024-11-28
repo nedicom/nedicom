@@ -24,9 +24,8 @@ if (set.getlwr == '0') {
 </script>
 
 <template>
-  <section>
-    <div class="mx-auto 2xl:px-0" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-      <div class="flex flex-col md:flex-row">
+  <section>    
+      <div class="flex flex-col md:flex-row mx-auto 2xl:px-0 px-2" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
 
         <div class="bg-white flex items-center">
           <div class="h-72 w-full" 
@@ -197,6 +196,6 @@ if (set.getlwr == '0') {
         </div>
 
       </div>
-    </div>
+    
   </section>
 </template>
