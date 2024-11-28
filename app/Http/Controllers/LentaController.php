@@ -49,18 +49,17 @@ class LentaController extends Controller
             ->selectRaw('questions.url * ? AS type', [''])
             ->union($articles)
             ->orderByDesc('counter')
-            ->get();
+            ->paginate(20);
 
-        $bundles = $bundles->map(function ($bundles) {
-            $bundles->abody = Str::limit($bundles->abody, 100);
-            $bundles->created_at = humandate::lenta($bundles->created_at);
-            return $bundles;
-        });
+        foreach ($bundles as $item) {
+            $item->abody = Str::limit($item->abody, 100);
+            $item->created_at = humandate::lenta($item->created_at);
+        }
 
         return Inertia::render('Lenta/Lenta', [
             'bundles' => $bundles,
             'auth' => Auth::user(),
-            'h1' => 'Популярное', 
+            'h1' => 'Популярное',
         ]);
     }
 
@@ -99,18 +98,17 @@ class LentaController extends Controller
             ->selectRaw('questions.url * ? AS type', [''])
             ->union($articles)
             ->orderByDesc('created_at')
-            ->get();
+            ->paginate(20);
 
-        $bundles = $bundles->map(function ($bundles) {
-            $bundles->abody = Str::limit($bundles->abody, 200);
-            $bundles->created_at = humandate::lenta($bundles->created_at);
-            return $bundles;
-        });
+        foreach ($bundles as $item) {
+            $item->abody = Str::limit($item->abody, 100);
+            $item->created_at = humandate::lenta($item->created_at);
+        }
 
         return Inertia::render('Lenta/Lenta', [
             'bundles' => $bundles,
-            'auth' => Auth::user(),  
-            'h1' => 'Свежее',   
+            'auth' => Auth::user(),
+            'h1' => 'Свежее',
         ]);
     }
 
@@ -132,18 +130,17 @@ class LentaController extends Controller
             )
             ->selectRaw('articles.description AS type')
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(20);
 
-        $bundles = $bundles->map(function ($bundles) {
-            $bundles->abody = Str::limit($bundles->abody, 200);
-            $bundles->created_at = humandate::lenta($bundles->created_at);
-            return $bundles;
-        });
+        foreach ($bundles as $item) {
+            $item->abody = Str::limit($item->abody, 100);
+            $item->created_at = humandate::lenta($item->created_at);
+        }
 
         return Inertia::render('Lenta/Lenta', [
             'bundles' => $bundles,
-            'auth' => Auth::user(),  
-            'h1' => 'Статьи',   
+            'auth' => Auth::user(),
+            'h1' => 'Статьи',
         ]);
     }
 
@@ -165,18 +162,17 @@ class LentaController extends Controller
             )
             ->selectRaw('questions.url * :5 AS type', [1])
             ->orderByDesc('created_at')
-            ->get();
+            ->paginate(20);
 
-        $bundles = $bundles->map(function ($bundles) {
-            $bundles->abody = Str::limit($bundles->abody, 200);
-            $bundles->created_at = humandate::lenta($bundles->created_at);
-            return $bundles;
-        });
+        foreach ($bundles as $item) {
+            $item->abody = Str::limit($item->abody, 100);
+            $item->created_at = humandate::lenta($item->created_at);
+        }
 
         return Inertia::render('Lenta/Lenta', [
             'bundles' => $bundles,
-            'auth' => Auth::user(),    
-            'h1' => 'Вопросы', 
+            'auth' => Auth::user(),
+            'h1' => 'Вопросы',
         ]);
     }
 }

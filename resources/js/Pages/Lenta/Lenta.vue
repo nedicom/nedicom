@@ -4,10 +4,11 @@ import Header from "@/Layouts/Header.vue";
 import Body from "@/Layouts/Body.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import NavLinkLeft from "@/Components/NavLinkLeft.vue";
+import Pagination from "@/Components/Pagination.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 
 defineProps({
-  bundles: Array,
+  bundles: Object,
   auth: Object,
   h1: String,
 });
@@ -48,7 +49,7 @@ defineProps({
         <div class="flex flex-col gap-9">
           <h1 class="text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ h1 }} у юристов в ленте</h1>
           <!-- card -->
-          <div v-for="bundles in bundles" :key="bundles.id" class="flex justify-center mx-3 md:mx-0 bg-white rounded">
+          <div v-for="bundles in bundles.data" :key="bundles.id" class="flex justify-center mx-3 md:mx-0 bg-white rounded">
             <article
               class="min-w-full p-6 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
               <div class="flex justify-between items-center mb-5 text-gray-500">
@@ -166,10 +167,11 @@ defineProps({
           </div>
           <!-- card -->
         </div>
-        <!-- card 
-      <Pagination :links="bundles.links" />
-      -->
+        <Pagination v-if="bundles.total > 10" :links="bundles.links" />
       </div>
+
+      
+
     </div>
   </Body>
 
