@@ -17,7 +17,7 @@ defineProps({
 
 <template>
     <div class="py-2">
-        <h2>
+        <div>
             <button
                 type="button"
                 id="accordion-title-01"
@@ -70,7 +70,7 @@ defineProps({
                     </svg>
                 </div>
             </button>
-        </h2>
+        </div>
         <div
             id="accordion-text-01"
             role="region"

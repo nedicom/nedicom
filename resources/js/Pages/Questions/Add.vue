@@ -36,15 +36,16 @@ let submit = () => {
   Inertia.post("/questions/post", form);
 };
 
-let flag = 0;
+let flag = 0; //cheker func once
 let words = [];
 
+//get similar question
 const getQuestions = () => {
-  let wordArray = form.header.split(" ");
-  wordArray.forEach((item) => {
-    if (item.length > 6 && flag < 2) {
+  let wordArray = form.header.split(" "); //get words from title onBlur
+  wordArray.forEach((item) => { //sort trough
+    if (item.length > 6 && flag < 2) { //sort trough when letter in words more than six
       flag++;
-      words.push(item.slice(0, -2));
+      words.push(item.slice(0, -2)); //trim ending of a word
     }
   });
 
@@ -54,12 +55,9 @@ const getQuestions = () => {
       const response = await fetch(`/questions/similar/` + words.toString());
       if (response.ok) {
         data.value = await response.json();
-      } else {
-        alert("Ошибка HTTP: " + response.status);
       }
     }
   }
-
   asyncCall();
 };
 </script>

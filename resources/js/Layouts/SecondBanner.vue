@@ -1,6 +1,4 @@
 <script setup>
-import { onMounted } from "vue";
-
 import PhoneForm from "@/Components/PhoneForm.vue";
 
 const props = defineProps({
@@ -12,40 +10,25 @@ const props = defineProps({
   phnform: Boolean
 });
 
-//preloader img
-const loadImage = () => {
-  const img = new Image();
-  if (screen.width <= 760) {
-    img.src = props.secondbannerimgmobile;
-  } else {
-    img.src = props.secondbannerpc;
-  }
-  img.onload = () => {
-    let bgElement = document.getElementById('secondbanner');
-    bgElement.style.backgroundImage = `url(${img.src})`;
-  };
-};
-onMounted(() => {
-  loadImage();
-});
-//preloader img
+let spc = ' url(' + props.secondbannerpc + '), linear-gradient(black, white)';
+let mspc = ' url(' + props.secondbannerimgmobile + '), linear-gradient(black, white)';
 </script>
 
 <style scoped>
 #secondbanner {
-  background-image: url('https://www.nedicom.ru/pcpreloader.webp'), linear-gradient(black, white);
+  background-image: v-bind(spc);
 }
 
 @media only screen and (max-width: 600px) {
   #secondbanner {
-    background-image: url('https://www.nedicom.ru/mobpreloader.webp');
+    background-image: v-bind(mspc);
   }
 }
 </style>
 
 <template>
   <!-- banner -->
-  <meta itemprop="image" :content="metaimage" :alt="statusonimage" />
+  <meta itemprop="image" :content="props.metaimage" :alt="props.statusonimage" />
   <div id="secondbanner" class="relative overflow-hidden block md:bg-contain bg-cover w-full md:h-screen h-[40em]">
     <div class="grid grid-cols-1 md:justify-items-end w-full h-full">
       <div style="box-shadow: 0px 0px 40px 40px #fff"

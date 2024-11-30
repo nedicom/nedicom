@@ -15,12 +15,12 @@ defineProps({
     <div class="grid grid-cols-1 gap-9 divide-y">
         <!-- comment -->
         <div v-for="answer in answers" :key="answer.id">
-            <div
+            <div v-if="!answer.parent_comment_id"
             :id="answer.id"
                 class="min-w-full p-6 bg-white max-w-sm flex flex-col" itemprop="suggestedAnswer" itemscope itemtype="https://schema.org/Answer"
             >
                 <div class="flex flex-right mb-2">
-                    <Link
+                    <Link 
                         :href="route('lawyer', answer.user_ans.id)"
                         class="hover:underline flex flex-justify"
                         itemprop="author" itemscope itemtype="https://schema.org/Person"
@@ -52,7 +52,7 @@ defineProps({
             <!--subcomments-->
             <div v-if="answer.subcomments">
                 <div v-for="subcomments in answer.subcomments" :key="subcomments.id" class="ml-16">
-                <div
+                <div 
                     class="min-w-full p-6 bg-white max-w-sm flex flex-col"
                 >
                     <div class="flex flex-right mb-2">
@@ -61,9 +61,9 @@ defineProps({
                             class="hover:underline flex flex-justify"
                         >
                             <img
-                                :src=" subcomments.avatar_path"
+                                :src="'https://nedicom.ru/' + subcomments.avatar_path"
                                 width="40"
-                                class="rounded-full"
+                                class="rounded-full mr-3"
                             />
                             <p
                                 class="mr-3 text-sm text-gray-900 dark:text-white font-semibold h-min-24 flex items-center"
