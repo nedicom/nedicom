@@ -157,9 +157,6 @@ defineProps({
         </div>
       </Slide>
 
-      <template #addons>
-        <Navigation />
-      </template>
     </Carousel>
   </div>
   <!--reviews carousel-->
@@ -185,6 +182,8 @@ export default defineComponent({
     settings: {
       itemsToShow: 1.25,
       snapAlign: "center",
+      autoplay: 2000,
+      pauseAutoplayOnHover: true,
     },
     // breakpoints are mobile first
     // any settings not specified will fallback to the carousel settings
