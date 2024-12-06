@@ -72,16 +72,6 @@ class ImageController extends Controller
             imagewebp($im, 'storage/' . $filePath . '/' . $fileName . '.webp', 80);
             //Image::make($im)->encode('webp', 80)->save(public_path('storage/'.$filePath.'/'.$fileName.'.webp'));
             imagedestroy($im);
-            
-            /* for database 
-                            $imgModel = new Image;
-                            $imgModel->user_id = Auth::user()->id;
-                            $imgModel->name = $fileName;
-                            $imgModel->file_path = $newfilepath;
-                            $imgModel->ext = $req->file->getClientMimeType();
-                            $imgModel->size = $req->file->getSize();
-                            $imgModel->save();
-            */
 
             return redirect()->back();
         } else {
@@ -101,52 +91,49 @@ class ImageController extends Controller
             $pagetype = $req->pagetype;
             $id = $req->id;
             if ($pagetype == 'mobileusluga') {
-                $filePath = 'uslugi/' . $id. '/pc'.'/';
+                $filePath = 'uslugi/' . $id . '/pc' . '/';
                 $fileName = time() . 'usluga';
                 $usluga = Uslugi::find($id);
-                
+
                 $usluga->mob_file_path = 'storage/' . $filePath . $fileName . '.webp';
                 $usluga->save();
-            }
-            else{
-                $filePath = 'uslugi/' . $id. '/mobile'.'/';
+            } else {
+                $filePath = 'uslugi/' . $id . '/mobile' . '/';
                 $fileName = time() . 'usluga';
                 $usluga = Uslugi::find($id);
                 $usluga->file_path = 'storage/' . $filePath . $fileName . '.webp';
                 $usluga->save();
             }
-                
-                if (!Storage::exists($filePath)) {
-                    Storage::makeDirectory($filePath);
-                }
-    
-                $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                
-                $mime = finfo_file($finfo, $req->file('file'));
-                finfo_close($finfo);
-                
-    
-                if ($mime == "image/png") {
-                    $im = imagecreatefrompng($req->file('file'));
-                } else if ($mime == "image/jpeg") {
-                    $im = imagecreatefromjpeg($req->file('file'));
-                } else {
-                    return redirect()->back();
-                }
-    
-                $files = Storage::allFiles($filePath);                
-                Storage::delete($files);
-                //$imgwebppath = 'storage/' . $filePath . '/' . $fileName . '.webp';
-                $imgwebppath = $filePath.$fileName . '.webp';                
 
-                Storage::disk('public')->put($filePath.$fileName . '.webp', '');
+            if (!Storage::exists($filePath)) {
+                Storage::makeDirectory($filePath);
+            }
 
-                imagewebp($im, 'storage/' . $imgwebppath, 80);
-               
-                imagedestroy($im);   
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
 
-        }
-        else{
+            $mime = finfo_file($finfo, $req->file('file'));
+            finfo_close($finfo);
+
+
+            if ($mime == "image/png") {
+                $im = imagecreatefrompng($req->file('file'));
+            } else if ($mime == "image/jpeg") {
+                $im = imagecreatefromjpeg($req->file('file'));
+            } else {
+                return redirect()->back();
+            }
+
+            $files = Storage::allFiles($filePath);
+            Storage::delete($files);
+            //$imgwebppath = 'storage/' . $filePath . '/' . $fileName . '.webp';
+            $imgwebppath = $filePath . $fileName . '.webp';
+
+            Storage::disk('public')->put($filePath . $fileName . '.webp', '');
+
+            imagewebp($im, 'storage/' . $imgwebppath, 80);
+
+            imagedestroy($im);
+        } else {
             return redirect()->back();
         }
         return redirect()->back();
@@ -154,58 +141,37 @@ class ImageController extends Controller
 
 
     /**
-     * Store a newly created resource in storage.
+     * Store an image in square form
      *
      * @param  \App\Http\Requests\StoreImageRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreImageRequest $request)
+    public function square(StoreImageRequest $req)
     {
-        //
-    }
+        if ($req->file()) {
+            
+            $file = $req->file('file');
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Image  $image
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Image $image)
-    {
-        //
-    }
+            if ($file->extension() != "png") {
+                return redirect()->back()->with('message', 'Только png формат');
+            }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Image  $image
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Image $image)
-    {
-        //
-    }
+            if ($file->getSize() > 1000000 ){
+                return redirect()->back()->with('message', 'Размер не больше 1 мегабайт');
+            };
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateImageRequest  $request
-     * @param  \App\Models\Image  $image
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateImageRequest $request, Image $image)
-    {
-        //
-    }
+            $filePath = 'uslugi/' . $req->id . '/square';
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Image  $image
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Image $image)
-    {
-        //
+            $files = Storage::allFiles($filePath);
+            Storage::delete($files);
+
+            $path = Storage::putFileAs($filePath, $req->file('file'),"1.".$file->extension());
+ 
+        dd($path);
+
+            return redirect()->back();
+        } else {
+            return redirect()->back()->with('message', 'Что-то пошло не так');
+        }
     }
 }

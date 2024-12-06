@@ -5,6 +5,7 @@ import Body from "@/Layouts/Body.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import Editor from "@/Components/Tiptap.vue";
 import UslugaCropper from "@/Components/UslugaCropper.vue";
+import SquareCropper from "@/Components/SquareCropper.vue";
 import UslugaMobileCropper from "@/Components/UslugaMobileCropper.vue";
 import FlashMessage from "@/Components/FlashMessage.vue";
 
@@ -114,7 +115,7 @@ const date = ref(new Date());
 </script>
 
 <template>
-  <FlashMessage :message="flash.message" />
+  <FlashMessage :message="set.flash.message" />
 
   <Head title="Редактировать услугу" />
 
@@ -460,6 +461,8 @@ const date = ref(new Date());
     <UslugaCropper :usluga="set.uslugi" />
 
     <UslugaMobileCropper :usluga="set.uslugi" />
+
+    <SquareCropper :usluga="set.uslugi" />
   </Body>
 
   <MainFooter />
