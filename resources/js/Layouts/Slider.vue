@@ -51,7 +51,6 @@ defineProps({
                 </Slide>
 
                 <template #addons>
-                    <Navigation />
                     <Pagination />
                 </template>
             </Carousel>
@@ -66,7 +65,6 @@ defineProps({
                 </Slide>
 
                 <template #addons>
-                    <Navigation />
                     <Pagination />
                 </template>
             </Carousel>
@@ -76,7 +74,7 @@ defineProps({
 
 <script>
 import { defineComponent } from "vue";
-import { Carousel, Pagination, Navigation, Slide } from "vue3-carousel";
+import { Carousel, Pagination, Slide } from "vue3-carousel";
 
 import "vue3-carousel/dist/carousel.css";
 
@@ -84,8 +82,7 @@ export default defineComponent({
     name: "Breakpoints",
     components: {
         Carousel,
-        Slide,
-        Navigation,
+        Slide,        
         Pagination,
     },
     data: () => ({

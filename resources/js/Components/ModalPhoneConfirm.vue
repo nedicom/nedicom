@@ -1,5 +1,6 @@
 <script setup>
 import { VueFinalModal } from "vue-final-modal";
+import { ref } from "vue";
 
 let set = defineProps({
     phone: String,
@@ -8,6 +9,8 @@ let set = defineProps({
     avatarPath: String,
     lawyer: String,
 });
+
+const clck = ref(false);
 
 const emit = defineEmits({
     close: "close",
@@ -36,19 +39,22 @@ const emit = defineEmits({
                 <img class="inline-block h-12 w-12 rounded-full ring-2 ring-white bg-gray-50"
                     src='https://nedicom.ru/mstile-144x144.png' width="50" height="50" :alt="set.modalPageTitle" />
             </div>
-
-            <a :href="phoneto" class="mb-4 text-3xl font-medium text-gray-900">{{ set.phone }}</a>
-            <p class="my-4 text-2xl font-medium text-gray-700">{{ set.lawyer }}</p>
-            <p class="mb-4 text-xl font-medium text-gray-900">
+            <p class="mb-4 text-xl md:text-2xl font-medium text-gray-700">{{ set.lawyer }}</p>
+            <a :href="phoneto" class="text-3xl font-medium text-gray-900">{{ set.phone }}</a>            
+            <p v-if="clck == false" class="my-4 text-xl font-medium text-gray-900">
                 Вам удалось дозвониться?
             </p>
-            <input type="button" onclick="ym(24900584, 'reachGoal', 'PHONE_BTN'); return true;" @click="emit('close')"
-                value="Да"
-                class="mr-1 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none cursor-pointer
+            <p v-else class="my-4 text-xl font-medium text-gray-900">
+                Сохраните номер, чтобы не искать
+            </p>
+            <input v-if="clck == false" type="button" onclick="ym(24900584, 'reachGoal', 'PHONE_BTN'); return true;" @click="emit('close')"
+                value="Да" class="mr-1 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none cursor-pointer
             focus:ring-blue-300 font-medium rounded-lg text-base  sm:w-auto px-6 py-3 text-center" />
 
-            <input type="button" @click="emit('close')" value="Нет"
-                class="ml-1 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none cursor-pointer 
+            <input v-if="clck == true" type="button" @click="emit('close')" value="Спасибо, так и сделаю" class="ml-1 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none cursor-pointer 
+            focus:ring-blue-300 font-medium rounded-lg text-base sm:w-auto px-6 py-3 text-center" />
+
+            <input v-if="clck == false" type="button" @click="clck = !clck" value="Я перезвоню позже" class="ml-1 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none cursor-pointer 
             focus:ring-blue-300 font-medium rounded-lg text-base sm:w-auto px-6 py-3 text-center" />
 
         </div>

@@ -47,17 +47,13 @@ let ModalBtnText = "на консультацию";
           <!-- card -->
         </div>
       </Slide>
-
-      <template #addons>
-        <Navigation />
-      </template>
     </Carousel>
   </div>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import { Carousel, Navigation, Slide } from "vue3-carousel";
+import { Carousel, Slide } from "vue3-carousel";
 
 import "vue3-carousel/dist/carousel.css";
 
@@ -67,7 +63,6 @@ export default defineComponent({
   components: {
     Carousel,
     Slide,
-    Navigation,
   },
   data: () => ({
     // carousel settings

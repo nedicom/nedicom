@@ -31,9 +31,9 @@ if (props.phone !== undefined) {
             <section>
                 <div class="px-4 mx-auto max-w-screen-xl">
                     <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress"
-                        class="my-12 md:my-20 md:mt-0 text-center">
+                        class="my-12 md:my-10 md:mt-0 text-center">
                         <p v-if="dopadress" class="font-semibold text-3xl">Главный офис:</p>
-                        <p v-else class="font-semibold text-3xl">Наш офис:</p>
+                        <p v-else class="font-semibold text-3xl">Адрес:</p>
                         <h2 class="mb-4 text-xl my-6 font-semibold">{{ address }}</h2>
 
                         <meta itemprop="postalCode" content="295000" />
@@ -47,7 +47,7 @@ if (props.phone !== undefined) {
                     </div>
                     <div class="flex justify-center">
 
-                        <div class="mt-5 md:w-1/2 ">
+                        <div class="mt-5 md:w-1/2 font-bold">
                             <p class="mb-6 text-center">Выбирайте удобный способ
                                 связи для Вас
                             </p>
@@ -68,16 +68,18 @@ if (props.phone !== undefined) {
                             <div v-if="props.maps" class="w-full flex items-center mb-5">
                                 <a :href="props.maps" class="w-64 mx-auto inline-flex items-center justify-center py-2.5 text-gray-900 focus:outline-none 
                                     bg-white rounded-lg border border-gray-200 inline-flex items-center focus:ring-4 focus:ring-primary-300 
-                                    font-medium rounded-lg px-5 py-2.5 text-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                                    </svg>
-                                    <span class="flex flex-col">
-                                        Яндекс карты    
+                                    font-medium rounded-lg px-3 py-2.5 text-center">
+                                    <span class="h-full mr-1"><img class="h-6"
+                                            src="https://yandex.ru/maps/favicon.svg"></span>
+                                    <span class="font-bold h-full mr-1">
+                                        <span class="text-red-600">Я</span>ндекс карты 
+                                    </span>
+                                    <span v-for="x in 5" :key="x">
+                                        <svg class="w-4 h-4 text-yellow-300" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                            <path
+                                                d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                        </svg>
                                     </span>
                                 </a>
                             </div>

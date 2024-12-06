@@ -10,8 +10,8 @@ const props = defineProps({
   phnform: Boolean
 });
 
-let spc = ' url(' + props.secondbannerpc + '), linear-gradient(black, white)';
-let mspc = ' url(' + props.secondbannerimgmobile + '), linear-gradient(black, white)';
+let spc = ' url(' + props.secondbannerpc + ') ';
+let mspc = ' url(' + props.secondbannerimgmobile + ') ';
 </script>
 
 <style scoped>
@@ -29,10 +29,10 @@ let mspc = ' url(' + props.secondbannerimgmobile + '), linear-gradient(black, wh
 <template>
   <!-- banner -->
   <meta itemprop="image" :content="props.metaimage" :alt="props.statusonimage" />
-  <div id="secondbanner" class="relative overflow-hidden block md:bg-contain bg-cover w-full md:h-screen h-[40em]">
+  <div id="secondbanner" class="relative overflow-hidden block bg-cover w-full md:h-screen h-[40em]">
     <div class="grid grid-cols-1 md:justify-items-end w-full h-full">
-      <div style="box-shadow: 0px 0px 40px 40px #fff"
-        class="md:w-1/2 w-full h-full grid grid-cols-1 text-center md:float-right md:text-left md:content-center content-end md:bg-white md:shadow-lg">
+      <div 
+        class="md:w-1/2 w-full h-full grid grid-cols-1 text-center md:float-right md:text-left md:content-center content-end">
         
         <div class="text-center mb-5">
           <h1 itemprop="name" class="goo m-auto text-2xl md:text-4xl font-semibold normal-case ">
@@ -60,8 +60,8 @@ let mspc = ' url(' + props.secondbannerimgmobile + '), linear-gradient(black, wh
 
           <div class="pb-4 pt-2 md:py-8 px-4 bg-gray-100 rounded-lg">
             <h2 class="mb-2 md:text-xl tracking-tight font-bold leading-tight text-gray-900">
-              Достижения</h2>
-            <p class="hidden md:block mb-4 text-gray-900 text-sm">Практика юриста в данной категории</p>
+              Практика</h2>
+            <p class="hidden md:block mb-4 text-gray-900 text-sm">Судебная практика юриста в данной категории</p>
             <a href="#prctglr"
               class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5">смотреть</a>
           </div>
