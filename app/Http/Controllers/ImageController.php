@@ -166,10 +166,9 @@ class ImageController extends Controller
             Storage::delete($files);
 
             Storage::putFileAs($filePath, $req->file('file'), "1." . $file->extension());
-
-            return redirect()->back();
         } else {
             return redirect()->back()->with('message', 'Что-то пошло не так');
         }
+        return redirect()->back()->with('message', 'Изображение загружено успешно');
     }
 }

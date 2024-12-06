@@ -50,7 +50,7 @@ defineProps({
         <InputLabel value="адрес ссылки:" />
          <a :href="'/storage/uslugi/' + usluga.id + '/square/1.png'">https://nedicom.ru/storage/uslugi/{{usluga.id}}/square/1.png</a>
         <div class="bg-contain bg-center bg-no-repeat h-full"
-          :style="{ backgroundImage: `url(/storage/uslugi/${usluga.id}/square/1.png`}"></div>
+          :style="{ backgroundImage: `url(/storage/uslugi/${usluga.id}/square/1.png?m=${image.cachebrk}`}"></div>
       </div>
 
     </div>
@@ -69,6 +69,7 @@ export default {
       image: {
         src: null,
         type: null,
+        cachebrk: null,
       },
     };
   },
@@ -83,7 +84,10 @@ export default {
         form.append('pagetype', 'square');
         canvas.toBlob(blob => {
           form.append('file', blob, 'square');
-          Inertia.post("/uslimagesquare", form);
+          Inertia.post("/uslimagesquare", form, { preserveScroll: true });
+          this.image = {
+            cachebrk: 1,
+        };
         });
       }
     },
