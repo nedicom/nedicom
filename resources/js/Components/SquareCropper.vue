@@ -48,7 +48,7 @@ defineProps({
       <div class="h-96 md:h-full">
         <InputLabel value="Текущее изображение (квадрат)" />
         <InputLabel value="адрес ссылки:" />
-         <a :href="'/storage/uslugi/' + usluga.id + '/square/1.png'">https://nedicom.ru/storage/uslugi/ {{usluga.id}}/square/1.png</a>
+         <a :href="'/storage/uslugi/' + usluga.id + '/square/1.png'">https://nedicom.ru/storage/uslugi/{{usluga.id}}/square/1.png</a>
         <div class="bg-contain bg-center bg-no-repeat h-full"
           :style="{ backgroundImage: `url(/storage/uslugi/${usluga.id}/square/1.png`}"></div>
       </div>

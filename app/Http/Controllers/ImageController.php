@@ -149,14 +149,14 @@ class ImageController extends Controller
     public function square(StoreImageRequest $req)
     {
         if ($req->file()) {
-            
+
             $file = $req->file('file');
 
             if ($file->extension() != "png") {
                 return redirect()->back()->with('message', 'Только png формат');
             }
 
-            if ($file->getSize() > 1000000 ){
+            if ($file->getSize() > 1000000) {
                 return redirect()->back()->with('message', 'Размер не больше 1 мегабайт');
             };
 
@@ -165,9 +165,7 @@ class ImageController extends Controller
             $files = Storage::allFiles($filePath);
             Storage::delete($files);
 
-            $path = Storage::putFileAs($filePath, $req->file('file'),"1.".$file->extension());
- 
-        dd($path);
+            Storage::putFileAs($filePath, $req->file('file'), "1." . $file->extension());
 
             return redirect()->back();
         } else {
