@@ -16,8 +16,10 @@ class ProfileUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['string', 'max:255'],
-            'about' => ['string', 'max:500', 'required'],
+            'name' => ['string', 'max:255', 'required'],
+            'about' => ['string', 'min:20', 'required'],
+            'phone' => ['string', 'between:10,15', 'required'],
+            'city' => ['string', 'max:500', 'required'],
             'jsonspec' => ['json'],
             'speciality_one_id' => ['numeric'],
             'speciality_two_id' => ['numeric'],
@@ -31,7 +33,10 @@ class ProfileUpdateRequest extends FormRequest
 {
     return [
         'about.required' => 'О себе нужно обязательно рассказать.', 
-        'about.string' => 'О себе нужно обязательно рассказать.', 
+        'about.min' => 'Расскажите чуточку подробнее',
+        'phone.required' => 'Телефон обязателен',
+        'phone.between' => 'Телефон не больше 15 цифр и не меньше 10', 
+        'city.required' => 'город обязателен',  
     ];
 }
 }

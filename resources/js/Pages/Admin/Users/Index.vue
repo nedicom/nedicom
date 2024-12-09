@@ -41,11 +41,10 @@ const handleDelete = (id, title) => {
   open()
 }
 
-let title = ref("Пользователи");
-
 </script>
 
 <template>
+
   <Head title="Пользователи" />
 
   <MainHeader :auth="auth" />
@@ -56,85 +55,91 @@ let title = ref("Пользователи");
     <div class="bg-white py-12">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center justify-between mb-6">
             <div class="flex items-center mr-4 w-full max-w-md">
-                <div class="flex w-full bg-white rounded shadow">
-                    <input
-                        v-model="form.search"
-                        class="relative px-6 py-1 w-full rounded"
-                        autocomplete="off"
-                        type="text"
-                        name="search"
-                        placeholder="Поиск..."
-                    >
-                </div>
-                <button @click="reset" class="ml-3 text-gray-500 hover:text-gray-700 focus:text-indigo-500 text-sm" type="button">Сбросить</button>
+              <div class="flex w-full bg-white rounded shadow">
+                <input v-model="form.search" class="relative px-6 py-1 w-full rounded" autocomplete="off" type="text"
+                  name="search" placeholder="Поиск...">
+
+              </div>
+              <input v-model="form.lawyer" id="lawyer" type="checkbox" value=""
+                  class="w-4 h-4 ml-5 mr-2 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
+                  required /><div class="text-gray-500 text-sm">юрист</div>
+              <button @click="reset" class="ml-5 text-gray-500 hover:text-gray-900 focus:text-indigo-500 text-sm"
+                type="button">Сбросить</button>
             </div>
-        </div>
+          </div>
           <div v-if="users.total > 0">
             <div class="bg-white rounded-md shadow overflow-x-auto">
-                <table class="w-full whitespace-nowrap">
-                    <thead>
-                        <tr class="text-left font-bold">
-                            <th class="pb-4 pt-6 px-6">ID</th>
-                            <th class="pb-4 pt-6 px-6">Имя</th>
-                            <th class="pb-4 pt-6 px-6">Email</th>
-                            <th class="pb-4 pt-6 px-6">Администратор</th>
-                            <th class="pb-4 pt-6 px-6">Дата создания</th>
-                            <th class="pb-4 pt-6 px-6"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr
-                            v-for="users in users.data"
-                            class="hover:bg-gray-100 focus-within:bg-gray-100"
-                        >
-                            <td class="border-t">
-                                <Link class="flex items-center px-6 py-4" :href="`/admin/users/${users.id}/edit`">{{ users.id }}</Link>
-                            </td>
-                            <td class="border-t">
-                                <Link class="flex items-center px-6 py-4" :href="`/admin/users/${users.id}/edit`">{{ users.name }}</Link>
-                            </td>
-                            <td class="border-t">
-                                <Link class="flex items-center px-6 py-4" :href="`/admin/users/${users.id}/edit`">{{ users.email }}</Link>
-                            </td>
-                            <td class="border-t">
-                                <Link class="flex items-center px-6 py-4" :href="`/admin/users/${users.id}/edit`">{{ users.isadmin ? 'Да' : 'Нет' }}</Link>
-                            </td>
-                            <td class="border-t">
-                                <span class="flex items-center px-6 py-4">{{ users.created_at }}</span>
-                            </td>
-                            <td class="border-t">
-                                <button @click="handleDelete(users.id, users.name)" type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-1 text-center inline-flex items-center mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 fill-red-700">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
-                                    </svg>
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+              <table class="w-full whitespace-nowrap">
+                <thead>
+                  <tr class="text-left font-bold">
+                    <th class="pb-4 pt-6 px-6">ID</th>
+                    <th class="pb-4 pt-6 px-6">Имя</th>
+                    <th class="pb-4 pt-6 px-6">Email</th>
+                    <th class="pb-4 pt-6 px-6">Администратор</th>
+                    <th class="pb-4 pt-6 px-6">Юрист</th>
+                    <th class="pb-4 pt-6 px-6">Дата создания</th>
+                    <th class="pb-4 pt-6 px-6"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="users in users.data" class="hover:bg-gray-100 focus-within:bg-gray-100">
+                    <td class="border-t">
+                      <Link class="flex items-center px-6 py-4" :href="`/admin/users/${users.id}/edit`">{{ users.id }}
+                      </Link>
+                    </td>
+                    <td class="border-t">
+                      <Link class="flex items-center px-6 py-4" :href="`/admin/users/${users.id}/edit`">{{ users.name }}
+                      </Link>
+                    </td>
+                    <td class="border-t">
+                      <Link class="flex items-center px-6 py-4" :href="`/admin/users/${users.id}/edit`">{{ users.email
+                      }}</Link>
+                    </td>
+                    <td class="border-t">
+                      <Link class="flex items-center px-6 py-4" :href="`/admin/users/${users.id}/edit`">{{ users.isadmin
+                      ? 'Да' : 'Нет' }}</Link>
+                    </td>
+                    <td class="border-t">
+                      <Link class="flex items-center px-6 py-4" :href="`/admin/users/${users.id}/edit`">{{ users.lawyer
+                      ? 'Да' : 'Нет' }}</Link>
+                    </td>
+                    <td class="border-t">
+                      <span class="flex items-center px-6 py-4">{{ users.created_at }}</span>
+                    </td>
+                    <td class="border-t">
+                      <button @click="handleDelete(users.id, users.name)" type="button"
+                        class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-1 text-center inline-flex items-center mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5"
+                          stroke="currentColor" class="w-5 h-5 fill-red-700">
+                          <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+                        </svg>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
 
-           <!-- row -->
-           <div v-else class="flex justify-center h-96">
+          <!-- row -->
+          <div v-else class="flex justify-center h-96">
             <div class="block p-6 rounded-lg shadow-lg bg-white max-w-sm">
               <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2">
                 Статей пока нет
               </h5>
               <p class="text-gray-700 text-base mb-2">
-                Самое время 
-                <a :href="route('articles.add')"
-                class="
+                Самое время
+                <a :href="route('articles.add')" class="
                     basis-2/12
                     text-end              
                     text-blue-500
                     underline
                     dark:text-blue-500
                     hover:no-underline
-                  "
-                  >начать статью</a>
+                  ">начать статью</a>
               </p>
             </div>
           </div>
@@ -153,11 +158,12 @@ export default {
   components: {
     Pagination,
   },
-  
+
   data() {
     return {
       form: {
         search: this.filters.search,
+        lawyer: this.filters.lawyer,
       }
     }
   },
@@ -166,14 +172,15 @@ export default {
     form: {
       deep: true,
       handler: function (value) {
-        this.$inertia.get('/admin/users', { search: this.form.search })
+        this.$inertia.get('/admin/users', { search: this.form.search, lawyer: this.form.lawyer,  })
       },
     },
   },
 
   methods: {
     reset() {
-      this.form.search = null
+      this.form.search = null,
+      this.form.lawyer = null
     },
   },
 };
@@ -207,6 +214,7 @@ export default {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }

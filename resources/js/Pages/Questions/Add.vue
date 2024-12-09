@@ -186,7 +186,7 @@ const getQuestions = () => {
 
               <div class="flex justify-center">
                 <img
-                  class="h-36 md:h-auto w-full"
+                  class="h-auto w-full"
                   src="/lawyernewyear2024.webp"
                   alt="image description"
                 />

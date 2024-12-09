@@ -5,14 +5,13 @@ import Checkbox from '@/Components/Checkbox.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import TextArea from '@/Components/TextArea.vue';
-import Multiselect from '@/Components/Multiselect.vue';
 
 import { Link, useForm, usePage } from '@inertiajs/inertia-vue3';
 
 const props = defineProps({
     mustVerifyEmail: Boolean,
     status: String,
-    islawyer: String,
+    islawyer: Number,
     uslugi: Array,
     userspec: "String",
     auth: Object,
@@ -74,14 +73,6 @@ let form = useForm({
                             >Моя публичная страница
                     </Link>
                 </div>
-
-                <InputLabel for="speciality" value="Специализация (не больше трех)" />                
-                    <Multiselect                                
-                        :specdata="uslugi"
-                        :userspec="userspec"                      
-                    >      
-                    </Multiselect>
-
             </div>
 
 

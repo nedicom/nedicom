@@ -26,6 +26,8 @@ class User extends Authenticatable
         'password',
         'about',
         'lawyer',
+        'phone',
+        'city',
         'speciality_one_id',
         'speciality_two_id',
         'speciality_three_id',
@@ -51,7 +53,7 @@ class User extends Authenticatable
         'created_at'  => 'date:d.m.Y',
     ];
 
-        /**
+    /**
      * Relation User
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
@@ -70,7 +72,7 @@ class User extends Authenticatable
         return $this->hasOne(Uslugi::class, 'id', 'speciality_three_id');
     }
 
-    
+
     public function reviews(): HasMany
     {
         return $this->HasMany(Review::class, 'lawyer_id', 'id')->orderBy('created_at', 'desc');
@@ -78,13 +80,18 @@ class User extends Authenticatable
 
     public function scopeFilter($query, array $filters)
     {
-        $query->when($filters['search'] ?? null, function ($query, $search) {
-            $query->where(function ($query) use ($search) {
-                $query->where('name', 'like', '%'.$search.'%')
-                    ->orWhere('email', 'like', '%'.$search.'%')
-                    ->orWhere('id', 'like', '%'.$search.'%');
+        $query
+            ->when($filters['search'] ?? null, function ($query, $search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('email', 'like', '%' . $search . '%')
+                        ->orWhere('id', 'like', '%' . $search . '%');
+                });                   
+            })->when($filters['lawyer'] ?? null, function ($query, $lawyer) {
+                if ($lawyer == "true") {
+                    $query->where('lawyer', 1);
+                }
             });
-        });
     }
 
     public function HasArticles(): HasMany

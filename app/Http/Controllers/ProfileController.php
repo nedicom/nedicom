@@ -20,23 +20,14 @@ class ProfileController extends Controller
      */
     public function edit(Request $request, ): Response 
     {
-        
-        $id = Auth::user()->id;
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
-            'avatarurl' => Auth::user()->avatar_path,
-            'imgurl' => Auth::user()->file_path,              
-            'islawyer' => Auth::user()->lawyer,
-            'status' => session('status'),
+            'status' => session('status'),  
             'uslugi'=>  Uslugi::orderBy('usl_name','desc')
             ->select('id', 'usl_name')
             ->where('is_main', 1)
             ->get(),
-            'userspec' => User::find($id)->arrayspec,
             'auth' => Auth::user(),          
-            //'specializationOne' => User::find($id)->lawyerSpecOne,
-            //'specializationTwo' => User::find($id)->lawyerSpecTwo,
-            //'specializationThree' => User::find($id)->lawyerSpecThree,
         ]);
     }
 

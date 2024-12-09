@@ -19,14 +19,14 @@ class UserController extends Controller
     {
         $query = User::query();
 
-        if ($request->has('search')) {
-            $query = $query->filter($request->all('search'));
+        if ($request->hasAny(['search', 'lawyer'])) {
+            $query = $query->filter($request->all());
         }
 
-        $users = $query->orderBy('id')->paginate(9);
+        $users = $query->orderBy('id')->paginate(9)->appends($request->except(['page','_token']));;
 
         return Inertia::render('Admin/Users/Index', [
-            'filters' => $request->all('search'),
+            'filters' => $request->all(),
             'users' => $users,
             'auth' => Auth::user(), 
         ]);
@@ -39,16 +39,19 @@ class UserController extends Controller
 
     public function create(Request $request)
     {
-        $article = new User;
-        $article->userid = Auth::user()->id;
-        $article->username = Auth::user()->name;
-        $article->header = $request->header;
-        $article->description = $request->description;
-        $article->body = $request->body;
+        $user = new User;
+        $user->userid = Auth::user()->id;
+        $user->username = Auth::user()->name;
+        $user->header = $request->header;
+        $user->description = $request->description;
+        $user->body = $request->body;
+        $user->body = $request->body;
+        $user->body = $request->body;
+        $user->body = $request->body;
         $url = Translate::translit($request->header);
-        $article->url =  $url;
-        $article->save();
-        return redirect()->route('articles/url', $url);
+        $user->url =  $url;
+        $user->save();
+        return redirect()->route('admin.users.edit', $url);
     }
 
     public function edit(string $id)
