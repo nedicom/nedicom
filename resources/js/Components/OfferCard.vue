@@ -27,7 +27,7 @@ if (set.getlwr == '0') {
   <section>    
       <div class="flex flex-col md:flex-row mx-auto 2xl:px-0 px-2" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
 
-        <div class="bg-white flex items-center">
+        <div class="bg-white flex items-center md:w-1/3">
           <div class="h-72 w-full" 
             >
             <a :href="route('uslugi.canonical.url', [
@@ -44,7 +44,7 @@ if (set.getlwr == '0') {
           </div>
         </div>
 
-        <div class="grow px-5 md:mr-10">
+        <div class="grow px-5 md:mr-10 md:w-2/3">
           <div class="mb-4 flex items-center justify-between gap-4">
             <span
               class="me-2 bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300">
