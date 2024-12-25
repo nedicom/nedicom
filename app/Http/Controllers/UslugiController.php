@@ -22,7 +22,7 @@ class UslugiController extends Controller
 {
 
     public function index(Request $request) // http://nedicom.ru/uslugi/
-    {
+    {        
         $cities = [];
         if ($request->city) {
             $cities = cities::when($request->city ?? null, function ($query, $city) {
@@ -82,12 +82,13 @@ class UslugiController extends Controller
             'category' => $category,
             'routeurl' => '/uslugi',
             'auth' => Auth::user(),
+            'getLawyer' => session()->get('questionTitle') ? session()->get('questionTitle') : '0',
         ]);
     }
 
 
-    public function show($url,  Request $request) // http://nedicom.ru/uslugi/city
-    {
+    public function show($url, Request $request) // http://nedicom.ru/uslugi/city
+    {      
         //check city in url
         if (cities::where('url', $url)->first()) {
             $cities = [];
@@ -146,12 +147,25 @@ class UslugiController extends Controller
                 'cities' => $cities,
                 'category' => $category,
                 'routeurl' => '/uslugi',
-                'getLawyer' => (session()->get('questionTitle')) ? session()->get('questionTitle') : '0',
+                'getLawyer' => session()->get('questionTitle') ? session()->get('questionTitle') : '0',
                 'auth' => Auth::user(),
             ]);
         }
         //check city in url
+        
+
         $usluga = Uslugi::where('url', $url)->first();
+
+        if($usluga->is_main == 1){
+            return redirect()->route(
+                'offer.main',
+                [
+                    'city' => 'all-cities',
+                    'main_usluga' => $usluga->url,
+                ]
+            );
+        };
+
         if ($usluga) {
             $sity = ($usluga->sity) ? $usluga->sity : 'allcities';
             $main_usluga_id = ($usluga->main_usluga_id) ? $usluga->main_usluga_id : 'main';
@@ -163,8 +177,7 @@ class UslugiController extends Controller
                     'main_usluga' => Uslugi::findOrFail($main_usluga_id)->url,
                     'second_usluga' => $second_usluga_id,
                     'url' => $usluga->url,
-                ],
-                301
+                ]
             );
         } else {
             abort(404);

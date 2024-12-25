@@ -16,7 +16,7 @@ let secondtext = "";
 const invitation = ref(true)
 const authoq = ref(true)
 
-if (set.getlwr == '0') {
+if (set.getlwr == "0") {
   invitation.value = false;
   authoq.value = false;
 }
@@ -26,7 +26,6 @@ if (set.getlwr == '0') {
 <template>
   <section>    
       <div class="flex flex-col md:flex-row mx-auto 2xl:px-0 px-2" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-
         <div class="bg-white flex items-center md:w-1/3">
           <div class="h-72 w-full" 
             >
