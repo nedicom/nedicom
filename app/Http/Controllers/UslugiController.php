@@ -65,8 +65,8 @@ class UslugiController extends Controller
             'city' => $city,
             'main_usluga' => collect([
                 'url' => 0,
-                'usl_name' => 'все услуги',
-                'usl_desc' => 'Найдите квалифицированного юриста сейчас. Качество юридических услуг гарантировано.',
+                'usl_name' => 'Услуги юриста',
+                'usl_desc' => 'Услуги юристов: цены, отзывы, адреса.',
                 'file_path' => 'storage/images/landing/main/1280on600.webp',
             ]),
             'uslugi' => $uslugi,
@@ -134,8 +134,8 @@ class UslugiController extends Controller
                 'city' => $city,
                 'main_usluga' => collect([
                     'url' => 0,
-                    'usl_name' => 'все услуги',
-                    'usl_desc' => 'Найдите квалифицированного юриста сейчас. Качество юридических услуг гарантировано.',
+                    'usl_name' => 'Услуги юриста',
+                    'usl_desc' => 'Услуги юристов: цены, отзывы, адреса.',
                     'file_path' => 'storage/images/landing/main/1280on600.webp',
                 ]),
                 'uslugi' => $uslugi,

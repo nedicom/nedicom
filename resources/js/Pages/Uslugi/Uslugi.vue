@@ -31,10 +31,17 @@ let set = defineProps({
 });
 
 
-let title = ref("Услуги");
+let title = ref("Услуги юристов");
+let description = ref("Услуги юристов: цены, отзывы, адреса.");
 
-title.value = set.second_usluga ? set.second_usluga.usl_name : set.main_usluga.usl_name;
-title.value = set.city.title != '' ? title.value + ' город - ' + set.city.title : title.value + " по всем городам";
+set.main_usluga ? description.value = set.main_usluga.usl_desc : null;
+set.second_usluga ? description.value = set.second_usluga.usl_desc : null;
+description.value = description.value[0].toLowerCase() +  description.value.slice(1);
+description.value = set.city.title != '' ? set.city.title + ': ' + description.value : "Вся Россия: " + description.value;
+description.value = "☎️" + description.value + "⚖️ Качество услуг юристов проверено системой nedicom";
+
+title.value = set.second_usluga ? set.main_usluga.usl_name + ' - ' + set.second_usluga.usl_name : set.main_usluga.usl_name;
+title.value = set.city.title != '' ? title.value + ' - ' + set.city.title : title.value + " по всем городам";
 let status = ref(false);
 
 function alertForm(x) {
@@ -46,12 +53,12 @@ function alertForm(x) {
 
   <Head>
     <title> {{ title }} </title>
-    <meta v-if="set.second_usluga" name="description" :content="set.second_usluga.usl_desc" />
-    <meta v-else name="description" :content="set.main_usluga.usl_desc" />
+    <meta name="description" :content="description" />
   </Head>
 
   <div class="min-h-screen">
     <MainHeader :auth="set.auth" />
+    {{ description }}
     
     <Header :modalPageTitle="title" />
 

@@ -340,7 +340,7 @@ blockquote {
                       rel="preload"
                       fetchpriority="high"
                       itemprop="image"
-                      class="transition-all duration-300 blur-sm hover:blur-none border border-2 border-gray-600 rounded-lg shadow-lg"
+                      class="border border-2 border-gray-600 rounded-lg shadow-lg"
                       :src="
                         'https://nedicom.ru/' + vars.article.practice_file_path
                       "

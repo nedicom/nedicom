@@ -26,7 +26,8 @@ const { open, close } = useModal({
   <button @click="() => open()" class="inline-flex items-center w-64 mx-auto
       py-2.5 px-5 font-medium text-white focus:outline-none bg-slate-600 rounded-lg hover:bg-slate-700 focus:z-10 focus:ring-4 focus:ring-gray-100
         justify-center cursor-pointer  
-        ">
+        "
+        onclick="ym(24900584, 'reachGoal', 'PhoneForm_Click'); return true;">
     <svg class="mr-3 w-6 h-6 " xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
       stroke-width="1" stroke="currentColor">
       <path

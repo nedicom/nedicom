@@ -66,9 +66,9 @@ if (props.phone !== undefined) {
                             </div>
 
                             <div v-if="props.maps" class="w-full flex items-center mb-5">
-                                <a :href="props.maps" class="w-64 mx-auto inline-flex items-center justify-center py-2.5 text-gray-900 focus:outline-none 
+                                <a :href="props.maps" onclick="ym(24900584, 'reachGoal', 'YaMap_Click'); return true;" class="w-64 mx-auto inline-flex items-center justify-center py-2.5 text-gray-900 focus:outline-none 
                                     bg-white rounded-lg border border-gray-200 inline-flex items-center focus:ring-4 focus:ring-primary-300 
-                                    font-medium rounded-lg px-3 py-2.5 text-center">
+                                    font-medium rounded-lg px-3 py-2.5 text-center" target="_blank">
                                     <span class="h-full mr-1"><img class="h-6"
                                             src="https://yandex.ru/maps/favicon.svg"></span>
                                     <span class="font-bold h-full mr-1">
