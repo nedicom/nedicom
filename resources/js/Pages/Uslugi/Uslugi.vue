@@ -36,7 +36,7 @@ let description = ref("Услуги юристов: цены, отзывы, ад
 
 set.main_usluga ? description.value = set.main_usluga.usl_desc : null;
 set.second_usluga ? description.value = set.second_usluga.usl_desc : null;
-description.value = description.value[0].toLowerCase() +  description.value.slice(1);
+description.value = description.value[0].toLowerCase() + description.value.slice(1);
 description.value = set.city.title != '' ? set.city.title + ': ' + description.value : "Вся Россия: " + description.value;
 description.value = "☎️" + description.value + "⚖️ Качество услуг юристов проверено системой nedicom";
 
@@ -58,8 +58,7 @@ function alertForm(x) {
 
   <div class="min-h-screen">
     <MainHeader :auth="set.auth" />
-    {{ description }}
-    
+
     <Header :modalPageTitle="title" />
 
     <Body>
@@ -95,27 +94,41 @@ function alertForm(x) {
             :content="'https://nedicom.ru/' + set.second_usluga.file_path">
           <meta v-else itemprop="image" :content="'https://nedicom.ru/' + set.main_usluga.file_path">
 
-          <div class="my-6 md:mb-0 px-5">
+          <div class="my-6 md:mb-0">
             <span>
-              <h1 class="md:mb-4 text-sm leading-tight text-gray-900 dark:text-white md:text-2xl xl:text-2xl">
-                <span v-if="set.second_usluga">Юристы в категории "<span itemprop="name" class="font-bold">{{
-                  set.second_usluga.usl_name
-                }}</span>"</span>
-                <span v-else>Юристы в категории "<span itemprop="name" class="font-bold">{{ set.main_usluga.usl_name
-                    }}</span>"</span>
-                <span v-if="set.city.title != ''" class="font-bold"> город - {{ set.city.title }}</span>
+              <h1
+                class="md:mb-4 flex md:justify-start justify-center text-sm leading-tight text-gray-900 dark:text-white md:text-2xl xl:text-2xl">
+
+                <span itemprop="name" class="font-bold">
+                    <a v-if="set.city.title != ''" :href="route('uslugi.url', [set.city.url])"
+                      class="font-medium text-blue-600 hover:underline"> {{ set.city.title }}</a>
+
+                  <span v-if="set.main_usluga && set.city.title != ''"> -
+                    <a v-if="set.main_usluga.url != 0" :href="route('offer.main', [set.city.url, set.main_usluga.url])"
+                      class="font-medium text-blue-600 hover:underline"> {{ set.main_usluga.usl_name }}</a>
+                    <span v-else class="font-medium"> {{ set.main_usluga.usl_name }}</span>
+                  </span>
+
+                  <span v-if="set.second_usluga && set.city.title != ''"> -
+                    <a :href="route('offer.second', [set.city.url, set.main_usluga.url, set.second_usluga.url])"
+                      class="font-medium"> {{ set.second_usluga.usl_name }}</a>
+                  </span>
+
+                </span>
+
               </h1>
-              <span v-if="set.second_usluga" itemprop="description" class="font-bold">{{
-                set.second_usluga.usl_desc
-              }}</span>
-              <span v-else itemprop="description" class="font-bold">{{
+              <span v-if="set.second_usluga" itemprop="description"
+                class="font-bold flex md:justify-start justify-center">{{
+                  set.second_usluga.usl_desc
+                }}</span>
+              <span v-else itemprop="description" class="font-bold flex md:justify-start justify-center">{{
                 set.main_usluga.usl_desc
               }}</span>
             </span>
 
             <div v-if="set.sumrating !== 0 && set.countrating !== 0"
-              class="mb-4 flex justify-start gap-2 text-sm font-medium text-gray-900" itemprop="aggregateRating"
-              itemscope itemtype="https://schema.org/AggregateRating">
+              class="mb-4 flex md:justify-start justify-center gap-2 text-sm font-medium text-gray-900"
+              itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
               <span class="flex items-center" itemprop="ratingValue">
                 <RatingReady :rating="Number((set.sumrating / set.countrating).toFixed(2))
                   " :reviewRating="false" />
@@ -126,16 +139,17 @@ function alertForm(x) {
           </div>
 
           <div v-if="set.uslugi">
-            <div class="px-3 my-2 md:px-0 w-full md:w-4/5 text-sm font-medium text-gray-900 text-center"
-              itemprop="offers" itemscope itemtype="https://schema.org/AggregateOffer">
-              Цены за консультацию
-              <meta itemprop="priceCurrency" content="RUB" />
-              от <span itemprop="lowPrice" content="1000">{{ set.min }}</span>
-              до <span itemprop="highPrice" content="2000">{{ set.max }} рублей</span>
-              у <span itemprop="offerCount">{{ set.count }}</span> <span v-if="set.count == 1">юриста</span><span
-                v-else>юристов</span>
-            </div>
             <div v-if="set.uslugi.data[0]">
+              <div
+                class="flex justify-start px-3 my-2 md:px-0 w-full md:w-4/5 text-sm font-medium text-gray-900 text-center"
+                itemprop="offers" itemscope itemtype="https://schema.org/AggregateOffer">
+                Цены за консультацию
+                <meta itemprop="priceCurrency" content="RUB" />
+                от &nbsp;<span itemprop="lowPrice" content="1000">{{ set.min }}</span>
+                &nbsp;до &nbsp;<span itemprop="highPrice" content="2000"> {{ set.max }} рублей </span>
+                &nbsp;у &nbsp;<span itemprop="offerCount">{{ set.count }}</span> &nbsp;<span
+                  v-if="set.count == 1">юриста</span><span v-else>юристов</span>
+              </div>
               <!-- card -->
               <div v-for="offer in set.uslugi.data" :key="offer.id">
                 <OfferCard :offer="offer" :city="set.cities" :getlwr="set.getLawyer" />
@@ -146,32 +160,24 @@ function alertForm(x) {
 
             <div v-else class="px-5">
               <!-- empty card -->
-              <div class="my-2 md:px-0 w-full md:w-4/5 text-sm font-medium text-gray-900" itemprop="offers" itemscope
-                itemtype="https://schema.org/AggregateOffer">
-                Цены за консультацию
-                <meta itemprop="priceCurrency" content="RUB" />
-                от <span itemprop="lowPrice" content="1000">1000</span>
-                до <span itemprop="highPrice" content="2000">1000 рублей</span>
-                у нас <span itemprop="offerCount">1</span> предложение
+              <div class="flex flex-col justify-center my-10">
+                <p
+                  class="mb-4 mb-10 flex justify-center md:justify-start text-center md:text-left text-4xl tracking-tight font-extrabold text-gray-900">
+                  Не нашел своего юриста? <br> Мы поможем</p>
+                <div class="flex justify-center md:justify-start">
+                  <a href="tel:89788838978"
+                    class="rounded-lg flex inline-block bg-blue-700 px-6 py-3.5 text-center font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                      stroke="currentColor" class="w-4 h-4 mr-2">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+                    </svg>
 
-                <div class="flex flex-col justify-center my-10">
-                  <p
-                    class="mb-4 mb-10 flex justify-center md:justify-start text-center md:text-left text-4xl tracking-tight font-extrabold text-gray-900">
-                    Не нашел своего юриста? <br> Мы поможем</p>
-                  <div class="flex justify-center md:justify-start">
-                    <a href="tel:89788838978"
-                      class="rounded-lg flex inline-block bg-blue-700 px-6 py-3.5 text-center font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-4 h-4 mr-2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
-                      </svg>
-
-                      8 (978) 8838 978</a>
-                  </div>
+                    8 (978) 8838 978</a>
                 </div>
-                <hr class="h-px my-8 bg-gray-200 md:my-10 border-0 dark:bg-gray-700">
               </div>
+              <hr class="h-px my-8 bg-gray-200 md:my-10 border-0 dark:bg-gray-700">
+
               <!-- empty card -->
 
             </div>

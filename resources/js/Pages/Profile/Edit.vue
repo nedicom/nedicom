@@ -8,41 +8,58 @@ import UpdateAvatarForm from "./Partials/UpdateAvatarForm.vue";
 import UpdatePasswordForm from "./Partials/UpdatePasswordForm.vue";
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm.vue";
 import { Head } from "@inertiajs/inertia-vue3";
+import { ref } from 'vue';
 
-defineProps({
+import { ModalsContainer, useModal } from 'vue-final-modal';
+
+let set = defineProps({
   mustVerifyEmail: Boolean,
   status: String,
   uslugi: Array,
   auth: Object,
 });
+
+const count = ref(true);
+
+function increaseCount(n) {
+  count.value = n
+}
+
+const { open, close } = useModal({
+  component: UpdateAvatarForm,
+  attrs: {
+    avatarurl: set.auth.avatar_path,
+    onClose() {
+      close()
+    },
+  },
+})
 </script>
 
 <template>
+
   <Head title="Профиль" />
 
-  <MainHeader :auth="auth" />
+  <MainHeader :auth="set.auth" />
 
   <Body>
     <div class="py-12">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-        <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-
-          <UpdateProfileInformationForm
-            :must-verify-email="mustVerifyEmail"
-            :status="status"
-            :islawyer="auth.lawyer"
-            :uslugi="uslugi"
-            :auth="auth"
-            class="max-w-xl"
-          />
+{{ set.auth.avatar_path }}
+        <div @click="() => open()" class="flex h-full w-full justify-center md:justify-start items-center cursor-pointer">
+          <img class="rounded-full w-24 h-24 opacity-100 hover:opacity-75" :src="'https://nedicom.ru/' + 'storage/default/avatar.webp'" alt="Аватар юриста" />
         </div>
 
         <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-          <UpdateAvatarForm :avatarurl="auth.avatar_path" />
+          <UpdateProfileInformationForm :must-verify-email="set.mustVerifyEmail" :status="set.status"
+            :islawyer="set.auth.lawyer" :uslugi="set.uslugi" :auth="set.auth" @check-lawyer="increaseCount"
+            class="max-w-xl" />
         </div>
 
-        <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-          <UpdateImageForm :imgurl="auth.file_path" />
+
+
+        <div v-if="count" class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+          <UpdateImageForm :imgurl="set.auth.file_path" />
         </div>
 
         <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
@@ -54,6 +71,7 @@ defineProps({
         </div>
       </div>
     </div>
+    <ModalsContainer />
   </Body>
   <MainFooter />
 </template>

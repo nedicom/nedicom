@@ -13,12 +13,12 @@ let set = defineProps({
 let ModalBtnText = "На консультацию";
 let secondtext = "";
 
-const invitation = ref(true)
-const authoq = ref(true)
+const invitation = ref(false)
+const authoq = ref(false)
 
-if (set.getlwr == "0") {
-  invitation.value = false;
-  authoq.value = false;
+if (set.getlwr && set.getlwr != 0) {
+  invitation.value = true;
+  authoq.value = true;
 }
 
 </script>
@@ -42,7 +42,6 @@ if (set.getlwr == "0") {
             </a>
           </div>
         </div>
-
         <div class="grow px-5 md:mr-10 md:w-2/3">
           <div class="mb-4 flex items-center justify-between gap-4">
             <span

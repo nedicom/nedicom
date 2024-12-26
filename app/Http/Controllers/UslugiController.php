@@ -65,7 +65,7 @@ class UslugiController extends Controller
             'city' => $city,
             'main_usluga' => collect([
                 'url' => 0,
-                'usl_name' => 'Услуги юриста',
+                'usl_name' => 'Услуги юристов',
                 'usl_desc' => 'Услуги юристов: цены, отзывы, адреса.',
                 'file_path' => 'storage/images/landing/main/1280on600.webp',
             ]),
@@ -134,7 +134,7 @@ class UslugiController extends Controller
                 'city' => $city,
                 'main_usluga' => collect([
                     'url' => 0,
-                    'usl_name' => 'Услуги юриста',
+                    'usl_name' => 'Услуги юристов',
                     'usl_desc' => 'Услуги юристов: цены, отзывы, адреса.',
                     'file_path' => 'storage/images/landing/main/1280on600.webp',
                 ]),
@@ -189,6 +189,7 @@ class UslugiController extends Controller
     public function showOfferByMain(string $city, string $main_usluga,  Request $request) // http://nedicom.ru/uslugi/city/main
     {
         $city = cities::where('url', $city)->with('uslugies')->first();
+        if (!$city) abort(404);
         $main = Uslugi::where('url', $main_usluga)->with('cities')->first(['id', 'usl_name', 'url', 'usl_desc', 'file_path']);
 
         $category = Uslugi::where('is_main', 1)
@@ -252,7 +253,7 @@ class UslugiController extends Controller
         $city = cities::where('url', $city)->with('uslugies')->first();
         $main = Uslugi::where('url', $main_usluga)->first(['id', 'usl_name', 'usl_desc', 'url']);
         $second = Uslugi::where('url', $second_usluga)->with('cities')->with('main')->first(['id', 'usl_name', 'usl_desc', 'url', 'file_path']);
-
+        if($second->url === "second") $second->usl_desc = $main->usl_desc . '. ' . $second->usl_desc;
 
         $cities = '';
         if ($request->city) {
@@ -308,6 +309,7 @@ class UslugiController extends Controller
         ]);
     }
 
+    /*
     public function showsecond($main_usluga, $second_usluga, Request $request)
     // http://nedicom.ru/uslugi/city/main/second ??
     {
@@ -350,7 +352,7 @@ class UslugiController extends Controller
             'auth' => Auth::user(),
         ]);
     }
-
+*/
     public function showcanonical($city, $main_usluga, $second_usluga, $url,  Request $request)
     {
         // http://nedicom.ru/uslugi/city/main/second/usl-name

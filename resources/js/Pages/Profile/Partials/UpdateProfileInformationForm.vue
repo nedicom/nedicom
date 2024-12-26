@@ -6,8 +6,11 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import TextArea from "@/Components/TextArea.vue";
 import Tooltip from "@/Components/Tooltip.vue";
+import { watch } from 'vue';
 
 import { Link, useForm } from "@inertiajs/inertia-vue3";
+
+const emit = defineEmits(['checkLawyer']);
 
 const props = defineProps({
   mustVerifyEmail: Boolean,
@@ -24,8 +27,14 @@ let form = useForm({
   city: user.city,
   phone: user.phone,
   about: user.about,
-  lawyer: true,
+  lawyer: user.lawyer,
 });
+
+
+watch(() => form.lawyer, (lawyer) => {
+  emit('checkLawyer', lawyer)
+}
+)
 </script>
 
 <template>
@@ -33,7 +42,6 @@ let form = useForm({
     <header>
       <h2 class="text-lg font-medium text-gray-900">Про Вас</h2>
     </header>
-
     <form @submit.prevent="form.patch(route('profile.update'))" class="mt-6 space-y-6">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
@@ -56,8 +64,8 @@ let form = useForm({
         <div>
           <InputLabel for="city" value="Город" />
 
-          <TextInput id="city" type="text" class="mt-1 block w-full" v-model="form.city" required 
-          autocomplete="street-address"/>
+          <TextInput id="city" type="text" class="mt-1 block w-full" v-model="form.city"
+            autocomplete="street-address" />
 
           <InputError class="mt-2" :message="form.errors.city" />
         </div>
@@ -65,19 +73,26 @@ let form = useForm({
         <div>
           <InputLabel for="phone" value="Телефон" />
 
-          <TextInput id="phone" type="text" class="mt-1 block w-full" v-model="form.phone" required 
-          autocomplete="tel"/>
+          <TextInput id="phone" type="text" class="mt-1 block w-full" v-model="form.phone" autocomplete="tel" />
 
           <InputError class="mt-2" :message="form.errors.phone" />
         </div>
 
       </div>
 
+      <div>
+        <InputLabel for="about" value="О себе" />
+
+        <TextArea id="about" type="text" class="mt-1 block w-full" v-model="form.about" autocomplete="about" rows="4" />
+
+        <InputError class="mt-2" :message="form.errors.about" />
+      </div>
 
       <div class="flex items-center">
-        <div class="flex items-center">
+        <div class="flex w-full items-center">
           <Checkbox :islawyer="auth.lawyer" class="mr-2" id="lawyer" name="lawyer" v-model="form.lawyer" />
-          <InputLabel class="w-[4rem]" for="lawyer" value="Я - юрист" />
+
+          <InputLabel class="w-full" for="lawyer" value="Хочу стать юристом проекта" />
         </div>
         <Tooltip text="Юристы сайта получают публичную страницу, возможность публиковать объявления 
                 о своих услугах и делиться практикой для привлечения клиентов." />
@@ -88,14 +103,6 @@ let form = useForm({
           Моя публичная страница
           </Link>
         </div>
-      </div>
-
-      <div>
-        <InputLabel for="about" value="О себе" />
-
-        <TextArea id="about" type="text" class="mt-1 block w-full" v-model="form.about" autocomplete="about" rows="4" />
-
-        <InputError class="mt-2" :message="form.errors.about" />
       </div>
 
       <div v-if="props.mustVerifyEmail && user.email_verified_at === null">

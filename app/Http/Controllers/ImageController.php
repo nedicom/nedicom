@@ -149,7 +149,7 @@ class ImageController extends Controller
     public function square(StoreImageRequest $req)
     {
         if ($req->file()) {
-
+            
             $file = $req->file('file');
 
             if ($file->extension() != "png") {

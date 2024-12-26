@@ -16,10 +16,10 @@ class ProfileUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['string', 'max:255', 'required'],
-            'about' => ['string', 'min:20', 'required'],
-            'phone' => ['string', 'between:10,15', 'required'],
-            'city' => ['string', 'max:500', 'required'],
+            'name' => ['max:255', 'required'],
+            'about' => ['min:20', 'required'],
+            'phone' => ['between:0,15'],
+            'city' => ['max:500', 'required'],
             'jsonspec' => ['json'],
             'speciality_one_id' => ['numeric'],
             'speciality_two_id' => ['numeric'],
