@@ -8,7 +8,7 @@ import UpdateAvatarForm from "./Partials/UpdateAvatarForm.vue";
 import UpdatePasswordForm from "./Partials/UpdatePasswordForm.vue";
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm.vue";
 import { Head } from "@inertiajs/inertia-vue3";
-import { ref } from 'vue';
+import { ref,watch } from 'vue';
 
 import { ModalsContainer, useModal } from 'vue-final-modal';
 
@@ -21,11 +21,12 @@ let set = defineProps({
 
 const count = ref(true);
 
+
 function increaseCount(n) {
   count.value = n
 }
 
-const { open, close } = useModal({
+const { open, close, patchOptions } = useModal({
   component: UpdateAvatarForm,
   attrs: {
     avatarurl: set.auth.avatar_path,
@@ -33,6 +34,17 @@ const { open, close } = useModal({
       close()
     },
   },
+})
+
+
+
+watch(() => set.auth.avatar_path, (avatar_path) =>{
+  patchOptions({
+  attrs: {
+    // Overwrite the modal's props
+    avatarurl: set.auth.avatar_path,
+  }
+})
 })
 </script>
 
@@ -45,9 +57,9 @@ const { open, close } = useModal({
   <Body>
     <div class="py-12">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-{{ set.auth.avatar_path }}
+
         <div @click="() => open()" class="flex h-full w-full justify-center md:justify-start items-center cursor-pointer">
-          <img class="rounded-full w-24 h-24 opacity-100 hover:opacity-75" :src="'https://nedicom.ru/' + 'storage/default/avatar.webp'" alt="Аватар юриста" />
+          <img class="rounded-full w-24 h-24 opacity-100 hover:opacity-75" :src="'/' + set.auth.avatar_path" alt="Аватар юриста" />
         </div>
 
         <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
@@ -55,9 +67,7 @@ const { open, close } = useModal({
             :islawyer="set.auth.lawyer" :uslugi="set.uslugi" :auth="set.auth" @check-lawyer="increaseCount"
             class="max-w-xl" />
         </div>
-
-
-
+        
         <div v-if="count" class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
           <UpdateImageForm :imgurl="set.auth.file_path" />
         </div>

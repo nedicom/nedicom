@@ -24,6 +24,7 @@ class ImageController extends Controller
     public function create(Request $req)
     {
         if ($req->file()) {
+
             $pagetype = $req->pagetype;
             $id = $req->id;
 
@@ -94,7 +95,6 @@ class ImageController extends Controller
                 $filePath = 'uslugi/' . $id . '/pc' . '/';
                 $fileName = time() . 'usluga';
                 $usluga = Uslugi::find($id);
-
                 $usluga->mob_file_path = 'storage/' . $filePath . $fileName . '.webp';
                 $usluga->save();
             } else {
