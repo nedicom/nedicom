@@ -105,6 +105,9 @@ class ArticleController extends Controller
     {
 
         $article = DB::table('articles')->where('articles.url', '=', $url)->first();
+        if (is_null($article)) {
+            abort(410);
+        }
 
         if (Auth::user()) {
             if (Auth::user()->id != $article->userid) {
@@ -113,6 +116,8 @@ class ArticleController extends Controller
         } else {
             DB::table('articles')->where('articles.url', '=', $url)->increment('counter', 1);
         }
+
+
         if ($article->usluga_id == null) {
             $usluga_id_sec = 15;
         } else {
