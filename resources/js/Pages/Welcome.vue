@@ -2,7 +2,8 @@
 import MainHeader from "@/Layouts/MainHeader.vue";
 import Header from "@/Layouts/Header.vue";
 import Mainbanner from "@/Layouts/Mainbanner.vue";
-import SecondBanner from "@/Layouts/SecondBanner.vue";
+import FrontBanner from "@/Layouts/FrontBanner.vue";
+import Pile from "@/Layouts/Pile.vue";
 import Testimonials from "@/Layouts/Testimonials.vue";
 import Slider from "@/Layouts/Slider.vue";
 import Youtube from "@/Layouts/Youtube.vue";
@@ -18,7 +19,8 @@ import { ref } from "vue";
 
 defineProps({
   flash: Object,
-  uslugislider: Array,
+  uslugislider: Object,
+  secondoffers: Object,
   practice: Array,
   reviews: Object,
   reviewscount: Number,
@@ -28,14 +30,14 @@ defineProps({
 });
 
 let secondbannerimgmobile =
-  "https://nedicom.ru/storage/images/landing/main/secondm.webp";
+  "https://nedicom.ru/storage/images/landing/main/nmainmob.webp";
 let secondbannerpc =
-  "https://nedicom.ru/storage/images/landing/main/second.webp";
+  "https://nedicom.ru/storage/images/landing/main/nmainpc.webp";
 
 let mainbannerimgmobile =
-  'url("https://nedicom.ru/storage/images/landing/main/firstm.webp")';
+  'url("https://nedicom.ru/storage/images/landing/main/nmainmob.webp")';
 let mainbannerpc =
-  'url("https://nedicom.ru/storage/images/landing/main/1280on600.webp")';
+  'url("https://nedicom.ru/storage/images/landing/main/nmainpc.webp")';
 </script>
 
 <template>
@@ -46,7 +48,7 @@ let mainbannerpc =
     <meta name="description" content="Ресурс позволяет найти юриста по своей проблеме, получить консультацию юриста, задать вопрос юристу онлайн, поулчить телефон юриста. Оказываем услуги по \
     городу Москва и Республике Крым" />
     <meta property="og:title" content="Услуги юриста: бесплатно, онлайн, телефон, задать вопрос, консультация" />
-    <meta property="og:description" content="Ресурс позволяет найти юриста по своей проблеме, получить консультацию юриста, задать вопрос юристу онлайн, поулчить телефон юриста. Оказываем услуги по \
+    <meta property="og:description" content="Ресурс позволяет найти юриста по своей проблеме, получить консультацию юриста, задать вопрос юристу онлайн, получить телефон юриста. Оказываем услуги по \
     городу Москва и Республике Крым" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://nedicom.ru" />
@@ -60,16 +62,18 @@ let mainbannerpc =
 
     <Header :modalPageTitle="'Модальное окно главная'" />
 
-    <SecondBanner :statusonimage="'Юридическая компания МИНА'" :nameonimage="null" :phnform="true"
+    <FrontBanner :statusonimage="'Юридическая компания МИНА'" :phnform="true"
       :secondbannerimgmobile="secondbannerimgmobile" :secondbannerpc="secondbannerpc" />
 
-    <SliderUslug :uslugislider="uslugislider" />
+    <Pile :uslugislider="uslugislider" :secondoffers="secondoffers"/>
 
-    <Mainbanner :mainbannerimgmobile="mainbannerimgmobile" :mainbannerpc="mainbannerpc" />
+    <SliderUslug :secondoffers="secondoffers" />
+
+    <!--<Mainbanner :mainbannerimgmobile="mainbannerimgmobile" :mainbannerpc="mainbannerpc" />-->
 
     <Slider :practice="practice" :sliderheader="'Практика юристов'" />
 
-    <Testimonials />
+    <!--<Testimonials />-->
 
     <!--reviews carousel-->
 

@@ -22,6 +22,7 @@ class MainpageController extends Controller
 
         return Inertia::render('Welcome', [
             'uslugislider' => Uslugi::where('is_main', 1)->where('is_feed', 1)->get(),
+            'secondoffers' => Uslugi::where('is_second', 1)->where('is_feed', 1)->get(),
             'practice' => Article::where('practice_file_path', '!=', null)->orderBy('updated_at', 'desc')->take(10)->get(),
             'reviews' => Review::inRandomOrder()->with('usluga')->get(),
             'reviewscount' => $reviewscount,

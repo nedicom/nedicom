@@ -7,19 +7,16 @@ import { defineComponent } from "vue";
 import { Carousel, Navigation, Slide } from "vue3-carousel";
 
 const props = defineProps({
-  uslugislider: Array,
+  secondoffers: Object,
 });
 
 let ModalBtnText = "на консультацию";
 </script>
 
 <template>
-  <h2 class="text-4xl font-semibold text-grey text-center py-10" itemprop="name">
-    услуги юристов
-  </h2>
-  <div class="py-10 bg-gray-200">
+  <div class="py-10 mt-20 bg-slate-100">
     <Carousel v-bind="settings" :breakpoints="breakpoints">
-      <Slide v-for="card in props.uslugislider" :key="card">
+      <Slide v-for="card in props.secondoffers" :key="card">
         <div class="carousel__item w-full mx-3">
           <!-- card -->
           <div
@@ -27,21 +24,23 @@ let ModalBtnText = "на консультацию";
           >
             <div class="h-24 mx-3 grid grid-cols-1 content-center">
               <h3
-                class="text-gray-900 subpixel-antialiased text-center text-lg line-clamp-2 font-bold px-1"
+                class="text-sm text-gray-900 subpixel-antialiased text-center line-clamp-2 px-1"
               >
                 {{ card.usl_name }}
               </h3>
             </div>
 
             <div class="h-24 grid grid-cols-1 content-center">
-              <p class="text-gray-700/75 line-clamp-3 px-5">
+              <p class="text-sm text-gray-700/75 line-clamp-3 px-5">
                 {{ card.usl_desc }}
               </p>
             </div>
 
+            <!--
             <div class="h-24 grid grid-cols-1 content-center">
               <Modal :ModalBtnText="ModalBtnText" />
             </div>
+            -->
           </div>
 
           <!-- card -->
@@ -75,12 +74,12 @@ export default defineComponent({
     breakpoints: {
       // 700px and up
       700: {
-        itemsToShow: 3.5,
+        itemsToShow: 5.5,
         snapAlign: "center",
       },
       // 1024 and up
       1024: {
-        itemsToShow: 4.5,
+        itemsToShow: 10.5,
         snapAlign: "start",
       },
     },
