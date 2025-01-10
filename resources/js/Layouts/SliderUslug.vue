@@ -8,6 +8,7 @@ import { Carousel, Navigation, Slide } from "vue3-carousel";
 
 const props = defineProps({
   secondoffers: Object,
+  city: String,
 });
 
 let ModalBtnText = "на консультацию";
@@ -17,32 +18,19 @@ let ModalBtnText = "на консультацию";
   <div class="py-10 mt-20 bg-slate-100">
     <Carousel v-bind="settings" :breakpoints="breakpoints">
       <Slide v-for="card in props.secondoffers" :key="card">
-        <div class="carousel__item w-full mx-3">
+        <div class="carousel__item w-full mx-1 bg-white rounded-lg">
           <!-- card -->
-          <div
-            class="w-full mx-1 rounded-lg border-1 border-gray-600 flex flex-col bg-white"
-          >
-            <div class="h-24 mx-3 grid grid-cols-1 content-center">
-              <h3
-                class="text-sm text-gray-900 subpixel-antialiased text-center line-clamp-2 px-1"
-              >
-                {{ card.usl_name }}
-              </h3>
-            </div>
-
-            <div class="h-24 grid grid-cols-1 content-center">
-              <p class="text-sm text-gray-700/75 line-clamp-3 px-5">
-                {{ card.usl_desc }}
-              </p>
-            </div>
-
-            <!--
-            <div class="h-24 grid grid-cols-1 content-center">
-              <Modal :ModalBtnText="ModalBtnText" />
-            </div>
-            -->
-          </div>
-
+          <a :href="'/uslugi/' + props.city + '/' + card.url" class="">
+            <img
+              :src="'https://nedicom.ru/' + card.file_path"
+              class="rounded-t-lg"
+            />
+            <h3
+              class="h-12 mb-2 text-xs tracking-tight subpixel-antialiased text-center text-gray-900 line-clamp-3"
+            >
+              {{ card.usl_name }}
+            </h3>
+          </a>
           <!-- card -->
         </div>
       </Slide>
@@ -66,7 +54,7 @@ export default defineComponent({
   data: () => ({
     // carousel settings
     settings: {
-      itemsToShow: 1.25,
+      itemsToShow: 2.25,
       snapAlign: "center",
     },
     // breakpoints are mobile first
@@ -79,7 +67,7 @@ export default defineComponent({
       },
       // 1024 and up
       1024: {
-        itemsToShow: 10.5,
+        itemsToShow: 8.5,
         snapAlign: "start",
       },
     },

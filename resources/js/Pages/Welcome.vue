@@ -4,6 +4,7 @@ import Header from "@/Layouts/Header.vue";
 import Mainbanner from "@/Layouts/Mainbanner.vue";
 import FrontBanner from "@/Layouts/FrontBanner.vue";
 import Pile from "@/Layouts/Pile.vue";
+import FrontQuestion from "@/Layouts/FrontQuestion.vue";
 import Testimonials from "@/Layouts/Testimonials.vue";
 import Slider from "@/Layouts/Slider.vue";
 import Youtube from "@/Layouts/Youtube.vue";
@@ -18,8 +19,9 @@ import { Head } from "@inertiajs/inertia-vue3";
 import { ref } from "vue";
 
 defineProps({
+  city: Object,
   flash: Object,
-  uslugislider: Object,
+  mainoffers: Object,
   secondoffers: Object,
   practice: Array,
   reviews: Object,
@@ -44,12 +46,23 @@ let mainbannerpc =
   <FlashMessage :message="flash.message" />
 
   <Head>
-    <title>Услуги юриста: бесплатно, онлайн, телефон, задать вопрос, консультация</title>
-    <meta name="description" content="Ресурс позволяет найти юриста по своей проблеме, получить консультацию юриста, задать вопрос юристу онлайн, поулчить телефон юриста. Оказываем услуги по \
-    городу Москва и Республике Крым" />
-    <meta property="og:title" content="Услуги юриста: бесплатно, онлайн, телефон, задать вопрос, консультация" />
-    <meta property="og:description" content="Ресурс позволяет найти юриста по своей проблеме, получить консультацию юриста, задать вопрос юристу онлайн, получить телефон юриста. Оказываем услуги по \
-    городу Москва и Республике Крым" />
+    <title>
+      Услуги юриста: бесплатно, онлайн, телефон, задать вопрос, консультация
+    </title>
+    <meta
+      name="description"
+      content="Ресурс позволяет найти юриста по своей проблеме, получить консультацию юриста, задать вопрос юристу онлайн, поулчить телефон юриста. Оказываем услуги по \
+    городу Москва и Республике Крым"
+    />
+    <meta
+      property="og:title"
+      content="Услуги юриста: бесплатно, онлайн, телефон, задать вопрос, консультация"
+    />
+    <meta
+      property="og:description"
+      content="Ресурс позволяет найти юриста по своей проблеме, получить консультацию юриста, задать вопрос юристу онлайн, получить телефон юриста. Оказываем услуги по \
+    городу Москва и Республике Крым"
+    />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://nedicom.ru" />
     <meta property="og:image" :content="secondbannerpc" />
@@ -57,17 +70,35 @@ let mainbannerpc =
     <meta property="og:locale" content="ru_RU" />
   </Head>
 
-  <div class="min-h-screen" itemscope itemtype="https://schema.org/LegalService">
+  <div
+    class="min-h-screen"
+    itemscope
+    itemtype="https://schema.org/LegalService"
+  >
     <MainHeader :auth="auth" />
 
     <Header :modalPageTitle="'Модальное окно главная'" />
 
-    <FrontBanner :statusonimage="'Юридическая компания МИНА'" :phnform="true"
-      :secondbannerimgmobile="secondbannerimgmobile" :secondbannerpc="secondbannerpc" />
+    <FrontBanner
+      :statusonimage="'Юридическая компания МИНА'"
+      :phnform="true"
+      :secondbannerimgmobile="secondbannerimgmobile"
+      :secondbannerpc="secondbannerpc"
+    />
 
-    <Pile :uslugislider="uslugislider" :secondoffers="secondoffers"/>
+    <FrontQuestion
+      :mainoffers="mainoffers"
+      :secondoffers="secondoffers"
+      :city="city.url"
+    />
 
-    <SliderUslug :secondoffers="secondoffers" />
+    <Pile
+      :uslugislider="mainoffers"
+      :secondoffers="secondoffers"
+      :city="city.url"
+    />
+
+    <SliderUslug :secondoffers="secondoffers" :city="city.url" />
 
     <!--<Mainbanner :mainbannerimgmobile="mainbannerimgmobile" :mainbannerpc="mainbannerpc" />-->
 
