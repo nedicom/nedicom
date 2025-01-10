@@ -45,7 +45,7 @@ defineProps({
 
 
       <div class="h-96 md:h-full">
-        <InputLabel value="Текущее изображение (мобильный)" />
+        <InputLabel value="Текущее изображение (ПК)" />
         <div class="bg-contain bg-center bg-no-repeat h-full"
           :style="{ backgroundImage: `url(https://nedicom.ru/${usluga.file_path})` }"></div>
       </div>

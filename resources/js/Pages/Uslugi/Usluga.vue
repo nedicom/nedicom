@@ -58,6 +58,7 @@ ol {
 details summary::-webkit-details-marker {
   display: none;
 }
+
 </style>
 
 <template>

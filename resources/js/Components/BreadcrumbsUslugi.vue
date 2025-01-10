@@ -9,7 +9,7 @@ defineProps({
 
 <template>
     <!-- Breadcrumb -->
-    <nav class="flex overflow-x-auto w-screen"
+    <nav class="flex overflow-x-auto"
         aria-label="Breadcrumb">
         <ol itemscope itemtype="https://schema.org/BreadcrumbList"
             class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse  list-none">

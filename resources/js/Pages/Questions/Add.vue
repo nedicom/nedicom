@@ -183,14 +183,6 @@ const getQuestions = () => {
                   >
                 </div>
               </div>
-
-              <div class="flex justify-center">
-                <img
-                  class="h-auto w-full"
-                  src="/lawyernewyear2024.webp"
-                  alt="image description"
-                />
-              </div>
             </div>
           </form>
         </div>

@@ -51,8 +51,8 @@ let ModalBtnText = "Обратный звонок";
         <WaBtn :phone="phone" />
       </div>
 
-      <div class="hidden md:flex text-xs xl:text-sm items-center justify-start text-center text-nowrap">
-        <span v-if="props.address" class="text-nowrap" v-html="props.address">
+      <div class="hidden md:flex text-xs xl:text-sm items-center justify-start text-center">
+        <span v-if="props.address" v-html="props.address">
         </span>
         <span v-else>
           Качество юридических услуг гарантировано
