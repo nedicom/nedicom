@@ -130,10 +130,10 @@ const setUsluga = () => {
           <div class="flex justify-center">
             <Answer
               :answerclass="'md:w-4/6 w-full sm:px-6 lg:px-4 mx-5 py-12 bg-white overflow-hidden shadow-sm sm:rounded-lg'"
-              :question="set.question" :authid="set.authid" />
+              :question="set.question" :authid="set.authid"
+              :type="'question'"
+              :article_id="null" />
           </div>
-
-
 
           <p class="font-extrabold">
             Получите ответ быстрее!
@@ -188,7 +188,6 @@ const setUsluga = () => {
                 </svg> ВК
               </a>
 
-
               <a type="button"
                 :href="'https://connect.ok.ru/offer?url=https://nedicom.ru/questions/' + set.question.url + '&title=Я пользуюсь nedicom.ru. Здесь юристы ответят на любой вопрос! &imageUrl=https://nedicom.ru/logoq.webp'"
                 target="_blank"
@@ -203,8 +202,6 @@ const setUsluga = () => {
               </a>
 
             </div>
-
-
 
           </div>
 
@@ -224,13 +221,16 @@ const setUsluga = () => {
             </a>
             <a type="button" href="https://nedicom.ru/uslugi/moscow" target="_blank"
               class="mr-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 inline-flex items-center">
-              Юристы их Москвы
+              Юристы из Москвы
             </a>
           </div>
 
           <div class="flex justify-center">
             <Answers class="sm:px-6 lg:px-4 mx-5 py-12 md:w-4/6 w-full" :answers="set.answers"
-              :question="set.question.id" :authid="set.authid" />
+              :question="set.question.id" :authid="set.authid" 
+              :type="'question'"
+              :article="null"
+              :article_id="null"/>
           </div>
 
         </div>

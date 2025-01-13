@@ -9,9 +9,11 @@ onMounted(() => {
 });
 
 defineProps({
+    article_id: Number,
     question: Number,
     answerid: Number,
     authid: Number,
+    type: String,
 });
 </script>
 
@@ -89,6 +91,8 @@ defineProps({
                         :answerid="answerid"
                         :answerclass="'py-12 bg-white overflow-hidden shadow-sm sm:rounded-lg'"
                         :authid="authid"
+                        :type="type"
+                        :article_id="article_id"
                     />
                 </p>
             </div>

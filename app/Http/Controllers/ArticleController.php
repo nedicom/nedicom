@@ -7,11 +7,15 @@ use App\Models\Uslugi;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreArticleRequest;
 use App\Models\cities;
+use App\Models\Questions;
+use App\Models\Article_comment;
+
+use App\Helpers\Translate;
+
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Helpers\Translate;
 
 
 class ArticleController extends Controller
@@ -132,7 +136,7 @@ class ArticleController extends Controller
                 ->leftJoin('users', 'articles.userid', '=', 'users.id')
                 ->select(
                     'articles.*',
-                    'users.id',
+                    'users.id as user_id',
                     'users.name',
                     'users.avatar_path',
                     DB::raw("DATE_FORMAT(articles.created_at, '%d-%M-%Y') as created"),
@@ -143,6 +147,13 @@ class ArticleController extends Controller
             'auth' => Auth::user(),
             'region' =>  cities::where('regionId', $article->region)->first(),
             'usluga' => Uslugi::where('id', $usluga_id_sec)->select('uslugis.url', 'uslugis.usl_name')->first(),
+            'question' => Questions::where('id', $article->id)->withCount('QuantityAns')->with('User')->with('Usluga')->first(),
+            'answers' => Article_comment::where('article_id', $article->id)
+            ->with('UserAns')
+            ->with('subcomments')
+            ->get(),
+            'authid' => (Auth::user()) ? Auth::user()->id : null,
+
         ]);
     }
 

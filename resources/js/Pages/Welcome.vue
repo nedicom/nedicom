@@ -9,11 +9,13 @@ import Testimonials from "@/Layouts/Testimonials.vue";
 import Slider from "@/Layouts/Slider.vue";
 import Youtube from "@/Layouts/Youtube.vue";
 import SliderUslug from "@/Layouts/SliderUslug.vue";
+import InfinityScroll from "@/Layouts/InfinityScroll.vue";
 import RatingReady from "@/Components/RatingReady.vue";
 import Address from "@/Layouts/Address.vue";
 //import VK from "@/Layouts/Vk.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import PopupDialogue from "@/Layouts/PopupDialogue/PopupDialogue.vue";
+import Bundle from "@/Components/Bundle.vue";
 import FlashMessage from "@/Components/FlashMessage.vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import { ref } from "vue";
@@ -29,6 +31,7 @@ defineProps({
   rating: Number,
   users: Object,
   auth: Object,
+  bundles: Object,
 });
 
 let secondbannerimgmobile =
@@ -100,9 +103,11 @@ let mainbannerpc =
 
     <SliderUslug :secondoffers="secondoffers" :city="city.url" />
 
+    <InfinityScroll :bundles="bundles"/>    
+
     <!--<Mainbanner :mainbannerimgmobile="mainbannerimgmobile" :mainbannerpc="mainbannerpc" />-->
 
-    <Slider :practice="practice" :sliderheader="'Практика юристов'" />
+    <!--<Slider :practice="practice" :sliderheader="'Практика юристов'" />-->
 
     <!--<Testimonials />-->
 

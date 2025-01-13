@@ -2,11 +2,12 @@
 import { Link } from "@inertiajs/inertia-vue3";
 import AccordionComment from "@/Components/AccordionComment.vue";
 
-
 defineProps({
+    article_id: Number,
     answers: "Object",
     question: "Number",
     authid: "Number",
+    type: String,
 });
 
 </script>
@@ -46,7 +47,7 @@ defineProps({
                     {{ answer.body }}
                 </p>
 
-                <AccordionComment :question="question" :answerid="answer.id" :authid="authid"/>
+                <AccordionComment :question="question" :answerid="answer.id" :authid="authid" :type="type" :article_id="article_id"/>
             </div>
 
             <!--subcomments-->
@@ -81,7 +82,7 @@ defineProps({
                         {{ subcomments.pivot.body }}
                     </p>
 
-                    <AccordionComment :question="question" :answerid="answer.id" :authid="authid"/>
+                    <AccordionComment :question="question" :answerid="answer.id" :authid="authid" :type="type" :article_id="article_id"/>
                 </div>
             </div>
 

@@ -5,19 +5,23 @@ import { reactive } from "vue";
 import AuthRegisterPropose from "@/Components/AuthRegisterPropose.vue";
 
 let set = defineProps({
-    question: "Array",
+    article_id: Number,
+    question: Object,
     placeholder: String,
     answerid: Number,
     answerclass: String,
-    authid: "Number",
+    authid: Number,
+    type: String,
 });
 
 
 let form = reactive({
     body: "",
+    article_id: set.article_id,
     questions_id: set.question.id,
     url: set.question.id,
     answer_id: set.answerid,
+    type: set.type,
 });
 
 let user = null;

@@ -4,14 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Uslugi;
 use App\Models\Article;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\Review;
-use Inertia\Inertia;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
+
 use App\Helpers\CitySet;
 
+use Inertia\Inertia;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+use App\Casts\humandate;
+use Illuminate\Support\Str;
 
 class MainpageController extends Controller
 {
@@ -24,13 +30,63 @@ class MainpageController extends Controller
         $city = CitySet::CitySet($request, 0);
 
         $secondoffers = Uslugi::where('is_second', 1)->where('is_feed', 1)->with('main')->select(['id', 'usl_name', 'url', 'file_path', 'main_usluga_id'])->get()
-        ->map(function ($item) {
-            $item->usl_name = $item->main->name . ' - ' .$item->usl_name;
-            $item->url = $item->main->url . '/' .$item->url;
-            return $item;
-        });;
+            ->map(function ($item) {
+                $item->usl_name = $item->main->name . ' - ' . $item->usl_name;
+                $item->url = $item->main->url . '/' . $item->url;
+                return $item;
+            });
+
+        $articles = DB::table('articles')
+            ->leftjoin('users', 'articles.userid', '=', 'users.id')
+            ->leftjoin('article_comments', 'articles.id', '=', 'article_comments.article_id')
+            ->select(
+                'users.id',
+                'users.name',
+                'users.avatar_path as apath',
+                'users.lawyer',
+                'articles.id',
+                'articles.header',
+                'articles.description',
+                'articles.created_at',
+                'articles.url',
+                'articles.counter',
+                'article_comments.body as article_comment',
+                'article_comments.users_id as avatar',
+                'articles.description',
+            )
+            ->groupBy('articles.id');
+
+        $bundles = DB::table('questions')
+            ->leftjoin('users', 'questions.user_id', '=', 'users.id')
+            ->leftjoin('answers', 'questions.id', '=', 'answers.questions_id')
+            ->select(
+                'users.id',
+                'users.name',
+                'users.avatar_path as apath',
+                'users.lawyer',
+                'questions.id AS qid',
+                'questions.title AS aheader',
+                'questions.body AS abody',
+                'questions.created_at AS created_at',
+                'questions.url AS url',
+                'questions.counter AS counter',
+                'answers.body as comment',
+                'answers.users_id as avatar',
+            )
+            ->selectRaw('questions.url * ? AS type', [''])
+            ->groupBy('qid')
+            ->union($articles)
+            ->orderByDesc('counter')
+            ->paginate(20);
+
+        foreach ($bundles as $item) {
+            $item->abody = Str::limit($item->abody, 200);
+            $item->created_at = humandate::lenta($item->created_at);
+            $item->avatar =  $item->avatar ? User::find($item->avatar)->avatar_path : null;
+        }
 
         return Inertia::render('Welcome', [
+            'bundles' => $bundles,
             'city' => $city,
             'mainoffers' => Uslugi::where('is_main', 1)->where('is_feed', 1)->get(['id', 'usl_name', 'url', 'file_path']),
             'secondoffers' => $secondoffers,
