@@ -58,7 +58,7 @@ let submit = () => {
 };
 </script>
 
-<template>{{ city }}
+<template>
   <form @submit.prevent="submit" class="flex justify-center mt-20">
     <div class="w-full md:w-1/3 flex justify-center">
       <div class="">
