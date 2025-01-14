@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 
 use Inertia\Inertia;
 
+use App\Helpers\CitySet;
+
 class CityController extends Controller
 {
 
@@ -104,5 +106,19 @@ class CityController extends Controller
             'flash' => ['message' => $request->session()->get(key: 'message')],
             'auth' => Auth::user(),
         ]);
+    }
+
+    public function setCity(Request $request)
+    {
+        //dd($request);
+        CitySet::CitySet($request, 0);
+        return redirect()->back();
+    }
+
+    public function getCities()
+    {
+        $simplecities = cities::all();
+        $cities = cities::all()->groupBy('region');
+        return ([$cities, $simplecities]);
     }
 }

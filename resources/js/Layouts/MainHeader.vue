@@ -1,24 +1,31 @@
 <script setup>
 
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
 import NavLink from "@/Components/NavLink.vue";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { Link } from "@inertiajs/inertia-vue3";
-const showingNavigationDropdown = ref(false);
+import { ModalsContainer, useModal } from 'vue-final-modal';
+import CitySet from '@/Components/CitySet.vue';
 
-const ym = ref('');
+const showingNavigationDropdown = ref(false);
 
 let props = defineProps({
   auth: Object,
+  city: Object,
 });
 
-watch(ym, () => {
-  alert(1);
+const { open, close } = useModal({
+  component: CitySet,
+  attrs: {
+    modalPageTitle: 'city',
+    onConfirm() {
+      close()
+    },
+  },
 })
-
 </script>
 
 <template>
@@ -64,24 +71,21 @@ watch(ym, () => {
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
               <!-- Settings Dropdown -->
-              <div class="ml-3 relative">
+              <div class="ml-3 relative flex">
+                <button type="button" @click="() => open()" aria-label="city"
+                  class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                  <span v-if="props.city">
+                    <span v-if="props.city.id != 0"> {{
+                    props.city.title
+                      }}</span>
+                    <span v-else>город</span>
+                  </span>
+                  <span v-else>город</span>
+                </button>
+
                 <Dropdown align="right" width="48">
-
-
                   <template #trigger>
                     <span class="inline-flex rounded-md">
-
-                      <!--
-                      <button
-                        type="button"
-                        aria-label="city"
-                        class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
-                      >
-                        <span v-if="$page.propscity.title">{{
-                          $page.propscity.title
-                        }}</span>
-                      </button>
--->
                       <button type="button" aria-label="enter"
                         class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                         <span v-if="props.auth !== null">{{
@@ -240,4 +244,5 @@ watch(ym, () => {
       </nav>
     </div>
   </div>
+  <ModalsContainer />
 </template>

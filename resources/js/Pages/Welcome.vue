@@ -78,7 +78,7 @@ let mainbannerpc =
     itemscope
     itemtype="https://schema.org/LegalService"
   >
-    <MainHeader :auth="auth" />
+    <MainHeader :auth="auth" :city="city"/>
 
     <Header :modalPageTitle="'Модальное окно главная'" />
 
@@ -92,7 +92,7 @@ let mainbannerpc =
     <FrontQuestion
       :mainoffers="mainoffers"
       :secondoffers="secondoffers"
-      :city="city.url"
+      :city="city"
     />
 
     <Pile

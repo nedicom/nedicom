@@ -114,8 +114,10 @@ Route::controller(UslugiController::class)->group(function () {
 
 Route::controller(CityController::class)->group(function () {
     Route::get('/offers/{city}', 'showCities')->name('offers.city');
-    Route::get('/offers/{city}/{main_usluga}/{second_usluga}/{url}', 'showOffer')->name('offer.show');
+    Route::get('/offers/{city}/{main_usluga}/{second_usluga}/{url}', 'showOffer')->name('offer.show');    
     Route::get('/uslugi/{main_usluga}/{second_usluga}/{city}', 'showCityFromUslugi')->name('show.city'); //del
+    Route::post('/setcity', 'setCity')->name('set.city');
+    Route::get('/getcities', 'getCities')->name('get.cities');
 });
 
 
