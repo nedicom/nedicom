@@ -225,7 +225,7 @@ const setUsluga = () => {
             </a>
           </div>
 
-          <div class="flex justify-center">
+          <div class="flex justify-center" id="comment">
             <Answers class="sm:px-6 lg:px-4 mx-5 py-12 md:w-4/6 w-full" :answers="set.answers"
               :question="set.question.id" :authid="set.authid" 
               :type="'question'"

@@ -101,9 +101,10 @@ let mainbannerpc =
       :city="city.url"
     />
 
-    <SliderUslug :secondoffers="secondoffers" :city="city.url" />
+    <!--
+    <SliderUslug :secondoffers="secondoffers" :city="city.url" />-->
 
-    <InfinityScroll :bundles="bundles"/>    
+    <InfinityScroll :bundles="bundles" :auth="auth"/>    
 
     <!--<Mainbanner :mainbannerimgmobile="mainbannerimgmobile" :mainbannerpc="mainbannerpc" />-->
 
@@ -121,7 +122,7 @@ let mainbannerpc =
 
     <MainFooter />
 
-    <PopupDialogue />
+    <!--<PopupDialogue />-->
   </div>
 </template>
 

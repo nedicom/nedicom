@@ -24,10 +24,12 @@ class MainpageController extends Controller
 
     public function main(Request $request)
     {
+        //dd(Auth::user());
         $reviewscount = Review::count();
         $rating = Review::sum('rating');
         $rating =  round($rating / $reviewscount, 1);
         $city = CitySet::CityGet();
+        $user_id = Auth::user() ? Auth::user()->id : null;
 
         $secondoffers = Uslugi::where('is_second', 1)->where('is_feed', 1)->with('main')->select(['id', 'usl_name', 'url', 'file_path', 'main_usluga_id'])->get()
             ->map(function ($item) {
@@ -39,11 +41,19 @@ class MainpageController extends Controller
         $articles = DB::table('articles')
             ->leftjoin('users', 'articles.userid', '=', 'users.id')
             ->leftjoin('article_comments', 'articles.id', '=', 'article_comments.article_id')
+            ->leftjoin('bundles_socials', function ($join) use ($user_id){
+                $join->on('bundles_socials.article_id', '=', 'articles.id')
+                    ->where('bundles_socials.users_id', '=', $user_id);
+            })
             ->select(
                 'users.id',
                 'users.name',
                 'users.avatar_path as apath',
                 'users.lawyer',
+                'articles.likes',
+                'articles.shares',
+                'articles.bookmarks',
+                'articles.comments',
                 'articles.id',
                 'articles.header',
                 'articles.description',
@@ -52,18 +62,33 @@ class MainpageController extends Controller
                 'articles.counter',
                 'article_comments.body as article_comment',
                 'article_comments.users_id as avatar',
-                'articles.description',
+                DB::raw('count("article_comments.body") as comment_count'),
+                'bundles_socials.likes as user_like',
+                'bundles_socials.bookmarks as user_bookmark',
+                'articles.id',
             )
-            ->groupBy('articles.id');
+            ->groupBy('articles.id')
+            //  ->get()
+            ;
+
+        //dd($articles);
 
         $bundles = DB::table('questions')
             ->leftjoin('users', 'questions.user_id', '=', 'users.id')
             ->leftjoin('answers', 'questions.id', '=', 'answers.questions_id')
+            ->leftjoin('bundles_socials', function ($join) use ($user_id) {
+                $join->on('bundles_socials.question_id', '=', 'questions.id')
+                    ->where('bundles_socials.users_id', '=', $user_id);
+            })
             ->select(
                 'users.id',
                 'users.name',
                 'users.avatar_path as apath',
                 'users.lawyer',
+                'questions.likes',
+                'questions.shares',
+                'questions.bookmarks',
+                'questions.comments',
                 'questions.id AS qid',
                 'questions.title AS aheader',
                 'questions.body AS abody',
@@ -72,6 +97,9 @@ class MainpageController extends Controller
                 'questions.counter AS counter',
                 'answers.body as comment',
                 'answers.users_id as avatar',
+                DB::raw('count(*) as comment_count'),
+                'bundles_socials.likes as user_like',
+                'bundles_socials.bookmarks as user_bookmark',
             )
             ->selectRaw('questions.url * ? AS type', [''])
             ->groupBy('qid')

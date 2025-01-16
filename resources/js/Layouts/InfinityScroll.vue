@@ -3,13 +3,14 @@ import Bundle from "@/Components/Bundle.vue";
 
 defineProps({
     bundles: Object,
+    auth: Object,
 });
 </script>
 
 <template>
-    <div class="pt-20 flex justify-center mx-3 md:mx-0">
-        <div class="w-full md:w-1/3 flex flex-col gap-9">
-            <Bundle :bundles="bundles" />
+    <div class="pt-20 flex justify-center  px-3 md:px-10">
+        <div class="w-full grid grid-cols-2 gap-4 place-content-center">
+            <Bundle :bundles="bundles" :auth="auth"/>
         </div>
     </div>
 </template>

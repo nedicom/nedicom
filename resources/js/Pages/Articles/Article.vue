@@ -254,7 +254,7 @@ blockquote {
               :article_id="vars.article.id"/>
           </div>
 
-          <div class="flex justify-center">
+          <div class="flex justify-center" id="comment">
             <Answers class="sm:px-6 lg:px-4 mx-5 py-12 md:w-4/6 w-full" :answers="vars.answers"
               :question="vars.question ? vars.question.id : null" :authid="vars.authid"
               :type="'article'"

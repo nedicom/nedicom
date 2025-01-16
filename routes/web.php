@@ -21,6 +21,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\MyController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\LentaController;
+use App\Http\Controllers\SocialController;
 use App\Http\Middleware\owner;
 
 use App\Http\Controllers\Admin\ArticlesController as AdminArticleController;
@@ -189,6 +190,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/uslimagesquare', [ImageController::class, 'square'])->name('square.post');
 });
 
+//aboutcompany
+Route::post('/social', [SocialController::class, 'reaction'])->name('reaction');
 
 //aboutcompany
 Route::get('contacts/', function () {

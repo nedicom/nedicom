@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
 
+use App\Models\User;
 use App\Models\Questions;
 use App\Models\Article;
 use App\Casts\humandate;
@@ -17,11 +18,12 @@ class LentaController extends Controller
     public function popular()
     {
         $articles = DB::table('articles')
-            ->join('users', 'articles.userid', '=', 'users.id')
+            ->leftjoin('users', 'articles.userid', '=', 'users.id')
+            ->leftjoin('article_comments', 'articles.id', '=', 'article_comments.article_id')
             ->select(
                 'users.id',
                 'users.name',
-                'users.avatar_path',
+                'users.avatar_path as apath',
                 'users.lawyer',
                 'articles.id',
                 'articles.header',
@@ -29,32 +31,43 @@ class LentaController extends Controller
                 'articles.created_at',
                 'articles.url',
                 'articles.counter',
-                'articles.description'
-            );
+                'article_comments.body as article_comment',
+                'article_comments.users_id as avatar',
+                DB::raw('count("article_comments.body") as comment_count'),
+                'articles.id',
+            )
+            ->groupBy('articles.id')
+            ;
 
         $bundles = DB::table('questions')
-            ->join('users', 'questions.user_id', '=', 'users.id')
+            ->leftjoin('users', 'questions.user_id', '=', 'users.id')
+            ->leftjoin('answers', 'questions.id', '=', 'answers.questions_id')
             ->select(
                 'users.id',
                 'users.name',
-                'users.avatar_path',
+                'users.avatar_path as apath',
                 'users.lawyer',
                 'questions.id AS qid',
                 'questions.title AS aheader',
                 'questions.body AS abody',
                 'questions.created_at AS created_at',
                 'questions.url AS url',
-                'questions.counter AS counter'
+                'questions.counter AS counter',
+                'answers.body as comment',
+                'answers.users_id as avatar',
+                DB::raw('count(*) as comment_count'),
             )
             ->selectRaw('questions.url * ? AS type', [''])
+            ->groupBy('qid')
             ->union($articles)
             ->orderByDesc('counter')
             ->paginate(20);
 
-        foreach ($bundles as $item) {
-            $item->abody = Str::limit($item->abody, 100);
-            $item->created_at = humandate::lenta($item->created_at);
-        }
+            foreach ($bundles as $item) {
+                $item->abody = Str::limit($item->abody, 200);
+                $item->created_at = humandate::lenta($item->created_at);
+                $item->avatar =  $item->avatar ? User::find($item->avatar)->avatar_path : null;
+            }
 
         return Inertia::render('Lenta/Lenta', [
             'bundles' => $bundles,
