@@ -16,7 +16,6 @@ class SocialController extends Controller
 {
     public function reaction(Request $request)
     {
-        //dd($request);
         if (!Auth::user()) {
             return redirect()->back();
         }

@@ -32,7 +32,6 @@ function setShare(type, url, id, reaction) {
     "https://telegram.me/share/url?url=" +
     href +
     "&text=Смотри что нашел на nedicom.ru";
-  //alert(tgHref.data);
 
   vkHref =
     "https://vk.com/share.php?url=" + href +
