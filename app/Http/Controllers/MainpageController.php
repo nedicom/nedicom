@@ -46,9 +46,9 @@ class MainpageController extends Controller
                     ->where('bundles_socials.users_id', '=', $user_id);
             })
             ->select(
-                'users.id',
+                'users.id as user_id',
                 'users.name',
-                'users.avatar_path as apath',
+                'users.avatar_path as avatar_path',
                 'users.lawyer',
                 'articles.likes',
                 'articles.shares',
@@ -65,10 +65,11 @@ class MainpageController extends Controller
                 DB::raw('count("article_comments.body") as comment_count'),
                 'bundles_socials.likes as user_like',
                 'bundles_socials.bookmarks as user_bookmark',
+                'bundles_socials.shares as user_share',
                 'articles.id',
             )
             ->groupBy('articles.id')
-            //  ->get()
+             // ->get()
             ;
 
         //dd($articles);
@@ -81,16 +82,16 @@ class MainpageController extends Controller
                     ->where('bundles_socials.users_id', '=', $user_id);
             })
             ->select(
-                'users.id',
+                'users.id as user_id',
                 'users.name',
-                'users.avatar_path as apath',
+                'users.avatar_path as avatar_path',
                 'users.lawyer',
                 'questions.likes',
                 'questions.shares',
                 'questions.bookmarks',
                 'questions.comments',
-                'questions.id AS qid',
-                'questions.title AS aheader',
+                'questions.id',
+                'questions.title AS header',
                 'questions.body AS abody',
                 'questions.created_at AS created_at',
                 'questions.url AS url',
@@ -100,9 +101,10 @@ class MainpageController extends Controller
                 DB::raw('count(*) as comment_count'),
                 'bundles_socials.likes as user_like',
                 'bundles_socials.bookmarks as user_bookmark',
+                'bundles_socials.shares as user_share',
             )
             ->selectRaw('questions.url * ? AS type', [''])
-            ->groupBy('qid')
+            ->groupBy('id')
             ->union($articles)
             ->orderByDesc('counter')
             ->paginate(20);

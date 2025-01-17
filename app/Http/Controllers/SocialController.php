@@ -21,44 +21,53 @@ class SocialController extends Controller
             return redirect()->back();
         }
 
+        /*check question or article */
         if ($request->property) {
-            $article = Article::find($request->id);
-
-            $bundle = Bundles_social::firstOrNew(
-                ['users_id' => Auth::user()->id, 'article_id' => $article->id],
+            $bundle = Article::find($request->id);
+            $reaction = Bundles_social::firstOrNew(
+                ['users_id' => Auth::user()->id, 'article_id' => $bundle->id],
             );
-            //dd($bundle);
-            if (!$bundle) {
-                $bundle = new Bundles_social();
-                $bundle->users_id = Auth::user()->id;
-                $bundle->article_id = $article->id;
-            }
-
-            switch ($request->type) {
-                case 'bookmarks':
-
-                    if ($request->value ==  "up") {
-                        $article->bookmarks = $article->bookmarks + 1;
-                        $bundle->bookmarks = 1;
-                    }
-                    if ($request->value ==  "down") {
-                        $article->bookmarks = $article->bookmarks - 1;
-                        $bundle->bookmarks = null;
-                    }
-                    break;
-                case 1:
-                    echo "Значение переменной \$i равно 1";
-                    break;
-                case 2:
-                    echo "Значение переменной \$i равно 2";
-                    break;
-            }
-            $bundle->save();
-            $article->save();
         } else {
-            $question = Questions::find($request->id);
+            $bundle = Questions::find($request->id);
+            $reaction = Bundles_social::firstOrNew(
+                ['users_id' => Auth::user()->id, 'question_id' => $bundle->id],
+            );
         }
 
+        switch ($request->type) {
+            case 'bookmarks': //reaction type == bookmarks
+                if ($request->value ==  "up") { 
+                    $bundle->bookmarks = $bundle->bookmarks + 1;
+                    $reaction->bookmarks = 1;
+                }
+                if ($request->value ==  "down") {
+                    $bundle->bookmarks = $bundle->bookmarks - 1;
+                    $reaction->bookmarks = null;
+                }
+                break;
+            case 'likes':
+                if ($request->value ==  "up") {
+                    $bundle->likes = $bundle->likes + 1;
+                    $reaction->likes = 1;
+                }
+                if ($request->value ==  "down") {
+                    $bundle->likes = $bundle->likes - 1;
+                    $reaction->likes = null;
+                }
+                break;
+            case 'shares':
+                if ($request->value ==  "up") {
+                    $bundle->shares = $bundle->shares + 1;
+                    $reaction->shares = 1;
+                }
+                if ($request->value ==  "down") {
+                    $bundle->shares = $bundle->shares - 1;
+                    $reaction->shares = null;
+                }
+                break;
+        }
+        $reaction->save();
+        $bundle->save();
 
         return redirect()->back();
     }

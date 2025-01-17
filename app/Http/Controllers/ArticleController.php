@@ -112,12 +112,14 @@ class ArticleController extends Controller
         if (is_null($article)) {
             abort(410);
         }
-
+        
         if (Auth::user()) {
+            $user_id = Auth::user()->id;
             if (Auth::user()->id != $article->userid) {
                 DB::table('articles')->where('articles.url', '=', $url)->increment('counter', 1);
             }
         } else {
+            $user_id = null;
             DB::table('articles')->where('articles.url', '=', $url)->increment('counter', 1);
         }
 
@@ -127,6 +129,7 @@ class ArticleController extends Controller
         } else {
             $usluga_id_sec = $article->usluga_id;
         }
+
         DB::statement("SET lc_time_names = 'ru_RU'");
 
         //dd(Uslugi::where('id', $usluga_id_sec)->first());
@@ -134,14 +137,22 @@ class ArticleController extends Controller
             'article' => DB::table('articles')
                 ->where('articles.url', '=', $url)
                 ->leftJoin('users', 'articles.userid', '=', 'users.id')
+                ->leftjoin('bundles_socials', function ($join) use ($user_id) {
+                    $join->on('bundles_socials.article_id', '=', 'articles.id')
+                        ->where('bundles_socials.users_id', '=', $user_id);
+                })
                 ->select(
                     'articles.*',
+                    'bundles_socials.likes as user_like',
+                    'bundles_socials.bookmarks as user_bookmark',
+                    'bundles_socials.shares as user_share',
                     'users.id as user_id',
                     'users.name',
                     'users.avatar_path',
                     DB::raw("DATE_FORMAT(articles.created_at, '%d-%M-%Y') as created"),
                     DB::raw("DATE_FORMAT(articles.updated_at, '%d-%M-%Y') as updated")
                 )
+                ->selectRaw('articles.id as type')
                 ->first(),
             'user' => Auth::user(),
             'auth' => Auth::user(),
