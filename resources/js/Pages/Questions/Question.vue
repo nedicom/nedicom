@@ -6,6 +6,7 @@ import Answer from "@/Layouts/Answer.vue";
 import AIAnswer from "@/Layouts/AI/AIAnswer.vue";
 import Answers from "@/Layouts/Answers.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
+import ShareButtons from "@/Components/ShareButtons.vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
 import { reactive, ref } from "vue";
@@ -75,37 +76,50 @@ const setUsluga = () => {
     <Body>
       <div itemscope itemtype="https://schema.org/QAPage">
         <div
-          class="xl:w-1/2 sm:px-6 lg:px-4 px-3 md:px-0 mx-auto my-12 bg-white overflow-hidden shadow-sm sm:rounded-lg"
+          class="xl:w-1/2 sm:px-6 lg:px-4 px-3 md:px-0 mx-auto my-3 md:my-12 bg-white overflow-hidden shadow-sm sm:rounded-lg"
           itemprop="mainEntity" itemscope itemtype="https://schema.org/Question">
           <meta itemprop="datePublished" :content="set.question.updated_at" />
 
           <div class="grid grid-cols-2">
 
-            <span class="flex flex-right">
-              <img v-if="set.question.user" :src="'https://nedicom.ru/' + set.question.user.avatar_path" width="60"
-                class="rounded-full m-3 p-1 ring-2 ring-gray-300 dark:ring-gray-500" />
-              <p class="mr-3 text-sm text-gray-900 dark:text-white font-semibold h-min-24 flex items-center">
+            <span class="flex flex-left items-center">
+
+                <img v-if="set.question.user" :src="'https://nedicom.ru/' + set.question.user.avatar_path" width="60"
+                  height="60" class="rounded-full ring-2 ring-gray-300" />
+
+              <p class="text-sm text-gray-900 font-semibold flex flex-col md:flex-row md:items-center ml-3">
                 <span v-if="set.question.user" itemprop="author" itemscope itemtype="https://schema.org/Person">
                   <meta itemprop="url" content="https://nedicom.ru/uslugi" />
-                  <span itemprop="name">
+                  <span itemprop="name" class="truncate">
                     {{ set.question.user.name }}
                   </span>
                 </span>
+
+                <div class="text-gray-700 text-sm md:ml-4">
+                {{ set.question.created_at }}
+              </div>              
               </p>
             </span>
 
             <div class="mx-4 flex items-center flex-col justify-center md:justify-end md:flex-row ">
 
+              <div class="flex">
+              <ShareButtons :bundle="set.question" :auth="set.auth" />
 
-              <div class="text-gray-400 text-xs md:mr-4 my-2">
-                {{ set.question.created_at }}
-              </div>
+              <!--commets-->
+              <a href="/#comment" class="flex items-center text-gray-500 hover:text-gray-700">
+                <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                  fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 17h6l3 3v-3h2V9h-2M4 4h11v8H9l-3 3v-3H4V4Z" />
+                </svg><span v-if="set.question.quantity_ans_count  > 0" class="text-sm">{{
+                  set.question.quantity_ans_count 
+                  }}</span>
+              </a>
+              <!--commets-->
+            </div>
 
-              <div class="md:mr-4 my-2">
-                <span
-                  class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400">ответов
-                  - <span itemprop="answerCount">{{ set.question.quantity_ans_count }}</span></span>
-              </div>
+
             </div>
           </div>
 
@@ -130,9 +144,7 @@ const setUsluga = () => {
           <div class="flex justify-center">
             <Answer
               :answerclass="'md:w-4/6 w-full sm:px-6 lg:px-4 mx-5 py-12 bg-white overflow-hidden shadow-sm sm:rounded-lg'"
-              :question="set.question" :authid="set.authid"
-              :type="'question'"
-              :article_id="null" />
+              :question="set.question" :authid="set.authid" :type="'question'" :article_id="null" />
           </div>
 
           <p class="font-extrabold">
@@ -227,10 +239,7 @@ const setUsluga = () => {
 
           <div class="flex justify-center" id="comment">
             <Answers class="sm:px-6 lg:px-4 mx-5 py-12 md:w-4/6 w-full" :answers="set.answers"
-              :question="set.question.id" :authid="set.authid" 
-              :type="'question'"
-              :article="null"
-              :article_id="null"/>
+              :question="set.question.id" :authid="set.authid" :type="'question'" :article="null" :article_id="null" />
           </div>
 
         </div>
