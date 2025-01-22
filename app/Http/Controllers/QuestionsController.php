@@ -13,6 +13,7 @@ use App\Helpers\OpenAI;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
+use App\Casts\humandate;
 
 class QuestionsController extends Controller
 {
@@ -38,8 +39,52 @@ class QuestionsController extends Controller
 
         DB::table('questions')->where('questions.url', $url)->increment('counter', 1);
 
+
+        $user_id = Auth::user() ? Auth::user()->id : null;
+
+        $question = DB::table('questions')
+            ->leftjoin('users', 'questions.user_id', '=', 'users.id')
+            ->leftjoin('answers', 'questions.id', '=', 'answers.questions_id')
+            ->leftjoin('uslugis', 'questions.usluga', '=', 'uslugis.id')
+            ->leftjoin('bundles_socials', function ($join) use ($user_id) {
+                $join->on('bundles_socials.question_id', '=', 'questions.id')
+                    ->where('bundles_socials.users_id', '=', $user_id);
+            })
+            ->select(
+                'users.id as user_id',
+                'users.name',
+                'users.avatar_path as avatar_path',
+                'users.lawyer',
+                'questions.likes',
+                'questions.shares',
+                'questions.bookmarks',
+                'questions.comments',
+                'questions.id',
+                'questions.title AS header',
+                'questions.body AS abody',
+                'questions.created_at AS created_at',
+                'questions.url AS url',
+                'questions.counter AS counter',
+                'answers.body as comment',
+                'answers.users_id as avatar',
+                'uslugis.usl_name as uslugis_usl_name',
+                'uslugis.url as uslugis_url',
+                DB::raw('count(*) as comment_count'),
+                'bundles_socials.likes as user_like',
+                'bundles_socials.bookmarks as user_bookmark',
+                'bundles_socials.shares as user_share',
+            )
+            ->selectRaw('questions.url * ? AS type', [''])
+            ->groupBy('id')
+            ->orderByDesc('created_at')
+            ->first();
+
+        $question->created_at = humandate::lenta($question->created_at);
+        $question->avatar =  $question->avatar ? User::find($question->avatar)->avatar_path : null;
+
+
         return Inertia::render('Questions/Question', [
-            'question' => Questions::where('id', $question->id)->withCount('QuantityAns')->with('User')->with('Usluga')->first(),
+            'question' => $question,
             'uslugi' => Uslugi::where('is_main', 1)->where('is_feed', 1)->select(['id', 'usl_name'])->get(),
             'answers' => Answer::where('questions_id', $question->id)
                 ->with('UserAns')
@@ -84,23 +129,23 @@ class QuestionsController extends Controller
 
     public function similar($url)
     {
-            $url = preg_split('/\,/', $url);
-            if (count($url) == 2) {
-                $questions = Questions::limit(20)->where('title', 'like', '%' . $url[0] . '%')
-                    ->orwhere('title', 'like', '%' . $url[1] . '%')
-                    ->orwhere('body', 'like', '%' . $url[0] . '%' . $url[1])
-                    ->withCount('QuantityAns')->orderBy('updated_at', 'desc')
-                    ->get();
-                $questions->map(function ($item) {
-                    $item['status'] = 'new';
-                    return $item;
-                });
-                if(count($questions) == 0){
-                    $questions = Questions::limit(20)->withCount('QuantityAns')->orderBy('updated_at', 'desc')->get();
-                }
-            } else {
+        $url = preg_split('/\,/', $url);
+        if (count($url) == 2) {
+            $questions = Questions::limit(20)->where('title', 'like', '%' . $url[0] . '%')
+                ->orwhere('title', 'like', '%' . $url[1] . '%')
+                ->orwhere('body', 'like', '%' . $url[0] . '%' . $url[1])
+                ->withCount('QuantityAns')->orderBy('updated_at', 'desc')
+                ->get();
+            $questions->map(function ($item) {
+                $item['status'] = 'new';
+                return $item;
+            });
+            if (count($questions) == 0) {
                 $questions = Questions::limit(20)->withCount('QuantityAns')->orderBy('updated_at', 'desc')->get();
             }
+        } else {
+            $questions = Questions::limit(20)->withCount('QuantityAns')->orderBy('updated_at', 'desc')->get();
+        }
         return $questions;
     }
 

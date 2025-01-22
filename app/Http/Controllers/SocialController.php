@@ -59,10 +59,6 @@ class SocialController extends Controller
                     $bundle->shares = $bundle->shares + 1;
                     $reaction->shares = 1;
                 }
-                if ($request->value ==  "down") {
-                    $bundle->shares = $bundle->shares - 1;
-                    $reaction->shares = null;
-                }
                 break;
         }
         $reaction->save();

@@ -60,9 +60,9 @@ const setUsluga = () => {
 <template>
 
   <Head>
-    <title>Вопрос юристу - {{ set.question.title }}</title>
-    <meta name="description" :content="set.question.body.substr(0, 260) + '...'" />
-    <meta property="og:title" :content="set.question.title" />
+    <title>Вопрос юристу - {{ set.question.header }}</title>
+    <meta name="description" :content="set.question.abody.substr(0, 260) + '...'" />
+    <meta property="og:title" :content="set.question.header" />
     <meta property="og:type" content="website" />
     <meta property="og:url" :content="'https://nedicom.ru/questions/' + set.question.url" />
     <meta property="og:image" content="https://nedicom.ru/logoq.webp" />
@@ -78,20 +78,20 @@ const setUsluga = () => {
         <div
           class="xl:w-1/2 sm:px-6 lg:px-4 px-3 md:px-0 mx-auto my-3 md:my-12 bg-white overflow-hidden shadow-sm sm:rounded-lg"
           itemprop="mainEntity" itemscope itemtype="https://schema.org/Question">
-          <meta itemprop="datePublished" :content="set.question.updated_at" />
+          <meta itemprop="datePublished" :content="set.question.created_at" />
 
           <div class="grid grid-cols-2">
 
             <span class="flex flex-left items-center">
 
-                <img v-if="set.question.user" :src="'https://nedicom.ru/' + set.question.user.avatar_path" width="60"
+                <img v-if="set.question.avatar_path" :src="'https://nedicom.ru/' + set.question.avatar_path" width="60"
                   height="60" class="rounded-full ring-2 ring-gray-300" />
 
               <p class="text-sm text-gray-900 font-semibold flex flex-col md:flex-row md:items-center ml-3">
-                <span v-if="set.question.user" itemprop="author" itemscope itemtype="https://schema.org/Person">
+                <span v-if="set.question.name" itemprop="author" itemscope itemtype="https://schema.org/Person">
                   <meta itemprop="url" content="https://nedicom.ru/uslugi" />
                   <span itemprop="name" class="truncate">
-                    {{ set.question.user.name }}
+                    {{ set.question.name }}
                   </span>
                 </span>
 
@@ -107,7 +107,7 @@ const setUsluga = () => {
               <ShareButtons :bundle="set.question" :auth="set.auth" />
 
               <!--commets-->
-              <a href="/#comment" class="flex items-center text-gray-500 hover:text-gray-700">
+              <a href="#comment" class="flex items-center text-gray-500 hover:text-gray-700">
                 <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                   fill="none" viewBox="0 0 24 24">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -118,26 +118,24 @@ const setUsluga = () => {
               </a>
               <!--commets-->
             </div>
-
-
             </div>
           </div>
 
 
           <h1 itemprop="name" class="mb-5 mt-5 text-2xl font-bold tracking-tight text-gray-900">
-            {{ set.question.title }}
+            {{ set.question.header }}
           </h1>
 
-          <span v-if="set.question.usluga" class="text-gray-900"> поискать юриста для ответа в категории
+          <span v-if="set.question.uslugis_url" class="text-gray-900"> поискать юриста для ответа в категории
             <h2 class="text-lg inline font-bold tracking-tight text-gray-900">
-              <a :href="route('offer.main', ['simferopol', set.question.usluga.url])">{{ set.question.usluga.usl_name }}
-                в городе Симферополь</a>
+              <a :href="route('offer.main', ['simferopol', set.question.uslugis_url])">{{ set.question.uslugis_usl_name }}
+                </a>
             </h2>
             ?
           </span>
 
           <p itemprop="text" class="mt-5 text-md text-gray-900">
-            {{ set.question.body }}
+            {{ set.question.abody }}
           </p>
 
 
@@ -152,8 +150,7 @@ const setUsluga = () => {
           </p>
 
           <div class="md:flex justify-start">
-
-            <div class="mr-3 my-5 md:my-0" v-if="usluga_id == 0 || authid == 1">
+            <div class="mr-3 my-5 md:my-0" v-if="set.question.uslugis_url == 0 || authid == 1">
               <label class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white">Выберите
                 категорию</label>
               <select v-model="form.usluga" @change="setUsluga()"

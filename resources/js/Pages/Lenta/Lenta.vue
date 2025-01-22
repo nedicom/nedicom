@@ -50,7 +50,7 @@ defineProps({
         <div class="flex flex-col gap-9">
           <h1 class="text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ h1 }} у юристов в ленте</h1>
           <!-- card -->
-            <Bundle :bundles="bundles"/>
+            <Bundle :bundles="bundles" :auth="auth"/>
           <!-- card -->
         </div>
         <Pagination v-if="bundles.total > 10" :links="bundles.links" />
