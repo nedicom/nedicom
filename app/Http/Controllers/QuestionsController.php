@@ -91,7 +91,7 @@ class QuestionsController extends Controller
                 ->with('UserAns')
                 ->with('subcomments')
                 ->get(),
-            'aianswer' => Inertia::lazy(fn() => OpenAI::Answer($question->body)),
+            'aianswer' => Inertia::lazy(fn() => OpenAI::Answer($question->abody)),
             'authid' => (Auth::user()) ? Auth::user()->id : null,
             'auth' => (Auth::user()) ? Auth::user() : null,
             //'countanswer' => Article::where('userid', $id)->count(), 

@@ -62,8 +62,8 @@ class OpenAI{
             if (curl_errno($ch)) {
                 echo 'Error:' . curl_error($ch);
             }
-           
             $response_data = json_decode($result, true);
+            
             $generated_text = $response_data['choices'][0]['message']['content'];
             curl_close($ch);
             return $generated_text;

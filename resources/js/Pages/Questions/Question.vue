@@ -33,7 +33,7 @@ if (set.question.usluga != null) {
 
 let form = reactive({
   id: set.question.id,
-  body: set.question.body,
+  body: set.question.abody,
   usluga: usluga_id,
 });
 
