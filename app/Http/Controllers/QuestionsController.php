@@ -43,6 +43,7 @@ class QuestionsController extends Controller
         $user_id = Auth::user() ? Auth::user()->id : null;
 
         $question = DB::table('questions')
+            ->where('questions.url', '=', $url)
             ->leftjoin('users', 'questions.user_id', '=', 'users.id')
             ->leftjoin('answers', 'questions.id', '=', 'answers.questions_id')
             ->leftjoin('uslugis', 'questions.usluga', '=', 'uslugis.id')
