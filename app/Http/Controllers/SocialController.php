@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Models\Questions;
+use App\Models\Uslugi;
+use App\Models\User;
 use App\Models\Bundles_social;
 
 use Illuminate\Support\Facades\Auth;
@@ -19,19 +21,36 @@ class SocialController extends Controller
         if (!Auth::user()) {
             return redirect()->back();
         }
-
+ $bundle = false;
         /*check question or article */
-        if ($request->property) {
+        if ($request->property == "articles") {            
             $bundle = Article::find($request->id);
             $reaction = Bundles_social::firstOrNew(
                 ['users_id' => Auth::user()->id, 'article_id' => $bundle->id],
             );
-        } else {
+        } 
+        if ($request->property == "questions") {
             $bundle = Questions::find($request->id);
             $reaction = Bundles_social::firstOrNew(
                 ['users_id' => Auth::user()->id, 'question_id' => $bundle->id],
             );
         }
+
+        if ($request->property == "uslugi") {
+            $bundle = Uslugi::find($request->id);
+            $reaction = Bundles_social::firstOrNew(
+                ['users_id' => Auth::user()->id, 'uslugis_id' => $bundle->id],
+            );
+        }
+
+        if ($request->property == "user") {
+            $bundle = User::find($request->id);
+            $reaction = Bundles_social::firstOrNew(
+                ['users_id' => Auth::user()->id, 'lawyer_id' => $bundle->id],
+            );
+        }
+
+        if(!$bundle){dd($request);}
 
         switch ($request->type) {
             case 'bookmarks': //reaction type == bookmarks

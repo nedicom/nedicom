@@ -18,7 +18,7 @@ defineProps({
 <template>
 
   <Head>
-    <title>{{ h1 }} у юристов</title>
+    <title>{{ h1 }}</title>
     <meta name="description" :content="h1 + ' у юристов на сайте. Тут юристы дают консультации онлайн, бесплатно, без регистрации и смс.'" />
   </Head>
 
@@ -27,10 +27,21 @@ defineProps({
   <Header :modalPageTitle="'лента'" />
 
   <Body>
-    <div class="grid grid-cols-1 md:grid-cols-4 bg-slate-100">
+    <div class="grid grid-cols-1 md:grid-cols-4 bg-slate-100 py-5">
+      <div class="">
+        <div class="w-full flex justify-between md:flex-col md:text-xl md:mt-12 px-5">
+          <NavLinkLeft :href="route('profile.edit')" :active="route().current('profile.edit')">
+            Профиль
+          </NavLinkLeft>
+          <NavLinkLeft :href="route('lenta.liked')" :active="route().current('lenta.liked')">
+            Понравилось
+          </NavLinkLeft>
+          <NavLinkLeft :href="route('lenta.bookmarked')" :active="route().current('lenta.bookmarked')">
+            Закладки
+          </NavLinkLeft>
+        </div>
 
-      <div class="flex md:justify-end md:mt-12 md:ml-16 px-5 my-5">
-        <div class="w-full flex justify-between md:justify-start md:flex-col md:min-w-full md:text-xl md:mr-5">
+        <div class="w-full flex justify-between md:flex-col md:text-xl md:mt-12 px-5 my-5">
           <NavLinkLeft :href="route('lenta.popular')" :active="route().current('lenta.popular')">
             Популярное
           </NavLinkLeft>
@@ -47,16 +58,15 @@ defineProps({
       </div>
 
       <div class="md:col-span-3 md:max-w-7xl md:mt-12 md:mx-auto sm:px-6 lg:px-8 overflow-hidden">
+        
         <div class="flex flex-col gap-9">
-          <h1 class="text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ h1 }} у юристов в ленте</h1>
+          <h1 class="text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ h1 }}</h1>
           <!-- card -->
             <Bundle :bundles="bundles" :auth="auth"/>
           <!-- card -->
         </div>
         <Pagination v-if="bundles.total > 10" :links="bundles.links" />
-      </div>
-
-      
+      </div>      
 
     </div>
   </Body>

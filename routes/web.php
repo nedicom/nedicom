@@ -133,6 +133,8 @@ Route::get('/policy', function () {
 })->name('policy');
 
 Route::controller(LentaController::class)->group(function () {
+    Route::get('/lenta/liked', 'liked')->name('lenta.liked');
+    Route::get('/lenta/bookmarked', 'bookmarked')->name('lenta.bookmarked');
     Route::get('/lenta/popular', 'popular')->name('lenta.popular');
     Route::get('/lenta/new', 'new')->name('lenta.new');
     Route::get('/lenta/articles', 'articles')->name('lenta.articles');

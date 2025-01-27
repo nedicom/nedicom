@@ -11,6 +11,15 @@ class Bundles_social extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['users_id', 'article_id', 'question_id', 'likes', 'shares', 'bookmarks', 'comments'];
-    
+    protected $fillable = [
+        'users_id',
+        'article_id',
+        'question_id',
+        'likes',
+        'shares',
+        'bookmarks',
+        'comments',
+        'uslugis_id',
+        'lawyer_id',
+    ];
 }

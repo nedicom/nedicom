@@ -13,7 +13,6 @@ let set = defineProps({
     :key="bundle.id"
     class="flex justify-center mx-3 md:mx-0"
   >
-  
     <article
       class="min-w-full p-6 bg-white rounded-lg border border-gray-200 shadow-md grid grid-cols-1 content-between"
     >
@@ -91,7 +90,6 @@ let set = defineProps({
 
                 <span class="mr-5 text-xs flex items-center">
                   <span
-                    v-if="bundle.type == '0' || bundle.type == 0"
                     class="font-bold inline-flex items-center py-0.5 rounded"
                   >
                     <svg
@@ -104,24 +102,10 @@ let set = defineProps({
                         d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"
                       ></path>
                     </svg>
-                    Вопрос
-                  </span>
-
-                  <span
-                    v-else
-                    class="font-bold inline-flex items-center py-0.5 rounded"
-                  >
-                    <svg
-                      class="mr-1 w-3 h-3"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"
-                      ></path>
-                    </svg>
-                    Статья
+                    <span v-if="bundle.type == 'questions'">Вопрос</span>
+                    <span v-if="bundle.type == 'articles'">Статья</span>
+                    <span v-if="bundle.type == 'uslugi'">Услуга</span>
+                    <span v-if="bundle.type == 'lawyer'">Юрист</span>
                   </span>
                   <span class="ml-4">{{ bundle.created_at }}</span>
                 </span>
@@ -154,47 +138,72 @@ let set = defineProps({
           <!--name component -->
         </div>
         <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">
-          <a
-            v-if="bundle.type == '0' || bundle.type == 0"
-            :href="route('questions.url', bundle.url)"
-            >{{ bundle.header }}</a
-          >
-          <a v-else :href="route('articles/url', bundle.url)">{{
+          <a :href="'/' + bundle.type + '/' + bundle.url">{{
             bundle.header
           }}</a>
         </h2>
-        <p class="mb-5 font-light text-gray-800 line-clamp-2">
+        <p class="mb-8 font-light text-gray-800 line-clamp-2">
           {{ bundle.abody }}
         </p>
 
-        <div class="group flex item-center mb-2">
-          <div v-if="bundle.comment">
-            <div class="flex items-center">
-              <img
-                :src="'https://nedicom.ru/' + bundle.avatar"
-                class="w-8 h-8 rounded-full"
-                alt="{{ bundle.name }} avatar"
-              />
-              <span class="text-sm text-gray-500 ml-2 line-clamp-2">
+        <div v-if="bundle.comment" class="group flex item-center mb-8">          
+            <div class="grid grid-cols-6 md:grid-cols-10 w-full items-center">
+              <div v-if="bundle.avatar" class="flex justify-end pr-3">
+                <img
+                  :src="'https://nedicom.ru/' + bundle.avatar"
+                  class="w-8 h-8 rounded-full"
+                  alt="{{ bundle.name }} avatar"
+              /></div>
+              <div v-else class="flex justify-end pr-3">
+                <svg
+                  width="30px"
+                  height="30px"
+                  fill="none"
+                  viewBox="0 0 50 50"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="block w-auto fill-current text-gray-800"
+                >
+                  <path
+                    d="m14.984 14.932 8.86-4.51 8.678 4.27.008 13.396-17.503.003-.043-13.159"
+                    style="
+                      fill: none;
+                      stroke: rgb(234, 0, 0);
+                      stroke-width: 2.41544;
+                      stroke-linecap: round;
+                      stroke-linejoin: round;
+                      stroke-miterlimit: 4;
+                      stroke-dasharray: none;
+                      stroke-opacity: 1;
+                    "
+                  ></path>
+                  <path
+                    d="m2.705 22.19 8.859-4.51 8.679 4.27.008 13.397-17.503.003-.043-13.16m24.664 0 8.859-4.51 8.679 4.27.007 13.397-17.503.003-.042-13.16"
+                    style="
+                      fill: none;
+                      stroke: rgb(0, 0, 0);
+                      stroke-width: 2.41544;
+                      stroke-linecap: round;
+                      stroke-linejoin: round;
+                      stroke-miterlimit: 4;
+                      stroke-dasharray: none;
+                      stroke-opacity: 0.988235;
+                    "
+                  ></path></svg
+              ></div>
+              <div class="col-span-5 md:col-span-9 text-sm text-gray-500 line-clamp-2">
                 {{ bundle.comment }}
-              </span>
-            </div>
+              </div>
+            
           </div>
         </div>
       </div>
 
       <div class="flex justify-between">
-
-        <ShareButtons :bundle="bundle" :auth="set.auth"/>     
+        <ShareButtons :bundle="bundle" :auth="set.auth" />
 
         <!--commets-->
         <a
-          :href="
-            route(
-              bundle.type == 0 ? 'questions.url' : 'articles/url',
-              bundle.url + '#comment'
-            )
-          "
+          :href="'/' + bundle.type + '/' + bundle.url + '#comment'"
           class="flex items-center text-gray-500 hover:text-gray-700"
         >
           <svg
@@ -219,29 +228,7 @@ let set = defineProps({
         </a>
         <!--commets-->
         <a
-          v-if="bundle.type == '0' || bundle.type == 0"
-          :href="route('questions.url', bundle.url)"
-          class="inline-flex items-center font-medium text-primary-600 dark:text-primary-500 hover:underline"
-        >
-          подробнее
-
-          <svg
-            class="ml-2 w-4 h-4"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            ></path>
-          </svg>
-        </a>
-
-        <a
-          v-else
-          :href="route('articles/url', bundle.url)"
+          :href="'/' + bundle.type + '/' + bundle.url"
           class="inline-flex items-center font-medium text-primary-600 dark:text-primary-500 hover:underline"
         >
           подробнее

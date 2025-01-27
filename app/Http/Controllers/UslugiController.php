@@ -34,6 +34,8 @@ class UslugiController extends Controller
 
         $city = CitySet::CitySet($request, $cityurl);
 
+        $user_id = Auth::user() ? Auth::user()->id : null;
+
         $category = Uslugi::where('is_main', 1)
             ->where('is_feed', 1)
             ->with(['mainhasoffer' => function ($query) {
@@ -47,7 +49,29 @@ class UslugiController extends Controller
         $uslugi = Uslugi::where('is_main', '!=', 1)
             ->where('is_second', null)
             ->where('is_feed', 1)
-            ->inRandomOrder()
+            ->leftjoin('bundles_socials', function ($join) use ($user_id) {
+                $join->on('bundles_socials.uslugis_id', '=', 'uslugis.id')
+                    ->where('bundles_socials.users_id', '=', $user_id);
+            })
+            ->select(
+                'uslugis.id',
+                'uslugis.file_path',
+                'uslugis.usl_name',
+                'uslugis.url',
+                'uslugis.url as clean_url',
+                'uslugis.sity',
+                'uslugis.main_usluga_id',
+                'uslugis.second_usluga_id',
+                'uslugis.usl_desc',
+                'uslugis.price',
+                'uslugis.likes',
+                'uslugis.shares',
+                'uslugis.bookmarks',
+                'bundles_socials.likes as user_like',
+                'bundles_socials.bookmarks as user_bookmark',
+                'bundles_socials.shares as user_share'
+            )
+            ->selectRaw('IF(uslugis.id, "uslugi", false) AS type')
             ->with('cities')
             ->with('main')
             ->with('second')
@@ -60,6 +84,14 @@ class UslugiController extends Controller
             ->withSum('review', 'rating')
             ->with('review')
             ->paginate(10);
+
+            foreach ($uslugi as $item) {                
+                $item->url = $item->cities->url . '/' .
+                $item->main->url . '/' .
+                $item->second->url . '/' .                 
+                $item->url;
+            }
+            
 
         return Inertia::render('Uslugi/Uslugi', [
             'city' => $city,

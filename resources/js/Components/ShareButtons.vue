@@ -8,7 +8,6 @@ const set = defineProps({
 });
 
 let iconCopy = ref(true);
-let bundletype;
 let href;
 let tgHref;
 let vkHref;
@@ -28,8 +27,8 @@ let submit = (property, id, type, value) => {
 };
 
 function setShare(type, url, id, reaction) {
-  bundletype = type != 0 ? "articles" : "questions";
-  href = "https://nedicom.ru/" + bundletype + "/" + url;
+  
+  href = "https://nedicom.ru/" + type + "/" + url;
 
   tgHref =
     "https://telegram.me/share/url?url=" +
