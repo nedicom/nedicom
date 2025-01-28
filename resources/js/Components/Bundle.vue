@@ -11,10 +11,10 @@ let set = defineProps({
   <div
     v-for="bundle in set.bundles.data"
     :key="bundle.id"
-    class="flex justify-center mx-3 md:mx-0"
+    class="flex justify-center px-1 md:px-0 w-full"
   >
     <article
-      class="min-w-full p-6 bg-white rounded-lg border border-gray-200 shadow-md grid grid-cols-1 content-between"
+      class="w-full p-6 bg-white rounded-lg border border-gray-200 shadow-md grid grid-cols-1 content-between"
     >
       <div>
         <div class="flex justify-between items-center mb-5 text-gray-500">

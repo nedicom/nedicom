@@ -168,6 +168,14 @@ class QuestionsController extends Controller
         $Question->title = $request->header;
         $Question->body = $request->body;
         $url = Translate::translit($request->header);
+        
+        $check = Questions::where('url', $url)->first();
+        $num = 1;
+        while($check){
+            $url = $url . "-" .$num;
+            $check = Questions::where('url', $url)->first();
+            $num++;
+        }
         $Question->url = $url;
         if (Auth::user()) {
             $Question->user_id = Auth::user()->id;

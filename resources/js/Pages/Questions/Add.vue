@@ -39,6 +39,10 @@ let submit = () => {
 let flag = 0; //cheker func once
 let words = [];
 
+const btnStatus = () => {
+  buttonDisabled.value = false;
+}
+
 //get similar question
 const getQuestions = () => {
   let wordArray = form.header.split(" "); //get words from title onBlur
@@ -140,7 +144,7 @@ const getQuestions = () => {
                   itemprop="query"
                   :onBlur="getQuestions"
                   v-model="form.header"
-                  @input="onInputheader"
+                  @input="onInputheader, btnStatus()"
                   maxlength="55"
                   name="header"
                   required
