@@ -34,8 +34,6 @@ class UslugiController extends Controller
 
         $city = CitySet::CitySet($request, $cityurl);
 
-        $user_id = Auth::user() ? Auth::user()->id : null;
-
         $category = Uslugi::where('is_main', 1)
             ->where('is_feed', 1)
             ->with(['mainhasoffer' => function ($query) {
@@ -45,6 +43,8 @@ class UslugiController extends Controller
             }])
             ->with('mainhassecond')
             ->get();
+
+        $user_id = Auth::user() ? Auth::user()->id : null;
 
         $uslugi = Uslugi::where('is_main', '!=', 1)
             ->where('is_second', null)
@@ -85,13 +85,13 @@ class UslugiController extends Controller
             ->with('review')
             ->paginate(10);
 
-            foreach ($uslugi as $item) {                
-                $item->url = $item->cities->url . '/' .
+        foreach ($uslugi as $item) {
+            $item->url = $item->cities->url . '/' .
                 $item->main->url . '/' .
-                $item->second->url . '/' .                 
+                $item->second->url . '/' .
                 $item->url;
-            }
-            
+        }
+
 
         return Inertia::render('Uslugi/Uslugi', [
             'city' => $city,
@@ -121,7 +121,7 @@ class UslugiController extends Controller
 
     public function show($url, Request $request) // http://nedicom.ru/uslugi/city
     {
-        //check city in url
+        //check city in url  
         if (cities::where('url', $url)->first()) {
             $cities = [];
             if ($request->city) {
@@ -146,21 +146,49 @@ class UslugiController extends Controller
                 ->with('mainhassecond')
                 ->get();
 
+            $user_id = Auth::user() ? Auth::user()->id : null;
+
             $uslugi = Uslugi::where('is_main', '!=', 1)
                 ->where('is_second', null)
                 ->where('is_feed', 1)
+                ->where('sity', $city->id)
+                ->leftjoin('bundles_socials', function ($join) use ($user_id) {
+                    $join->on('bundles_socials.uslugis_id', '=', 'uslugis.id')
+                        ->where('bundles_socials.users_id', '=', $user_id);
+                })
+                ->select(
+                    'uslugis.id',
+                    'uslugis.file_path',
+                    'uslugis.usl_name',
+                    'uslugis.url',
+                    'uslugis.url as clean_url',
+                    'uslugis.sity',
+                    'uslugis.main_usluga_id',
+                    'uslugis.second_usluga_id',
+                    'uslugis.usl_desc',
+                    'uslugis.price',
+                    'uslugis.likes',
+                    'uslugis.shares',
+                    'uslugis.bookmarks',
+                    'bundles_socials.likes as user_like',
+                    'bundles_socials.bookmarks as user_bookmark',
+                    'bundles_socials.shares as user_share'
+                )
+                ->selectRaw('IF(uslugis.id, "uslugi", false) AS type')
                 ->with('cities')
                 ->with('main')
                 ->with('second')
-                ->when(session()->get('cityid') ?? null, function ($query, $sescity) {
-                    $query->where(function ($query) use ($sescity) {
-                        $query->where('sity', $sescity);
-                    });
-                })
                 ->withCount('review')
                 ->withSum('review', 'rating')
                 ->with('review')
                 ->paginate(10);
+
+            foreach ($uslugi as $item) {
+                $item->url = $item->cities->url . '/' .
+                    $item->main->url . '/' .
+                    $item->second->url . '/' .
+                    $item->url;
+            }
 
             return Inertia::render('Uslugi/Uslugi', [
                 'city' => $city,
@@ -237,24 +265,50 @@ class UslugiController extends Controller
 
         $city = CitySet::CitySet($request, $city->url);
 
+        $user_id = Auth::user() ? Auth::user()->id : null;
 
         $uslugi = Uslugi::where('main_usluga_id', $main->id)
+            ->where('sity', $city->id)
             ->where('is_main', '!=', 1)
             ->where('is_second', null)
-            ->where('second_usluga_id', 0)
             ->where('is_feed', 1)
-            ->where('sity', $city->id)
+            ->leftjoin('bundles_socials', function ($join) use ($user_id) {
+                $join->on('bundles_socials.uslugis_id', '=', 'uslugis.id')
+                    ->where('bundles_socials.users_id', '=', $user_id);
+            })
+            ->select(
+                'uslugis.id',
+                'uslugis.file_path',
+                'uslugis.usl_name',
+                'uslugis.url',
+                'uslugis.url as clean_url',
+                'uslugis.sity',
+                'uslugis.main_usluga_id',
+                'uslugis.second_usluga_id',
+                'uslugis.usl_desc',
+                'uslugis.price',
+                'uslugis.likes',
+                'uslugis.shares',
+                'uslugis.bookmarks',
+                'bundles_socials.likes as user_like',
+                'bundles_socials.bookmarks as user_bookmark',
+                'bundles_socials.shares as user_share'
+            )
+            ->selectRaw('IF(uslugis.id, "uslugi", false) AS type')
             ->with('cities')
             ->with('main')
             ->with('second')
-            /*->when(session()->get('cityid') ?? null, function ($query, $sescity) {
-                $query->where(function ($query) use ($sescity) {
-                    $query->where('sity', $sescity);
-                });
-            })*/
             ->withCount('review')
             ->withSum('review', 'rating')
+            ->with('review')
             ->paginate(10);
+
+        foreach ($uslugi as $item) {
+            $item->url = $item->cities->url . '/' .
+                $item->main->url . '/' .
+                $item->second->url . '/' .
+                $item->url;
+        }
 
         $cities = '';
         if ($request->city) {
@@ -307,40 +361,94 @@ class UslugiController extends Controller
 
         $city = CitySet::CitySet($request, $city->url);
 
+        $user_id = Auth::user() ? Auth::user()->id : null;
+
         if ($second->id == 0) {
             $uslugi = Uslugi::where('main_usluga_id', $main->id)
+                ->where('sity', $city->id)
                 ->where('is_main', '!=', 1)
                 ->where('is_second', null)
                 ->where('is_feed', 1)
-                ->where('sity', $city->id)
+                ->leftjoin('bundles_socials', function ($join) use ($user_id) {
+                    $join->on('bundles_socials.uslugis_id', '=', 'uslugis.id')
+                        ->where('bundles_socials.users_id', '=', $user_id);
+                })
+                ->select(
+                    'uslugis.id',
+                    'uslugis.file_path',
+                    'uslugis.usl_name',
+                    'uslugis.url',
+                    'uslugis.url as clean_url',
+                    'uslugis.sity',
+                    'uslugis.main_usluga_id',
+                    'uslugis.second_usluga_id',
+                    'uslugis.usl_desc',
+                    'uslugis.price',
+                    'uslugis.likes',
+                    'uslugis.shares',
+                    'uslugis.bookmarks',
+                    'bundles_socials.likes as user_like',
+                    'bundles_socials.bookmarks as user_bookmark',
+                    'bundles_socials.shares as user_share'
+                )
+                ->selectRaw('IF(uslugis.id, "uslugi", false) AS type')
                 ->with('cities')
                 ->with('main')
                 ->with('second')
-                ->when(session()->get('cityid') ?? null, function ($query, $sescity) {
-                    $query->where(function ($query) use ($sescity) {
-                        $query->where('sity', $sescity);
-                    });
-                })
                 ->withCount('review')
                 ->withSum('review', 'rating')
+                ->with('review')
                 ->paginate(10);
-        } else {
+
+            foreach ($uslugi as $item) {
+                $item->url = $item->cities->url . '/' .
+                    $item->main->url . '/' .
+                    $item->second->url . '/' .
+                    $item->url;
+            }
+        } else {            
             $uslugi = Uslugi::where('second_usluga_id', $second->id)
+                ->where('sity', $city->id)
                 ->where('is_main', '!=', 1)
                 ->where('is_second', null)
                 ->where('is_feed', 1)
-                ->where('sity', $city->id)
+                ->leftjoin('bundles_socials', function ($join) use ($user_id) {
+                    $join->on('bundles_socials.uslugis_id', '=', 'uslugis.id')
+                        ->where('bundles_socials.users_id', '=', $user_id);
+                })
+                ->select(
+                    'uslugis.id',
+                    'uslugis.file_path',
+                    'uslugis.usl_name',
+                    'uslugis.url',
+                    'uslugis.url as clean_url',
+                    'uslugis.sity',
+                    'uslugis.main_usluga_id',
+                    'uslugis.second_usluga_id',
+                    'uslugis.usl_desc',
+                    'uslugis.price',
+                    'uslugis.likes',
+                    'uslugis.shares',
+                    'uslugis.bookmarks',
+                    'bundles_socials.likes as user_like',
+                    'bundles_socials.bookmarks as user_bookmark',
+                    'bundles_socials.shares as user_share'
+                )
+                ->selectRaw('IF(uslugis.id, "uslugi", false) AS type')
                 ->with('cities')
                 ->with('main')
                 ->with('second')
-                ->when(session()->get('cityid') ?? null, function ($query, $sescity) {
-                    $query->where(function ($query) use ($sescity) {
-                        $query->where('sity', $sescity);
-                    });
-                })
                 ->withCount('review')
                 ->withSum('review', 'rating')
+                ->with('review')
                 ->paginate(10);
+
+            foreach ($uslugi as $item) {
+                $item->url = $item->cities->url . '/' .
+                    $item->main->url . '/' .
+                    $item->second->url . '/' .
+                    $item->url;
+            }
         }
 
 
