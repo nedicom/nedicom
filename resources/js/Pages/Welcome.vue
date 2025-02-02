@@ -19,8 +19,6 @@ import Bundle from "@/Components/Bundle.vue";
 import FlashMessage from "@/Components/FlashMessage.vue";
 import { Head } from "@inertiajs/inertia-vue3";
 
-import '../../../node_modules/vue-preloader/dist/style.css'
-import { VuePreloader } from "vue-preloader";
 import { ref } from 'vue';
 
 const showAnimation = ref(true)
@@ -104,8 +102,6 @@ let mainbannerpc =
 
     <!--<PopupDialogue />-->
   </div>
-
-
 
 </template>
 
