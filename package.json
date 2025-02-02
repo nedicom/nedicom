@@ -44,6 +44,7 @@
         "vue-advanced-cropper": "^2.8.8",
         "vue-final-modal": "^4.4.2",
         "vue-meta": "^2.4.0",
+        "vue-preloader": "^1.1.4",
         "vue-writer": "^1.2.0",
         "vue-yandex-metrika": "^1.8.3",
         "vue3-carousel": "^0.3.1"

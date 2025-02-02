@@ -18,7 +18,12 @@ import PopupDialogue from "@/Layouts/PopupDialogue/PopupDialogue.vue";
 import Bundle from "@/Components/Bundle.vue";
 import FlashMessage from "@/Components/FlashMessage.vue";
 import { Head } from "@inertiajs/inertia-vue3";
-import { ref } from "vue";
+
+import '../../../node_modules/vue-preloader/dist/style.css'
+import { VuePreloader } from "vue-preloader";
+import { ref } from 'vue';
+
+const showAnimation = ref(true)
 
 defineProps({
   city: Object,
@@ -52,20 +57,11 @@ let mainbannerpc =
     <title>
       Услуги юриста: бесплатно, онлайн, телефон, задать вопрос, консультация
     </title>
-    <meta
-      name="description"
-      content="Ресурс позволяет найти юриста по своей проблеме, получить консультацию юриста, задать вопрос юристу онлайн, поулчить телефон юриста. Оказываем услуги по \
-    городу Москва и Республике Крым"
-    />
-    <meta
-      property="og:title"
-      content="Услуги юриста: бесплатно, онлайн, телефон, задать вопрос, консультация"
-    />
-    <meta
-      property="og:description"
-      content="Ресурс позволяет найти юриста по своей проблеме, получить консультацию юриста, задать вопрос юристу онлайн, получить телефон юриста. Оказываем услуги по \
-    городу Москва и Республике Крым"
-    />
+    <meta name="description" content="Ресурс позволяет найти юриста по своей проблеме, получить консультацию юриста, задать вопрос юристу онлайн, поулчить телефон юриста. Оказываем услуги по \
+    городу Москва и Республике Крым" />
+    <meta property="og:title" content="Услуги юриста: бесплатно, онлайн, телефон, задать вопрос, консультация" />
+    <meta property="og:description" content="Ресурс позволяет найти юриста по своей проблеме, получить консультацию юриста, задать вопрос юристу онлайн, получить телефон юриста. Оказываем услуги по \
+    городу Москва и Республике Крым" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://nedicom.ru" />
     <meta property="og:image" :content="secondbannerpc" />
@@ -73,38 +69,22 @@ let mainbannerpc =
     <meta property="og:locale" content="ru_RU" />
   </Head>
 
-  <div
-    class="min-h-screen"
-    itemscope
-    itemtype="https://schema.org/LegalService"
-  >
-    <MainHeader :auth="auth" :city="city"/>
+  <div class="min-h-screen" itemscope itemtype="https://schema.org/LegalService">
+    <MainHeader :auth="auth" :city="city" />
 
     <Header :modalPageTitle="'Модальное окно главная'" />
 
-    <FrontBanner
-      :statusonimage="'Юридическая компания МИНА'"
-      :phnform="true"
-      :secondbannerimgmobile="secondbannerimgmobile"
-      :secondbannerpc="secondbannerpc"
-    />
+    <FrontBanner :statusonimage="'Юридическая компания МИНА'" :phnform="true"
+      :secondbannerimgmobile="secondbannerimgmobile" :secondbannerpc="secondbannerpc" />
 
-    <FrontQuestion
-      :mainoffers="mainoffers"
-      :secondoffers="secondoffers"
-      :city="city"
-    />
+    <FrontQuestion :mainoffers="mainoffers" :secondoffers="secondoffers" :city="city" />
 
-    <Pile
-      :uslugislider="mainoffers"
-      :secondoffers="secondoffers"
-      :city="city.url"
-    />
+    <Pile :uslugislider="mainoffers" :secondoffers="secondoffers" :city="city.url" />
 
     <!--
     <SliderUslug :secondoffers="secondoffers" :city="city.url" />-->
 
-    <InfinityScroll :bundles="bundles" :auth="auth"/>    
+    <InfinityScroll :bundles="bundles" :auth="auth" />
 
     <!--<Mainbanner :mainbannerimgmobile="mainbannerimgmobile" :mainbannerpc="mainbannerpc" />-->
 
@@ -124,6 +104,28 @@ let mainbannerpc =
 
     <!--<PopupDialogue />-->
   </div>
+
+  <VuePreloader
+  background-color="#091a28"
+  color="#ffffff"
+  transition-type="fade-up"
+  :loading-speed="20"
+  :transition-speed="700"
+  @loading-is-over="showAnimation = false"
+  @transition-is-over="transitionIsOver"
+>
+  <template v-slot="{ percent, color }">
+    <transition name="loading-animation" mode="in-out">
+      <span
+        v-if="showAnimation"
+        :style="{ color }"
+      >
+        {{ percent }}
+      </span>
+    </transition>
+  </template>
+</VuePreloader>
+
 </template>
 
 <script>
