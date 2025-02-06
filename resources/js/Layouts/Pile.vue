@@ -11,9 +11,9 @@ const props = defineProps({
             <div v-for="(item, numb) in props.uslugislider" :key="numb" class="bg-white rounded-lg border border-gray-200">
                 <a :href="'/uslugi/' + props.city +'/' + item.url" class="">
                     <img :src="'https://nedicom.ru/' + item.file_path" class="rounded-t-lg"/>
-                    <h3 class="mb-2 text-xl font-bold tracking-tight text-gray-900">
+                    <h4 class="text-sm md:text-xl py-3 text-center font-bold tracking-tight text-gray-900">
                         {{ item.usl_name }}
-                    </h3>
+                    </h4>
                 </a>
             </div>
         </div>

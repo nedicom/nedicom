@@ -11,17 +11,18 @@ class CitySet
 {
     public static function CitySet($request, $cityurl)
     {
+       
         if (Auth::user() && $request->setcity) { //set city to profile
             $user = User::find(Auth::user()->id);  
             $user->city = $request->city;
             $user->city_id = $request->cityid;    
-            $user->save();                
+            $user->save();  
         }
         if ($request->cityid) { //from Cityfilter form or form in header    
             if ($request->cityid == 'zero') {
                 $city = collect(['id' => 0, 'title' => '']);
                 session(['cityid' => 0, 'citytitle' => '']);
-            } else {
+            } else {              
                 $city = cities::where('id', $request->cityid)->first();
                 session(['cityid' => $city->id, 'citytitle' => $city->title]);
             }

@@ -13,32 +13,47 @@ use App\Helpers\OpenAI;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
+use App\Helpers\CitySet;
+
 use App\Casts\humandate;
 
 class QuestionsController extends Controller
 {
     public function index()
     {
+        $city = CitySet::CityGet();
+
         return Inertia::render('Questions/Questions', [
             'questions' => Questions::orderBy('created_at', 'desc')->paginate(9),
             'auth' => Auth::user(),
+            'city' => $city,
         ]);
     }
 
     public function myQuestions()
     {
+        $city = CitySet::CityGet();
+
         return Inertia::render('Questions/MyQuestions', [
             'questions' => Questions::where('user_id', '=', Auth::user()->id)->select('id', 'title', 'body', 'url')->withCount('QuantityAns')->orderBy('updated_at', 'desc')->paginate(9),
             'auth' => Auth::user(),
+            'city' => $city,
         ]);
     }
 
     public function questionsURL($url)
     {
+        $city = CitySet::CityGet();
+
+        $usluga = Uslugi::where('url', $url)->first();
+
+        if($usluga){
+            return redirect()->route('uslugi.url', $url);
+        }
+
         $question = Questions::where('url', $url)->firstOrFail();
 
         DB::table('questions')->where('questions.url', $url)->increment('counter', 1);
-
 
         $user_id = Auth::user() ? Auth::user()->id : null;
 
@@ -61,6 +76,7 @@ class QuestionsController extends Controller
                 'questions.bookmarks',
                 'questions.comments',
                 'questions.id',
+                'questions.usluga',
                 'questions.title AS header',
                 'questions.body AS abody',
                 'questions.created_at AS created_at',
@@ -94,6 +110,7 @@ class QuestionsController extends Controller
             'aianswer' => Inertia::lazy(fn() => OpenAI::Answer($question->abody)),
             'authid' => (Auth::user()) ? Auth::user()->id : null,
             'auth' => (Auth::user()) ? Auth::user() : null,
+            'city' => $city,
             //'countanswer' => Article::where('userid', $id)->count(), 
         ]);
     }
@@ -119,12 +136,15 @@ class QuestionsController extends Controller
 
     public function questionsNonAuth()
     {
+        $city = CitySet::CityGet();
+
         return Inertia::render('Questions/QuestionNA', [
             'ownercookie' => [
                 'questionTitle' => session()->get(key: 'questionTitle'),
                 'questionBody' => session()->get(key: 'questionBody'),
             ],
             'auth' => Auth::user(),
+            'city' => $city,
         ]);
     }
 
@@ -152,6 +172,8 @@ class QuestionsController extends Controller
 
     public function questionAdd(Request $request)
     {
+        $city = CitySet::CityGet();
+
         $questions = Questions::limit(20)->withCount('QuantityAns')->orderBy('updated_at', 'desc')->get();
 
         return Inertia::render('Questions/Add', [
@@ -159,6 +181,7 @@ class QuestionsController extends Controller
             'SliderQ' => $questions,
             'auth' => Auth::user(),
             'filters' => $request->all(),
+            'city' => $city,
         ]);
     }
 

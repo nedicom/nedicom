@@ -20,8 +20,8 @@ defineProps({
               class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold"
             >
               <img
-                class="mr-2 w-6 h-6 rounded-full"
-                src="/storage/default/user.webp"
+                class="mr-2 w-10 h-10 rounded-full"
+                src="https://nedicom.ru/storage/default/avatar.webp"
                 alt="Незарегистрированный пользователь"
               />Вы
             </p>

@@ -16,7 +16,7 @@
                                 href="https://nedicom.ru/">главная</a>
                         </li>
                         <li class="w-full px-4 py-2 rounded-t-lg dark:border-gray-600"><a class="border-b border-gray-200 hover:border-none"
-                                href="https://nedicom.ru/lenta/popular">лента</a>
+                                href="https://nedicom.ru/popular">лента</a>
                         </li>
                         <li class="w-full px-4 py-2 rounded-t-lg dark:border-gray-600"><a class="border-b border-gray-200 hover:border-none"
                                 href="https://nedicom.ru/questions/add">вопрос юристу</a>

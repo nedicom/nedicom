@@ -20,6 +20,7 @@ let questionId = ref(null);
 defineProps({
   questions: "Array",
   auth: Object,
+  city: Object,
 });
 
 const { open, close } = useModal({
@@ -53,7 +54,7 @@ const handleDelete = (id, title) => {
   </Head>
 
   <div class="min-h-screen flex flex-col">
-    <MainHeader :auth="auth" />
+    <MainHeader :auth="auth" :city="city"/>
 
     <ModalsContainer />
 

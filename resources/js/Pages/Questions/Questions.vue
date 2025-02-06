@@ -11,6 +11,7 @@ import { Head, Link } from "@inertiajs/inertia-vue3";
 defineProps({
   questions: "Array",
   auth: Object,
+  city: Object,
 });
 
 let title = ref("Вопросы");
@@ -23,7 +24,7 @@ let title = ref("Вопросы");
     <meta name="description" content="вопросы" />
   </Head>
 
-  <MainHeader :auth="auth" />
+  <MainHeader :auth="auth" :city="city"/>
 
   <Header :ttl="title" />
 

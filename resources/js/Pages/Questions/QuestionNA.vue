@@ -13,6 +13,7 @@ let set = defineProps({
   ownercookie: Object,
   test: String,
   auth: Object,
+  city: Object,
 });
 
 let aianswer;
@@ -44,7 +45,7 @@ let submit = () => {
   </Head>
 
   <div class="min-h-screen">
-    <MainHeader :auth="set.auth" />
+    <MainHeader :auth="set.auth" :city="set.city"/>
 
     <Body>
       <Question :user="set.auth">

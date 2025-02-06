@@ -20,6 +20,7 @@ let set = defineProps({
   lawyers: "Object",
   SliderQ: Array,
   auth: Object,
+  city: Object,
 });
 
 const data = ref(set.SliderQ);
@@ -83,7 +84,7 @@ const getQuestions = () => {
     <meta property="og:locale" content="ru_RU" />
   </Head>
 
-  <MainHeader :auth="set.auth" />
+  <MainHeader :auth="set.auth" :city="set.city"/>
 
   <Header />
 

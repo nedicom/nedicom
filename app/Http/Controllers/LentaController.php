@@ -9,11 +9,13 @@ use App\Models\User;
 use App\Casts\humandate;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use App\Helpers\CitySet;
 
 class LentaController extends Controller
 {
     public function liked()
     {
+        $city = CitySet::CityGet();
         $user_id = Auth::user() ? Auth::user()->id : null;
 
         $uslugis = DB::table('uslugis')
@@ -129,11 +131,13 @@ class LentaController extends Controller
             'bundles' => $bundles,
             'auth' => Auth::user(),
             'h1' => 'Понравилось Вам',
+            'city' => $city,
         ]);
     }
 
     public function bookmarked()
     {
+        $city = CitySet::CityGet();
         $user_id = Auth::user() ? Auth::user()->id : null;
 
         $uslugis = DB::table('uslugis')
@@ -250,11 +254,13 @@ class LentaController extends Controller
             'bundles' => $bundles,
             'auth' => Auth::user(),
             'h1' => 'В закладках',
+            'city' => $city,
         ]);
     }
 
     public function popular()
     {
+        $city = CitySet::CityGet();
 
         $user_id = Auth::user() ? Auth::user()->id : null;
 
@@ -335,11 +341,14 @@ class LentaController extends Controller
             'bundles' => $bundles,
             'auth' => Auth::user(),
             'h1' => 'Популярное в ленте',
+            'city' => $city,
         ]);
     }
 
     public function new()
     {
+        $city = CitySet::CityGet();
+
         $user_id = Auth::user() ? Auth::user()->id : null;
 
         $articles = DB::table('articles')
@@ -419,11 +428,14 @@ class LentaController extends Controller
             'bundles' => $bundles,
             'auth' => Auth::user(),
             'h1' => 'Свежее в ленте',
+            'city' => $city,
         ]);
     }
 
     public function articles()
     {
+        $city = CitySet::CityGet();
+
         $user_id = Auth::user() ? Auth::user()->id : null;
 
         $bundles = DB::table('articles')
@@ -470,11 +482,14 @@ class LentaController extends Controller
             'bundles' => $bundles,
             'auth' => Auth::user(),
             'h1' => 'Статьи в ленте',
+            'city' => $city,
         ]);
     }
 
     public function questions()
     {
+        $city = CitySet::CityGet();
+
         $user_id = Auth::user() ? Auth::user()->id : null;
 
         $bundles = DB::table('questions')
@@ -521,6 +536,7 @@ class LentaController extends Controller
             'bundles' => $bundles,
             'auth' => Auth::user(),
             'h1' => 'Вопросы в ленте',
+            'city' => $city,
         ]);
     }
 }

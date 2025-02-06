@@ -31,6 +31,7 @@ let vars = defineProps({
   auth: Object,
   url: String,
   errors: Object,
+  cityheader: Object,
 });
 
 let pcimg = vars.lawyer.file_path;
@@ -78,7 +79,7 @@ details summary::-webkit-details-marker {
     <link rel="canonical" :href="'https://nedicom.ru/uslugi/' + vars.url" />
   </Head>
 
-  <MainHeader :auth="vars.auth" />
+  <MainHeader :auth="vars.auth" :city="vars.cityheader"/>
 
   <Header :avatarPath="vars.lawyer.avatar_path" :lawyer="vars.usluga.usl_name" :phone="usluga.phone" :address="usluga.address" :modalPageTitle="vars.usluga.usl_name" 
      />

@@ -15,6 +15,7 @@ let vars = defineProps({
   main_usluga: Object,
   second_usluga: Object,
   auth: Object,
+  cityheader: Object,
 });
 
 
@@ -27,14 +28,12 @@ let vars = defineProps({
     <meta name="description" :content="'Объявления в городе ' + vars.city.title" />
   </Head>
 
-  <MainHeader :auth="vars.auth" />
+  <MainHeader :auth="vars.auth" :city="vars.cityheader"/>
 
   <Body>
 
     <div itemscope itemtype="https://schema.org/Product">
       <Header :phone="'89788838978'" :address="null" />
-
-
 
       <Timeline :secondUslugi="vars.city.uslugies" :mainUsluga="null" :city="vars.city" />
     </div>

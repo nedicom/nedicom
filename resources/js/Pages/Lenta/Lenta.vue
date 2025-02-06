@@ -12,6 +12,7 @@ defineProps({
   bundles: Object,
   auth: Object,
   h1: String,
+  city: Object,
 });
 </script>
 
@@ -27,7 +28,7 @@ defineProps({
     />
   </Head>
 
-  <MainHeader :auth="auth" />
+  <MainHeader :auth="auth"  :city="city"/>
 
   <Header :modalPageTitle="'лента'" />
 

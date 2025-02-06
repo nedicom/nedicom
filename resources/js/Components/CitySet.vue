@@ -106,7 +106,7 @@ watch(
       </form>
 
       <div v-if="cities != null" class="grid grid-cols-2 divide-x mt-5 gap-2 h-40">
-        <div class="">
+        <div class="pl-2 overflow-y-auto overflow-x-hidden">
           <div v-for="(region, n) in cities" :key="n" class="">
             <div
               @click="(regionname = n), (findcity = false)"
@@ -117,7 +117,7 @@ watch(
           </div>
         </div>
 
-        <div v-if="findcity" class="pl-4 overflow-y-auto">
+        <div v-if="findcity" class="pl-4 overflow-y-auto overflow-x-hidden">
           <div
             v-for="(city, n) in findcity"
             :key="n"

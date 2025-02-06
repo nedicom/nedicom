@@ -17,6 +17,7 @@ let set = defineProps({
   authid: "Number",
   uslugi: "Number",
   auth: Object,
+  city: Object,
 });
 
 let processing = ref(false);
@@ -28,7 +29,7 @@ if (!set.answers[0]) {
 
 let usluga_id = 0
 if (set.question.usluga != null) {
-  usluga_id = set.question.usluga.id;
+  usluga_id = set.question.usluga;
 }
 
 let form = reactive({
@@ -69,7 +70,7 @@ const setUsluga = () => {
   </Head>
 
   <div class="min-h-screen">
-    <MainHeader :auth="set.auth" />
+    <MainHeader :auth="set.auth" :city="set.city"/>
 
     <Header />
 
@@ -126,12 +127,11 @@ const setUsluga = () => {
             {{ set.question.header }}
           </h1>
 
-          <span v-if="set.question.uslugis_url" class="text-gray-900"> поискать юриста для ответа в категории
-            <h2 class="text-lg inline font-bold tracking-tight text-gray-900">
-              <a :href="route('offer.main', ['simferopol', set.question.uslugis_url])">{{ set.question.uslugis_usl_name }}
+          <span v-if="set.question.uslugis_url" class="text-gray-900">
+            <h2 class="text-lg inline font-bold tracking-tight text-gray-900 hover:underline">
+              <a :href="route('offer.main', ['all-cities', set.question.uslugis_url])">{{ set.question.uslugis_usl_name }}
                 </a>
             </h2>
-            ?
           </span>
 
           <p itemprop="text" class="mt-5 text-md text-gray-900">
@@ -212,27 +212,7 @@ const setUsluga = () => {
 
             </div>
 
-          </div>
-
-          <p class="font-extrabold mt-10">
-            Что самое эффективное!? (доступно только авторам)
-          </p>
-
-          <div class="my-5 md:my-0">
-            <label class="block mt-5 mb-5 md:mb-2 text-sm font-medium text-gray-900 dark:text-white">Конечно - позвать
-              юриста! </label>
-            <label class="md:w-1/2 block mb-5 md:mb-2 text-xs font-medium text-gray-900 dark:text-white">Сейчас мы
-              работаем в двух регионах. Перейдите по ссылке и нажимте на кнопку <span class="font-bold">"запросить
-                ответ"</span> напротив фото юриста. Мы отправим юристу уведомление.</label>
-            <a type="button" href="https://nedicom.ru/uslugi/simferopol" target="_blank"
-              class="mr-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 inline-flex items-center">
-              Юристы из Крыма
-            </a>
-            <a type="button" href="https://nedicom.ru/uslugi/moscow" target="_blank"
-              class="mr-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 inline-flex items-center">
-              Юристы из Москвы
-            </a>
-          </div>
+          </div>        
 
           <div class="flex justify-center" id="comment">
             <Answers class="sm:px-6 lg:px-4 mx-5 py-12 md:w-4/6 w-full" :answers="set.answers"

@@ -133,19 +133,18 @@ Route::get('/policy', function () {
 })->name('policy');
 
 Route::controller(LentaController::class)->group(function () {
-    Route::get('/lenta/liked', 'liked')->name('lenta.liked');
-    Route::get('/lenta/bookmarked', 'bookmarked')->name('lenta.bookmarked');
-    Route::get('/lenta/popular', 'popular')->name('lenta.popular');
-    Route::get('/lenta/new', 'new')->name('lenta.new');
-    Route::get('/lenta/articles', 'articles')->name('lenta.articles');
-    Route::get('/lenta/questions', 'questions')->name('lenta.questions');
+    Route::get('/liked', 'liked')->name('lenta.liked');
+    Route::get('/bookmarked', 'bookmarked')->name('lenta.bookmarked');
+    Route::get('/popular', 'popular')->name('lenta.popular');
+    Route::get('/new', 'new')->name('lenta.new');
+    Route::get('/articles', 'articles')->name('lenta.articles');
+    Route::get('/questions', 'questions')->name('lenta.questions');
 });
 
 Route::controller(ArticleController::class)->group(function () {
-    Route::get('/articles', 'index')->name('articles');
+    //Route::get('/articles', 'index')->name('articles');
     Route::get('/articles/my', 'my')->middleware('lawyer')->name('my.articles');
     Route::get('/articles/{url}', 'articleURL')->name('articles/url');
-
     Route::get('/articlesadd', 'formadd')->name('articles.add');
     Route::post('/articles/create', 'create')->name('articles/create');
     Route::get('/articles/{url}/edit', 'edit')->middleware(owner::class)->name('articles.edit');
@@ -155,7 +154,7 @@ Route::controller(ArticleController::class)->group(function () {
 
 
 Route::controller(QuestionsController::class)->group(function () {
-    Route::get('/questions', 'index')->name('questions');
+    //Route::get('/questions', 'index')->name('questions');
     Route::get('/questions/my', 'myQuestions')->name('my.questions');
     Route::get('/questions/add', 'questionAdd')->name('questions.add');
     Route::get('/questions/similar/{url}', 'similar')->name('questions.similar');
