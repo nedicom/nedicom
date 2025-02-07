@@ -21,14 +21,14 @@ class SocialController extends Controller
         if (!Auth::user()) {
             return redirect()->back();
         }
- $bundle = false;
+        $bundle = false;
         /*check question or article */
-        if ($request->property == "articles") {            
+        if ($request->property == "articles") {
             $bundle = Article::find($request->id);
             $reaction = Bundles_social::firstOrNew(
                 ['users_id' => Auth::user()->id, 'article_id' => $bundle->id],
             );
-        } 
+        }
         if ($request->property == "questions") {
             $bundle = Questions::find($request->id);
             $reaction = Bundles_social::firstOrNew(
@@ -50,11 +50,13 @@ class SocialController extends Controller
             );
         }
 
-        if(!$bundle){dd($request);}
+        if (!$bundle) {
+            dd($request);
+        }
 
         switch ($request->type) {
             case 'bookmarks': //reaction type == bookmarks
-                if ($request->value ==  "up") { 
+                if ($request->value ==  "up") {
                     $bundle->bookmarks = $bundle->bookmarks + 1;
                     $reaction->bookmarks = 1;
                 }

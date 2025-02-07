@@ -40,7 +40,7 @@ watch(() => form.lawyer, (lawyer) => {
 <template>
   <section>
     <header>
-      <h2 class="text-lg font-medium text-gray-900">Про Вас</h2>
+      <h2 class="text-lg text-center font-medium text-gray-900 mt-5">Про Вас</h2>
     </header>
     <form @submit.prevent="form.patch(route('profile.update'))" class="mt-6 space-y-6">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -27,7 +27,7 @@ if (!set.answers[0]) {
   btnAI.value = true;
 }
 
-let usluga_id = 0
+let usluga_id = 0;
 if (set.question.usluga != null) {
   usluga_id = set.question.usluga;
 }
@@ -56,6 +56,12 @@ const setUsluga = () => {
     preserveScroll: true,
   });
 };
+
+const childRef = ref(null);
+
+const callChildMethod = () => {
+  childRef.value?.open();
+};
 </script>
 
 <template>
@@ -70,14 +76,14 @@ const setUsluga = () => {
   </Head>
 
   <div class="min-h-screen">
-    <MainHeader :auth="set.auth" :city="set.city"/>
+    <MainHeader :auth="set.auth" :city="set.city" ref="childRef"/>
 
     <Header />
 
     <Body>
       <div itemscope itemtype="https://schema.org/QAPage">
         <div
-          class="xl:w-1/2 sm:px-6 lg:px-4 px-3 md:px-0 mx-auto my-3 md:my-12 bg-white overflow-hidden shadow-sm sm:rounded-lg"
+          class="md:w-2/3 xl:w-1/2 sm:px-6 lg:px-4 py-3 px-3 md:px-0 mx-auto my-3 md:my-12 bg-white overflow-hidden shadow-sm sm:rounded-lg"
           itemprop="mainEntity" itemscope itemtype="https://schema.org/Question">
           <meta itemprop="datePublished" :content="set.question.created_at" />
 
@@ -122,12 +128,21 @@ const setUsluga = () => {
             </div>
           </div>
 
+<div class="my-2 md:my-5">
+          <div class="flex justify-between mt-1">
+          <span class="text-base font-medium text-blue-700 dark:text-white">Качество вопроса</span>
+          <span class="text-sm font-medium text-blue-700 dark:text-white">45%</span>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-2.5">
+          <div class="bg-blue-600 h-2.5 rounded-full" style="width: 45%"></div>
+        </div>
+      </div>
 
           <h1 itemprop="name" class="mb-5 mt-5 text-2xl font-bold tracking-tight text-gray-900">
             {{ set.question.header }}
           </h1>
 
-          <span v-if="set.question.uslugis_url" class="text-gray-900">
+          <span v-if="set.question.uslugis_url" class="text-gray-900">поискать юриста в категории - 
             <h2 class="text-lg inline font-bold tracking-tight text-gray-900 hover:underline">
               <a :href="route('offer.main', ['all-cities', set.question.uslugis_url])">{{ set.question.uslugis_usl_name }}
                 </a>
@@ -145,27 +160,64 @@ const setUsluga = () => {
               :question="set.question" :authid="set.authid" :type="'question'" :article_id="null" />
           </div>
 
-          <p class="font-extrabold">
+          <p class="font-extrabold py-5">
             Получите ответ быстрее!
           </p>
 
-          <div class="md:flex justify-start">
-            <div class="mr-3 my-5 md:my-0" v-if="set.question.uslugis_url == 0 || authid == 1">
-              <label class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white">Выберите
-                категорию</label>
+
+          <ol class="relative text-gray-500 border-l border-gray-200">                  
+    <li class="mb-10 ml-6">            
+        <span class="absolute flex items-center justify-center w-8 h-8 bg-green-200 rounded-full -left-4 ring-4 ring-white">
+            <span v-if="set.question.uslugis_usl_name">
+          <svg class="w-3.5 h-3.5 text-green-500 dark:text-green-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
+            </svg>
+          </span>
+          <span v-else>1</span>
+        </span>
+        <h3 class="font-medium leading-tight">Выберите
+          категорию</h3>
+        <p class="text-sm">Так Вы привлечете юристов с нужной специализацией</p>
+        <div class="" v-if="set.question.user_id == authid || authid == 1">
+              <label class="block mt-5 mb-2 text-sm font-medium text-gray-900"></label>
               <select v-model="form.usluga" @change="setUsluga()"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option disabled value="0">Выберите один из вариантов</option>
                 <option v-for="option in uslugi" :key="option.id" :value="option.id">
                   {{ option.usl_name }}
                 </option>
               </select>
             </div>
+    </li>
+    <li class="mb-10 ml-6">
+        <span class="absolute flex items-center justify-center w-8 h-8 bg-gray-100 rounded-full -left-4 ring-4 ring-white">
+            2
+        </span>
+        <h3 class="font-medium leading-tight">Account Info</h3>
+        <p class="text-sm">Step details here</p>
+    </li>
+</ol>
 
-            <div class="mr-3 my-5 md:my-0">
+
+
+          <div class="">
+
+
+
+            <div class="">
+              <label class="block mt-5 mb-2 text-sm font-medium text-gray-900">Выберите
+                регион</label>
+                <button @click="callChildMethod()" type="button"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
+                  <span v-if="set.city">{{ set.city.title }}</span>
+                  <span v-else>выберите регион</span>
+                </button>
+            </div>
+
+            <div class="">
               <AIAnswer v-if="btnAI">
                 <button :disabled="processing" @click="getAIAnswer()" type="button"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
                   <svg v-if="processing" aria-hidden="true" role="status"
                     class="animate-spin inline w-4 h-4 me-3 mr-1 text-gray-200 dark:text-gray-600" viewBox="0 0 100 101"
                     fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -181,8 +233,8 @@ const setUsluga = () => {
               </AIAnswer>
             </div>
 
-            <div class="mr-2 my-5 md:my-0">
-              <label class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white">Поделиться
+            <div class="">
+              <label class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white">Поделитесь
               </label>
 
               <a type="button"

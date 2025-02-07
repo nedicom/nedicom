@@ -56,13 +56,12 @@ watch(() => set.auth.avatar_path, (avatar_path) =>{
 
   <Body>
     <div class="py-12">
-      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-
-        <div @click="() => open()" class="flex h-full w-full justify-center md:justify-start items-center cursor-pointer">
-          <img class="rounded-full w-24 h-24 opacity-100 hover:opacity-75" :src="'/' + set.auth.avatar_path" alt="Аватар юриста" />
-        </div>
+      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">        
 
         <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+          <div @click="() => open()" class="flex h-full max-w-xl justify-center items-center cursor-pointer">
+          <img class="rounded-full w-24 h-24 opacity-100 hover:opacity-75" :src="'/' + set.auth.avatar_path" alt="Аватар юриста" />
+        </div>
           <UpdateProfileInformationForm :must-verify-email="set.mustVerifyEmail" :status="set.status"
             :islawyer="set.auth.lawyer" :uslugi="set.uslugi" :auth="set.auth" @check-lawyer="increaseCount"
             class="max-w-xl" />

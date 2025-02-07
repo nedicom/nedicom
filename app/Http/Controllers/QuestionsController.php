@@ -91,7 +91,7 @@ class QuestionsController extends Controller
                 'bundles_socials.bookmarks as user_bookmark',
                 'bundles_socials.shares as user_share',
             )
-            ->selectRaw('questions.url * ? AS type', [''])
+            ->selectRaw('IF(questions.id, "questions", false) AS type')
             ->groupBy('id')
             ->orderByDesc('created_at')
             ->first();

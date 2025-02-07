@@ -27,7 +27,6 @@ let submit = (property, id, type, value) => {
 };
 
 function setShare(type, url, id, reaction) {
-  
   href = "https://nedicom.ru/" + type + "/" + url;
 
   tgHref =

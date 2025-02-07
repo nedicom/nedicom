@@ -25,6 +25,9 @@ const { open, close } = useModal({
     },
   },
 });
+
+defineExpose({ open })
+
 </script>
 
 <template>
