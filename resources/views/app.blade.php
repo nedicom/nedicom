@@ -14,14 +14,6 @@
 
         gtag('config', 'G-EBPD2D669T');
     </script>
-    <script type="text/javascript">
-        ! function() {
-            var t = document.createElement("script");
-            t.type = "text/javascript", t.async = !0, t.src = 'https://vk.com/js/api/openapi.js?173', t.onload = function() {
-                VK.Retargeting.Init("VK-RTRG-1920330-3scpk"), VK.Retargeting.Hit()
-            }, document.head.appendChild(t)
-        }();
-    </script><noscript><img src="https://vk.com/rtrg?p=VK-RTRG-1920330-3scpk" style="position:fixed; left:-999px;" alt="" /></noscript>
 
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript">
