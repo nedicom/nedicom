@@ -1,7 +1,7 @@
 User-agent: *
 Disallow: /*?*
 Disallow: /index.php*
-Disallow: /*edit
+Disallow: /edit*
 Disallow: /user/*
 Disallow: /register
 Disallow: /login
@@ -19,3 +19,4 @@ Sitemap: https://nedicom.ru/sitemap.xml
 Sitemap: https://nedicom.ru/sitemap/articles.xml
 Sitemap: https://nedicom.ru/sitemap/lawyers.xml
 Sitemap: https://nedicom.ru/sitemap/uslugi.xml
+Sitemap: https://nedicom.ru/sitemap/questions.xml
