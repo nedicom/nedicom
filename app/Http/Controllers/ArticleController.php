@@ -152,7 +152,7 @@ class ArticleController extends Controller
                     DB::raw("DATE_FORMAT(articles.created_at, '%d-%M-%Y') as created"),
                     DB::raw("DATE_FORMAT(articles.updated_at, '%d-%M-%Y') as updated")
                 )
-                ->selectRaw('articles.id as type')
+                ->selectRaw('IF(articles.id, "articles", false) AS type')
                 ->first(),
             'user' => Auth::user(),
             'auth' => Auth::user(),

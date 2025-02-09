@@ -6,7 +6,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import TextArea from "@/Components/TextArea.vue";
 import Tooltip from "@/Components/Tooltip.vue";
-import { watch } from 'vue';
+import { watch, ref } from 'vue';
 
 import { Link, useForm } from "@inertiajs/inertia-vue3";
 
@@ -35,47 +35,46 @@ watch(() => form.lawyer, (lawyer) => {
   emit('checkLawyer', lawyer)
 }
 )
+
+
+
 </script>
 
 <template>
   <section>
-    <header>
-      <h2 class="text-lg text-center font-medium text-gray-900 mt-5">Про Вас</h2>
-    </header>
     <form @submit.prevent="form.patch(route('profile.update'))" class="mt-6 space-y-6">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <InputLabel for="name" value="Имя" />
 
-          <TextInput id="name" type="text" class="mt-1 block w-full" v-model="form.name" required />
+      <InputError class="mt-2 text-center" :message="form.errors.city" />
+      
+      <div class="grid grid-cols-1 gap-4">
 
-          <InputError class="mt-2" :message="form.errors.name" />
+        <div class="flex justify-center">
+          <div class="w-1/2">
+            <InputLabel for="phone" value="Телефон" />
+
+            <TextInput id="phone" type="text" class="mt-1 block w-full" v-model="form.phone" autocomplete="tel" />
+
+            <InputError class="mt-2" :message="form.errors.phone" />
+          </div>
         </div>
 
-        <div>
-          <InputLabel for="email" value="Email" />
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <InputLabel for="name" value="Имя" />
 
-          <TextInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required
-            autocomplete="email" />
+            <TextInput id="name" type="text" class="mt-1 block w-full" v-model="form.name" required />
 
-          <InputError class="mt-2" :message="form.errors.email" />
-        </div>
+            <InputError class="mt-2" :message="form.errors.name" />
+          </div>
 
-        <div>
-          <InputLabel for="city" value="Город" />
+          <div>
+            <InputLabel for="email" value="Email" />
 
-          <TextInput id="city" type="text" class="mt-1 block w-full" v-model="form.city"
-            autocomplete="street-address" />
+            <TextInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required
+              autocomplete="email" />
 
-          <InputError class="mt-2" :message="form.errors.city" />
-        </div>
-
-        <div>
-          <InputLabel for="phone" value="Телефон" />
-
-          <TextInput id="phone" type="text" class="mt-1 block w-full" v-model="form.phone" autocomplete="tel" />
-
-          <InputError class="mt-2" :message="form.errors.phone" />
+            <InputError class="mt-2" :message="form.errors.email" />
+          </div>
         </div>
 
       </div>

@@ -4,6 +4,8 @@ import Header from "@/Layouts/Header.vue";
 import BreadcrumbsUslugi from "@/Components/BreadcrumbsUslugi.vue";
 import Body from "@/Layouts/Body.vue";
 import Seodesc from "@/Components/Seodesc.vue";
+import Seoquestion from "@/Components/Seoquestion.vue";
+import CtaLwr from "@/Components/CtaLwr.vue";
 import CategoryFilter from "@/Components/CategoryFilter.vue";
 import CityFilter from "@/Components/CityFilter.vue";
 import OfferCard from "@/Components/OfferCard.vue";
@@ -63,6 +65,7 @@ function alertForm(x) {
 </script>
 
 <template>
+
   <Head>
     <title>{{ title }}</title>
     <meta name="description" :content="description" />
@@ -74,18 +77,13 @@ function alertForm(x) {
     <Header :modalPageTitle="title" />
 
     <Body>
+
       <div class="bg-white grid grid-cols-1 md:grid-cols-4">
         <div>
-          <CityFilter
-            :cities="set.cities"
-            :routeurl="set.routeurl"
-            :status="status"
-            :main_usluga_url="set.main_usluga.url"
-            :second_usluga_url="[
+          <CityFilter :cities="set.cities" :routeurl="set.routeurl" :status="status"
+            :main_usluga_url="set.main_usluga.url" :second_usluga_url="[
               set.second_usluga ? set.second_usluga.url : false,
-            ]"
-            @activeSts="alertForm"
-          />
+            ]" @activeSts="alertForm" />
 
           <div v-if="set.allsities" сlass="flex justify-center md:justify-end">
             <div class="mb-10 px-2">
@@ -95,116 +93,64 @@ function alertForm(x) {
                 </p>
                 <div v-for="(allcity, n) in set.allsities" :key="n">
                   <h3 class="m-0">
-                    <a
-                      :href="route('uslugi.url', [allcity.cities.url])"
-                      class="bg-gray-100 text-xs rounded-md px-2 py-1"
-                      >{{ allcity.cities.title }}</a
-                    >
+                    <a :href="route('uslugi.url', [allcity.cities.url])"
+                      class="bg-gray-100 text-xs rounded-md px-2 py-1">{{ allcity.cities.title }}</a>
                   </h3>
                 </div>
               </div>
             </div>
           </div>
 
-          <CategoryFilter
-            :category="set.category"
-            :cityUrl="set.city.url"
-            :main_usluga_url="set.main_usluga.url ? set.main_usluga.url : '0'"
-            :second_usluga_url="
-              set.second_usluga ? set.second_usluga.url : 'false'
-            "
-            @activeSts="alertForm"
-          />
+          <CategoryFilter :category="set.category" :cityUrl="set.city.url"
+            :main_usluga_url="set.main_usluga.url ? set.main_usluga.url : '0'" :second_usluga_url="set.second_usluga ? set.second_usluga.url : 'false'
+              " @activeSts="alertForm" />
         </div>
-        <div
-          class="w-full h-full col-span-3 md:pl-10 my-5 md:my-0"
-          itemscope
-          itemtype="https://schema.org/Product"
-        >
-          <meta
-            v-if="set.second_usluga"
-            itemprop="image"
-            :content="'https://nedicom.ru/' + set.second_usluga.file_path"
-          />
-          <meta
-            v-else
-            itemprop="image"
-            :content="'https://nedicom.ru/' + set.main_usluga.file_path"
-          />
+        <div class="w-full h-full col-span-3 md:pl-10 my-5 md:my-0" itemscope itemtype="https://schema.org/Product">
+          <meta v-if="set.second_usluga" itemprop="image"
+            :content="'https://nedicom.ru/' + set.second_usluga.file_path" />
+          <meta v-else itemprop="image" :content="'https://nedicom.ru/' + set.main_usluga.file_path" />
 
           <div class="my-6 md:mb-0">
             <span>
               <h1
-                class="md:mb-4 flex md:justify-start justify-center text-sm leading-tight text-gray-900 dark:text-white md:text-2xl xl:text-2xl"
-              >
+                class="md:mb-4 flex md:justify-start justify-center text-sm leading-tight text-gray-900 dark:text-white md:text-2xl xl:text-2xl">
                 <span itemprop="name" class="font-bold">
-                  <a
-                    v-if="set.city.title != ''"
-                    :href="route('uslugi.url', [set.city.url])"
-                    class="font-medium text-blue-600 hover:underline"
-                  >
-                    {{ set.city.title }}</a
-                  >
+                  <a v-if="set.city.title != ''" :href="route('uslugi.url', [set.city.url])"
+                    class="font-medium text-blue-600 hover:underline">
+                    {{ set.city.title }}</a>
 
                   <span v-if="set.main_usluga && set.city.title != ''">
                     -
-                    <a
-                      v-if="set.main_usluga.url != 0"
-                      :href="
-                        route('offer.main', [set.city.url, set.main_usluga.url])
-                      "
-                      class="font-medium text-blue-600 hover:underline"
-                    >
-                      {{ set.main_usluga.usl_name }}</a
-                    >
+                    <a v-if="set.main_usluga.url != 0" :href="route('offer.main', [set.city.url, set.main_usluga.url])
+                      " class="font-medium text-blue-600 hover:underline">
+                      {{ set.main_usluga.usl_name }}</a>
                     <span v-else class="font-medium">
-                      {{ set.main_usluga.usl_name }}</span
-                    >
+                      {{ set.main_usluga.usl_name }}</span>
                   </span>
 
                   <span v-if="set.second_usluga && set.city.title != ''">
                     -
-                    <a
-                      :href="
-                        route('offer.second', [
-                          set.city.url,
-                          set.main_usluga.url,
-                          set.second_usluga.url,
-                        ])
-                      "
-                      class="font-medium"
-                    >
-                      {{ set.second_usluga.usl_name }}</a
-                    >
+                    <a :href="route('offer.second', [
+                      set.city.url,
+                      set.main_usluga.url,
+                      set.second_usluga.url,
+                    ])
+                      " class="font-medium">
+                      {{ set.second_usluga.usl_name }}</a>
                   </span>
                 </span>
               </h1>
-              <span
-                v-if="set.second_usluga"
-                itemprop="description"
-                class="font-bold flex md:justify-start justify-center"
-                >{{ set.second_usluga.usl_desc }}</span
-              >
-              <span
-                v-else
-                itemprop="description"
-                class="font-bold flex md:justify-start justify-center"
-                >{{ set.main_usluga.usl_desc }}</span
-              >
+              <span v-if="set.second_usluga" itemprop="description"
+                class="font-bold flex md:justify-start justify-center">{{ set.second_usluga.usl_desc }}</span>
+              <span v-else itemprop="description" class="font-bold flex md:justify-start justify-center">{{
+                set.main_usluga.usl_desc }}</span>
             </span>
 
-            <div
-              v-if="set.sumrating !== 0 && set.countrating !== 0"
+            <div v-if="set.sumrating !== 0 && set.countrating !== 0"
               class="mb-4 flex md:justify-start justify-center gap-2 text-sm font-medium text-gray-900"
-              itemprop="aggregateRating"
-              itemscope
-              itemtype="https://schema.org/AggregateRating"
-            >
+              itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
               <span class="flex items-center" itemprop="ratingValue">
-                <RatingReady
-                  :rating="Number((set.sumrating / set.countrating).toFixed(2))"
-                  :reviewRating="false"
-                />
+                <RatingReady :rating="Number((set.sumrating / set.countrating).toFixed(2))" :reviewRating="false" />
               </span>
               из <span itemprop="bestRating">5.00</span> на основании
               <span itemprop="ratingCount">{{ set.countrating }} </span>отзывов
@@ -215,10 +161,7 @@ function alertForm(x) {
             <div v-if="set.uslugi.data[0]">
               <div
                 class="flex justify-start px-3 my-2 md:px-0 w-full md:w-4/5 text-sm font-medium text-gray-900 text-center"
-                itemprop="offers"
-                itemscope
-                itemtype="https://schema.org/AggregateOffer"
-              >
+                itemprop="offers" itemscope itemtype="https://schema.org/AggregateOffer">
                 Цены за консультацию
                 <meta itemprop="priceCurrency" content="RUB" />
                 от &nbsp;<span itemprop="lowPrice" content="1000">{{
@@ -228,20 +171,12 @@ function alertForm(x) {
                   {{ set.max }} рублей
                 </span>
                 &nbsp;у &nbsp;<span itemprop="offerCount">{{ set.count }}</span>
-                &nbsp;<span v-if="set.count == 1">юриста</span
-                ><span v-else>юристов</span>
+                &nbsp;<span v-if="set.count == 1">юриста</span><span v-else>юристов</span>
               </div>
               <!-- card -->
               <div v-for="offer in set.uslugi.data" :key="offer.id">
-                <OfferCard
-                  :offer="offer"
-                  :city="set.cities"
-                  :getlwr="set.getLawyer"
-                  :auth="set.auth"
-                />
-                <hr
-                  class="h-px my-8 bg-gray-200 md:my-10 border-0 dark:bg-gray-700"
-                />
+                <OfferCard :offer="offer" :city="set.cities" :getlwr="set.getLawyer" :auth="set.auth" />
+                <hr class="h-px my-8 bg-gray-200 md:my-10 border-0 dark:bg-gray-700" />
               </div>
               <!-- card -->
             </div>
@@ -250,24 +185,17 @@ function alertForm(x) {
               <!-- empty card -->
               <div class="flex flex-col justify-center my-10">
                 <p
-                  class="mb-4 mb-10 flex justify-center md:justify-start text-center md:text-left text-4xl tracking-tight font-extrabold text-gray-900"
-                >
+                  class="mb-4 mb-10 flex justify-center md:justify-start text-center md:text-left text-4xl tracking-tight font-extrabold text-gray-900">
                   Не нашел своего юриста? <br />
                   Мы поможем
                 </p>
                 <div class="flex justify-center md:justify-start">
-                  <a
-                    :href="route('questions.add')"
-                    цй
-                    class="rounded-lg flex inline-block bg-blue-700 px-6 py-3.5 text-center font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                  >
-                    задать вопрос онлайн</a
-                  >
+                  <a :href="route('questions.add')" цй
+                    class="rounded-lg flex inline-block bg-blue-700 px-6 py-3.5 text-center font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                    задать вопрос онлайн</a>
                 </div>
               </div>
-              <hr
-                class="h-px my-8 bg-gray-200 md:my-10 border-0 dark:bg-gray-700"
-              />
+              <hr class="h-px my-8 bg-gray-200 md:my-10 border-0 dark:bg-gray-700" />
 
               <!-- empty card -->
             </div>
@@ -286,11 +214,8 @@ function alertForm(x) {
             <span class="flex-grow bg-gray-200 rounded h-0.5"></span>
           </div>
           <div v-for="(allcity, n) in set.allsities" :key="n">
-            <a
-              :href="route('uslugi.url', [allcity.cities.url])"
-              class="bg-gray-100 rounded-md px-3 py-2"
-              >{{ allcity.cities.title }}</a
-            >
+            <a :href="route('uslugi.url', [allcity.cities.url])" class="bg-gray-100 rounded-md px-3 py-2">{{
+              allcity.cities.title }}</a>
           </div>
         </div>
       </div>
@@ -298,16 +223,17 @@ function alertForm(x) {
 
     <Pagination v-if="uslugi.total > 10" :links="uslugi.links" />
 
-    <Seodesc />
+    <Seodesc :blockdata="set.main_usluga" />
+
+    <Seoquestion :questiondata="set.main_usluga" />
+
+    <CtaLwr v-if="true"/>
 
     <MainFooter>
-      <BreadcrumbsUslugi
-        class="p-4 bg-white flex flex-col items-center mb-2"
+      <BreadcrumbsUslugi class="p-4 bg-white flex flex-col items-center mb-2"
         :city="set.city.title !== '' ? set.city : null"
         :main_usluga="set.main_usluga.url !== 0 ? set.main_usluga : null"
-        :second_usluga="set.second_usluga ? set.second_usluga : null"
-        :usluga="null"
-      />
+        :second_usluga="set.second_usluga ? set.second_usluga : null" :usluga="null" />
     </MainFooter>
   </div>
 </template>

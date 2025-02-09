@@ -66,8 +66,8 @@ class MainpageController extends Controller
                 'bundles_socials.likes as user_like',
                 'bundles_socials.bookmarks as user_bookmark',
                 'bundles_socials.shares as user_share',
-                'articles.id',
             )
+            ->selectRaw('IF(articles.id, "articles", false) AS type')
             ->groupBy('articles.id')
              // ->get()
             ;
@@ -103,7 +103,7 @@ class MainpageController extends Controller
                 'bundles_socials.bookmarks as user_bookmark',
                 'bundles_socials.shares as user_share',
             )
-            ->selectRaw('questions.url * ? AS type', [''])
+            ->selectRaw('IF(questions.id, "questions", false) AS type')
             ->groupBy('id')
             ->union($articles)
             ->orderByDesc('counter')

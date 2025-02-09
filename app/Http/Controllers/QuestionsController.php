@@ -47,7 +47,7 @@ class QuestionsController extends Controller
 
         $usluga = Uslugi::where('url', $url)->first();
 
-        if($usluga){
+        if ($usluga) {
             return redirect()->route('uslugi.url', $url);
         }
 
@@ -57,9 +57,16 @@ class QuestionsController extends Controller
 
         $user_id = Auth::user() ? Auth::user()->id : null;
 
+        if (Auth::user()->id == $question->user_id) {
+            if (Auth::user()->city_id) {
+                $question->update(['city' => Auth::user()->city_id]);
+            }
+        }
+
         $question = DB::table('questions')
             ->where('questions.url', '=', $url)
             ->leftjoin('users', 'questions.user_id', '=', 'users.id')
+            ->leftjoin('cities', 'questions.city', '=', 'cities.id')
             ->leftjoin('answers', 'questions.id', '=', 'answers.questions_id')
             ->leftjoin('uslugis', 'questions.usluga', '=', 'uslugis.id')
             ->leftjoin('bundles_socials', function ($join) use ($user_id) {
@@ -71,6 +78,7 @@ class QuestionsController extends Controller
                 'users.name',
                 'users.avatar_path as avatar_path',
                 'users.lawyer',
+                'users.phone',
                 'questions.likes',
                 'questions.shares',
                 'questions.bookmarks',
@@ -81,6 +89,8 @@ class QuestionsController extends Controller
                 'questions.body AS abody',
                 'questions.created_at AS created_at',
                 'questions.url AS url',
+                'cities.title AS cities_title',
+                'cities.url AS cities_url',
                 'questions.counter AS counter',
                 'answers.body as comment',
                 'answers.users_id as avatar',
@@ -191,11 +201,11 @@ class QuestionsController extends Controller
         $Question->title = $request->header;
         $Question->body = $request->body;
         $url = Translate::translit($request->header);
-        
+
         $check = Questions::where('url', $url)->first();
         $num = 1;
-        while($check){
-            $url = $url . "-" .$num;
+        while ($check) {
+            $url = $url . "-" . $num;
             $check = Questions::where('url', $url)->first();
             $num++;
         }

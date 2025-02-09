@@ -12,6 +12,8 @@ class Questions extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['city'];
+
     public function User(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'user_id');

@@ -95,7 +95,7 @@ const shareOK = () => {
         </div>
 
       </span>
-      
+
       <span v-else>
         <svg v-if="bundle.user_like" @click="submit(bundle.type, bundle.id, 'likes', 'down')" class="w-6 h-6"
           aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
@@ -104,9 +104,8 @@ const shareOK = () => {
             d="m12.75 20.66 6.184-7.098c2.677-2.884 2.559-6.506.754-8.705-.898-1.095-2.206-1.816-3.72-1.855-1.293-.034-2.652.43-3.963 1.442-1.315-1.012-2.678-1.476-3.973-1.442-1.515.04-2.825.76-3.724 1.855-1.806 2.201-1.915 5.823.772 8.706l6.183 7.097c.19.216.46.34.743.34a.985.985 0 0 0 .743-.34Z" />
         </svg>
 
-        <svg v-else @click="submit(bundle.type, bundle.id, 'likes', 'up')"
-          :data-popover-target="bundle.id + '-like-popover-click'" data-popover-trigger="click" class="w-6 h-6"
-          aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+        <svg v-else @click="submit(bundle.type, bundle.id, 'likes', 'up')" class="w-6 h-6" aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z" />
         </svg>
@@ -210,56 +209,56 @@ const shareOK = () => {
     <!--bookmarks-->
     <!--non auth-->
     <span class="flex items-center">
-    <span v-if="!set.auth">
-      <span @click="invisbookmrks = !invisbookmrks"
-        class="flex items-center text-gray-500 hover:text-gray-700 cursor-pointer">
-        <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-          viewBox="0 0 24 24">
-          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="m17 21-5-4-5 4V3.889a.92.92 0 0 1 .244-.629.808.808 0 0 1 .59-.26h8.333a.81.81 0 0 1 .589.26.92.92 0 0 1 .244.63V21Z" />
-        </svg><span v-if="bundle.bookmarks > 0" class="text-sm">{{
-          bundle.bookmarks
-        }}</span>
-      </span>
+      <span v-if="!set.auth">
+        <span @click="invisbookmrks = !invisbookmrks"
+          class="flex items-center text-gray-500 hover:text-gray-700 cursor-pointer">
+          <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+            viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="m17 21-5-4-5 4V3.889a.92.92 0 0 1 .244-.629.808.808 0 0 1 .59-.26h8.333a.81.81 0 0 1 .589.26.92.92 0 0 1 .244.63V21Z" />
+          </svg><span v-if="bundle.bookmarks > 0" class="text-sm">{{
+            bundle.bookmarks
+            }}</span>
+        </span>
 
-      <div role="tooltip" :class="{ 'invisible': invisbookmrks }" @mouseleave="invisbookmrks = !invisbookmrks"
-        class="absolute z-50 w-64 inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm">
-        <div class="px-3 py-2">
-          <p>Нужно
-            <a href="/login" class="text-blue-700 cursor-pointer hover:underline">войти</a>
-            на сайт, тогда у Вас появится раздел с избранным.
-          </p>
+        <div role="tooltip" :class="{ 'invisible': invisbookmrks }" @mouseleave="invisbookmrks = !invisbookmrks"
+          class="absolute z-50 w-64 inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm">
+          <div class="px-3 py-2">
+            <p>Нужно
+              <a href="/login" class="text-blue-700 cursor-pointer hover:underline">войти</a>
+              на сайт, тогда у Вас появится раздел с избранным.
+            </p>
+          </div>
+          <div data-popper-arrow></div>
         </div>
-        <div data-popper-arrow></div>
-      </div>
-    </span>
-
-    <!--auth-->
-    <span v-else>
-      <!--auth has vote-->
-      <span v-if="bundle.user_bookmark" @click="submit(bundle.type, bundle.id, 'bookmarks', 'down')"
-        class="flex items-center text-gray-500 hover:text-gray-700 cursor-pointer">
-        <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-          fill="currentColor" viewBox="0 0 24 24">
-          <path
-            d="M7.833 2c-.507 0-.98.216-1.318.576A1.92 1.92 0 0 0 6 3.89V21a1 1 0 0 0 1.625.78L12 18.28l4.375 3.5A1 1 0 0 0 18 21V3.889c0-.481-.178-.954-.515-1.313A1.808 1.808 0 0 0 16.167 2H7.833Z" />
-        </svg><span v-if="bundle.bookmarks > 0" class="text-sm">{{
-          bundle.bookmarks
-        }}</span>
       </span>
 
-      <!--auth has no vote-->
-      <span v-else @click="submit(bundle.type, bundle.id, 'bookmarks', 'up')"
-        class="flex items-center text-gray-500 hover:text-gray-700 cursor-pointer">
-        <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-          viewBox="0 0 24 24">
-          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="m17 21-5-4-5 4V3.889a.92.92 0 0 1 .244-.629.808.808 0 0 1 .59-.26h8.333a.81.81 0 0 1 .589.26.92.92 0 0 1 .244.63V21Z" />
-        </svg><span v-if="bundle.bookmarks > 0" class="text-sm">{{
-          bundle.bookmarks
-        }}</span>
+      <!--auth-->
+      <span v-else>
+        <!--auth has vote-->
+        <span v-if="bundle.user_bookmark" @click="submit(bundle.type, bundle.id, 'bookmarks', 'down')"
+          class="flex items-center text-gray-500 hover:text-gray-700 cursor-pointer">
+          <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+            fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M7.833 2c-.507 0-.98.216-1.318.576A1.92 1.92 0 0 0 6 3.89V21a1 1 0 0 0 1.625.78L12 18.28l4.375 3.5A1 1 0 0 0 18 21V3.889c0-.481-.178-.954-.515-1.313A1.808 1.808 0 0 0 16.167 2H7.833Z" />
+          </svg><span v-if="bundle.bookmarks > 0" class="text-sm">{{
+            bundle.bookmarks
+            }}</span>
+        </span>
+
+        <!--auth has no vote-->
+        <span v-else @click="submit(bundle.type, bundle.id, 'bookmarks', 'up')"
+          class="flex items-center text-gray-500 hover:text-gray-700 cursor-pointer">
+          <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+            viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="m17 21-5-4-5 4V3.889a.92.92 0 0 1 .244-.629.808.808 0 0 1 .59-.26h8.333a.81.81 0 0 1 .589.26.92.92 0 0 1 .244.63V21Z" />
+          </svg><span v-if="bundle.bookmarks > 0" class="text-sm">{{
+            bundle.bookmarks
+            }}</span>
+        </span>
       </span>
-    </span>
     </span>
     <!--bookmarks-->
   </div>

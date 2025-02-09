@@ -110,8 +110,7 @@ class CityController extends Controller
 
     public function setCity(Request $request)
     {
-        //dd($request);
-        CitySet::CitySet($request, 0);
+        CitySet::CitySet($request, $request->cityid);
         return redirect()->back();
     }
 

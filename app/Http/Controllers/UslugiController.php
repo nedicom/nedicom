@@ -53,7 +53,9 @@ class UslugiController extends Controller
                 $join->on('bundles_socials.uslugis_id', '=', 'uslugis.id')
                     ->where('bundles_socials.users_id', '=', $user_id);
             })
+            ->rightjoin('users', 'uslugis.user_id', '=', 'users.id')
             ->select(
+                'users.id as user_id',
                 'uslugis.id',
                 'uslugis.file_path',
                 'uslugis.usl_name',
@@ -83,7 +85,8 @@ class UslugiController extends Controller
             ->withCount('review')
             ->withSum('review', 'rating')
             ->with('review')
-            ->paginate(10);
+            //->groupBy('user_id') //for unique values
+            ->paginate(10);        
 
         foreach ($uslugi as $item) {
             $item->url = $item->cities->url . '/' .
@@ -91,7 +94,6 @@ class UslugiController extends Controller
                 $item->second->url . '/' .
                 $item->url;
         }
-
 
         return Inertia::render('Uslugi/Uslugi', [
             'city' => $city,
@@ -133,7 +135,7 @@ class UslugiController extends Controller
 
             $cityurl = $url;
 
-           // $request->session()->forget('cityid');
+            // $request->session()->forget('cityid');
 
             $city = CitySet::CitySet($request, $cityurl);
 
@@ -210,7 +212,7 @@ class UslugiController extends Controller
                 'routeurl' => '/uslugi',
                 'getLawyer' => session()->get('questionTitle') ? session()->get('questionTitle') : '0',
                 'auth' => Auth::user(),
-                'cityheader' => CitySet::CityGet(), 
+                'cityheader' => CitySet::CityGet(),
             ]);
         }
         //check city in url
@@ -239,7 +241,7 @@ class UslugiController extends Controller
                     'main_usluga' => Uslugi::findOrFail($main_usluga_id)->url,
                     'second_usluga' => $second_usluga_id,
                     'url' => $usluga->url,
-                    'cityheader' => CitySet::CityGet(), 
+                    'cityheader' => CitySet::CityGet(),
                 ]
             );
         } else {
@@ -254,7 +256,7 @@ class UslugiController extends Controller
     {
         $city = cities::where('url', $city)->with('uslugies')->first();
         if (!$city) abort(404);
-        $main = Uslugi::where('url', $main_usluga)->with('cities')->first(['id', 'usl_name', 'url', 'usl_desc', 'file_path']);
+        $main = Uslugi::where('url', $main_usluga)->with('cities')->first(['id', 'usl_name', 'url', 'usl_desc', 'file_path', 'popular_question']);
 
         $category = Uslugi::where('is_main', 1)
             ->where('is_feed', 1)
@@ -341,8 +343,8 @@ class UslugiController extends Controller
     // http://nedicom.ru/uslugi/city/main/second
     {
         $city = cities::where('url', $city)->with('uslugies')->first();
-        $main = Uslugi::where('url', $main_usluga)->first(['id', 'usl_name', 'usl_desc', 'url']);
-        $second = Uslugi::where('url', $second_usluga)->with('cities')->with('main')->first(['id', 'usl_name', 'usl_desc', 'url', 'file_path']);
+        $main = Uslugi::where('url', $main_usluga)->first(['id', 'usl_name', 'usl_desc', 'url', 'popular_question']);
+        $second = Uslugi::where('url', $second_usluga)->with('cities')->with('main')->first(['id', 'usl_name', 'usl_desc', 'url', 'file_path', 'popular_question']);
         if ($second->url === "second") $second->usl_desc = $main->usl_desc . '. ' . $second->usl_desc;
 
         $cities = '';
@@ -409,7 +411,7 @@ class UslugiController extends Controller
                     $item->second->url . '/' .
                     $item->url;
             }
-        } else {            
+        } else {
             $uslugi = Uslugi::where('second_usluga_id', $second->id)
                 ->where('sity', $city->id)
                 ->where('is_main', '!=', 1)
@@ -511,7 +513,7 @@ class UslugiController extends Controller
 
         $lawyer = User::where('id', $usluga->user_id)->first();
 
-        $main = Uslugi::where('id', $usluga->main_usluga_id)->first(['id', 'usl_name', 'url']);
+        $main = Uslugi::where('id', $usluga->main_usluga_id)->first(['id', 'usl_name', 'url',]);
 
         $reviews = Review::where('lawyer_id', $lawyer->id)
             ->orWhere('mainusl_id', $main->id)
@@ -537,7 +539,7 @@ class UslugiController extends Controller
             'main_usluga' =>  $main,
             'second_usluga' => Uslugi::where('id', $usluga->second_usluga_id)->first(['id', 'usl_name', 'url']),
             'city' => is_null(cities::find($usluga->sity)) ? cities::find(0) : cities::find($usluga->sity),
-            'cityheader' => CitySet::CityGet(),            
+            'cityheader' => CitySet::CityGet(),
             'url' => $city . '/' . $main_usluga . '/' . $second_usluga . '/' . $url,
             'flash' => ['message' => $request->session()->get(key: 'message')],
         ]);

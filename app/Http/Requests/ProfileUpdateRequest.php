@@ -18,8 +18,7 @@ class ProfileUpdateRequest extends FormRequest
         return [
             'name' => ['max:255', 'required'],
             'about' => ['min:20', 'required'],
-            'phone' => ['between:0,15'],
-            'city' => ['max:500', 'required'],
+            'phone' => ['between:9,15', 'required'],
             'jsonspec' => ['json'],
             'speciality_one_id' => ['numeric'],
             'speciality_two_id' => ['numeric'],
@@ -35,8 +34,7 @@ class ProfileUpdateRequest extends FormRequest
         'about.required' => 'О себе нужно обязательно рассказать.', 
         'about.min' => 'Расскажите чуточку подробнее',
         'phone.required' => 'Телефон обязателен',
-        'phone.between' => 'Телефон не больше 15 цифр и не меньше 10', 
-        'city.required' => 'город обязателен',  
+        'phone.between' => 'Телефон не больше 15 цифр и не меньше 9', 
     ];
 }
 }
