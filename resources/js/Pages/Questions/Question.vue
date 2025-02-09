@@ -72,7 +72,7 @@ const callChildMethod = () => {
 let percent = ref(25);
 let color = ref('bg-red-600');
 let message = ref('вопрос нужно дополнить');
-set.question.user_share ? percent.value += 15 : null;
+percent.value += set.question.shares ? 15 : 0;
 percent.value += set.question.uslugis_usl_name ? 15 : 0;
 percent.value += set.question.phone ? 15 : 0;
 percent.value += set.answers.length > 0 ? 15 : 0;
@@ -100,6 +100,7 @@ percent.value == 100 ? (color.value = 'bg-blue-600', message.value = "Отлич
     <Header />
 
     <Body>
+      {{ set.question }}
       <div itemscope itemtype="https://schema.org/QAPage">
         <div class="md:w-2/3 xl:w-1/2 sm:px-6 lg:px-4 py-3 px-3 md:px-0 mx-auto my-3 md:my-12 bg-white overflow-hidden"
           itemprop="mainEntity" itemscope itemtype="https://schema.org/Question">
@@ -148,15 +149,15 @@ percent.value == 100 ? (color.value = 'bg-blue-600', message.value = "Отлич
 
           <div class="my-2 md:my-5">
             <div class="flex justify-between mt-1">
-              <span class="text-base font-medium text-blue-700">Качество вопроса</span>
-              <span class="text-sm font-medium text-blue-700">{{ percent }}%</span>
+              <a href="#guarantee" class="text-base font-medium text-blue-700 block hover:underline">Качество вопроса</a>
+              <a href="#guarantee" class="text-base font-medium text-blue-700 block hover:underline">{{ percent }}%</a>
             </div>
             <div class="w-full bg-gray-200 rounded-full h-2.5">
               <div class="h-2.5 rounded-full" :class="color" :style="{
                 width: percent + '%',
               }"></div>
             </div>
-            <a href="#guarantee" class="text-base font-medium text-blue-700 block text-center w-full">{{ message }}</a>
+            <a href="#guarantee" class="text-base font-medium text-blue-700 block text-center w-full hover:underline">{{ message }}</a>
           </div>
 
           <h1 itemprop="name" class="mb-5 mt-5 text-2xl font-bold tracking-tight text-gray-900">
@@ -246,7 +247,7 @@ percent.value == 100 ? (color.value = 'bg-blue-600', message.value = "Отлич
                 <h3 class="font-medium leading-tight text-2xl">Выберите регион</h3>
 
                 <p v-if="set.question.cities_title" class="text-sm">Регион определен</p>
-                <p v-else class="text-sm">Привлекайте юристов из нужного региона</p>
+                <p v-else class="text-sm">Привлекайте юристов из нужного региона (только для автора)</p>
 
                 <div class="my-5" v-if="set.question.user_id == authid || authid == 1">
                   <button @click="callChildMethod()" type="button"
@@ -341,7 +342,7 @@ percent.value == 100 ? (color.value = 'bg-blue-600', message.value = "Отлич
 
                 <h3 class="font-medium leading-tight text-2xl">Поделитесь</h3>
                 <p v-if="set.question.user_share" class="text-sm">Кто-то уже поделился</p>
-                <p v-else class="text-sm">Расскажите другим про Ваш вопрос и наш сервис</p>
+                <p v-else class="text-sm">Расскажите другим про Ваш вопрос и наш сервис (только для авторизованных)</p>
 
                 <div class="py-5">
                   <a href="#" type="button" @click="startPulse()"
