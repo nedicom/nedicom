@@ -23,6 +23,7 @@ class QuestionuslugaController
         $uslugi = Uslugi::where('is_main', 1)->where('is_feed', 1)->select('id', 'usl_name', 'url')->get();
 
         $bundles = DB::table('questions')
+            ->where('usluga', $usluga->id)
             ->leftjoin('users', 'questions.user_id', '=', 'users.id')
             ->leftjoin('answers', 'questions.id', '=', 'answers.questions_id')
             ->leftjoin('bundles_socials', function ($join) use ($user_id) {
@@ -65,7 +66,7 @@ class QuestionuslugaController
         return Inertia::render('Lenta/Lenta', [
             'bundles' => $bundles,
             'auth' => Auth::user(),
-            'h1' => 'Вопросы в категории - "'.$usluga->usl_name .'"',            
+            'h1' => 'Вопросы в категории - "' . $usluga->usl_name . '"',
             'city' => $city,
             'usluga' => $usluga,
             'uslugi' => $uslugi,

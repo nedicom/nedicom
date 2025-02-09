@@ -47,7 +47,6 @@ class QuestionsController extends Controller
 
     public function questionsURL($url)
     {
-
         if (Uslugi::where('url', $url)->first()) {
             return QuestionuslugaController::Questioncity(Uslugi::where('url', $url)->first());
         }

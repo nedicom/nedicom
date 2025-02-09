@@ -10,5 +10,8 @@
     <sitemap>
         <loc>https://nedicom.ru/sitemap/uslugi.xml</loc>
     </sitemap>
+    <sitemap>
+        <loc>https://nedicom.ru/sitemap/questions.xml</loc>
+    </sitemap>
 </sitemapindex>
 

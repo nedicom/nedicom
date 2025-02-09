@@ -49,6 +49,7 @@ class SitemapController extends Controller
         
         return response()->view('sitemap/questions', [
             'questions' => $questions,
+            'main' => Uslugi::where('is_main', 1)->where('is_feed', 1)->select('id', 'usl_name', 'url', 'updated_at')->get(),
         ])->header('Content-Type', 'text/xml');
     }
 
