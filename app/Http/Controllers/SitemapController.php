@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\User;
 use App\Models\Uslugi;
+use App\Models\Questions;
 use App\Http\Controllers\Controller;
 
 class SitemapController extends Controller
@@ -12,18 +13,6 @@ class SitemapController extends Controller
     public function sitemap()
     { 
         return response()->view('sitemap/sitemap', [
-        ])->header('Content-Type', 'text/xml');
-    }
-
-    public function sets()
-    {
-        $sets = Uslugi::where('is_main', 1)
-        ->where('is_feed', 1)
-        ->with('mainhassecond')
-        ->get();
-
-        return response()->view('sitemap/sets', [
-            'sets' => $sets,
         ])->header('Content-Type', 'text/xml');
     }
 
@@ -51,6 +40,15 @@ class SitemapController extends Controller
   
         return response()->view('sitemap/uslugi', [
             'uslugi' => $uslugi,
+        ])->header('Content-Type', 'text/xml');
+    }
+
+    public function questions()
+    {
+        $questions = Questions::all();
+        
+        return response()->view('sitemap/questions', [
+            'questions' => $questions,
         ])->header('Content-Type', 'text/xml');
     }
 

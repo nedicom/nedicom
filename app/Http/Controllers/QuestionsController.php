@@ -7,15 +7,19 @@ use Inertia\Inertia;
 use App\Models\Questions;
 use App\Models\Answer;
 use App\Models\Uslugi;
+use App\Models\User;
+
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\Translate;
 use App\Helpers\OpenAI;
-use App\Models\User;
+
 use Illuminate\Support\Facades\DB;
 
 use App\Helpers\CitySet;
 
 use App\Casts\humandate;
+
+use App\Http\Controllers\Questions\QuestionuslugaController;
 
 class QuestionsController extends Controller
 {
@@ -43,6 +47,11 @@ class QuestionsController extends Controller
 
     public function questionsURL($url)
     {
+
+        if (Uslugi::where('url', $url)->first()) {
+            return QuestionuslugaController::Questioncity(Uslugi::where('url', $url)->first());
+        }
+
         $city = CitySet::CityGet();
 
         $usluga = Uslugi::where('url', $url)->first();

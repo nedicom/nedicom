@@ -100,7 +100,7 @@ percent.value == 100 ? (color.value = 'bg-blue-600', message.value = "Отлич
     <Header />
 
     <Body>
-      {{ set.question }}
+
       <div itemscope itemtype="https://schema.org/QAPage">
         <div class="md:w-2/3 xl:w-1/2 sm:px-6 lg:px-4 py-3 px-3 md:px-0 mx-auto my-3 md:my-12 bg-white overflow-hidden"
           itemprop="mainEntity" itemscope itemtype="https://schema.org/Question">

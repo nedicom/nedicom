@@ -212,7 +212,8 @@ Route::get('sitemap.xml', [SitemapController::class, 'sitemap']);
 Route::get('sitemap/articles.xml', [SitemapController::class, 'articles']);
 Route::get('sitemap/lawyers.xml', [SitemapController::class, 'lawyers']);
 Route::get('sitemap/uslugi.xml', [SitemapController::class, 'uslugi']);
-Route::get('sitemap/sets.xml', [SitemapController::class, 'sets']);
+Route::get('sitemap/questions.xml', [SitemapController::class, 'questions']);
+
 
 //yandex feed
 Route::controller(FeedController::class)->group(function () {

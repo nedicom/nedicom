@@ -6,6 +6,8 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\User;
+use App\Models\Uslugi;
+
 use App\Casts\humandate;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -492,6 +494,8 @@ class LentaController extends Controller
 
         $user_id = Auth::user() ? Auth::user()->id : null;
 
+        $uslugi = Uslugi::where('is_main', 1)->where('is_feed', 1)->select('id', 'usl_name', 'url')->get();
+
         $bundles = DB::table('questions')
             ->leftjoin('users', 'questions.user_id', '=', 'users.id')
             ->leftjoin('answers', 'questions.id', '=', 'answers.questions_id')
@@ -537,6 +541,7 @@ class LentaController extends Controller
             'auth' => Auth::user(),
             'h1' => 'Вопросы в ленте',
             'city' => $city,
+            'uslugi' => $uslugi,
         ]);
     }
 }
