@@ -57,9 +57,11 @@ class QuestionsController extends Controller
 
         $user_id = Auth::user() ? Auth::user()->id : null;
 
-        if (Auth::user()->id == $question->user_id) {
-            if (Auth::user()->city_id) {
-                $question->update(['city' => Auth::user()->city_id]);
+        if ($user_id) {
+            if (Auth::user()->id == $question->user_id) {
+                if (Auth::user()->city_id) {
+                    $question->update(['city' => Auth::user()->city_id]);
+                }
             }
         }
 
