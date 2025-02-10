@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use App\Helpers\CitySet;
 
 use App\Casts\humandate;
+use Carbon\Carbon;
 
 use App\Http\Controllers\Questions\QuestionuslugaController;
 
@@ -112,13 +113,14 @@ class QuestionsController extends Controller
                 'bundles_socials.shares as user_share',
             )
             ->selectRaw('IF(questions.id, "questions", false) AS type')
+            ->selectRaw('questions.created_at AS chema_created_at')
             ->groupBy('id')
             ->orderByDesc('created_at')
             ->first();
 
         $question->created_at = humandate::lenta($question->created_at);
         $question->avatar =  $question->avatar ? User::find($question->avatar)->avatar_path : null;
-
+        $question->chema_created_at = Carbon::parse($question->chema_created_at)->setTimezone('UTC');
 
         return Inertia::render('Questions/Question', [
             'question' => $question,

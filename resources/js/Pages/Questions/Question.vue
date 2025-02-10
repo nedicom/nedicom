@@ -104,8 +104,7 @@ percent.value == 100 ? (color.value = 'bg-blue-600', message.value = "Отлич
       <div itemscope itemtype="https://schema.org/QAPage">
         <div class="md:w-2/3 xl:w-1/2 sm:px-6 lg:px-4 py-3 px-3 md:px-0 mx-auto my-3 md:my-12 bg-white overflow-hidden"
           itemprop="mainEntity" itemscope itemtype="https://schema.org/Question">
-          <meta itemprop="datePublished" :content="set.question.created_at" />
-
+          <meta itemprop="datePublished" :content="set.question.chema_created_at" />
           <div class="grid grid-cols-2">
 
             <span class="flex flex-left items-center">
@@ -141,7 +140,9 @@ percent.value == 100 ? (color.value = 'bg-blue-600', message.value = "Отлич
                   </svg><span v-if="set.question.quantity_ans_count > 0" class="text-sm">{{
                     set.question.quantity_ans_count
                   }}</span>
+                  <span class="text-sm text-gray-500" itemprop="answerCount"><span v-if="set.answers">{{set.answers.length}}</span><span v-else>0</span></span>
                 </a>
+                
                 <!--commets-->
               </div>
             </div>
