@@ -19,7 +19,7 @@ class CitySet
             session(['cityid' => $user->city_id, 'citytitle' => $user->city]);
             $city = cities::where('id', $user->city_id)->first();
         } else {
-            if ($request->cityid) { //set city from popup not profile                              
+            if ($request->cityid) { //set city from popup not profile                             
                 $city = cities::where('id', $request->cityid)->first();
                 session(['cityid' => $city->id, 'citytitle' => $city->title]);
                 if (Auth::user()) {
@@ -29,36 +29,26 @@ class CitySet
                         $user->city_id = $request->cityid;
                         $user->save();
                     }
-                }
+                }                
             } else {  //url has city url; 
                 if ($cityurl != '') {
                     $city = cities::where('url', $cityurl)->first();
-                    //dd($city);
                     session(['cityid' => $city->id, 'citytitle' => $city->title]);
-                } else { //set moscow by default
-                    $city = collect(['id' => 0, 'title' => 'Россия', 'url' => 'all-cities']);
+                } else { //set all Russia by default
+                    $city = cities::find(0);
                 }
             }
         }
         return $city;
     }
 
-    public static function CityGet($cityurl)
+    public static function CityGet()
     {
         if (session()->get('cityid')) {
             $city = cities::where('id', session()->get('cityid'))->first();
-        } elseif (Auth::user()) {
-            if (Auth::user()->city_id) {
-                $city = cities::where('id', Auth::user()->city_id)->first();
-            } else {
-                $city = cities::find(0);
-            }
-        } elseif ($cityurl != '' && !$cityurl) {
-            $city = cities::where('url', $cityurl)->first();
         } else {
             $city = cities::find(0);
         }
-        session(['cityid' => $city->id, 'citytitle' => $city->title]);
         return $city;
     }
 }

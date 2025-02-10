@@ -490,6 +490,7 @@ class LentaController extends Controller
 
     public function questions()
     {
+        dd(1);
         $city = CitySet::CityGet(false);
 
         $user_id = Auth::user() ? Auth::user()->id : null;

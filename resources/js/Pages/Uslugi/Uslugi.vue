@@ -77,7 +77,8 @@ const callChildMethod = () => {
   </Head>
 
   <div class="min-h-screen">
-    <MainHeader :auth="set.auth" :city="set.city"  ref="childRef"/>
+    <MainHeader :auth="set.auth" :city="set.city" ref="childRef" :mainurl="set.main_usluga ? set.main_usluga.url : null"
+      :secondurl="set.second_usluga ? set.second_usluga.url : null" />
 
     <Header :modalPageTitle="title" />
 
@@ -234,7 +235,7 @@ const callChildMethod = () => {
 
     <Seoquestion :questiondata="set.main_usluga" />
 
-    <CtaLwr v-if="true"/>
+    <CtaLwr v-if="true" />
 
     <MainFooter>
       <BreadcrumbsUslugi class="p-4 bg-white flex flex-col items-center mb-2"

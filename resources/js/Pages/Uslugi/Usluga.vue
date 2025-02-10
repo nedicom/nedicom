@@ -79,7 +79,7 @@ details summary::-webkit-details-marker {
     <link rel="canonical" :href="'https://nedicom.ru/uslugi/' + vars.url" />
   </Head>
 
-  <MainHeader :auth="vars.auth" :city="vars.cityheader" :hideBtn="true"/>
+  <MainHeader :auth="vars.auth" :city="vars.cityheader" :hideBtn="false"/>
 
   <Header :avatarPath="vars.lawyer.avatar_path" :lawyer="vars.usluga.usl_name" :phone="usluga.phone" :address="usluga.address" :modalPageTitle="vars.usluga.usl_name" 
      />

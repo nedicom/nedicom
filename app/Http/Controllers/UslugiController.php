@@ -30,7 +30,7 @@ class UslugiController extends Controller
             });
         }
 
-        $city = CitySet::CityGet(false);
+        $city = CitySet::CityGet();
 
         $category = Uslugi::where('is_main', 1)
             ->where('is_feed', 1)
@@ -75,7 +75,7 @@ class UslugiController extends Controller
             ->with('cities')
             ->with('main')
             ->with('second')
-            ->when(session()->get('cityid') ?? null, function ($query, $sescity) {
+            ->when($city->id == 0 ? 0 : $city->id, function ($query, $sescity) {
                 $query->where(function ($query) use ($sescity) {
                     $query->where('sity', $sescity);
                 });
@@ -84,7 +84,7 @@ class UslugiController extends Controller
             ->withSum('review', 'rating')
             ->with('review')
             //->groupBy('user_id') //for unique values
-            ->paginate(10);        
+            ->paginate(10);
 
         foreach ($uslugi as $item) {
             $item->url = $item->cities->url . '/' .
@@ -110,7 +110,7 @@ class UslugiController extends Controller
             'cities' => $cities,
             'allsities' => Uslugi::where('is_main', '!=', 1)
                 ->where('is_second', null)
-                ->where('is_feed', 1)->get()->unique('cities'),
+                ->where('is_feed', 1)->get(['id', 'sity'])->unique('cities'),
             'category' => $category,
             'routeurl' => '/uslugi',
             'auth' => Auth::user(),
@@ -130,8 +130,8 @@ class UslugiController extends Controller
                     return $query->where('title', 'like', '%' . $city . '%')->get();
                 });
             }
-
-            $city = CitySet::CityGet($url);
+            
+            $city = CitySet::CitySet($request, $url, false);
 
             $category = Uslugi::where('is_main', 1)
                 ->where('is_feed', 1)
@@ -248,9 +248,10 @@ class UslugiController extends Controller
     public function showOfferByMain(string $city, string $main_usluga,  Request $request)
     // http://nedicom.ru/uslugi/city/main
     {
-
-        $city = CitySet::CityGet($city);
         if (!$city) abort(404);
+
+        $route = ['name' => 'uslugi.url', 'urls' => [$city, $main_usluga]];
+        $city = CitySet::CitySet($request, $city, false, $route);
         $main = Uslugi::where('url', $main_usluga)->with('cities')->first(['id', 'usl_name', 'url', 'usl_desc', 'file_path', 'popular_question']);
 
         $category = Uslugi::where('is_main', 1)
@@ -335,8 +336,8 @@ class UslugiController extends Controller
     public function showOfferBysecond(string $city, string $main_usluga, string $second_usluga, Request $request)
     // http://nedicom.ru/uslugi/city/main/second
     {
-        $city = CitySet::CityGet($city);
-        
+        $city = CitySet::CitySet($request, $city, false);
+
         $main = Uslugi::where('url', $main_usluga)->first(['id', 'usl_name', 'usl_desc', 'url', 'popular_question']);
         $second = Uslugi::where('url', $second_usluga)->with('cities')->with('main')->first(['id', 'usl_name', 'usl_desc', 'url', 'file_path', 'popular_question']);
         if ($second->url === "second") $second->usl_desc = $main->usl_desc . '. ' . $second->usl_desc;
@@ -358,7 +359,7 @@ class UslugiController extends Controller
             ->with('mainhassecond')
             ->get();
 
-        $city = CitySet::CityGet($city);
+        $route = ['name' => 'uslugi.url', 'urls' => [$city, $main_usluga]];
 
         $user_id = Auth::user() ? Auth::user()->id : null;
 
@@ -530,7 +531,7 @@ class UslugiController extends Controller
             'main_usluga' =>  $main,
             'second_usluga' => Uslugi::where('id', $usluga->second_usluga_id)->first(['id', 'usl_name', 'url']),
             'city' => is_null(cities::find($usluga->sity)) ? cities::find(0) : cities::find($usluga->sity),
-            'cityheader' => CitySet::CityGet($city),
+            'cityheader' => CitySet::CitySet($request, $city, false, 'offer.second'),
             'url' => $city . '/' . $main_usluga . '/' . $second_usluga . '/' . $url,
             'flash' => ['message' => $request->session()->get(key: 'message')],
         ]);
