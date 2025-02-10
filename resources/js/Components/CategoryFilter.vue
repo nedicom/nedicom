@@ -8,7 +8,6 @@ defineProps({
   cityUrl: String,
   main_usluga_url: String,
   second_usluga_url: String,
-  activeSts: Boolean,
 });
 
 defineEmits(['activeSts']);

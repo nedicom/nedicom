@@ -30,9 +30,7 @@ class UslugiController extends Controller
             });
         }
 
-        $cityurl = '';
-
-        $city = CitySet::CitySet($request, $cityurl);
+        $city = CitySet::CityGet(false);
 
         $category = Uslugi::where('is_main', 1)
             ->where('is_feed', 1)
@@ -117,6 +115,7 @@ class UslugiController extends Controller
             'routeurl' => '/uslugi',
             'auth' => Auth::user(),
             'getLawyer' => session()->get('questionTitle') ? session()->get('questionTitle') : '0',
+            'active' => true,
         ]);
     }
 
@@ -125,7 +124,6 @@ class UslugiController extends Controller
     {
         //check city in url  
         if (cities::where('url', $url)->first()) {
-
             $cities = [];
             if ($request->city) {
                 $cities = cities::when($request->city ?? null, function ($query, $city) {
@@ -133,11 +131,7 @@ class UslugiController extends Controller
                 });
             }
 
-            $cityurl = $url;
-
-            // $request->session()->forget('cityid');
-
-            $city = CitySet::CitySet($request, $cityurl);
+            $city = CitySet::CityGet($url);
 
             $category = Uslugi::where('is_main', 1)
                 ->where('is_feed', 1)
@@ -212,7 +206,7 @@ class UslugiController extends Controller
                 'routeurl' => '/uslugi',
                 'getLawyer' => session()->get('questionTitle') ? session()->get('questionTitle') : '0',
                 'auth' => Auth::user(),
-                'cityheader' => CitySet::CityGet(),
+                'cityheader' => CitySet::CityGet($url),
             ]);
         }
         //check city in url
@@ -241,7 +235,7 @@ class UslugiController extends Controller
                     'main_usluga' => Uslugi::findOrFail($main_usluga_id)->url,
                     'second_usluga' => $second_usluga_id,
                     'url' => $usluga->url,
-                    'cityheader' => CitySet::CityGet(),
+                    'cityheader' => CitySet::CityGet(false),
                 ]
             );
         } else {
@@ -254,7 +248,8 @@ class UslugiController extends Controller
     public function showOfferByMain(string $city, string $main_usluga,  Request $request)
     // http://nedicom.ru/uslugi/city/main
     {
-        $city = cities::where('url', $city)->with('uslugies')->first();
+
+        $city = CitySet::CityGet($city);
         if (!$city) abort(404);
         $main = Uslugi::where('url', $main_usluga)->with('cities')->first(['id', 'usl_name', 'url', 'usl_desc', 'file_path', 'popular_question']);
 
@@ -267,8 +262,6 @@ class UslugiController extends Controller
             }])
             ->with('mainhassecond')
             ->get();
-
-        $city = CitySet::CitySet($request, $city->url);
 
         $user_id = Auth::user() ? Auth::user()->id : null;
 
@@ -342,7 +335,8 @@ class UslugiController extends Controller
     public function showOfferBysecond(string $city, string $main_usluga, string $second_usluga, Request $request)
     // http://nedicom.ru/uslugi/city/main/second
     {
-        $city = cities::where('url', $city)->with('uslugies')->first();
+        $city = CitySet::CityGet($city);
+        
         $main = Uslugi::where('url', $main_usluga)->first(['id', 'usl_name', 'usl_desc', 'url', 'popular_question']);
         $second = Uslugi::where('url', $second_usluga)->with('cities')->with('main')->first(['id', 'usl_name', 'usl_desc', 'url', 'file_path', 'popular_question']);
         if ($second->url === "second") $second->usl_desc = $main->usl_desc . '. ' . $second->usl_desc;
@@ -364,7 +358,7 @@ class UslugiController extends Controller
             ->with('mainhassecond')
             ->get();
 
-        $city = CitySet::CitySet($request, $city->url);
+        $city = CitySet::CityGet($city);
 
         $user_id = Auth::user() ? Auth::user()->id : null;
 
@@ -478,7 +472,6 @@ class UslugiController extends Controller
     {
         // http://nedicom.ru/uslugi/city/main/second/usl-name
         $usluga = Uslugi::where('url', '=', $url)->first();
-        CitySet::CitySet($request, $city);
 
         $id = $usluga->id;
         $mainid = $usluga->main_usluga_id;
@@ -509,8 +502,6 @@ class UslugiController extends Controller
 
         $auth = Auth::user();
 
-
-
         $lawyer = User::where('id', $usluga->user_id)->first();
 
         $main = Uslugi::where('id', $usluga->main_usluga_id)->first(['id', 'usl_name', 'url',]);
@@ -539,7 +530,7 @@ class UslugiController extends Controller
             'main_usluga' =>  $main,
             'second_usluga' => Uslugi::where('id', $usluga->second_usluga_id)->first(['id', 'usl_name', 'url']),
             'city' => is_null(cities::find($usluga->sity)) ? cities::find(0) : cities::find($usluga->sity),
-            'cityheader' => CitySet::CityGet(),
+            'cityheader' => CitySet::CityGet($city),
             'url' => $city . '/' . $main_usluga . '/' . $second_usluga . '/' . $url,
             'flash' => ['message' => $request->session()->get(key: 'message')],
         ]);

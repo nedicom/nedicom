@@ -16,7 +16,7 @@ class QuestionuslugaController
 {
     public static function Questioncity($usluga)
     {
-        $city = CitySet::CityGet();
+        $city = CitySet::CityGet(false);
 
         $user_id = Auth::user() ? Auth::user()->id : null;
 

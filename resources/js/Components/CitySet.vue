@@ -3,17 +3,22 @@ import { VueFinalModal } from "vue-final-modal";
 import { reactive, ref, watch } from "vue";
 import { Inertia } from "@inertiajs/inertia";
 
+let set = defineProps({
+  userCity: Object,
+  profile: Boolean,
+});
+
+let userHasCity = set.userCity ? set.userCity.city_id : null;
 let form = reactive({
   city: "",
   cityid: "",
-  setcity: true,
+  changeCityFromProfile: set.profile,
 });
 
 let cities = ref(null);
 let simplecities = ref(null);
 let findcity = ref(null);
 let regionname = ref(false);
-
 
 const emit = defineEmits({
   e: "confirm",
@@ -39,7 +44,6 @@ const getData = () => {
 
 getData();
 
-
 const filterItems = (arr, query) => {
   return (findcity.value = arr.filter(
     (element) => element.title.toLowerCase().indexOf(query.toLowerCase()) !== -1
@@ -58,7 +62,7 @@ watch(
   <VueFinalModal
     class="flex justify-center items-center"
     content-class="flex flex-col max-w-xl mx-4 p-4 bg-white md:w-2/3 border dark:border-gray-700 rounded-lg space-y-2"
-  >
+    >{{ set.profile }}
     <div class="relative">
       <button
         type="button"
@@ -105,7 +109,10 @@ watch(
         </div>
       </form>
 
-      <div v-if="cities != null" class="grid grid-cols-2 divide-x mt-5 gap-2 h-40">
+      <div
+        v-if="cities != null"
+        class="grid grid-cols-2 divide-x mt-5 gap-2 h-40"
+      >
         <div class="pl-2 overflow-y-auto overflow-x-hidden">
           <div v-for="(region, n) in cities" :key="n" class="">
             <div
@@ -149,7 +156,6 @@ watch(
           </div>
         </div>
       </div>
-
     </div>
   </VueFinalModal>
 </template>

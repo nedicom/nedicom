@@ -17,7 +17,7 @@ class LentaController extends Controller
 {
     public function liked()
     {
-        $city = CitySet::CityGet();
+        $city = CitySet::CityGet(false);
         $user_id = Auth::user() ? Auth::user()->id : null;
 
         $uslugis = DB::table('uslugis')
@@ -139,7 +139,7 @@ class LentaController extends Controller
 
     public function bookmarked()
     {
-        $city = CitySet::CityGet();
+        $city = CitySet::CityGet(false);
         $user_id = Auth::user() ? Auth::user()->id : null;
 
         $uslugis = DB::table('uslugis')
@@ -262,7 +262,7 @@ class LentaController extends Controller
 
     public function popular()
     {
-        $city = CitySet::CityGet();
+        $city = CitySet::CityGet(false);
 
         $user_id = Auth::user() ? Auth::user()->id : null;
 
@@ -349,7 +349,7 @@ class LentaController extends Controller
 
     public function new()
     {
-        $city = CitySet::CityGet();
+        $city = CitySet::CityGet(false);
 
         $user_id = Auth::user() ? Auth::user()->id : null;
 
@@ -436,7 +436,7 @@ class LentaController extends Controller
 
     public function articles()
     {
-        $city = CitySet::CityGet();
+        $city = CitySet::CityGet(false);
 
         $user_id = Auth::user() ? Auth::user()->id : null;
 
@@ -490,7 +490,7 @@ class LentaController extends Controller
 
     public function questions()
     {
-        $city = CitySet::CityGet();
+        $city = CitySet::CityGet(false);
 
         $user_id = Auth::user() ? Auth::user()->id : null;
 

@@ -9,47 +9,55 @@ use App\Models\cities;
 
 class CitySet
 {
-    public static function CitySet($request, $cityurl)
-    {
-       
-        if (Auth::user() && $request->setcity) { //set city to profile
-            $user = User::find(Auth::user()->id);  
+    public static function CitySet($request, $cityurl, $profile)
+    {        
+        if (Auth::user() && $profile) { //set city from profile form            
+            $user = User::find(Auth::user()->id);
             $user->city = $request->city;
-            $user->city_id = $request->cityid;    
-            $user->save();  
-        }
-        if ($request->cityid) { //from Cityfilter form or form in header    
-            if ($request->cityid == 'zero') {
-                $city = collect(['id' => 0, 'title' => '']);
-                session(['cityid' => 0, 'citytitle' => '']);
-            } else {              
+            $user->city_id = $request->cityid;
+            $user->save();
+            session(['cityid' => $user->city_id, 'citytitle' => $user->city]);
+            $city = cities::where('id', $user->city_id)->first();
+        } else {
+            if ($request->cityid) { //set city from popup not profile                              
                 $city = cities::where('id', $request->cityid)->first();
                 session(['cityid' => $city->id, 'citytitle' => $city->title]);
-            }
-            //$city = $city;          
-        } else { //session has cityid;
-            if (session()->get('cityid')) {
-                $city = cities::where('id', session()->get('cityid'))->first();
-            } else { //url has city url; 
+                if (Auth::user()) {
+                    if (!Auth::user()->city_id) { //set city if user hasnt city
+                        $user = User::find(Auth::user()->id);
+                        $user->city = $request->city;
+                        $user->city_id = $request->cityid;
+                        $user->save();
+                    }
+                }
+            } else {  //url has city url; 
                 if ($cityurl != '') {
-                    //dd($cityurl);  
                     $city = cities::where('url', $cityurl)->first();
+                    //dd($city);
                     session(['cityid' => $city->id, 'citytitle' => $city->title]);
-                } else {
-                    $city = collect(['id' => 0, 'title' => '', 'url' => 'moscow']);
+                } else { //set moscow by default
+                    $city = collect(['id' => 0, 'title' => 'Россия', 'url' => 'all-cities']);
                 }
             }
         }
-
         return $city;
     }
 
-    public static function CityGet()
+    public static function CityGet($cityurl)
     {
-        if (session()->get('cityid')) {
+        if (session()->get('cityid')) {  
+                    
             $city = cities::where('id', session()->get('cityid'))->first();
+        } elseif (Auth::user()) {
+            $user = User::find(Auth::user()->id);
+            session(['cityid' => $user->city_id, 'citytitle' => $user->city]);
+        } elseif ($cityurl != '') {
+            $city = cities::where('url', $cityurl)->first();
+            if ($city) {
+                session(['cityid' => $city->id, 'citytitle' => $city->title]);
+            }
         } else {
-            $city = collect(['id' => 0, 'title' => '','url' => 'moscow']);
+            $city = collect(['id' => 0, 'title' => 'Россия', 'url' => 'all-cities']);
         }
         return $city;
     }

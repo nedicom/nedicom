@@ -25,7 +25,7 @@ class QuestionsController extends Controller
 {
     public function index()
     {
-        $city = CitySet::CityGet();
+        $city = CitySet::CityGet(false);
 
         return Inertia::render('Questions/Questions', [
             'questions' => Questions::orderBy('created_at', 'desc')->paginate(9),
@@ -36,7 +36,7 @@ class QuestionsController extends Controller
 
     public function myQuestions()
     {
-        $city = CitySet::CityGet();
+        $city = CitySet::CityGet(false);
 
         return Inertia::render('Questions/MyQuestions', [
             'questions' => Questions::where('user_id', '=', Auth::user()->id)->select('id', 'title', 'body', 'url')->withCount('QuantityAns')->orderBy('updated_at', 'desc')->paginate(9),
@@ -51,7 +51,7 @@ class QuestionsController extends Controller
             return QuestionuslugaController::Questioncity(Uslugi::where('url', $url)->first());
         }
 
-        $city = CitySet::CityGet();
+        $city = CitySet::CityGet(false);
 
         $usluga = Uslugi::where('url', $url)->first();
 
@@ -156,7 +156,7 @@ class QuestionsController extends Controller
 
     public function questionsNonAuth()
     {
-        $city = CitySet::CityGet();
+        $city = CitySet::CityGet(false);
 
         return Inertia::render('Questions/QuestionNA', [
             'ownercookie' => [
@@ -192,7 +192,7 @@ class QuestionsController extends Controller
 
     public function questionAdd(Request $request)
     {
-        $city = CitySet::CityGet();
+        $city = CitySet::CityGet(false);
 
         $questions = Questions::limit(20)->withCount('QuantityAns')->orderBy('updated_at', 'desc')->get();
 

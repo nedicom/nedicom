@@ -110,7 +110,7 @@ class CityController extends Controller
 
     public function setCity(Request $request)
     {
-        CitySet::CitySet($request, $request->cityid);
+        CitySet::CitySet($request, $request->cityid, $request->changeCityFromProfile);
         return redirect()->back();
     }
 

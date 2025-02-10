@@ -14,11 +14,15 @@ const showingNavigationDropdown = ref(false);
 let props = defineProps({
   auth: Object,
   city: Object,
+  profile: Boolean,
+  hideBtn: Boolean,
 });
 
 const { open, close } = useModal({
   component: CitySet,
   attrs: {
+    userCity: props.auth,
+    profile: props.profile,
     modalPageTitle: "city",
     onConfirm() {
       close();
@@ -26,8 +30,7 @@ const { open, close } = useModal({
   },
 });
 
-defineExpose({ open })
-
+defineExpose({ open });
 </script>
 
 <template>
@@ -90,15 +93,17 @@ defineExpose({ open })
               <!-- Settings Dropdown -->
               <div class="ml-3 relative flex">
                 <button
+                  v-if="!hideBtn"
                   type="button"
                   @click="() => open()"
                   aria-label="city"
                   class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                 >
-                  <span v-if="props.city">
-                    <span v-if="props.city.id != 0">
-                      {{ props.city.title }}</span
-                    >
+                  <span v-if="props.city"> {{ props.city.title }}</span>
+                  <span v-else-if="props.auth">
+                    <span v-if="props.auth.city != 0">{{
+                      props.auth.city
+                    }}</span>
                     <span v-else>город</span>
                   </span>
                   <span v-else>город</span>
@@ -288,7 +293,6 @@ defineExpose({ open })
 
           <!-- Responsive Settings Options -->
           <div class="pt-4 border-t border-gray-200">
-
             <div v-if="props.auth">
               <ResponsiveNavLink :href="route('profile.edit')">
                 Профиль - {{ props.auth.name }}
@@ -326,7 +330,7 @@ defineExpose({ open })
             <div v-else>
               <ResponsiveNavLink :href="route('lenta.bookmarked')">
                 Закладки
-              </ResponsiveNavLink>              
+              </ResponsiveNavLink>
               <ResponsiveNavLink :href="route('login')" class="underline">
                 Войти
               </ResponsiveNavLink>

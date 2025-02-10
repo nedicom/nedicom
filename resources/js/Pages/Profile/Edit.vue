@@ -52,18 +52,13 @@ const childRef = ref(null);
 const callChildMethod = () => {
   childRef.value?.open();
 };
-
-let citynew = ({
-  id: set.auth.city_id,
-  title: set.auth.city,
-})
 </script>
 
 <template>
 
   <Head title="Профиль" />
 
-  <MainHeader :auth="set.auth" ref="childRef" :city="citynew" />
+  <MainHeader :auth="set.auth" ref="childRef" :profile="true" />
 
   <Body>
     <div class="py-12">

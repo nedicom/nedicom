@@ -28,7 +28,7 @@ class MainpageController extends Controller
         $reviewscount = Review::count();
         $rating = Review::sum('rating');
         $rating =  round($rating / $reviewscount, 1);
-        $city = CitySet::CityGet();
+        $city = CitySet::CityGet(false);
         $user_id = Auth::user() ? Auth::user()->id : null;
 
         $secondoffers = Uslugi::where('is_second', 1)->where('is_feed', 1)->with('main')->select(['id', 'usl_name', 'url', 'file_path', 'main_usluga_id'])->get()

@@ -7,7 +7,6 @@ import Seodesc from "@/Components/Seodesc.vue";
 import Seoquestion from "@/Components/Seoquestion.vue";
 import CtaLwr from "@/Components/CtaLwr.vue";
 import CategoryFilter from "@/Components/CategoryFilter.vue";
-import CityFilter from "@/Components/CityFilter.vue";
 import OfferCard from "@/Components/OfferCard.vue";
 import RatingReady from "@/Components/RatingReady.vue";
 import Pagination from "@/Components/Pagination.vue";
@@ -62,6 +61,12 @@ let status = ref(false);
 function alertForm(x) {
   status.value = x;
 }
+
+const childRef = ref(null);
+
+const callChildMethod = () => {
+  childRef.value?.open();
+};
 </script>
 
 <template>
@@ -72,18 +77,20 @@ function alertForm(x) {
   </Head>
 
   <div class="min-h-screen">
-    <MainHeader :auth="set.auth" :city="set.city" />
+    <MainHeader :auth="set.auth" :city="set.city"  ref="childRef"/>
 
     <Header :modalPageTitle="title" />
 
     <Body>
-
       <div class="bg-white grid grid-cols-1 md:grid-cols-4">
         <div>
-          <CityFilter :cities="set.cities" :routeurl="set.routeurl" :status="status"
-            :main_usluga_url="set.main_usluga.url" :second_usluga_url="[
-              set.second_usluga ? set.second_usluga.url : false,
-            ]" @activeSts="alertForm" />
+          <div class="flex max-w-xl justify-end items-center cursor-pointer my-5">
+            <button @click="callChildMethod()" type="button"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
+              <span v-if="set.city.title">{{ set.city.title }}</span>
+              <span v-else>Выберите регион (город)</span>
+            </button>
+          </div>
 
           <div v-if="set.allsities" сlass="flex justify-center md:justify-end">
             <div class="mb-10 px-2">
