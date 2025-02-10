@@ -4,8 +4,8 @@ import AccordionComment from "@/Components/AccordionComment.vue";
 
 defineProps({
   article_id: Number,
-  answers: "Object",
-  question: "Number",
+  answers: Object,
+  question: Object,
   authid: "Number",
   type: String,
 });
@@ -23,6 +23,10 @@ defineProps({
         itemscope
         itemtype="https://schema.org/Answer"
       >
+      <meta v-if="!answer.parent_comment_id" itemprop="datePublished" :content="answer.updated_at" />
+      <meta itemprop="url" :content="'https://nedicom.ru/questions/' + question.url + '#comment'" />
+      <meta v-if="question.user_like" itemprop="upvoteCount" :content="question.user_like" />
+      <meta v-else itemprop="upvoteCount" content="0" />
         <div class="flex flex-right mb-2">
           <Link
             :href="route('lawyer', answer.user_ans.id)"
@@ -52,7 +56,7 @@ defineProps({
         </p>
 
         <AccordionComment
-          :question="question"
+          :question="question.id"
           :answerid="answer.id"
           :authid="authid"
           :type="type"
@@ -93,7 +97,7 @@ defineProps({
             </p>
 
             <AccordionComment
-              :question="question"
+              :question="question.id"
               :answerid="answer.id"
               :authid="authid"
               :type="type"

@@ -108,13 +108,12 @@ percent.value == 100 ? (color.value = 'bg-blue-600', message.value = "Отлич
           <div class="grid grid-cols-2">
 
             <span class="flex flex-left items-center">
-
               <img v-if="set.question.avatar_path" :src="'https://nedicom.ru/' + set.question.avatar_path" width="60"
                 height="60" class="rounded-full ring-2 ring-gray-300" />
 
               <div class="text-sm text-gray-900 font-semibold flex flex-col md:flex-row md:items-center ml-3">
                 <span v-if="set.question.name" itemprop="author" itemscope itemtype="https://schema.org/Person">
-                  <meta itemprop="url" content="https://nedicom.ru/uslugi" />
+                  <meta itemprop="url" :content="'https://nedicom.ru/lawyers/' + set.question.user_id" />
                   <span itemprop="name" class="truncate">
                     {{ set.question.name }}
                   </span>
@@ -189,7 +188,7 @@ percent.value == 100 ? (color.value = 'bg-blue-600', message.value = "Отлич
 
           <div class="flex justify-center" id="comment">
             <Answers class="sm:px-6 lg:px-4 mx-5 py-12 md:w-4/6 w-full" :answers="set.answers"
-              :question="set.question.id" :authid="set.authid" :type="'question'" :article="null" :article_id="null" />
+              :question="set.question" :authid="set.authid" :type="'question'" :article="null" :article_id="null" />
           </div>
 
           <p class="pb-12 font-medium leading-tight text-2xl text-center" id="guarantee">
