@@ -26,7 +26,7 @@ defineProps({
       <meta v-if="!answer.parent_comment_id" itemprop="datePublished" :content="answer.updated_at" />
       <meta itemprop="url" :content="'https://nedicom.ru/questions/' + question.url + '#comment'" />
       <meta v-if="question.user_like" itemprop="upvoteCount" :content="question.user_like" />
-      <meta v-else itemprop="upvoteCount" content="0" />
+      <meta v-else itemprop="upvoteCount" content="1" />
         <div class="flex flex-right mb-2">
           <Link
             :href="route('lawyer', answer.user_ans.id)"
@@ -35,6 +35,7 @@ defineProps({
             itemscope
             itemtype="https://schema.org/Person"
           >
+          <meta itemprop="url" :content="'https://nedicom.ru/lawyers/' + answer.user_ans.id" />
             <img
               :src="'https://nedicom.ru/' + answer.user_ans.avatar_path"
               width="40"
