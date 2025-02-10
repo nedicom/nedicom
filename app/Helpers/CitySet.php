@@ -10,7 +10,7 @@ use App\Models\cities;
 class CitySet
 {
     public static function CitySet($request, $cityurl, $profile)
-    {        
+    {
         if (Auth::user() && $profile) { //set city from profile form            
             $user = User::find(Auth::user()->id);
             $user->city = $request->city;
@@ -45,20 +45,20 @@ class CitySet
 
     public static function CityGet($cityurl)
     {
-        if (session()->get('cityid')) {  
-                    
+        if (session()->get('cityid')) {
             $city = cities::where('id', session()->get('cityid'))->first();
         } elseif (Auth::user()) {
-            $user = User::find(Auth::user()->id);
-            session(['cityid' => $user->city_id, 'citytitle' => $user->city]);
-        } elseif ($cityurl != '') {
-            $city = cities::where('url', $cityurl)->first();
-            if ($city) {
-                session(['cityid' => $city->id, 'citytitle' => $city->title]);
+            if (Auth::user()->city_id) {
+                $city = cities::where('id', Auth::user()->city_id)->first();
+            } else {
+                $city = cities::find(0);
             }
+        } elseif ($cityurl != '' && !$cityurl) {
+            $city = cities::where('url', $cityurl)->first();
         } else {
-            $city = collect(['id' => 0, 'title' => 'Россия', 'url' => 'all-cities']);
+            $city = cities::find(0);
         }
+        session(['cityid' => $city->id, 'citytitle' => $city->title]);
         return $city;
     }
 }

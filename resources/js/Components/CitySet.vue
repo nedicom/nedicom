@@ -62,7 +62,7 @@ watch(
   <VueFinalModal
     class="flex justify-center items-center"
     content-class="flex flex-col max-w-xl mx-4 p-4 bg-white md:w-2/3 border dark:border-gray-700 rounded-lg space-y-2"
-    >{{ set.profile }}
+    >
     <div class="relative">
       <button
         type="button"
