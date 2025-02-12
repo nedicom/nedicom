@@ -5,6 +5,7 @@ import { Inertia } from "@inertiajs/inertia";
 
 let set = defineProps({
   profile: Boolean,
+  reloadpage: Boolean,
   newurl: String,
   mainurl: String,
   secondurl: String,

@@ -51,8 +51,8 @@ defineEmits(['activeSts']);
           <h2 :id="'accordion-flush-heading-' + numb">
             <div class="flex justify-start md:justify-end my-3 md:my-2 mx-3 md:mx-0 text-sm md:text-base font-semibold">
               <a v-if="cityUrl" :href="route('offer.main', [cityUrl, u.url])"
-                class="flex justify-start md:justify-end w-full md:w-2/3 transition hover:-translate-x-1 duration-300 cursor-pointer">
-                <span :class="{ 'border-b-2 border-gray-300': u.url == main_usluga_url }">{{ u.usl_name }}</span>
+                class="flex justify-start md:justify-end w-full md:w-2/3">
+                <span class="flex justify-start md:justify-end w-full md:w-2/3 transition hover:-translate-x-1 duration-300 cursor-pointer text-right" :class="{ 'border-b-2 border-gray-300': u.url == main_usluga_url }">{{ u.usl_name }}</span>
               </a>
               <a v-else href="#" disabled @click="$emit('activeSts', true)"
                 class="flex justify-start md:justify-end p-1 text-gray-900 text-right group">

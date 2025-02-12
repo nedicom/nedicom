@@ -68,7 +68,7 @@ let mainbannerpc =
   </Head>
 
   <div class="min-h-screen" itemscope itemtype="https://schema.org/LegalService">
-    <MainHeader :auth="auth" :city="city" />
+    <MainHeader :auth="auth" :city="city"/>
 
     <Header :modalPageTitle="'Модальное окно главная'" />
 

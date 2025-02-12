@@ -16,6 +16,7 @@ let props = defineProps({
   city: Object,
   profile: Boolean,
   hideBtn: Boolean,
+  reloadpage: Boolean,
   mainurl: String,
   secondurl: String,
 });
@@ -27,6 +28,7 @@ const { open, close } = useModal({
     mainurl: props.mainurl,
     secondurl: props.secondurl,
     modalPageTitle: "city",
+    reloadpage: props.reloadpage,
     onConfirm() {
       close();
     },

@@ -109,20 +109,20 @@ class CityController extends Controller
     }
 
     public function setCity(Request $request)
-    {        
-        //dd($request);
+    {
         CitySet::CitySet($request, $request->cityid, $request->changeCityFromProfile);
-        if ($request->secondurl) {                 
-            return redirect()->route('offer.second', [$request->cityurl, $request->mainurl, $request->secondurl]);
-            
-        };
-        if ($request->mainurl) {
-            return redirect()->route('offer.main', [$request->cityurl, $request->mainurl]);
-        };
-        if ($request->cityurl) {
-            return redirect()->route('uslugi.url', [$request->cityurl]);
-        };
-        return redirect()->back();
+        if ($request->reloadpage) {
+            if ($request->secondurl) {
+                return redirect()->route('offer.second', [$request->cityurl, $request->mainurl, $request->secondurl]);
+            };
+            if ($request->mainurl) {
+                return redirect()->route('offer.main', [$request->cityurl, $request->mainurl]);
+            };
+            if ($request->cityurl) {
+                return redirect()->route('uslugi.url', [$request->cityurl]);
+            };
+            return redirect()->back();
+        }
     }
 
     public function getCities()
