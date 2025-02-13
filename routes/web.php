@@ -211,8 +211,13 @@ Route::get('import/', [ImportController::class, 'import']);
 Route::get('sitemap.xml', [SitemapController::class, 'sitemap']);
 Route::get('sitemap/articles.xml', [SitemapController::class, 'articles']);
 Route::get('sitemap/lawyers.xml', [SitemapController::class, 'lawyers']);
-Route::get('sitemap/uslugi.xml', [SitemapController::class, 'uslugi']);
 Route::get('sitemap/questions.xml', [SitemapController::class, 'questions']);
+
+Route::get('sitemap/uslugi-city.xml', [SitemapController::class, 'uslugi_city']);
+Route::get('sitemap/uslugi-city-main.xml', [SitemapController::class, 'uslugi_city_main']);
+Route::get('sitemap/uslugi-city-main-second.xml', [SitemapController::class, 'uslugi_city_main_second']);
+Route::get('sitemap/uslugi-city-main-second-canonical.xml', [SitemapController::class, 'uslugi_city_main_second_canonical']);
+
 
 
 //yandex feed

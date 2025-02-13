@@ -1,5 +1,5 @@
 User-agent: *
-Disallow: /*?*
+Disallow: /*?yclid*
 Disallow: /index.php*
 Disallow: /edit*
 Disallow: /user/*
@@ -12,11 +12,13 @@ Disallow: /message/*
 Disallow: /offers/*
 Disallow: /sites/*
 
-
-
 Host: https://nedicom.ru/
 Sitemap: https://nedicom.ru/sitemap.xml
 Sitemap: https://nedicom.ru/sitemap/articles.xml
 Sitemap: https://nedicom.ru/sitemap/lawyers.xml
-Sitemap: https://nedicom.ru/sitemap/uslugi.xml
 Sitemap: https://nedicom.ru/sitemap/questions.xml
+
+Sitemap: https://nedicom.ru/sitemap/uslugi-city.xml
+Sitemap: https://nedicom.ru/sitemap/uslugi-city-main.xml
+Sitemap: https://nedicom.ru/sitemap/uslugi-city-main-second.xml
+Sitemap: https://nedicom.ru/sitemap/uslugi-city-main-second-canonical.xml
