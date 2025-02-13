@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Helpers;
 
 class TgSend
@@ -8,15 +9,11 @@ class TgSend
         $chat_name = env('MAIN_CHAT');
         $token = env('MAIN_CHAT_TOKEN');
 
-        $message = $event."\n".$name."\n".$url."\nТы - лучший!";
+        $message = $event . "\n" . $name . "\n" . $url . "\nТы - лучший!";
 
         $text = urlencode($message);
         $url = "https://api.telegram.org/bot{$token}/sendMessage?chat_id={$chat_name}&text={$text}";
 
-        $ch = curl_init();
-        $optArray = [CURLOPT_URL => $url, CURLOPT_RETURNTRANSFER => true];
-        curl_setopt_array($ch, $optArray);
-        curl_exec($ch);
-        curl_close($ch);
+       file_get_contents($url);
     }
 }
