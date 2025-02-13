@@ -79,7 +79,6 @@ const callChildMethod = () => {
       :secondurl="set.second_usluga ? set.second_usluga.url : null"
       :reloadpage="true"
     />
-
     <Header :modalPageTitle="title" />
 
     <Body>

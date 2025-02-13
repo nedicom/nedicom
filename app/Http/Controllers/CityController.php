@@ -120,9 +120,9 @@ class CityController extends Controller
             };
             if ($request->cityurl) {
                 return redirect()->route('uslugi.url', [$request->cityurl]);
-            };
-            return redirect()->back();
+            };            
         }
+        return redirect()->back();
     }
 
     public function getCities()

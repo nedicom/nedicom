@@ -11,6 +11,8 @@ let set = defineProps({
   secondurl: String,
 });
 
+
+
 let form = reactive({
   city: "",
   cityid: "",
@@ -18,6 +20,7 @@ let form = reactive({
   cityurl: set.cityurl,
   mainurl: set.mainurl,
   secondurl: set.secondurl,
+  reloadpage: set.reloadpage,
 });
 
 let cities = ref(null);
@@ -67,6 +70,7 @@ watch(
   <VueFinalModal class="flex justify-center items-center"
     content-class="flex flex-col max-w-xl mx-4 p-4 bg-white md:w-2/3 border dark:border-gray-700 rounded-lg space-y-2">
     <div class="relative">
+      {{ set.reloadpage }}
       <button type="button" @click="emit('confirm')"
         class="absolute top-0 right-0 bg-white rounded-md p-2 inline-flex items-end justify-end text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
         <span class="sr-only">Close menu</span>
