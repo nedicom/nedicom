@@ -64,6 +64,7 @@ class ArticleController extends Controller
         $article->body = $request->body;
         $url = Translate::translit($request->header);
         $article->url = $url;
+        
         $article->save();
 
         TgSend::SendMess("Добавлена статья пользователем - ".$article->username, $article->header, "https://nedicom.ru/articles/".$url);
@@ -131,7 +132,7 @@ class ArticleController extends Controller
 
 
         if ($article->usluga_id == null) {
-            $usluga_id_sec = 15;
+            $usluga_id_sec = 1;
         } else {
             $usluga_id_sec = $article->usluga_id;
         }

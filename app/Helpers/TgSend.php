@@ -8,7 +8,7 @@ class TgSend
         $chat_name = env('MAIN_CHAT');
         $token = env('MAIN_CHAT_TOKEN');
 
-        $message = "$event\n название - $name\n ссылка - $url\n Ты - лучший!";
+        $message = $event."\n".$name."\n".$url."\nТы - лучший!";
 
         $text = urlencode($message);
         $url = "https://api.telegram.org/bot{$token}/sendMessage?chat_id={$chat_name}&text={$text}";
