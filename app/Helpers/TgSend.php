@@ -1,15 +1,14 @@
 <?php
-
 namespace App\Helpers;
 
 class TgSend
 {
-    public static function SendMess($name)
+    public static function SendMess($event, $name, $url)
     {
-        $phone = 321;
-        $chat_name = "@nedicom_group";
-        $token = "7471342210:AAEDkhuLXZootfnjOjDWpbKoeNLSuxzJhUw";
-        $message = "Имя клиента - $name\n телефон - $phone\n Всем хорошего дня!";
+        $chat_name = env('MAIN_CHAT');
+        $token = env('MAIN_CHAT_TOKEN');
+
+        $message = "$event\n название - $name\n ссылка - $url\n Ты - лучший!";
 
         $text = urlencode($message);
         $url = "https://api.telegram.org/bot{$token}/sendMessage?chat_id={$chat_name}&text={$text}";

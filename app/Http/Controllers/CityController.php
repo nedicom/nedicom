@@ -15,7 +15,6 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 use App\Helpers\CitySet;
-use App\Helpers\TgSend;
 
 class CityController extends Controller
 {
@@ -109,9 +108,7 @@ class CityController extends Controller
         ]);
     }
 
-    public function setCity(Request $request)
-    {
-        TgSend::SendMess($request->cityid);
+    public function setCity(Request $request)    {       
 
         CitySet::CitySet($request, $request->cityid, $request->changeCityFromProfile);
         if ($request->reloadpage) {

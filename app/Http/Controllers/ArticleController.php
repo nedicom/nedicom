@@ -11,11 +11,14 @@ use App\Models\Questions;
 use App\Models\Article_comment;
 
 use App\Helpers\Translate;
+use App\Helpers\TgSend;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+
+
 
 
 class ArticleController extends Controller
@@ -62,6 +65,9 @@ class ArticleController extends Controller
         $url = Translate::translit($request->header);
         $article->url = $url;
         $article->save();
+
+        TgSend::SendMess("Добавлена статья пользователем - ".$article->username, $article->header, "https://nedicom.ru/articles/".$url);
+
         return redirect()->route('articles/url', $url);
     }
 
