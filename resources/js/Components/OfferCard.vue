@@ -32,7 +32,7 @@ if (set.getlwr && set.getlwr != 0) {
       itemscope
       itemtype="https://schema.org/Offer"
     >
-      <div class="bg-white flex items-center md:w-1/3">
+      <div class="bg-white flex items-center">
         <div class="h-72 w-full">
           <a
             :href="

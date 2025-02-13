@@ -12,7 +12,7 @@ class SessionController extends Controller
     public function City(Request $request)
     {        
         $cityurl = '';
-        CitySet::CitySet($request, $cityurl, false);
+        CitySet::CitySet($request, $cityurl, false, false);
     }
 }
 

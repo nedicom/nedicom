@@ -77,14 +77,15 @@ const callChildMethod = () => {
   </Head>
 
   <div class="min-h-screen">
-    <MainHeader :auth="set.auth" :city="set.city"  ref="childRef"/>
+    <MainHeader :auth="set.auth" :city="set.city" ref="childRef" :mainurl="set.main_usluga ? set.main_usluga.url : null"
+      :secondurl="set.second_usluga ? set.second_usluga.url : null" :reloadpage="true"/>
 
     <Header :modalPageTitle="title" />
 
     <Body>
       <div class="bg-white grid grid-cols-1 md:grid-cols-4">
         <div>
-          <div class="flex max-w-xl justify-end items-center cursor-pointer my-5">
+          <div class="flex max-w-xl justify-end items-center cursor-pointer my-5 mr-5 ">
             <button @click="callChildMethod()" type="button"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
               <span v-if="set.city.title">{{ set.city.title }}</span>
@@ -234,7 +235,7 @@ const callChildMethod = () => {
 
     <Seoquestion :questiondata="set.main_usluga" />
 
-    <CtaLwr v-if="true"/>
+    <CtaLwr v-if="true" />
 
     <MainFooter>
       <BreadcrumbsUslugi class="p-4 bg-white flex flex-col items-center mb-2"

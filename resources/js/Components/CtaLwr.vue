@@ -1,9 +1,9 @@
 <template>
         <section class="bg-white dark:bg-gray-900">
-            <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
-                <div class="mr-auto place-self-center lg:col-span-7">
+            <div class="grid max-w-screen-xl w-4/5 px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+                <div class="mr-auto place-self-center md:col-span-7">
                     <h1 class="max-w-2xl mb-4 text-4xl tracking-tight font-extrabold text-gray-900">
-                        Вы юрист? Добро пожаловать к нам</h1>
+                        Вы юрист? Добро пожаловать</h1>
                     <p class="max-w-2xl mb-2 font-light text-gray-500 lg:mb-4 md:text-lg lg:text-xl">
                         Мы разрабатываем сервис, в котором не нужно платить за объявления, поднятия, выделение цветом,
                         переходы и контакты клиентов.</p>
@@ -24,7 +24,7 @@
                         Регистрация
                     </a>
                 </div>
-                <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
+                <div class="hidden md:mt-0 md:col-span-5 md:flex">
                     <img src="/storage/default/attorney.png" alt="зарегистрироваться юристом">
                 </div>
             </div>
