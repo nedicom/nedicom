@@ -12,6 +12,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\Translate;
 use App\Helpers\OpenAI;
+use App\Helpers\TgSend;
 
 use Illuminate\Support\Facades\DB;
 
@@ -225,11 +226,12 @@ class QuestionsController extends Controller
         if (Auth::user()) {
             $Question->user_id = Auth::user()->id;
             $Question->save();
+            TgSend::SendMess("Добавлен вопрос авторизирован", $Question->title." - ".$Question->body, "https://nedicom.ru/questions/".$Question->url);
+        
             return redirect()->route('questions.url', $url);
         }
 
-        //$generated_text= OpenAI::Answer($request->body); 
-
+        TgSend::SendMess("Добавлен вопрос неавторизированного", $Question->title." - ".$Question->body, " ");
         $generated_text = 'тест';
 
         session(['questionTitle' => $Question->title, 'questionBody' => $request->body, 'aianswer' => $generated_text]);

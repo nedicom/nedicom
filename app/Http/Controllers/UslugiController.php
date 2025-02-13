@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Http\Controllers\Controller;
 use App\Helpers\Translate;
 use App\Helpers\Checkurl;
+use App\Helpers\TgSend;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -130,7 +131,7 @@ class UslugiController extends Controller
                     return $query->where('title', 'like', '%' . $city . '%')->get();
                 });
             }
-            
+
             $city = CitySet::CitySet($request, $url, false);
 
             $category = Uslugi::where('is_main', 1)
@@ -613,6 +614,9 @@ class UslugiController extends Controller
         $usluga->url =  $checkurl;
 
         $usluga->save();
+
+        TgSend::SendMess("Добавлена услуга", $usluga->usl_name, "https://nedicom.ru/uslugi/" . $usluga->url);
+
         return redirect()->route('uslugi.url', ['url' => $checkurl])->with('message', 'Услуга создана успешно.');
     }
 
