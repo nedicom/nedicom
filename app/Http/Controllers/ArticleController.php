@@ -65,9 +65,9 @@ class ArticleController extends Controller
         $url = Translate::translit($request->header);
         $article->url = $url;
         
-        $article->save();
-
         TgSend::SendMess("Добавлена статья пользователем - ".$article->username, $article->header, "https://nedicom.ru/articles/".$url);
+        
+        $article->save();        
 
         return redirect()->route('articles/url', $url);
     }
