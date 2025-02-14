@@ -127,7 +127,7 @@ class GetUslugi
         while ($i <= $maxvalue) {
             foreach ($grouped as $groupedvalue) {
                 $a++;
-                if (is_int($a / 4)) {
+                if (is_int($a / 4) && isset($users[$i])) {
                     $collection->push($users[$i]);
                 }
                 if (isset($groupedvalue[$i])) {
