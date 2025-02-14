@@ -3,20 +3,20 @@
     <url>
         <loc>https://nedicom.ru/uslugi/</loc>
         <lastmod>2023-10-05T13:13:11+00:00</lastmod>
-        <changefreq>dayly</changefreq>
+        <changefreq>daily</changefreq>
         <priority>1</priority>
     </url>
     <url>
         <loc>https://nedicom.ru/uslugiadd/</loc>
         <lastmod>2023-10-05T13:13:11+00:00</lastmod>
-        <changefreq>montly</changefreq>
+        <changefreq>monthly</changefreq>
         <priority>1</priority>
     </url>
     @foreach ($uslugi as $usluga)
         <url>
             <loc>https://nedicom.ru/uslugi/{{$usluga}}</loc>
             <lastmod>2023-10-05T13:13:11+00:00</lastmod>
-            <changefreq>dayly</changefreq>
+            <changefreq>daily</changefreq>
             <priority>1</priority>
         </url>
     @endforeach

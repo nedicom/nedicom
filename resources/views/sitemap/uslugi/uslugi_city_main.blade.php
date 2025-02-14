@@ -5,7 +5,7 @@
             <url>
                 <loc>https://nedicom.ru/uslugi/{{$city}}/{{$main->url}}</loc>
                 <lastmod>{{ $main->updated_at->tz('UTC')->toAtomString() }}</lastmod>
-                <changefreq>dayly</changefreq>
+                <changefreq>daily</changefreq>
                 <priority>1</priority>
             </url>
         @endforeach
