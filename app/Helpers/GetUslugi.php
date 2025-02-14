@@ -76,10 +76,6 @@ class GetUslugi
 
         $users = User::where('lawyer', '=', 1)
             ->where('file_path', '!=', '/storage/images/landing/main/default.webp')
-            ->leftjoin('bundles_socials', function ($join) use ($user_id) {
-                $join->on('bundles_socials.users_id', '=', 'users.id')
-                    ->where('bundles_socials.users_id', '=', $user_id);
-            })
             ->select(
                 'users.id as user_id',
                 'users.id as id',
@@ -95,9 +91,9 @@ class GetUslugi
                 'users.likes',
                 'users.shares',
                 'users.bookmarks',
-                'bundles_socials.likes as user_like',
-                'bundles_socials.bookmarks as user_bookmark',
-                'bundles_socials.shares as user_share'
+                'users.id as user_like',
+                'users.id as user_bookmark',
+                'users.id as user_share'
             )
             ->selectRaw('IF(users.id, "user", false) AS type')
             ->with('cities')
