@@ -86,7 +86,7 @@ class User extends Authenticatable
                     $query->where('name', 'like', '%' . $search . '%')
                         ->orWhere('email', 'like', '%' . $search . '%')
                         ->orWhere('id', 'like', '%' . $search . '%');
-                });                   
+                });
             })->when($filters['lawyer'] ?? null, function ($query, $lawyer) {
                 if ($lawyer == "true") {
                     $query->where('lawyer', 1);
@@ -117,5 +117,27 @@ class User extends Authenticatable
     public function HasAnwers(): HasMany
     {
         return $this->HasMany(Answer::class, 'users_id', 'id');
+    }
+
+    public function cities(): HasOne
+    {
+        return $this->HasOne(cities::class, 'id', 'city_id')->select(['id', 'title', 'url', 'regionId']);
+    }
+
+    public function review(): HasMany
+    {
+        return $this->HasMany(Review::class, 'user_id', 'id')
+            ->select(['id as revieid', 'user_id', 'rating']);
+    }
+
+    public function main(): HasOne
+    {
+        return $this->HasOne(Uslugi::class, 'id', 'main_usluga_id')->select(['id', 'url', 'usl_name as name']);
+    }
+
+
+    public function second(): HasOne
+    {
+        return $this->HasOne(Uslugi::class, 'id', 'second_usluga_id')->select(['id', 'url', 'usl_name as name']);
     }
 }

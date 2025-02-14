@@ -142,7 +142,7 @@ class Uslugi extends Model
 
     public function cities(): HasOne
     {
-        return $this->HasOne(cities::class, 'id', 'sity')->select(['id', 'title', 'url']);
+        return $this->HasOne(cities::class, 'id', 'sity')->select(['id', 'title', 'url', 'regionId']);
     }
 
     public function main(): HasOne

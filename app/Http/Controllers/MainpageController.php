@@ -68,11 +68,7 @@ class MainpageController extends Controller
                 'bundles_socials.shares as user_share',
             )
             ->selectRaw('IF(articles.id, "articles", false) AS type')
-            ->groupBy('articles.id')
-             // ->get()
-            ;
-
-        //dd($articles);
+            ->groupBy('articles.id');
 
         $bundles = DB::table('questions')
             ->leftjoin('users', 'questions.user_id', '=', 'users.id')
