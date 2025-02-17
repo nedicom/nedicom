@@ -54,22 +54,22 @@ defineExpose({ open });
               </div>
 
               <!-- Navigation Links -->
-              <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+              <div class="hidden space-x-8 sm:ml-5 lg:ml-10 sm:flex">
                 <NavLink :href="route('Welcome')" :active="route().current('Welcome')">
                   Главная
                 </NavLink>
               </div>
-              <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+              <div class="hidden space-x-8 sm:ml-5 lg:ml-10 sm:flex">
                 <NavLink :href="route('lenta.popular')" :active="route().current('lenta.popular')">
                   Лента
                 </NavLink>
               </div>
-              <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+              <div class="hidden space-x-8 sm:ml-5 lg:ml-10 sm:flex">
                 <NavLink :href="route('questions.add')" :active="route().current('questions.add')">
                   Задать вопрос
                 </NavLink>
               </div>
-              <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+              <div class="hidden space-x-8 sm:ml-5 lg:ml-10 sm:flex">
                 <NavLink :href="route('uslugi')" :active="route().current('uslugi')">
                   Найти юриста
                 </NavLink>

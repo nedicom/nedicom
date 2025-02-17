@@ -221,9 +221,9 @@ function opencard() {
   height: auto;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1024px) {
   .card-container {
-    height: 500px;
+    height: 400px;
   }
 
   .card {

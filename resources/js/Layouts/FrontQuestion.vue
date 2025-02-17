@@ -59,11 +59,11 @@ let submit = () => {
 </script>
 
 <template>
-  <form @submit.prevent="submit" class="flex justify-center mt-20 px-5 md:px-0">
-    <div class="w-full md:w-1/3 flex justify-center">
+  <form @submit.prevent="submit" class="flex justify-center mt-20 px-5 lg:px-0">
+    <div class="w-full md:w-4/5  lg:w-1/3 flex justify-center">
       <div class="">
         <button  @click="() => open()"
-          class="text-white inline-block h-full rounded-l-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-4 py-2">
+          class="text-white inline-block h-full rounded-l-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-xs md:text-md px-4 py-2">
           <span v-if="city.title">{{ city.title }}</span>
           <span v-else>город</span>        
         </button>
