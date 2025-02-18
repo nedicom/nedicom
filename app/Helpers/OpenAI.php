@@ -3,13 +3,98 @@
 namespace App\Helpers;
 
 
-class OpenAI{
+class OpenAI
+{
     public static function Answer($ask)
     {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://iam.api.cloud.yandex.net/iam/v1/tokens');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, '{"yandexPassportOauthToken": "' . env('YANDEX_GPT_API_KEY') . '"}');
+
+        $headers = array();
+        $headers[] = 'Content-Type: application/json';
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+
+        $result = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+        }
+        $response_data = json_decode($result, true);
+        curl_close($ch);
+
+
+        //dd($response_data['iamToken']);
+
+        $data = [
+            'modelUri' => 'gpt://' . env('YANDEX_CT_ID') . '/yandexgpt',
+            'completionOptions' =>
+            [
+                "stream" => false,
+                "temperature" => 0.6,
+                "maxTokens" => "2000",
+                "reasoningOptions" => [
+                    "mode" => "DISABLED"
+                ]
+            ],
+            'messages' => [
+                [
+                    'role' => 'system',
+                    'text' => 'Ты юрист. Дай ответ на следующий вопрос, учитывая нормы российского законодательтсва.'
+                ],
+                [
+                    'role' => 'user',
+                    'text' => $ask,
+                ],
+            ]
+        ];
+        $json_data = json_encode($data);
+
+        $url = 'https://llm.api.cloud.yandex.net/foundationModels/v1/completion';
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+
+        $headers = array();
+        $headers[] = 'Content-Type: application/json';
+        $headers[] = 'Authorization: Bearer ' . $response_data['iamToken'];
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+
+        $result = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+        }
+        $response_data = json_decode($result, true);
+
+        $generated_text = $response_data['result']['alternatives'][0]['message']['text'];
+        curl_close($ch);
+
+        if ($generated_text) {
+            return $generated_text;
+        } else {
+            return 'Простите, я сейчас немного занят';
+        }
+
+
+        /*
+        open AI
             $ch = curl_init();
 
             $proxy = env('PROXY');
             $proxyauth = env('PROXY_AUTH');
+            //$url = 'https://api.openai.com/v1/chat/completions';
             $url = 'https://api.openai.com/v1/chat/completions';
 
             $data = array(
@@ -63,9 +148,10 @@ class OpenAI{
                 echo 'Error:' . curl_error($ch);
             }
             $response_data = json_decode($result, true);
-            
+            dd($result);
             $generated_text = $response_data['choices'][0]['message']['content'];
             curl_close($ch);
             return $generated_text;
+            */
     }
 }

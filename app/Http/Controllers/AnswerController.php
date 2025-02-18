@@ -56,7 +56,9 @@ class AnswerController extends Controller
         $Answer = new Answer;
         $Answer->body = OpenAI::Answer($request->body);
         $Answer->questions_id = $request->id;
-        $Answer->users_id = 87;
+        $input = [1, 67, 68, 69, 87, 94, 95, 109, 262];
+        $rand_keys = array_rand($input);
+        $Answer->users_id = $input[$rand_keys];
         $Answer->save();
         //$url = $request->url;
         //return redirect()->route('questions.url', $url);
