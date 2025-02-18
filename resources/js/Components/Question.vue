@@ -1,7 +1,4 @@
 <script setup>
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import { usePage } from "@inertiajs/inertia-vue3";
-
 defineProps({
   user: Object,
 });

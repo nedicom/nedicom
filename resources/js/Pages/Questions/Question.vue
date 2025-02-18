@@ -22,6 +22,8 @@ let set = defineProps({
 
 let processing = ref(false);
 let isPulse = ref(false);
+let cntedt = ref(false);
+let newBody = ref(false);
 
 function startPulse() {
   isPulse.value = !isPulse.value;
@@ -63,6 +65,18 @@ const setUsluga = () => {
   Inertia.post(route("questions.setusl", [set.question.id]), form, {
     preserveScroll: true,
   });
+};
+
+const update = () => {
+  if (cntedt.value == true) {
+    Inertia.post(
+      route("questions.update"),
+      { id: set.question.id, body: newBody.value.innerText },
+      {
+        preserveScroll: true,
+      }
+    );
+  }
 };
 
 const childRef = ref(null);
@@ -128,7 +142,12 @@ percent.value == 100
           <meta
             v-if="question.user_like"
             itemprop="upvoteCount"
-            :content="question.user_like + question.user_bookmark +  question.user_share + question.comment_count"
+            :content="
+              question.user_like +
+              question.user_bookmark +
+              question.user_share +
+              question.comment_count
+            "
           />
           <div class="grid grid-cols-2">
             <span class="flex flex-left items-center">
@@ -249,11 +268,49 @@ percent.value == 100
             {{ set.question.header }}
           </h1>
 
-          <p itemprop="text" class="mt-5 text-md text-gray-900">
+          <div v-if="set.auth">
+            <div v-if="set.auth.id == 1 || set.auth.id == set.question.user_id">
+              <div v-if="!cntedt">
+                <button
+                  type="button"
+                  @click="update(), (cntedt = !cntedt)"
+                  class="text-white my-2 bg-blue-700 hover:bg-blue-800 font-medium rounded-full text-xs px-3 py-1 text-center me-2 mb-2"
+                >
+                  редактировать
+                </button>
+              </div>
+
+              <div v-else>
+                <button
+                  type="button"
+                  @click="update(), (cntedt = !cntedt)"
+                  class="text-white my-2 bg-green-700 hover:bg-green-800 font-medium rounded-full text-xs px-3 py-1 text-center me-2 mb-2"
+                >
+                  сохранить
+                </button>
+                <button
+                  type="button"
+                  @click="
+                    (cntedt = !cntedt), (newBody.innerText = set.question.abody)
+                  "
+                  class="text-white my-2 bg-red-700 hover:bg-red-800 font-medium rounded-full text-xs px-3 py-1 text-center me-2 mb-2"
+                >
+                  отменить
+                </button>
+              </div>
+            </div>
+          </div>
+          <p
+            itemprop="text"
+            ref="newBody"
+            :contenteditable="cntedt"
+            class="text-md text-gray-900"
+            :class="{ 'border-2 border-indigo-600': cntedt }"
+          >
             {{ set.question.abody }}
           </p>
 
-          <div class="flex justify-center">
+          <div class="flex justify-center mt-10">
             <Answer
               :answerclass="'md:w-4/6 w-full sm:px-6 lg:px-4 mx-5 py-12 bg-white overflow-hidden shadow-sm sm:rounded-lg'"
               :question="set.question"

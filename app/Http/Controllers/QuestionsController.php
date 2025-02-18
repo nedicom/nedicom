@@ -238,13 +238,22 @@ class QuestionsController extends Controller
         return redirect()->route('questions.nonauth');
     }
 
+    public function update(Request $request)
+    {
+
+        $Question = Questions::find($request->id);
+        $Question->body = $request->body;
+        $Question->save();
+        
+        TgSend::SendMess("Вопрос изменен", $Question->title." - ".$Question->body, " ");
+        return redirect()->back();
+    }
+
     public function ai()
     {
         return Inertia::render('Questions/QuestionNA', [
-            'test' => 'test',
             'auth' => Auth::user(),
         ]);
-        //return OpenAI::Answer('привет, расскажи кто ты?'); 
     }
 
 

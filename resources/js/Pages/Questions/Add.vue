@@ -6,7 +6,7 @@ import MainFooter from "@/Layouts/MainFooter.vue";
 import SendButton from "@/Components/SendButton.vue";
 import SliderQuestions from "@/Layouts/SliderQuestions.vue";
 import { Head } from "@inertiajs/inertia-vue3";
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import { Inertia } from "@inertiajs/inertia";
 import { reactive } from "vue";
 import VueWriter from "vue-writer";

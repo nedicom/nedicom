@@ -29,11 +29,11 @@ const { open, close } = useModal({
   <button
     onclick="ym(24900584, 'reachGoal', 'OPEN_PHONE'); return true;"
     @click="() => open()"
-    class="inline-flex w-full md:w-64 mx-1 md:mx-auto py-2.5 px-2 md:px-5 focus:outline-none text-white sm:text-base text-sm bg-blue-700 hover:bg-blue-800 rounded-lg justify-center cursor-pointer"
+    class="inline-flex w-full h-8 md:w-48 xl:w-64 mx-1 md:mx-auto  py-1 px-2 xl:py-2.5 xl:px-5 focus:outline-none text-white sm:text-base text-sm bg-blue-700 hover:bg-blue-800 rounded-lg justify-center cursor-pointer"
   >
     <div class="flex items-center justify-center h-full">
       <svg
-        class="mr-3 w-6 h-6 text-white"
+        class="mr-3 w-4 h-4 xl:w-6 xl:h-6 text-white"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
@@ -48,7 +48,7 @@ const { open, close } = useModal({
       </svg>
     </div>
     <div class="flex flex-col items-center justify-center h-full">
-      <div class="text-xs md:text-base">Показать телефон</div>
+      <div class="text-xs 2xl:text-base">Показать телефон</div>
       <!--<div class="bg-gradient-to-r from-gray-50 to-blue-700 bg-clip-text text-transparent">{{ set.phone }}</div>-->
     </div>
   </button>

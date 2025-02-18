@@ -35,7 +35,7 @@ let ModalBtnText = "Обратный звонок";
   </noscript>
   <header class="bg-white shadow inset-x-0 -top-1 h-22 md:h-16 z-40"><!--stycky-->
     <div
-      class="grid grid-cols-2 lg:grid-cols-4 md:gap-2 2xl:w-3/4 font-semibold text-gray-800 leading-tight text-center mx-auto pt-2 pb-1 md:py-3 px-4 sm:px-6 lg:px-4"
+      class="grid grid-cols-2 lg:grid-cols-4 md:gap-x-8 2xl:w-3/4 font-semibold text-gray-800 leading-tight text-center mx-auto pt-2 pb-1 md:py-3 px-4 sm:px-6 lg:px-4"
     >
       <!--modal btn -->
       <div

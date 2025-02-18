@@ -13,11 +13,11 @@ let set = defineProps({
     "
     onclick="ym(24900584, 'reachGoal', 'Wa_Click'); return true;"
     type="button"
-    class="inline-flex items-center w-full md:w-64 mx-1 md:mx-auto py-2.5 px-5 font-medium focus:outline-none rounded-lg border border-gray-200 text-white hover:bg-[#25d366] bg-emerald-600 focus:z-10 focus:ring-4 focus:ring-gray-100 justify-center cursor-pointer"
+    class="inline-flex items-center h-8 w-full md:w-48 xl:w-64 mx-1 md:mx-auto py-1 px-2 xl:py-2.5 xl:px-5 font-medium focus:outline-none rounded-lg border border-gray-200 text-white hover:bg-[#25d366] bg-emerald-600 focus:z-10 focus:ring-4 focus:ring-gray-100 justify-center cursor-pointer"
     target="_blank"
   >
     <svg
-      class="mr-2 w-6 h-6 text-white"
+      class="mr-2 w-4 h-4 xl:w-6 xl:h-6 text-white"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
@@ -31,7 +31,7 @@ let set = defineProps({
       />
     </svg>
 
-    <span class="hidden md:block">Написать в whatsapp</span>
-    <span class="block md:hidden text-xs">Написать в WA</span>
+    <span class="hidden md:block text-xs 2xl:text-base">Написать в whatsapp</span>
+    <span class="block md:hidden text-xs 2xl:text-base">Написать в WA</span>
   </a>
 </template>

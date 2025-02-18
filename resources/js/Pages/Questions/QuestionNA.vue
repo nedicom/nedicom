@@ -5,9 +5,10 @@ import Body from "@/Layouts/Body.vue";
 import AIAnswer from "@/Layouts/AI/AIAnswer.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import { Inertia } from "@inertiajs/inertia";
-import { Head, usePage, useForm } from "@inertiajs/inertia-vue3";
+import { Head, useForm } from "@inertiajs/inertia-vue3";
 import SendButton from "@/Components/SendButton.vue";
 import Question from "@/Components/Question.vue";
+import { ref } from "vue";
 
 let set = defineProps({
   ownercookie: Object,
@@ -15,6 +16,8 @@ let set = defineProps({
   auth: Object,
   city: Object,
 });
+
+const buttonDisabled = ref(false);
 
 let aianswer;
 
@@ -36,6 +39,7 @@ let submit = () => {
 </script>
 
 <template>
+  {{ set.test }}
   <Head>
     <title>Проверка вопроса юристу перед публикацией</title>
     <meta
@@ -61,7 +65,7 @@ let submit = () => {
         <article
           class="mx-auto w-full max-w-2xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert"
         >
-          <SendButton class="" :onclick="submit" :disabled="!set.auth"
+          <SendButton class="" @click="submit(), buttonDisabled = true" :disabled="!set.auth || buttonDisabled"
             >Опубликовать</SendButton
           >
         </article>
