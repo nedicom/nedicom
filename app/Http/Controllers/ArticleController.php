@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\draft;
 use App\Models\Uslugi;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreArticleRequest;
 use App\Models\cities;
 use App\Models\Questions;
 use App\Models\Article_comment;
+use Illuminate\Support\Facades\Storage;
 
 use App\Helpers\Translate;
 use App\Helpers\TgSend;
@@ -17,9 +19,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
-
-
+use Illuminate\Support\Str;
 
 class ArticleController extends Controller
 {
@@ -46,16 +46,27 @@ class ArticleController extends Controller
 
     public function formadd()
     {
+        $draft = draft::where('user_id', Auth::user()->id)->first() ? draft::where('user_id', Auth::user()->id)->first() : ['header' => '', 'description' => '', 'body' => ''];
         return Inertia::render('Articles/Add', [
-            'articles' => Article::where('userid', '=', Auth::user()->id)
-                ->select(['id', 'header', 'description', 'url'])
-                ->paginate(100),
             'auth' => Auth::user(),
+            'draft' => $draft,
         ]);
+    }
+
+    public function draft(Request $request)
+    {
+        $draft = draft::where('user_id', Auth::user()->id)->first() ? draft::where('user_id', Auth::user()->id)->first() : new draft;
+        $draft->user_id = Auth::user()->id;
+        $draft->header = $request->header;
+        $draft->description = $request->description;
+        $draft->body = $request->body;
+        $draft->save();
     }
 
     public function create(Request $request)
     {
+        draft::where('user_id', Auth::user()->id)->first() ? draft::where('user_id', Auth::user()->id)->delete() : null;
+
         $article = new Article;
         $article->userid = Auth::user()->id;
         $article->username = Auth::user()->name;
@@ -64,13 +75,14 @@ class ArticleController extends Controller
         $article->body = $request->body;
         $url = Translate::translit($request->header);
         $article->url = $url;
-        
-        TgSend::SendMess("Добавлена статья пользователем - ".$article->username, $article->header, "https://nedicom.ru/articles/".$url);
-        
-        $article->save();        
+
+        //TgSend::SendMess("Добавлена статья пользователем - " . $article->username, $article->header, "https://nedicom.ru/articles/" . $url);
+
+        $article->save();
 
         return redirect()->route('articles/url', $url);
     }
+
 
     public function edit(string $url)
     {
@@ -87,6 +99,19 @@ class ArticleController extends Controller
         );
     }
 
+    public function autoupdate(Request $request)
+    {
+        $id = $request->id;
+        $article = Article::find($id);
+        $article->header = $request->header;
+        $article->description = $request->description;
+        $article->body = $request->body;
+        $article->usluga_id = $request->usluga_id;
+        $article->youtube_file_path = $request->youtube;
+        $article->region = $request->region;
+        $article->save();
+    }
+
     public function update(Request $request)
     {
         $id = $request->id;
@@ -101,16 +126,34 @@ class ArticleController extends Controller
         return redirect()->route('articles/url', $article->url);
     }
 
-    public function store(StoreArticleRequest $request)
-    {
-        //
-    }
 
-    /*public function articleId($id){ //for SEO the HFU were created
-        return Inertia::render('Articles/Article', [
-            'article' => Article::find($id),
-        ]);
-    }*/
+    public function image(Request $request)
+    {
+
+        if ($request->file()) {
+            $filePath = 'usr/' . $request->id . '/articleimages/';
+            $fileName = Str::random(4) . '.webp';
+
+            $mime = $request->file('file')->getClientMimeType();
+
+            if ($mime == "image/png") {
+                $im = imagecreatefrompng($request->file('file'));
+                imagewebp($im, 'storage/' .$filePath . $fileName, 80);
+            } else if ($mime == "image/jpeg") {
+                $im = imagecreatefromjpeg($request->file('file'));
+                imagewebp($im, 'storage/' .$filePath . $fileName, 80);
+            } else if ($mime == "image/webp") {
+                Storage::putFileAs($filePath, $request->file('file'), $fileName);
+            } 
+            else {
+                return back()->with('message', 'Недопустимое расширение файла');
+            }
+            imagedestroy($im);
+            return back()->with(['message' => '/storage/'.$filePath . $fileName]);
+        } else {
+            return back()->with('message', 'Что-то пошло не так');
+        }
+    }
 
     public function articleURL($url)
     {
@@ -119,7 +162,7 @@ class ArticleController extends Controller
         if (is_null($article)) {
             abort(410);
         }
-        
+
         if (Auth::user()) {
             $user_id = Auth::user()->id;
             if (Auth::user()->id != $article->userid) {
@@ -167,9 +210,9 @@ class ArticleController extends Controller
             'usluga' => Uslugi::where('id', $usluga_id_sec)->select('uslugis.url', 'uslugis.usl_name')->first(),
             'question' => Questions::where('id', $article->id)->withCount('QuantityAns')->with('User')->with('Usluga')->first(),
             'answers' => Article_comment::where('article_id', $article->id)
-            ->with('UserAns')
-            ->with('subcomments')
-            ->get(),
+                ->with('UserAns')
+                ->with('subcomments')
+                ->get(),
             'authid' => (Auth::user()) ? Auth::user()->id : null,
 
         ]);

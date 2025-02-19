@@ -5,8 +5,8 @@ import AccordionComment from "@/Components/AccordionComment.vue";
 defineProps({
   article_id: Number,
   answers: Object,
-  question: Object,
-  authid: "Number",
+  question: Number,
+  authid: Number,
   type: String,
 });
 </script>

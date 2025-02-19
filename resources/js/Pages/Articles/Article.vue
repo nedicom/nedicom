@@ -38,7 +38,7 @@ ol {
   border: none;
 }
 
-.artlwrimg {
+a img {
   border-radius: 50%;
   width: 80px;
   float: inline-start;
@@ -57,6 +57,7 @@ blockquote {
   margin: 2rem;
   font-style: italic;
   border-left: solid red;
+  min-height: 20vh;
 }
 </style>
 
@@ -98,7 +99,7 @@ blockquote {
               v-if="vars.user.id == article.userid || vars.user.isadmin == 1"
             >
               <a
-                :href="route('articles.edit', article.url)"
+                :href="route('articles.edit', [article.url])"
                 class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                 >Редактировать</a
               >

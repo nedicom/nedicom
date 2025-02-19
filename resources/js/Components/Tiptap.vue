@@ -1,24 +1,40 @@
+<script setup>
+import { Inertia } from "@inertiajs/inertia";
+</script>
 <template>
   <div class="">
     <div v-if="editor" class="flex mt-5 border rounded-top p-3">
       <div @click="editor.chain().focus().toggleBold().run()"
         :disabled="!editor.can().chain().focus().toggleBold().run()" :class="{ 'bg-gray-100': editor.isActive('bold') }"
-        class="text-gray-1000 bg-white  focus:outline-none hover:underline  focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+        class="text-gray-1000 bg-white  focus:outline-none hover:underline  focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2 ">
         Жирный
       </div>
       <div
         @click="editor.chain().focus().toggleHeading({ level: 3 }).updateAttributes('heading', { color: 'pink' }).run()"
         :class="{ 'bg-gray-100': editor.isActive('heading', { level: 3 }) }" class="
-      text-gray-1000 bg-white  focus:outline-none hover:underline focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700
+      text-gray-1000 bg-white  focus:outline-none hover:underline focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2 
       ">
         Заголовок
       </div>
+
+      <div
+        class="
+      text-gray-1000 bg-white  focus:outline-none hover:underline focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2 ">
+        <label for="file-upload" class="inline-block">
+          Картинка
+        </label>
+        <input type="file" ref="file" id="file-upload" accept="image/jpeg, image/png, image/webp"
+          @change="uploadImage($event)" class="hidden" />
+      </div>
+
       <div @click="editor.chain().focus().toggleBulletList().run()"
         :class="{ 'bg-gray-100': editor.isActive('bulletList') }" class="
-      text-gray-1000 bg-white  focus:outline-none hover:underline focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700
+      text-gray-1000 bg-white  focus:outline-none hover:underline focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2 
        ">
         Список
       </div>
+
+
 
       <div @click="editor.chain().focus()
         .toggleBlockquote()
@@ -33,6 +49,7 @@
         Мнение эксперта
       </div>
     </div>
+
     <editor-content :editor="editor" name="body" class="form-control
               overflow-auto                  
               text-base
@@ -47,9 +64,7 @@
 </template>
 
 <script>
-
 import Image from '@tiptap/extension-image'
-import Blockquote from '@tiptap/extension-blockquote'
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import Link from '@tiptap/extension-link'
@@ -60,7 +75,9 @@ export default {
   },
 
   props: {
+    id: String,
     auth: Object,
+    imgurl: Object,
     modelValue: {
       type: String,
       default: '',
@@ -73,6 +90,22 @@ export default {
     return {
       editor: null,
     }
+  },
+
+  methods: {
+    uploadImage(event) {
+      const form = new FormData();
+      const { files } = event.target;
+      if (files && files[0]) {
+        form.append('id', this.id);
+        form.append('file', files[0]);
+        Inertia.post("/articles/image", form, {
+          preserveScroll: true, onFinish: () => {
+            this.editor.chain().focus().setImage({ src: this.imgurl.message }).run()
+          }
+        });
+      }
+    },
   },
 
   watch: {
@@ -94,11 +127,11 @@ export default {
     this.editor = new Editor({
       extensions: [
         StarterKit,
-        Blockquote,
         Image.configure({
           inline: true,
           HTMLAttributes: {
-            class: 'inline-flex mr-4 artlwrimg',
+            class: '',
+            alt: '',
           },
         }),
         Link.configure({
@@ -134,7 +167,7 @@ export default {
 }
 
 .ProseMirror {
-  height: 400px;
+  height: 800px;
   padding: 10px;
 
   >*+* {
@@ -144,6 +177,11 @@ export default {
 
   p {
     border: none;
+  }
+
+  p img {
+    width: 100%;
+    border: solid;
   }
 
   ul,
@@ -179,10 +217,12 @@ export default {
     }
   }
 
-  .artlwrimg {
+  a img {
     border-radius: 50%;
     width: 80px;
     height: auto;
+    display: inline-block;
+    margin-right: 4px;
   }
 
   .artlwrhref {

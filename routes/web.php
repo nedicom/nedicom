@@ -147,8 +147,11 @@ Route::controller(ArticleController::class)->group(function () {
     Route::get('/articles/{url}', 'articleURL')->name('articles/url');
     Route::get('/articlesadd', 'formadd')->name('articles.add');
     Route::post('/articles/create', 'create')->name('articles/create');
+    Route::post('/articles/draft', 'draft')->name('articles/draft');
+    Route::post('/articles/image', 'image')->name('articles.image');
     Route::get('/articles/{url}/edit', 'edit')->middleware(owner::class)->name('articles.edit');
     Route::post('/articles/{url}/update', 'update')->name('articles.update');
+    Route::post('/articles/{url}/autoupdate', 'autoupdate')->name('articles.autoupdate');
     Route::get('/articles/{id}/delete', 'delete')->name('article.delete');
 });
 
