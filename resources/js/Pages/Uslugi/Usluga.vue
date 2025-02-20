@@ -83,7 +83,7 @@ details summary::-webkit-details-marker {
     :address="usluga.address" :modalPageTitle="vars.usluga.usl_name" />
 
   <Body>
-    <div itemscope itemtype="https://schema.org/LegalService">
+    <div>
 
       <div class="grid grid-cols-1 md:grid-cols-4 py-5">
         <div class="w-full flex justify-between md:flex-col md:text-xl md:mt-12 px-5 sticky top-0 z-40 bg-white">
@@ -115,7 +115,7 @@ details summary::-webkit-details-marker {
           </div>
         </div>
 
-        <div class="md:col-span-3 md:mt-12 px-3 md:px-10 w-full">
+        <div itemscope itemtype="https://schema.org/LocalBusiness" class="md:col-span-3 md:mt-12 px-3 md:px-10 w-full">
           <!--<SecondBanner :statusonimage="usluga.usl_name" :phnform="false" :secondbannerpc="secondbannerpc"
             :secondbannerimgmobile="secondbannerimgmobile" :metaimage="metaimage" />
         -->
