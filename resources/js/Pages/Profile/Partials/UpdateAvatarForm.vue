@@ -23,13 +23,15 @@ defineProps({
     <div id="crop" class="grid grid-cols-1 md:grid-cols-2 w-full gap-1">
       <div class="grid justify-items-center">
         <InputLabel class="text-center mb-2" value="Ваш новый аватар" />
-        <cropper ref="cropper" class="cropper" :src="image.src" :resizeImage="{ wheel: false }"
-          :stencil-component="$options.components.CircleStencil" :stencil-props="{
-            handlers: { eastSouth: true, },
-            movable: true,
-            resizable: true,
-            aspectRatio: 1 / 1,
-          }" image-restriction="stencil" />
+        <div class="w-40 h-40">
+          <cropper ref="cropper" class="cropper" :src="image.src" :resizeImage="{ wheel: false }"
+            :stencil-component="$options.components.CircleStencil" :stencil-props="{
+              handlers: { eastSouth: true, },
+              movable: true,
+              resizable: true,
+              aspectRatio: 1 / 1,
+            }" image-restriction="stencil" />
+        </div>
         <div class="my-5">
           <button
             class="button mr-5  inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
@@ -45,11 +47,11 @@ defineProps({
 
       <div class="grid justify-items-center">
         <InputLabel class="text-center mb-2" value="Ваш текущий аватар" />
-        <div style="width: 200px; height: 200px;">
+        <div class="w-40 h-40">
           <img class="rounded-full" :src="'/' + avatarurl" alt="Аватар юриста" />
         </div>
         <div class="my-5 text-center text-sm text-gray-700">
-          Выбирайте аватар, чтобы нравился лично Вам          
+          Выбирайте аватар, чтобы нравился лично Вам
         </div>
       </div>
     </div>
@@ -113,11 +115,12 @@ export default {
 </script>
 
 <style lang="scss">
+/*
 .cropper {
   width: 200px;
   height: 200px;
 }
-
+*/
 .button input {
   display: none;
 }

@@ -15,7 +15,7 @@ defineProps({
 <div class="inline-grid grid-cols-2 gap-4">
   
   <div id="crop" class="w-full">
-    <h2 class="text-lg font-medium text-gray-900">Обложка на вашей странице</h2>
+    <h2 class="text-lg font-medium text-gray-900">Обложка на вашей странице и на объявлениях</h2>
     
       <InputLabel value="Ваше новое изображение" />
       <div class="my-5">
