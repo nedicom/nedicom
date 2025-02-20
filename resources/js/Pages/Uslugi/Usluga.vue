@@ -77,17 +77,14 @@ details summary::-webkit-details-marker {
     <link rel="canonical" :href="'https://nedicom.ru/uslugi/' + vars.url" />
   </Head>
 
-  <MainHeader :auth="vars.auth" :city="vars.cityheader" :hideBtn="false" />
-
-  <Header :avatarPath="vars.lawyer.avatar_path" :lawyer="vars.usluga.usl_name" :phone="usluga.phone"
-    :address="usluga.address" :modalPageTitle="vars.usluga.usl_name" />
+  <MainHeader :auth="vars.auth" :city="vars.cityheader" :hideBtn="true" />
 
   <Body>
     <div>
 
       <div class="grid grid-cols-1 md:grid-cols-4 py-5">
-        <div class="w-full flex justify-between md:flex-col md:text-xl md:mt-12 px-5 sticky top-0 z-40 bg-white">
-          <div class="w-full flex justify-between md:flex-col md:text-xl md:mt-12 px-5 sticky top-0">
+        <div class="w-full flex justify-between md:flex-col md:text-xl md:mt-12 lg:px-5 sticky top-0 z-40 h-10 bg-white">
+          <div class="w-full flex justify-between md:flex-col md:text-xl md:mt-12 px-2 sticky top-0">
             <a class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-x-1 duration-100"
               href="#about">
               <div class=""> Юрист </div>
@@ -109,7 +106,7 @@ details summary::-webkit-details-marker {
               <div class=""> Вопросы </div>
             </a><a
               class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-x-1 duration-100"
-              href="#answers">
+              href="#description">
               <div class=""> Описание </div>
             </a>
           </div>
@@ -189,7 +186,7 @@ details summary::-webkit-details-marker {
           <!-- popular question -->
 
           <!-- seo description -->
-          <div class="my-20">
+          <div class="my-20" id="description">
             <div itemprop="disambiguatingDescription"
               class="mx-auto max-w-2xl px-6 space-y-6 text-gray-900 text-justify" v-html="usluga.longdescription"></div>
           </div>

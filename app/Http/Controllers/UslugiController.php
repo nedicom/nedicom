@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Review;
 use App\Models\cities;
+use App\Models\price;
 use Illuminate\Support\Facades\DB;
 
 use App\Helpers\CitySet;
@@ -520,6 +521,7 @@ class UslugiController extends Controller
                 'user' => Auth::user(),
                 'flash' => ['message' => $request->session()->get(key: 'message')],
                 'cities' => cities::all(),
+                'prices' => price::all(),
                 'auth' => Auth::user(),
             ],
         );
