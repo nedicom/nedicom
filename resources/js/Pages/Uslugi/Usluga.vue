@@ -115,7 +115,7 @@ details summary::-webkit-details-marker {
           </div>
         </div>
 
-        <div itemscope itemtype="https://schema.org/LocalBusiness" class="md:col-span-3 md:mt-12 px-3 md:px-10 w-full">
+        <div itemscope itemtype="https://schema.org/LegalService" class="md:col-span-3 md:mt-12 px-3 md:px-10 w-full">
           <!--<SecondBanner :statusonimage="usluga.usl_name" :phnform="false" :secondbannerpc="secondbannerpc"
             :secondbannerimgmobile="secondbannerimgmobile" :metaimage="metaimage" />
         -->
