@@ -95,9 +95,9 @@ const prices = [
 <template>
   <div id="prices" class="grid grid-cols-1 mt-12 justify-items-center">
     <h2 class="text-4xl mx-12 my-1 font-semibold text-grey text-center mb-10">{{ keyword }} - цены ({{ city.title }})</h2>
-    <div class="w-full md:w-2/3 mb-5 px-2">
-      <div class="relative overflow-x-auto">
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+    <div class="w-full md:w-2/3 mb-5 px-2" itemprop="hasOfferCatalog" itemscope itemtype="https://schema.org/OfferCatalog">
+      <div class="relative overflow-x-auto" itemprop="itemListElement" itemscope itemtype="https://schema.org/OfferCatalog">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
           <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" class="px-6 py-3">
@@ -112,11 +112,12 @@ const prices = [
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in prices" :key="item" itemprop="makesOffer" itemscope itemtype="https://schema.org/Offer"
+            <tr v-for="item in prices" :key="item" itemprop="itemOffered" 
               class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              <th scope="row" itemprop="name"
+              <th scope="row" 
                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                {{ item.name }}
+                <span itemprop="name">{{ item.name }}</span>
+                
               </th>
               <td itemprop="description" class="px-6 py-4">
                 {{ item.value }}
