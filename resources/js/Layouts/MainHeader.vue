@@ -78,7 +78,29 @@ defineExpose({ open });
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
               <!-- Settings Dropdown -->
-              <div class="ml-3 relative flex">
+              <div class="ml-3 relative flex items-center">
+
+                <div v-if="props.auth" class="flex gap-2 h-7">
+                  <a v-if="props.auth.lawyer == 1" type="button" href="/uslugiadd"
+                    class="px-3 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 flex items-center"><svg
+                      xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                      stroke="currentColor" class="size-5">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                    <span class="ml-1">объявление</span></a>
+
+
+                  <a type="button" href="/articlesadd"
+                    class="px-3 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 flex items-center"><svg
+                      xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                      stroke="currentColor" class="size-5">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                    <span class="ml-1">пост</span></a>
+                </div>
+
                 <button v-if="!hideBtn" type="button" @click="() => open()" aria-label="city"
                   class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                   <span v-if="props.city"> {{ props.city.title }}</span>

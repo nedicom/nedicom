@@ -142,7 +142,7 @@ watch(
                 </div>
 
                 <!-- main usluga -->
-                <div v-if="form.is_main !== true">
+                <div v-if="form.is_main !== true" class="grid grid-cols-2 gap-2">
                   <div>
                     <label
                       class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white"
