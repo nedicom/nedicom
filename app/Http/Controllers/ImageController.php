@@ -35,7 +35,7 @@ class ImageController extends Controller
                 $user->file_path = 'storage/' . $filePath . '/' . $fileName . '.webp';
                 $user->save();
             } elseif ($pagetype == 'profileavatar') {
-                $fileName = time() . 'avatar';
+                $fileName = 'avatar';
                 $filePath = 'usr/' . Auth::user()->id . '/avatar';
                 $user = User::find(Auth::user()->id);
                 $user->avatar_path = 'storage/' . $filePath . '/' . $fileName . '.webp';
