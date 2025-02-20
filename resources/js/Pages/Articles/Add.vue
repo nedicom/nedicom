@@ -20,36 +20,35 @@ let form = reactive({
   body: set.draft.body,
 });
 
-const autosave = ref(true)
-const recentlySuccessful = ref(false)
+const autosave = set.auth ? ref(true) : ref(false);
+const recentlySuccessful = ref(false);
+const savedelay = ref(false);
 
 
+let timerId = null;
 
-let submit = () => {
-  clearInterval(refreshIntervalId);
-  Inertia.post("/articles/create", form);
-};
-
-
-let refreshIntervalId = setInterval(myCallback, 300000);
-
-function myCallback() {
-  recentlySuccessful.value = true;
-  Inertia.post("/articles/draft", form, {    
-    onSuccess: () => setTimeout(() => {
-      recentlySuccessful.value = false;
-    }, 3000)
-  });
-}
-
-watch(autosave, (value) => {
-  if (value) {
-    refreshIntervalId = setInterval(myCallback, 300000);
-  }
-  else {
-    clearInterval(refreshIntervalId);
+watch(() => form.body, () => {
+  if (autosave.value) {
+    if (!savedelay.value) {
+      savedelay.value = true;
+      timerId = setTimeout(() => {
+        recentlySuccessful.value = true;
+        Inertia.post("/articles/draft", form, {
+          preserveScroll: false,
+          onSuccess: () => setTimeout(() => {
+            recentlySuccessful.value = false;
+            savedelay.value = false;
+          }, 3000)
+        })
+      }, 30000);
+    }
   }
 })
+
+let submit = () => {
+  clearTimeout(timerId);
+  Inertia.post("/articles/create", form);
+};
 
 let title = ref("Добавить статью");
 </script>
@@ -86,8 +85,7 @@ let title = ref("Добавить статью");
                     <input id="default-checkbox" type="checkbox" v-model="autosave" :disabled="!set.auth"
                       class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 focus:ring-2">
                     <label for="default-checkbox" class="ms-2 text-sm font-medium text-gray-900">Автосохранение (каждые
-                        5
-                        минут)</label>
+                      30 секунд)</label>
                   </div>
                   <Transition enter-from-class="opacity-0" leave-to-class="opacity-0"
                     class="transition ease-in-out ml-5">
@@ -107,7 +105,7 @@ let title = ref("Добавить статью");
               <div class="my-1 w-full bg-gray-200 rounded-full h-1 dark:bg-gray-700">
                 <div class="bg-blue-600 h-1 rounded-full" :style="{ width: progresswidth + '%' }"></div>
               </div>
-              <p class="text-xs text-gray-900 dark:text-white">
+              <p class="text-xs text-gray-900">
                 Символов: {{ wordscounter }}
               </p>
               <textarea v-model="form.description" @input="onInputdesc" spellcheck="true"
@@ -115,11 +113,13 @@ let title = ref("Добавить статью");
                 id="" required name="description" rows="3"
                 placeholder="Краткое описание, которое расскажет о чем пост."></textarea>
 
-              <editor v-model="form.body" />
+              <label for="post" class="block mb-1 mt-5 text-xs font-medium text-gray-700">Описание поста. Картинки можно
+                добавить после сохранения</label>
+              <editor v-model="form.body" id="post" />
 
               <button v-if="form.body" type="submit"
                 class="my-5 inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
-                Опубликовать
+                Сохранить
               </button>
             </form>
 
@@ -149,7 +149,15 @@ let title = ref("Добавить статью");
                     {{ goobody }}
                   </p>
                 </div>
+                <div class="text-center text-xs px-10">
+                  <p>тут немного технической информации. не обращайте внимания, скоро мы ее уберем</p>
+                  <p>{{ savedelay }} задержка автосохранения savedelay</p>
+                  <p>{{ recentlySuccessful }} кнопка сохранения recentlySuccessful</p>
+                  <p> {{ autosave }} автосохр autosave</p>
+                </div>
               </div>
+
+
             </div>
           </div>
         </div>

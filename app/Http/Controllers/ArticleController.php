@@ -46,7 +46,12 @@ class ArticleController extends Controller
 
     public function formadd()
     {
-        $draft = draft::where('user_id', Auth::user()->id)->first() ? draft::where('user_id', Auth::user()->id)->first() : ['header' => '', 'description' => '', 'body' => ''];
+        if (Auth::user()) {
+            $draft = draft::where('user_id', Auth::user()->id)->first() ? draft::where('user_id', Auth::user()->id)->first() : ['header' => '', 'description' => '', 'body' => ''];
+        }
+        else{
+            $draft = ['header' => '', 'description' => '', 'body' => ''];
+        }
         return Inertia::render('Articles/Add', [
             'auth' => Auth::user(),
             'draft' => $draft,
@@ -138,18 +143,17 @@ class ArticleController extends Controller
 
             if ($mime == "image/png") {
                 $im = imagecreatefrompng($request->file('file'));
-                imagewebp($im, 'storage/' .$filePath . $fileName, 80);
+                imagewebp($im, 'storage/' . $filePath . $fileName, 80);
             } else if ($mime == "image/jpeg") {
                 $im = imagecreatefromjpeg($request->file('file'));
-                imagewebp($im, 'storage/' .$filePath . $fileName, 80);
+                imagewebp($im, 'storage/' . $filePath . $fileName, 80);
             } else if ($mime == "image/webp") {
                 Storage::putFileAs($filePath, $request->file('file'), $fileName);
-            } 
-            else {
+            } else {
                 return back()->with('message', 'Недопустимое расширение файла');
             }
             imagedestroy($im);
-            return back()->with(['message' => '/storage/'.$filePath . $fileName]);
+            return back()->with(['message' => '/storage/' . $filePath . $fileName]);
         } else {
             return back()->with('message', 'Что-то пошло не так');
         }

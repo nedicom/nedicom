@@ -8,8 +8,9 @@ import { Head } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
 import { ref, watch, reactive } from "vue";
 
-const autosave = ref(true)
-const recentlySuccessful = ref(false)
+const autosave = ref(true);
+const recentlySuccessful = ref(false);
+const savedelay = ref(false);
 
 let set = defineProps({
   article: Object,
@@ -30,30 +31,29 @@ let form = reactive({
   auth: Object,
 });
 
+let timerId = null;
 
-let refreshIntervalId = setInterval(myCallback, 300000);
-
-function myCallback() {
-  recentlySuccessful.value = true;
-  Inertia.post("/articles/" + set.article.id + "/autoupdate", form, {
-    onSuccess: () => setTimeout(() => {
-      recentlySuccessful.value = false;
-    }, 3000)
-  });
-}
-
-watch(autosave, (value) => {
-  if (value) {
-    refreshIntervalId = setInterval(myCallback, 300000);
-  }
-  else {
-    clearInterval(refreshIntervalId)
+watch(() => form.body, () => {
+  if (autosave.value) {
+    if (!savedelay.value) {
+      savedelay.value = true;
+      timerId = setTimeout(() => {
+        recentlySuccessful.value = true;
+        Inertia.post("/articles/" + set.article.id + "/autoupdate", form, {
+          preserveScroll: false,
+          onSuccess: () => setTimeout(() => {
+            recentlySuccessful.value = false;
+            savedelay.value = false;
+          }, 3000)
+        })
+      }, 30000);
+    }
   }
 })
 
 function submit() {
   if (set.article.id) {
-    clearInterval(refreshIntervalId)
+    clearTimeout(timerId);
     Inertia.post("/articles/{url}/update", form);
   }
 }
@@ -67,6 +67,7 @@ function submit() {
   <MainHeader :auth="set.auth" />
 
   <Body>
+
     <div class="bg-white py-12 m-3">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white shadow-sm sm:rounded-lg">
@@ -74,8 +75,6 @@ function submit() {
             <div class="grid gap-4 md:grid-cols-2">
               <div class="">
                 <input v-model="form.id" class="invisible" />
-                {{ recentlySuccessful }}
-                авто сохр - {{ autosave }}
                 <div class="my-5">
                   <div class="flex items-center mb-4 justify-between">
                     <div>
@@ -83,8 +82,7 @@ function submit() {
                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 focus:ring-2">
                       <label for="default-checkbox" class="ms-2 text-sm font-medium text-gray-900">Автосохранение
                         (каждые
-                        5
-                        минут)</label>
+                        30 секунд)</label>
                     </div>
                     <Transition enter-from-class="opacity-0" leave-to-class="opacity-0"
                       class="transition ease-in-out ml-5">
@@ -94,7 +92,6 @@ function submit() {
                     </Transition>
                   </div>
                 </div>
-
                 <textarea v-model="form.header" @input="onInputheader" spellcheck="true" name="header" maxlength="55"
                   class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   rows="2" required></textarea>
@@ -116,7 +113,6 @@ function submit() {
                   Символов: {{ wordsdesccounter }} Макс: 260 Рекомендовано: от
                   80 до 160
                 </p>
-
                 <div class="flex">
                   <div class="w-1/2 pr-1">
                     <label class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white">Выберите
@@ -155,9 +151,9 @@ function submit() {
                   скопировать". Сложно, но только так.
                 </p>
               -->
-
+              <label for="post" class="block mb-1 mt-5 text-xs font-medium text-gray-700">Ваш пост будет шикарен</label>
                 <editor spellcheck="true" v-model="form.body" :auth="set.auth" :imgurl="$page.props.flash"
-                  :id="set.article.userid" />
+                  :id="set.article.userid" :type="'article'" id="post"/>
 
                 <div class="flex justify-center">
                   <button type="submit"
@@ -184,7 +180,7 @@ function submit() {
                   <h3 class="text-2xl font-bold p-3 mt-5">Google</h3>
                   <div class="rounded-lg shadow-lg bg-white p-5 mx-5">
                     <a href="#" class="transition duration-300 ease-in-out">https://nedicom.ru/<span>{{ url
-                        }}</span></a>
+                    }}</span></a>
                     <h5
                       class="text-blue-700 no-underline line-clamp-2 hover:underline text-xl leading-tight font-medium my-1">
                       {{ gooheader }}
@@ -193,7 +189,14 @@ function submit() {
                       {{ goobody }}
                     </p>
                   </div>
+                  <div class="text-center text-xs px-10">
+                    <p>тут немного технической информации. не обращайте внимания, скоро мы ее уберем</p>
+                    <p>{{ savedelay }} задержка автосохранения savedelay</p>
+                    <p>{{ recentlySuccessful }} кнопка сохранения recentlySuccessful</p>
+                    <p> {{ autosave }} автосохр autosave</p> 
+                  </div>
                 </div>
+
               </div>
 
             </div>
@@ -215,7 +218,7 @@ export default {
     return {
       yaheader: "Заголовок идеальной статьи в Яндексе. До 55 символов", //yaheader is variable
       yabody:
-        "Описание идеальной статьи в Яндексе. Яндекс любит краткое описание до 160 символов на компьютере, и до 80 символов наэкране мобильного.",
+        "Описание идеальной статьи в Яндексе. Яндекс любит краткое описание до 160 символов на компьютере, и до 80 символов на экране мобильного.",
       gooheader: "Заголовок идеальной статьи в Google",
       goobody:
         "Описание идеальной статьи в Google. Google тоже предпочитает до 160 символов на десктопе и до 80 на мобильном. ",

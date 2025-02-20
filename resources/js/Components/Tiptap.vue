@@ -3,24 +3,24 @@ import { Inertia } from "@inertiajs/inertia";
 </script>
 <template>
   <div class="">
-    <div v-if="editor" class="flex mt-5 border rounded-top p-3">
+    <div v-if="editor" class="flex border rounded-top p-3">
       <div @click="editor.chain().focus().toggleBold().run()"
         :disabled="!editor.can().chain().focus().toggleBold().run()" :class="{ 'bg-gray-100': editor.isActive('bold') }"
-        class="text-gray-1000 bg-white  focus:outline-none hover:underline  focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2 ">
+        class="text-gray-1000 bg-white  focus:outline-none cursor-pointer hover:underline  focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2 ">
         Жирный
       </div>
       <div
         @click="editor.chain().focus().toggleHeading({ level: 3 }).updateAttributes('heading', { color: 'pink' }).run()"
         :class="{ 'bg-gray-100': editor.isActive('heading', { level: 3 }) }" class="
-      text-gray-1000 bg-white  focus:outline-none hover:underline focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2 
+      text-gray-1000 bg-white  focus:outline-none cursor-pointer hover:underline focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2 
       ">
         Заголовок
       </div>
 
-      <div
+      <div v-if="type == 'article'"
         class="
-      text-gray-1000 bg-white  focus:outline-none hover:underline focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2 ">
-        <label for="file-upload" class="inline-block">
+      text-gray-1000 bg-white  focus:outline-none focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2 ">
+        <label for="file-upload" class="inline-block cursor-pointer hover:underline">
           Картинка
         </label>
         <input type="file" ref="file" id="file-upload" accept="image/jpeg, image/png, image/webp"
@@ -29,14 +29,12 @@ import { Inertia } from "@inertiajs/inertia";
 
       <div @click="editor.chain().focus().toggleBulletList().run()"
         :class="{ 'bg-gray-100': editor.isActive('bulletList') }" class="
-      text-gray-1000 bg-white  focus:outline-none hover:underline focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2 
+      text-gray-1000 bg-white  focus:outline-none cursor-pointer hover:underline focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2 
        ">
         Список
       </div>
 
-
-
-      <div @click="editor.chain().focus()
+      <div v-if="type == 'article'" @click="editor.chain().focus()
         .toggleBlockquote()
         .selectParentNode()
         .setImage({ src: 'https://nedicom.ru/' + auth.avatar_path, alt: auth.name, title: auth.name, })
@@ -44,7 +42,7 @@ import { Inertia } from "@inertiajs/inertia";
         .setLink({ href: 'https://nedicom.ru/lawyers/' + auth.id, })
         .run()
         " class="
-      text-gray-1000 bg-white  focus:outline-none hover:underline focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700
+      text-gray-1000 bg-white  focus:outline-none cursor-pointer hover:underline focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700
        ">
         Мнение эксперта
       </div>
@@ -76,6 +74,7 @@ export default {
 
   props: {
     id: String,
+    type: String,
     auth: Object,
     imgurl: Object,
     modelValue: {
@@ -167,7 +166,7 @@ export default {
 }
 
 .ProseMirror {
-  height: 800px;
+  height: 600px;
   padding: 10px;
 
   >*+* {
@@ -217,21 +216,25 @@ export default {
     }
   }
 
+  blockquote {
+    padding-left: 1rem;
+    border-left: 2px solid rgba(#0D0D0D, 0.1);
+  }
+
   a img {
     border-radius: 50%;
     width: 80px;
     height: auto;
-    display: inline-block;
     margin-right: 4px;
+    float:left;
+  }
+
+  a {
+    float:left;
   }
 
   .artlwrhref {
     display: inline-block;
-  }
-
-  blockquote {
-    padding-left: 1rem;
-    border-left: 2px solid rgba(#0D0D0D, 0.1);
   }
 
   hr {
