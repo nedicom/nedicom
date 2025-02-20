@@ -8,7 +8,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <!-- main banner -->
+  <!-- main banner -->asd
   <div
     id="mainbanner"
     class="relative overflow-hidden bg-cover bg-transparent bg-no-repeat bg-md-top w-full h-screen"

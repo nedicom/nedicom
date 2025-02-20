@@ -26,31 +26,13 @@ if (props.phone !== undefined) {
 
 <template>
     <!-- address -->
-    <div itemscope itemtype="https://schema.org/Organization" class="md:flex justify-center md:my-20 p-5 md:p-0">
-        <div class="md:w-1/2 w-full">
+    <div itemscope itemtype="https://schema.org/Organization" class="md:flex justify-center p-2">
+        <div class="w-full">
             <section>
-                <div class="px-4 mx-auto max-w-screen-xl">
-                    <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress"
-                        class="my-12 md:my-10 md:mt-0 text-center">
-                        <p v-if="dopadress" class="font-semibold text-3xl">Главный офис:</p>
-                        <p v-else class="font-semibold text-3xl">Адрес:</p>
-                        <h2 class="mb-4 text-xl my-6 font-semibold">{{ address }}</h2>
+                <div class="px-4 mx-auto grid grid-cols-1 lg:grid-cols-3">
 
-                        <meta itemprop="postalCode" content="295000" />
-                        <meta itemprop="addressLocality" content="Russia" />
-                        <meta itemprop="iso6523Code" content="317910200050560" />
-                        <meta itemprop="iso6523Code" content="910305709385" />
-
-                        <p v-if="dopadress" class="font-semibold text-3xl mt-6">Дополнительные офисы</p>
-                        <h2 v-if="dopadress" v-html="dopadress" class="mb-4 text-xl my-6 font-semibold"></h2>
-
-                    </div>
-                    <div class="flex justify-center">
-
-                        <div class="mt-5 md:w-1/2 font-bold">
-                            <p class="mb-6 text-center">Выбирайте удобный способ
-                                связи для Вас
-                            </p>
+                    <div class="flex justify-center lg:justify-start">
+                        <div class="mt-5 font-bold">
 
                             <div class="w-full flex items-center mb-5">
                                 <Modal :ModalBtnText="'Обратный звонок'" :secondtext=null />
@@ -66,13 +48,14 @@ if (props.phone !== undefined) {
                             </div>
 
                             <div v-if="props.maps" class="w-full flex items-center mb-5">
-                                <a :href="props.maps" onclick="ym(24900584, 'reachGoal', 'YaMap_Click'); return true;" class="w-64 mx-auto inline-flex items-center justify-center py-2.5 text-gray-900 focus:outline-none 
+                                <a :href="props.maps" onclick="ym(24900584, 'reachGoal', 'YaMap_Click'); return true;"
+                                    class="w-64 mx-auto inline-flex items-center justify-center py-2.5 text-gray-900 focus:outline-none 
                                     bg-white rounded-lg border border-gray-200 inline-flex items-center focus:ring-4 focus:ring-primary-300 
                                     font-medium rounded-lg px-3 py-2.5 text-center" target="_blank">
                                     <span class="h-full mr-1"><img class="h-6"
                                             src="https://yandex.ru/maps/favicon.svg"></span>
                                     <span class="font-bold h-full mr-1">
-                                        <span class="text-red-600">Я</span>ндекс карты 
+                                        <span class="text-red-600">Я</span>ндекс карты
                                     </span>
                                     <span v-for="x in 5" :key="x">
                                         <svg class="w-4 h-4 text-yellow-300" aria-hidden="true"
@@ -83,11 +66,27 @@ if (props.phone !== undefined) {
                                     </span>
                                 </a>
                             </div>
-
-                            <p itemprop="name" class="text-center mt-6">{{ props.company }}</p>
-                            <meta itemprop="image" :content="metaimage" />
                         </div>
                     </div>
+
+                    <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress"
+                        class="lg:col-span-2 my-12 md:my-10 md:mt-0 flex items-center">
+                        <div class="text-center lg:text-left">
+                        <p v-if="dopadress" class="font-semibold text-3xl">Главный офис:</p>
+                        <p v-else class="font-semibold text-3xl">Адрес:</p>
+                        <p itemprop="streetAddress" class="mb-4 text-xl my-6 font-semibold">{{ address }}</p>
+                        <meta itemprop="addressCountry" content="Россия" />
+                        <!--
+                        <meta itemprop="postalCode" content="295000" />
+                        <meta itemprop="iso6523Code" content="317910200050560" />
+                        <meta itemprop="iso6523Code" content="910305709385" />
+                        -->
+
+                        <p v-if="dopadress" class="font-semibold text-3xl mt-6">Дополнительные офисы</p>
+                        <p v-if="dopadress" v-html="dopadress" class="mb-4 text-xl my-6 font-semibold"></p>
+                    </div>
+                    </div>
+
                 </div>
             </section>
         </div>

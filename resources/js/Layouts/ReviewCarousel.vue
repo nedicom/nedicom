@@ -16,8 +16,8 @@ defineProps({
 
 <template>
   <!--reviews carousel-->
-  <div id="reviews" class="my-12 py-12 bg-gray-100/75">
-    <h2 class="text-xl mx-12 my-1 font-semibold text-grey text-center">
+  <div id="reviews" class="py-12">
+    <h2 class="text-4xl mx-12 my-1 font-semibold text-grey text-center">
       Отзывы заказчиков
     </h2>
     <p
@@ -27,9 +27,9 @@ defineProps({
       class="text-xs mx-12 font-semibold text-grey text-center md:text-end py-5"
     >
       общая оценка: 
-      <span itemprop="ratingValue"
-        >{{ (rating / reviewscount).toFixed(1) }}</span
-      >
+      <span  itemprop="ratingValue" v-if="rating"
+        >{{ (rating / reviewscount).toFixed(1) }}</span 
+      ><span itemprop="ratingValue" v-else>0</span>
       всего отзывов:
       <span itemprop="reviewCount">{{ reviewscount }}</span>
     </p>

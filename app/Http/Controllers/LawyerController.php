@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\Answer;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Inertia\Inertia;
@@ -50,6 +51,7 @@ class LawyerController extends Controller
 
             'articles' => Article::where('userid', $id)->where('practice_file_path', '=', null)->orderBy('updated_at', 'desc')->get(),
             'practice' => Article::where('userid', $id)->where('practice_file_path', '!=', null)->orderBy('updated_at', 'desc')->get(),
+            'anwswers' => Answer::where('users_id', $id)->orderBy('updated_at', 'desc')->with('Question')->get(),
             'countarticles' => Article::where('userid', $id)->count(),
             'auth' => $auth,
         ]);

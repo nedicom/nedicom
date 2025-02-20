@@ -1,6 +1,6 @@
 <script setup>
 import MainHeader from "@/Layouts/MainHeader.vue";
-import Header from "@/Layouts/Header.vue";
+import PromoHeader from "@/Layouts/PromoHeader.vue";
 import Body from "@/Layouts/Body.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import PopupDialogue from "@/Layouts/PopupDialogue/PopupDialogue.vue";
@@ -23,10 +23,12 @@ let title = ref("Юристы");
 
     <MainHeader :auth="auth" />
 
-    <Header :ttl="title" :modalPageTitle="'юристы'"/>
+    <PromoHeader />
+
 
     <Body>
         <div class="bg-white py-12">
+            
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div

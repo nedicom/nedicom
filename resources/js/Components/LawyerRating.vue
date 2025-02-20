@@ -1,9 +1,9 @@
 <script setup>
-import { ref } from "vue";
 
 let set = defineProps({
   lawyer: "$string",
 });
+
 let postprogresswidth = set.lawyer.pub_rating * 10;
 let questprogresswidth = set.lawyer.question_rating * 10;
 let answerprogresswidth = set.lawyer.answer_rating * 10;
@@ -23,14 +23,14 @@ if (set.lawyer.total_rating < 2.0) {
 </script>
 
 <template>
-  <h2 class="text-4xl font-semibold text-grey text-center py-10">
+  <h2 class="text-4xl font-semibold text-grey text-center py-10"  id="otzivi">
     Рейтинг юриста
   </h2>
   <div class="w-full flex justify-center mb-5">
     <div class="md:w-1/2">
       <div class="flex items-center mb-5">
         <p
-          class="bg-blue-100 text-blue-800 text-sm font-semibold inline-flex items-center p-1.5 rounded dark:bg-blue-200 dark:text-blue-800"
+          class="bg-blue-100 text-blue-800 text-sm font-semibold inline-flex items-center p-1.5 rounded"
         >
           {{ set.lawyer.total_rating }}
         </p>

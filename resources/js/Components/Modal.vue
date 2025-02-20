@@ -25,7 +25,7 @@ const { open, close } = useModal({
 <template>
   <button
     @click="() => open()"
-    class="inline-flex items-center h-8 w-full md:w-48 xl:w-64 mx-auto py-1 px-2 xl:py-2.5 xl:px-5 font-medium text-white focus:outline-none bg-slate-600 rounded-lg hover:bg-slate-700 focus:z-10 focus:ring-4 focus:ring-gray-100 justify-center cursor-pointer"
+    class="inline-flex items-center h-10 w-full md:w-48 xl:w-64 mx-auto py-1 px-2 xl:py-2.5 xl:px-5 font-medium text-white focus:outline-none bg-slate-600 rounded-lg hover:bg-slate-700 focus:z-10 focus:ring-4 focus:ring-gray-100 justify-center cursor-pointer"
     onclick="ym(24900584, 'reachGoal', 'PhoneForm_Click'); return true;"
   >
     <svg
@@ -41,7 +41,7 @@ const { open, close } = useModal({
       />
     </svg>
     <span class="flex flex-col">
-      <span class="text-xs 2xl:text-base">
+      <span class="text-base">
         {{ set.ModalBtnText }}
       </span>
       <span class="text-xs">

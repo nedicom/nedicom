@@ -6,45 +6,31 @@ defineProps({
 </script>
 
 <template>
-    <div class="mb-12 md:my-12">
+    <div class="mb-12 md:my-12" id="practice">
         <h2 class="text-4xl mx-12 font-semibold text-grey text-center py-10">
             {{ sliderheader }}
         </h2>
 
-        <div v-if="practice">
-            <Carousel
-                v-bind="settings"
-                :breakpoints="breakpoints"
-                :wrapAround="true"
-                :transition="500"
-            >
+        <div v-if="practice[0]">
+            <Carousel v-bind="settings" :breakpoints="breakpoints" :wrapAround="true" :transition="500">
                 <Slide v-for="slide in practice" :key="slide.practice_file_path">
-                    <div
-                        class="carousel__item w-full flex items-center justify-center h-128 bg-cover"
-                        :style="{
-                            backgroundImage:
-                                'url(https://nedicom.ru/' +
-                                slide.practice_file_path +
-                                ')',
-                        }"
-                    >
-                        <div
-                            v-if="slide.header"
-                            class="bg-white rounded-lg py-1 px-4 mx-6 grid grid-cols-1 content-center"
-                        >
+                    <div class="carousel__item w-full flex items-center justify-center h-128 bg-cover" :style="{
+                        backgroundImage:
+                            'url(https://nedicom.ru/' +
+                            slide.practice_file_path +
+                            ')',
+                    }">
+                        <div v-if="slide.header"
+                            class="bg-white rounded-lg py-1 px-4 mx-6 grid grid-cols-1 content-center">
                             <div class="line-clamp-5 max-w-xl">
                                 <p class="my-4 text-sm">
                                     {{ slide.description }}
                                 </p>
                             </div>
                             <div>
-                                <a
-                                    class="text-xs font-semibold text-indigo-600 hover:text-indigo-700"
-                                    target="_blank"
-                                    :href="'/articles/' + slide.url"
-                                    >Подробнее
-                                    <span>→</span></a
-                                >
+                                <a class="text-xs font-semibold text-indigo-600 hover:text-indigo-700" target="_blank"
+                                    :href="'/articles/' + slide.url">Подробнее
+                                    <span>→</span></a>
                             </div>
                         </div>
                     </div>
@@ -56,18 +42,8 @@ defineProps({
             </Carousel>
         </div>
 
-        <div v-else>
-            <Carousel :itemsToShow="3.95" :wrapAround="true" :transition="500">
-                <Slide v-for="slide in 1" :key="slide">
-                    <div class="carousel__item">
-                        Юрист еще не добавил практику
-                    </div>
-                </Slide>
-
-                <template #addons>
-                    <Pagination />
-                </template>
-            </Carousel>
+        <div v-else class="text-center">
+            юрист еще не добавил практику
         </div>
     </div>
 </template>
@@ -82,7 +58,7 @@ export default defineComponent({
     name: "Breakpoints",
     components: {
         Carousel,
-        Slide,        
+        Slide,
         Pagination,
     },
     data: () => ({
@@ -126,7 +102,7 @@ export default defineComponent({
     transform: rotateY(-20deg) scale(0.9);
 }
 
-.carousel__slide--active ~ .carousel__slide {
+.carousel__slide--active~.carousel__slide {
     transform: rotateY(20deg) scale(0.9);
 }
 
