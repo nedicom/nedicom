@@ -48,7 +48,7 @@ const { open, close } = useModal({
       </svg>
     </div>
     <div class="flex flex-col items-center justify-center h-full">
-      <div class="text-base">Показать телефон</div>
+      <div class="lg:text-xs xl:text-base">Показать телефон</div>
       <!--<div class="bg-gradient-to-r from-gray-50 to-blue-700 bg-clip-text text-transparent">{{ set.phone }}</div>-->
     </div>
   </button>

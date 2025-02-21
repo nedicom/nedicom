@@ -41,7 +41,7 @@ const { open, close } = useModal({
       />
     </svg>
     <span class="flex flex-col">
-      <span class="text-base">
+      <span class="lg:text-xs xl:text-base">
         {{ set.ModalBtnText }}
       </span>
       <span class="text-xs">

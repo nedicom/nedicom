@@ -31,7 +31,7 @@ let set = defineProps({
       />
     </svg>
 
-    <span class="hidden md:block text-base">Написать в whatsapp</span>
+    <span class="hidden md:block lg:text-xs xl:text-base">Написать в whatsapp</span>
     <span class="block md:hidden text-base">Написать в WA</span>
   </a>
 </template>
