@@ -412,7 +412,7 @@ class UslugiController extends Controller
             ->leftJoin('prices', 'uslugis_prices.prices_id', '=', 'prices.id')
             ->select(
                 'uslugis_prices.*',
-                'prices.name as common_name',
+                'prices.name as name',
                 'prices.price as common_price',
             )
             ->get(),
