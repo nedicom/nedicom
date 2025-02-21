@@ -410,6 +410,11 @@ class UslugiController extends Controller
             ->where('users_id', $usluga->user_id)
             ->where('uslugis_id', $usluga->id)
             ->leftJoin('prices', 'uslugis_prices.prices_id', '=', 'prices.id')
+            ->select(
+                'uslugis_prices.*',
+                'prices.name as common_name',
+                'prices.price as common_price',
+            )
             ->get(),
             'lawyer' => $lawyer,
             'reviews' => $reviews,
