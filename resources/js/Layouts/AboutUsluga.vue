@@ -12,9 +12,9 @@ defineProps({
         <div
             class="gap-8 items-center py-8 px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2 sm:py-16 lg:px-6">
             <div class="mt-4 md:mt-0">
-                <h1 itemprop="name" class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">{{
+                <h1 itemprop="name" class="mb-4 text-4xl tracking-tight font-bold text-gray-900">{{
                     usluga.usl_name }}</h1>
-                <p itemprop="description" class="mb-6 font-light text-gray-500 md:text-lg dark:text-gray-400">{{
+                <p itemprop="description" class="mb-6 font-light text-gray-500 md:text-lg">{{
                     usluga.usl_desc }}</p>
 
                 <div class="mt-2 font-bold text-gray-600 text-xl text-center md:text-right">

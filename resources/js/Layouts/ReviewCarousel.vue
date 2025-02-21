@@ -17,7 +17,7 @@ defineProps({
 <template>
   <!--reviews carousel-->
   <div id="reviews" class="py-12">
-    <h2 class="text-4xl mx-12 my-1 font-semibold text-grey text-center">
+    <h2 class="font-semibold mt-6 text-2xl tracking-tight text-center">
       Отзывы заказчиков
     </h2>
     <p
@@ -63,7 +63,7 @@ defineProps({
             <div
               itemprop="datePublished"
               :content="card.created_at"
-              class="flex items-center justify-left col-span-2"
+              class="flex items-center justify-left col-span-2 text-base md:text-xs xl:-text-base"
             >
               {{ card.created_at }}
             </div>
@@ -135,7 +135,7 @@ defineProps({
 
             <div class="h-12 flex items-center justify-end col-span-2">
               <p
-                class="text-gray-900 subpixel-antialiased text-right line-clamp-2 font-bold"
+                class="text-gray-900 subpixel-antialiased text-right line-clamp-2 font-bold text-base md:text-md xl:-text-base"
               >
                 <span
                   itemprop="author"
@@ -147,7 +147,7 @@ defineProps({
             </div>
 
             <div class="flex items-center h-24 col-span-3">
-              <p class="text-gray-700/75 line-clamp-3 flex text-left">
+              <p class="text-gray-700/75 line-clamp-3 flex text-left text-base md:text-xs xl:-text-base">
                 -
                 <span itemprop="reviewBody">"{{ card.description }}"</span>
               </p>
@@ -190,12 +190,16 @@ export default defineComponent({
     breakpoints: {
       // 700px and up
       700: {
-        itemsToShow: 3.5,
+        itemsToShow: 2.5,
         snapAlign: "center",
       },
       // 1024 and up
       1024: {
-        itemsToShow: 3.5,
+        itemsToShow: 2.5,
+        snapAlign: "start",
+      },
+      1280: {
+        itemsToShow: 4.5,
         snapAlign: "start",
       },
     },

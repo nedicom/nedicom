@@ -92,16 +92,16 @@ if (props.phone !== undefined) {
             itemprop="address"
             itemscope
             itemtype="https://schema.org/PostalAddress"
-            class="lg:col-span-2 my-12 md:my-10 md:mt-0 flex items-center"
+            class="lg:col-span-2 mt-12 md:mt-0 flex items-center"
           >
             <div class="text-center lg:text-left">
-              <p v-if="dopadress" class="font-semibold text-3xl">
+              <p v-if="dopadress" class="font-semibold text-2xl tracking-tight">
                 Главный офис:
               </p>
-              <p v-else class="font-semibold text-3xl">Адрес:</p>
+              <p v-else class="font-semibold text-2xl tracking-tight">Адрес:</p>
               <p
                 itemprop="streetAddress"
-                class="mb-4 text-xl my-6 font-semibold"
+                class="mb-4 text-base mt-6 font-normal"
               >
                 {{ address }}
               </p>
@@ -112,13 +112,13 @@ if (props.phone !== undefined) {
                         <meta itemprop="iso6523Code" content="910305709385" />
                         -->
 
-              <p v-if="dopadress" class="font-semibold text-3xl mt-6">
+              <p v-if="dopadress" class="font-semibold mt-6 text-2xl tracking-tight">
                 Дополнительные офисы
               </p>
               <p
                 v-if="dopadress"
                 v-html="dopadress"
-                class="mb-4 text-xl my-6 font-semibold"
+                class="text-base mt-6 font-normal"
               ></p>
             </div>
           </div>

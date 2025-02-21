@@ -9,7 +9,7 @@ defineProps({
 <template>
     <section id="prctglr" class="w-full flex justify-center">
         <div class="md:w-11/12">
-            <h2 class="text-4xl mx-12 my-1 font-semibold text-center">{{ keyword }} - практика</h2>
+            <h2 class="font-semibold mt-6 text-2xl tracking-tight text-center">{{ keyword }} - практика</h2>
             <p class="mb-6 mx-12 font-light text-gray-500 md:text-lg text-center">Возможно Ваше дело
                 далеко не первое...</p>
             <ol class="relative border-l border-gray-200 list-none">

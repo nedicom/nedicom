@@ -15,7 +15,6 @@ import PracticeGallery from "@/Layouts/PracticeGallery.vue";
 import ReviewCarousel from "@/Layouts/ReviewCarousel.vue";
 import { Head } from "@inertiajs/inertia-vue3";
 
-
 let vars = defineProps({
   usluga: "Object",
   lawyers: "Object",
@@ -65,12 +64,19 @@ details summary::-webkit-details-marker {
   <FlashMessage :message="flash.message" />
 
   <Head>
-    <title>{{ vars.usluga.usl_name }} ({{ vars.city.title }}) </title>
-    <meta head-key="description" name="description" :content="vars.usluga.usl_name + ' - ' + vars.usluga.usl_desc" />
+    <title>{{ vars.usluga.usl_name }} ({{ vars.city.title }})</title>
+    <meta
+      head-key="description"
+      name="description"
+      :content="vars.usluga.usl_name + ' - ' + vars.usluga.usl_desc"
+    />
     <meta property="og:title" :content="vars.usluga.usl_name" />
     <meta property="og:description" :content="vars.usluga.usl_desc" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" :content="'https://nedicom.ru/uslugi/' + vars.url" />
+    <meta
+      property="og:url"
+      :content="'https://nedicom.ru/uslugi/' + vars.url"
+    />
     <meta property="og:image" :content="metaimage" />
     <meta property="og:site_name" content="nedicom.ru" />
     <meta property="og:locale" content="ru_RU" />
@@ -81,99 +87,173 @@ details summary::-webkit-details-marker {
 
   <Body>
     <div>
-
       <div class="grid grid-cols-1 md:grid-cols-4 py-5">
-        <div class="w-full flex justify-between md:flex-col md:text-xl md:mt-12 lg:px-5 sticky top-0 z-40 h-10 bg-white">
-          <div class="w-full flex justify-between md:flex-col md:text-xl md:mt-12 px-2 sticky top-0">
-            <a class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-x-1 duration-100"
-              href="#about">
-              <div class=""> Юрист </div>
+        <div
+          class="w-full flex justify-between md:flex-col md:text-xl md:mt-12 lg:px-5 sticky top-0 z-40 h-10 bg-white"
+        >
+          <div
+            class="w-full flex justify-between md:flex-col md:text-xl md:mt-12 px-2 sticky top-0"
+          >
+            <a
+              class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-x-1 duration-100"
+              href="#about"
+            >
+              <div class="">Юрист</div>
             </a>
-            <a class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-x-1 duration-100"
-              href="#prices">
-              <div class=""> Цены </div>
+            <a
+              class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-x-1 duration-100"
+              href="#prices"
+            >
+              <div class="">Цены</div>
             </a>
-            <a class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-x-1 duration-100"
-              href="#reviews">
-              <div class=""> Отзывы </div>
-            </a><a
+            <a
               class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-x-1 duration-100"
-              href="#prctglr">
-              <div class=""> Практика </div>
-            </a><a
+              href="#reviews"
+            >
+              <div class="">Отзывы</div> </a
+            ><a
               class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-x-1 duration-100"
-              href="#questions">
-              <div class=""> Вопросы </div>
-            </a><a
+              href="#prctglr"
+            >
+              <div class="">Практика</div> </a
+            ><a
               class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-x-1 duration-100"
-              href="#description">
-              <div class=""> Описание </div>
+              href="#questions"
+            >
+              <div class="">Вопросы</div> </a
+            ><a
+              class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-x-1 duration-100"
+              href="#description"
+            >
+              <div class="">Описание</div>
             </a>
           </div>
         </div>
 
-        <div itemscope itemtype="https://schema.org/LegalService" class="md:col-span-3 md:mt-12 px-3 md:px-10 w-full">
+        <div
+          itemscope
+          itemtype="https://schema.org/LegalService"
+          class="md:col-span-3 md:mt-12 px-3 md:px-10 w-full"
+        >
           <!--<SecondBanner :statusonimage="usluga.usl_name" :phnform="false" :secondbannerpc="secondbannerpc"
             :secondbannerimgmobile="secondbannerimgmobile" :metaimage="metaimage" />
         -->
 
-          <AboutUsluga :usluga="vars.usluga" :lawyer="vars.lawyer" :main_usluga="vars.main_usluga" />
+          <AboutUsluga
+            :usluga="vars.usluga"
+            :lawyer="vars.lawyer"
+            :main_usluga="vars.main_usluga"
+          />
 
           <!-- edit btn -->
-          <div v-if="auth" class="flex justify-center pt-2 max-w-5xl mx-auto sm:px-6 lg:px-8 sm:rounded-lg">
-            <a v-if="vars.auth.isadmin == 1 || vars.auth.id == vars.usluga.user_id"
+          <div
+            v-if="auth"
+            class="flex justify-center pt-2 max-w-5xl mx-auto sm:px-6 lg:px-8 sm:rounded-lg"
+          >
+            <a
+              v-if="
+                vars.auth.isadmin == 1 || vars.auth.id == vars.usluga.user_id
+              "
               :href="route('uslugi.edit', usluga.id)"
-              class="text-white bg-green-500 hover:bg-green-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">Редактировать
-              объявление</a>
+              class="text-white bg-green-500 hover:bg-green-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
+              >Редактировать объявление</a
+            >
           </div>
           <!-- edit btn -->
 
-          <Address v-if="usluga.cities" :usl_name="usluga.usl_name" :phone="usluga.phone" :address="usluga.address"
-            :dopadress="usluga.dopadress" :maps="usluga.maps" :metaimage="metaimage"
-            :company="lawyer.name + ' юрист по городу ' + usluga.cities.title" />
+          <Address
+            v-if="usluga.cities"
+            :usl_name="usluga.usl_name"
+            :phone="usluga.phone"
+            :address="usluga.address"
+            :dopadress="usluga.dopadress"
+            :maps="usluga.maps"
+            :metaimage="metaimage"
+            :company="lawyer.name + ' юрист по городу ' + usluga.cities.title"
+          />
 
-          <Prices :subheader="vars.main_usluga.usl_name" :city="vars.city"
-            :reviewcoutnt="vars.main_usluga.mainreview_count" :rating="Number(vars.main_usluga.avg_review)"
-            :secondbannerimgmobile="secondbannerimgmobile" :metaimage="metaimage"
-            :keyword="vars.main_usluga.usl_name" />
+          <Prices
+            :subheader="vars.main_usluga.usl_name"
+            :city="vars.city"
+            :reviewcoutnt="vars.main_usluga.mainreview_count"
+            :rating="Number(vars.main_usluga.avg_review)"
+            :secondbannerimgmobile="secondbannerimgmobile"
+            :metaimage="metaimage"
+            :keyword="vars.main_usluga.usl_name"
+          />
 
-          <ReviewCarousel :reviews="vars.reviews" :rating="vars.rating" :reviewscount="vars.reviewscount"
-            :lwrid="vars.lawyer.id" :auth="vars.auth" :errors="vars.errors" :mainuslugaid="vars.usluga.main_usluga_id"
-            :uslugaid="vars.usluga.id" />
+          <ReviewCarousel
+            :reviews="vars.reviews"
+            :rating="vars.rating"
+            :reviewscount="vars.reviewscount"
+            :lwrid="vars.lawyer.id"
+            :auth="vars.auth"
+            :errors="vars.errors"
+            :mainuslugaid="vars.usluga.main_usluga_id"
+            :uslugaid="vars.usluga.id"
+          />
 
           <!--video block-->
           <VideoBlock :video="vars.usluga.video" />
           <!--video block-->
 
-          <PracticeGallery v-if="practice != 0" :sliderheader="'Доверяйте делам'" :keyword="vars.main_usluga.usl_name"
-            :practice="vars.practice" />
+          <PracticeGallery
+            v-if="practice != 0"
+            :sliderheader="'Доверяйте делам'"
+            :keyword="vars.main_usluga.usl_name"
+            :practice="vars.practice"
+          />
 
           <!-- popular question -->
           <div id="questions" v-if="vars.usluga.popular_question">
-            <div v-if="vars.usluga.popular_question[0].answer" class="my-12 pb-12" itemscope
-              itemtype="https://schema.org/FAQPage">
-              <h3 class="text-4xl mx-12 my-1 font-semibold text-grey text-center">
+            <div
+              v-if="vars.usluga.popular_question[0].answer"
+              class="my-12 pb-12"
+              itemscope
+              itemtype="https://schema.org/FAQPage"
+            >
+              <h2
+                class="font-semibold mt-6 text-2xl md:mt-20 tracking-tight text-center"
+              >
                 Частые вопросы
-              </h3>
+              </h2>
               <ul
-                class="md:w-4/6 w-11/12 mx-auto mt-10 md:mt-20 divide-y shadow-gray-600 shadow-2xl rounded-xl list-none">
-                <li v-for="item in vars.usluga.popular_question" :key="item.id" class="py-5" itemscope
-                  itemprop="mainEntity" itemtype="https://schema.org/Question">
+                class="w-full mx-auto mt-10 divide-y shadow-gray-600 shadow-2xl rounded-xl list-none"
+              >
+                <li
+                  v-for="item in vars.usluga.popular_question"
+                  :key="item.id"
+                  class="py-5 text-base"
+                  itemscope
+                  itemprop="mainEntity"
+                  itemtype="https://schema.org/Question"
+                >
                   <details class="group">
                     <summary
-                      class="flex items-center gap-3 px-4 py-3 font-medium marker:content-none hover:cursor-pointer">
-                      <svg class="w-5 h-5 text-gray-500 transition group-open:rotate-90"
-                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                          d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z">
-                        </path>
+                      class="flex items-center gap-3 px-4 py-3 font-medium marker:content-none hover:cursor-pointer"
+                    >
+                      <svg
+                        class="w-5 h-5 text-gray-500 transition group-open:rotate-90"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
+                        ></path>
                       </svg>
                       <span itemprop="name">{{ item.question }}</span>
                     </summary>
 
-                    <article class="px-4 pb-4 text-slate-500" itemscope itemprop="acceptedAnswer"
-                      itemtype="https://schema.org/Answer">
+                    <article
+                      class="px-4 pb-4 text-slate-500 text-sm"
+                      itemscope
+                      itemprop="acceptedAnswer"
+                      itemtype="https://schema.org/Answer"
+                    >
                       <p itemprop="text">
                         {{ item.answer }}
                       </p>
@@ -187,20 +267,30 @@ details summary::-webkit-details-marker {
 
           <!-- seo description -->
           <div class="my-20" id="description">
-            <div itemprop="disambiguatingDescription"
-              class="mx-auto max-w-2xl px-6 space-y-6 text-gray-900 text-justify" v-html="usluga.longdescription"></div>
+            <h2
+              class="font-semibold mb-6 text-2xl tracking-tight text-center"
+            >
+              Подробнее
+            </h2>
+            <div
+              itemprop="disambiguatingDescription"
+              class="mx-auto max-w-2xl px-6 space-y-6 text-gray-900 text-justify"
+              v-html="usluga.longdescription"
+            ></div>
           </div>
           <!-- seo description -->
-
         </div>
       </div>
     </div>
-    <BreadcrumbsUslugi v-if="vars.city" :city="vars.city ? vars.city : null"
+    <BreadcrumbsUslugi
+      v-if="vars.city"
+      :city="vars.city ? vars.city : null"
       :main_usluga="vars.main_usluga.url !== 0 ? vars.main_usluga : null"
-      :second_usluga="vars.second_usluga ? vars.second_usluga : null" :usluga="vars.usluga" />
+      :second_usluga="vars.second_usluga ? vars.second_usluga : null"
+      :usluga="vars.usluga"
+    />
   </Body>
   <MainFooter />
-
 </template>
 
 
