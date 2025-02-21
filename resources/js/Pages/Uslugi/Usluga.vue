@@ -16,7 +16,8 @@ import ReviewCarousel from "@/Layouts/ReviewCarousel.vue";
 import { Head } from "@inertiajs/inertia-vue3";
 
 let vars = defineProps({
-  usluga: "Object",
+  usluga: Object,
+  userprices: Object,
   lawyers: "Object",
   lawyer: Object,
   practice: Object,
@@ -135,6 +136,18 @@ details summary::-webkit-details-marker {
           itemtype="https://schema.org/LegalService"
           class="md:col-span-3 md:mt-12 px-3 md:px-10 w-full"
         >
+          <!-- edit btn -->
+          <span v-if="auth" class="">
+            <a
+              v-if="
+                vars.auth.isadmin == 1 || vars.auth.id == vars.usluga.user_id
+              "
+              :href="route('uslugi.edit', usluga.id)"
+              class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
+              >Редактировать объявление</a
+            >
+          </span>
+          <!-- edit btn -->
           <!--<SecondBanner :statusonimage="usluga.usl_name" :phnform="false" :secondbannerpc="secondbannerpc"
             :secondbannerimgmobile="secondbannerimgmobile" :metaimage="metaimage" />
         -->
@@ -144,22 +157,6 @@ details summary::-webkit-details-marker {
             :lawyer="vars.lawyer"
             :main_usluga="vars.main_usluga"
           />
-
-          <!-- edit btn -->
-          <div
-            v-if="auth"
-            class="flex justify-center pt-2 max-w-5xl mx-auto sm:px-6 lg:px-8 sm:rounded-lg"
-          >
-            <a
-              v-if="
-                vars.auth.isadmin == 1 || vars.auth.id == vars.usluga.user_id
-              "
-              :href="route('uslugi.edit', usluga.id)"
-              class="text-white bg-green-500 hover:bg-green-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
-              >Редактировать объявление</a
-            >
-          </div>
-          <!-- edit btn -->
 
           <Address
             v-if="usluga.cities"
@@ -173,6 +170,7 @@ details summary::-webkit-details-marker {
           />
 
           <Prices
+            :userprices="vars.userprices"
             :subheader="vars.main_usluga.usl_name"
             :city="vars.city"
             :reviewcoutnt="vars.main_usluga.mainreview_count"
@@ -267,9 +265,7 @@ details summary::-webkit-details-marker {
 
           <!-- seo description -->
           <div class="my-20" id="description">
-            <h2
-              class="font-semibold mb-6 text-2xl tracking-tight text-center"
-            >
+            <h2 class="font-semibold mb-6 text-2xl tracking-tight text-center">
               Подробнее
             </h2>
             <div

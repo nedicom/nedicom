@@ -406,6 +406,11 @@ class UslugiController extends Controller
         return Inertia::render('Uslugi/Usluga', [
             'auth' => $auth,
             'usluga' => Uslugi::where('url', $url)->with('cities')->first(),
+            'userprices' => DB::table('uslugis_prices')
+            ->where('users_id', $usluga->user_id)
+            ->where('uslugis_id', $usluga->id)
+            ->leftJoin('prices', 'uslugis_prices.prices_id', '=', 'prices.id')
+            ->get(),
             'lawyer' => $lawyer,
             'reviews' => $reviews,
             'lawyers' => User::where('speciality_one_id', '=', $id)->orderBy('name', 'asc')->get()->take(3),
@@ -507,21 +512,26 @@ class UslugiController extends Controller
 
     public function edit(string $url, Request $request)
     {
-
+        $usluga = Uslugi::where('id', '=', $url)->with('second')->with('main')->first();
         return Inertia::render(
             'Uslugi/Edit',
             [
-                'uslugi' => Uslugi::where('id', '=', $url)->with('second')->with('main')->first(),
+                'uslugi' => $usluga,
                 'main_uslugi' => Uslugi::where('is_main', '=', 1)->select('id', 'usl_name')
                     //->doesntHave('doesntHaveoffersbymain')
                     ->with('zerocategory')
                     ->get(),
                 'second_uslugi' => Uslugi::where('is_second', 1)->select('id', 'usl_name', 'main_usluga_id')
                     ->doesntHave('doesntHaveoffersbysecond')->get()->groupBy('main_usluga_id'),
-                'user' => Auth::user(),
+                'user' => User::where('id', $usluga->user_id)->first(),
                 'flash' => ['message' => $request->session()->get(key: 'message')],
                 'cities' => cities::all(),
                 'prices' => price::all(),
+                'userprices' => DB::table('uslugis_prices')
+                    ->where('users_id', $usluga->user_id)
+                    ->where('uslugis_id', $usluga->id)
+                    ->leftJoin('prices', 'uslugis_prices.prices_id', '=', 'prices.id')
+                    ->get(),
                 'auth' => Auth::user(),
             ],
         );
@@ -529,6 +539,25 @@ class UslugiController extends Controller
 
     public function update(Request $request)
     {
+        if ($request->updtprice) {
+            if ($request->updtprice == 1) {
+                DB::table('uslugis_prices')->insert([
+                    'users_id' => $request->users_id,
+                    'uslugis_id' => $request->uslugis_id,
+                    'prices_id' => $request->prices_id,
+                    'value' => $request->value,
+                    'price' => $request->price,
+                ]);
+            }
+            if ($request->updtprice == 2) {
+                DB::table('uslugis_prices')
+                    ->where('users_id', $request->users_id)
+                    ->where('prices_id', $request->prices_id)
+                    ->delete();
+            }
+            return back();
+        }
+
         $id = $request->ids;
         $usluga = Uslugi::find($id);
         $usluga->usl_name = $request->header;

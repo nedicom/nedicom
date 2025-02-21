@@ -30,7 +30,7 @@ defineProps({
     <div v-if="video.length">
       <div v-if="video[0].videolink" class="hidden md:block">
         <div class="flex flex-wrap justify-center">
-          <div v-for="(link, numb) in video" :key="numb" class="mt-1 w-full md:w-1/3 px-2">
+          <div v-for="(link, numb) in video" :key="numb" class="mt-1 w-full lg:w-1/2 2xl:w-1/3 px-2 py-5">
             <div v-if="numb < 3">
               <iframe :src="link.videolink" width="100%" height="360" loading="lazy"
                 allow="encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0"
@@ -66,18 +66,17 @@ defineProps({
       <div v-if="video[0].videolink" class="block md:hidden">
         <div class="flex flex-wrap justify-center">
           <div v-for="(link, numb) in video" :key="numb" class="mt-1 w-full md:w-1/3 px-2">
-            <div v-if="numb < 1">
+            <div v-if="numb == 0">
               <iframe :src="link.videolink" width="100%" height="240" loading="lazy"
                 allow="encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0"
                 allowfullscreen></iframe>
             </div>
-            <div v-if="numb > 1" :class="{ active: hideVideo, passive: !hideVideo }">
+            <div v-if="numb > 0" :class="{ 'hidden': hideVideo }">
               <iframe :src="link.videolink" width="100%" height="240" loading="lazy"
                 allow="encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0"
                 allowfullscreen></iframe>
             </div>
           </div>
-
           <div class="flex justify-center" v-if="video.length > 1">
             <div class="flex justify-center mt-2 border-t-2 w-1/2">
               <button @click="hideVideo = !hideVideo" type="button"
