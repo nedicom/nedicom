@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Review;
 
 use App\Helpers\CitySet;
+use App\Helpers\PaginationHelper;
 
 use Inertia\Inertia;
 
@@ -38,10 +39,11 @@ class MainpageController extends Controller
                 return $item;
             });
 
-        $articles = DB::table('articles')
+
+        $query_articles = DB::table('articles')
             ->leftjoin('users', 'articles.userid', '=', 'users.id')
             ->leftjoin('article_comments', 'articles.id', '=', 'article_comments.article_id')
-            ->leftjoin('bundles_socials', function ($join) use ($user_id){
+            ->leftjoin('bundles_socials', function ($join) use ($user_id) {
                 $join->on('bundles_socials.article_id', '=', 'articles.id')
                     ->where('bundles_socials.users_id', '=', $user_id);
             })
@@ -56,11 +58,11 @@ class MainpageController extends Controller
                 'articles.comments',
                 'articles.id',
                 'articles.header',
-                'articles.description',
-                'articles.created_at',
+                'articles.description as abody',
+                'articles.created_at AS created_at',
                 'articles.url',
                 'articles.counter',
-                'article_comments.body as article_comment',
+                'article_comments.body as comment',
                 'article_comments.users_id as avatar',
                 DB::raw('count("article_comments.body") as comment_count'),
                 'bundles_socials.likes as user_like',
@@ -68,9 +70,9 @@ class MainpageController extends Controller
                 'bundles_socials.shares as user_share',
             )
             ->selectRaw('IF(articles.id, "articles", false) AS type')
-            ->groupBy('articles.id');
+            ->limit(10);
 
-        $bundles = DB::table('questions')
+        $query_questions = DB::table('questions')
             ->leftjoin('users', 'questions.user_id', '=', 'users.id')
             ->leftjoin('answers', 'questions.id', '=', 'answers.questions_id')
             ->leftjoin('bundles_socials', function ($join) use ($user_id) {
@@ -100,16 +102,82 @@ class MainpageController extends Controller
                 'bundles_socials.shares as user_share',
             )
             ->selectRaw('IF(questions.id, "questions", false) AS type')
-            ->groupBy('id')
-            ->union($articles)
-            ->orderByDesc('counter')
-            ->paginate(20);
+            ->limit(10);
 
-        foreach ($bundles as $item) {
+        $questions_by_created_at = clone $query_questions;
+        $questions_by_counter = clone $query_questions;
+        $questions_by_created_at = $questions_by_created_at->orderBy('created_at', 'desc')
+            ->groupBy('questions.id')->get();
+        $questions_by_counter = $questions_by_counter->orderByDesc('counter')
+            ->groupBy('questions.id')->get();
+
+        $articles_by_counter = clone $query_articles;
+        $articles_by_created_at = clone $query_articles;
+        $articles_by_created_at = $articles_by_created_at->orderBy('created_at', 'desc')
+            ->groupBy('articles.id')->get();
+        $articles_by_counter = $query_articles->orderByDesc('counter')
+            ->groupBy('articles.id')->get();
+
+        $questions_created_counter = 0;
+        $questions_count_counter = 0;
+        $articles_created_counter = 0;
+        $articles_count_counter = 0;
+
+        $number_times_scroll = 2;
+
+        function checkCollection($collection, $user_id, $counter)
+        {
+            while ($collection->contains('user_id', $user_id[$counter]->user_id)) {   
+                $counter++;
+            };
+            return $counter;
+        }
+
+        $collection = collect();
+        for ($i = 0; $i < $number_times_scroll; $i++) {
+            for ($a = 0; $a < 6; $a++) {
+                switch ($a) {
+                    case (0):
+                        $questions_count_counter = checkCollection($collection, $questions_by_counter, $questions_count_counter);
+                        $collection->push($questions_by_counter[$questions_count_counter]);
+                        $questions_count_counter++;
+                        break;
+                    case (1):
+                        $articles_count_counter = checkCollection($collection, $articles_by_counter, $articles_count_counter);
+                        $collection->push($articles_by_counter[$articles_count_counter]);
+                        $articles_count_counter++;
+                        break;
+                    case (2):
+                        $articles_created_counter = checkCollection($collection, $articles_by_created_at, $articles_created_counter);
+                        $collection->push($articles_by_created_at[$articles_created_counter]);
+                        $articles_created_counter++;
+                        break;
+                    case (3):
+                        $questions_created_counter = checkCollection($collection, $questions_by_created_at, $questions_created_counter);
+                        $collection->push($questions_by_created_at[$questions_created_counter]);
+                        $questions_created_counter++;
+                        break;
+                    case (4):
+                        $articles_created_counter = checkCollection($collection, $articles_by_created_at, $articles_created_counter);
+                        $collection->push($articles_by_created_at[$articles_created_counter]);
+                        $articles_created_counter++;
+                        break;
+                    case (5):
+                        $questions_count_counter = checkCollection($collection, $questions_by_counter, $questions_count_counter);
+                        $collection->push($questions_by_counter[$questions_count_counter]);
+                        $questions_count_counter++;
+                        break;
+                }
+            }
+        }
+
+        foreach ($collection as $item) {
             $item->abody = Str::limit($item->abody, 200);
             $item->created_at = humandate::lenta($item->created_at);
             $item->avatar =  $item->avatar ? User::find($item->avatar)->avatar_path : null;
-        }
+        };
+
+        $bundles = PaginationHelper::paginate($collection, 30);
 
         return Inertia::render('Welcome', [
             'bundles' => $bundles,
