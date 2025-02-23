@@ -70,7 +70,7 @@ class MainpageController extends Controller
                 'bundles_socials.shares as user_share',
             )
             ->selectRaw('IF(articles.id, "articles", false) AS type')
-            ->limit(10);
+            ->limit(20);
 
         $query_questions = DB::table('questions')
             ->leftjoin('users', 'questions.user_id', '=', 'users.id')
@@ -102,7 +102,7 @@ class MainpageController extends Controller
                 'bundles_socials.shares as user_share',
             )
             ->selectRaw('IF(questions.id, "questions", false) AS type')
-            ->limit(10);
+            ->limit(20);
 
         $questions_by_created_at = clone $query_questions;
         $questions_by_counter = clone $query_questions;
@@ -117,7 +117,6 @@ class MainpageController extends Controller
             ->groupBy('articles.id')->get();
         $articles_by_counter = $query_articles->orderByDesc('counter')
             ->groupBy('articles.id')->get();
-
         $questions_created_counter = 0;
         $questions_count_counter = 0;
         $articles_created_counter = 0;
@@ -127,8 +126,9 @@ class MainpageController extends Controller
 
         function checkCollection($collection, $user_id, $counter)
         {
-            while ($collection->contains('user_id', $user_id[$counter]->user_id)) {   
+            if ($collection->contains('id', $user_id[$counter]->user_id)) {   // need filter by type
                 $counter++;
+                return $counter;
             };
             return $counter;
         }
@@ -138,32 +138,32 @@ class MainpageController extends Controller
             for ($a = 0; $a < 6; $a++) {
                 switch ($a) {
                     case (0):
-                        $questions_count_counter = checkCollection($collection, $questions_by_counter, $questions_count_counter);
+                        $questions_count_counter = checkCollection($collection, $questions_by_counter, $questions_count_counter); //popular question
                         $collection->push($questions_by_counter[$questions_count_counter]);
                         $questions_count_counter++;
                         break;
                     case (1):
-                        $articles_count_counter = checkCollection($collection, $articles_by_counter, $articles_count_counter);
+                        $articles_count_counter = checkCollection($collection, $articles_by_counter, $articles_count_counter); //popular article
                         $collection->push($articles_by_counter[$articles_count_counter]);
                         $articles_count_counter++;
                         break;
                     case (2):
-                        $articles_created_counter = checkCollection($collection, $articles_by_created_at, $articles_created_counter);
+                        $articles_created_counter = checkCollection($collection, $articles_by_created_at, $articles_created_counter); //new article
                         $collection->push($articles_by_created_at[$articles_created_counter]);
                         $articles_created_counter++;
                         break;
                     case (3):
-                        $questions_created_counter = checkCollection($collection, $questions_by_created_at, $questions_created_counter);
+                        $questions_created_counter = checkCollection($collection, $questions_by_created_at, $questions_created_counter); //new question
                         $collection->push($questions_by_created_at[$questions_created_counter]);
                         $questions_created_counter++;
                         break;
                     case (4):
-                        $articles_created_counter = checkCollection($collection, $articles_by_created_at, $articles_created_counter);
+                        $articles_created_counter = checkCollection($collection, $articles_by_created_at, $articles_created_counter); //new article
                         $collection->push($articles_by_created_at[$articles_created_counter]);
                         $articles_created_counter++;
                         break;
                     case (5):
-                        $questions_count_counter = checkCollection($collection, $questions_by_counter, $questions_count_counter);
+                        $questions_count_counter = checkCollection($collection, $questions_by_counter, $questions_count_counter); //popular question
                         $collection->push($questions_by_counter[$questions_count_counter]);
                         $questions_count_counter++;
                         break;
