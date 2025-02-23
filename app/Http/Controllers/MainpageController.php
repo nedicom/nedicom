@@ -126,9 +126,9 @@ class MainpageController extends Controller
 
         function checkCollection($collection, $user_id, $counter)
         {
-            if ($collection->contains('id', $user_id[$counter]->user_id)) {   // need filter by type
+            while ($collection->contains('id', $user_id[$counter]->user_id)) {   // need filter by type
                 $counter++;
-                return $counter;
+                //return $counter;
             };
             return $counter;
         }
