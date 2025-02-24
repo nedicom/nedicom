@@ -34,8 +34,14 @@ if (props.phone !== undefined) {
     <div class="w-full">
       <section>
         <div class="px-4 mx-auto grid grid-cols-1 lg:grid-cols-3">
+          <h3
+                class="font-semibold text-2xl tracking-tight m-0 my-10 md:hidden block text-center"
+              >
+                Запланируйте консультацию с юристом
+              </h3>
           <div class="flex justify-center lg:justify-start">
-            <div class="mt-5 font-bold">
+            <div class="mt-5 w-2/3 lg:w-full font-bold">
+             
               <div class="w-full flex items-center mb-5">
                 <Modal :ModalBtnText="'Обратный звонок'" :secondtext="null" />
               </div>
@@ -53,21 +59,26 @@ if (props.phone !== undefined) {
                 <WaBtn :phone="phone" />
               </div>
 
-              <div v-if="props.maps" class="w-full flex items-center mb-5">
+              <div
+                v-if="props.maps"
+                class="w-full flex justify-center items-center mb-5"
+              >
                 <a
                   :href="props.maps"
                   onclick="ym(24900584, 'reachGoal', 'YaMap_Click'); return true;"
                   class="w-full hover:bg-slate-100 md:w-48 xl:w-64 flex flex-col text-center items-center justify-center py-2 text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 focus:ring-4 focus:ring-primary-300 font-medium px-3"
                   target="_blank"
                 >
-                <div class="flex">
-                  <span class="h-full mr-1 "
-                    ><img class="h-4" src="https://yandex.ru/maps/favicon.svg"
-                  /></span>
-                  <span class="font-bold h-full mr-1 lg:text-xs xl:text-base">
-                    <span class="text-red-600">Я</span>ндекс карты
-                  </span>
-                </div>
+                  <div class="flex">
+                    <span class="h-full mr-1"
+                      ><img
+                        class="h-4"
+                        src="https://yandex.ru/maps/favicon.svg"
+                    /></span>
+                    <span class="font-bold h-full mr-1 lg:text-xs xl:text-base">
+                      <span class="text-red-600">Я</span>ндекс карты
+                    </span>
+                  </div>
                   <div class="flex">
                     <span v-for="x in 5" :key="x">
                       <svg
@@ -92,34 +103,51 @@ if (props.phone !== undefined) {
             itemprop="address"
             itemscope
             itemtype="https://schema.org/PostalAddress"
-            class="lg:col-span-2 mt-12 md:mt-0 flex items-center"
+            class="lg:col-span-2 mt-6 flex items-center"
           >
-            <div class="text-center lg:text-left">
-              <p v-if="dopadress" class="font-semibold text-2xl tracking-tight">
-                Главный офис:
-              </p>
-              <p v-else class="font-semibold text-2xl tracking-tight">Адрес:</p>
-              <p
-                itemprop="streetAddress"
-                class="mb-4 text-base mt-6 font-normal"
+            <div
+              class="text-center lg:text-left h-full grid grid-cols-1 place-content-around gap-4 p-5"
+            >
+              <h3
+                class="font-semibold text-2xl tracking-tight m-0 hidden md:block"
               >
-                {{ address }}
-              </p>
-              <meta itemprop="addressCountry" content="Россия" />
-              <!--
+                Запланируйте консультацию с юристом
+              </h3>
+              <div>
+                <p
+                  v-if="dopadress"
+                  class="font-semibold text-2xl tracking-tight"
+                >
+                  Главный офис:
+                </p>
+                <p v-else class="font-semibold text-2xl tracking-tight">
+                  Адрес:
+                </p>
+                <p
+                  itemprop="streetAddress"
+                  class="mb-4 text-base mt-6 font-normal"
+                >
+                  {{ address }}
+                </p>
+                <meta itemprop="addressCountry" content="Россия" />
+                <!--
                         <meta itemprop="postalCode" content="295000" />
                         <meta itemprop="iso6523Code" content="317910200050560" />
                         <meta itemprop="iso6523Code" content="910305709385" />
                         -->
 
-              <p v-if="dopadress" class="font-semibold mt-6 text-2xl tracking-tight">
-                Дополнительные офисы
-              </p>
-              <p
-                v-if="dopadress"
-                v-html="dopadress"
-                class="text-base mt-6 font-normal"
-              ></p>
+                <p
+                  v-if="dopadress"
+                  class="font-semibold mt-6 text-2xl tracking-tight"
+                >
+                  Дополнительные офисы
+                </p>
+                <p
+                  v-if="dopadress"
+                  v-html="dopadress"
+                  class="text-base mt-6 font-normal"
+                ></p>
+              </div>
             </div>
           </div>
         </div>

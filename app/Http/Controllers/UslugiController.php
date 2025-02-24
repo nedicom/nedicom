@@ -407,15 +407,15 @@ class UslugiController extends Controller
             'auth' => $auth,
             'usluga' => Uslugi::where('url', $url)->with('cities')->first(),
             'userprices' => DB::table('uslugis_prices')
-            ->where('users_id', $usluga->user_id)
-            ->where('uslugis_id', $usluga->id)
-            ->leftJoin('prices', 'uslugis_prices.prices_id', '=', 'prices.id')
-            ->select(
-                'uslugis_prices.*',
-                'prices.name as name',
-                'prices.price as common_price',
-            )
-            ->get(),
+                ->where('users_id', $usluga->user_id)
+                ->where('uslugis_id', $usluga->id)
+                ->leftJoin('prices', 'uslugis_prices.prices_id', '=', 'prices.id')
+                ->select(
+                    'uslugis_prices.*',
+                    'prices.name as name',
+                    'prices.price as common_price',
+                )
+                ->get(),
             'lawyer' => $lawyer,
             'reviews' => $reviews,
             'lawyers' => User::where('speciality_one_id', '=', $id)->orderBy('name', 'asc')->get()->take(3),

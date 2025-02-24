@@ -199,7 +199,7 @@ export default defineComponent({
         snapAlign: "start",
       },
       1280: {
-        itemsToShow: 4.5,
+        itemsToShow: 3.5,
         snapAlign: "start",
       },
     },

@@ -14,7 +14,7 @@ defineProps({
 </script>
 
 <template>
-  <div id="prices" class="grid grid-cols-1 mt-12 justify-items-center">
+  <div id="prices" class="grid grid-cols-1 md:mt-6 justify-items-center">
     <h2
       class="font-semibold mt-6 text-2xl tracking-tight mx-12 text-gray-900 text-center mb-10"
     >

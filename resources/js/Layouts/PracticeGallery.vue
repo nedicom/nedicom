@@ -23,7 +23,7 @@ defineProps({
                     </span>
                     <time class="ml-3 text-4xl text-gray-400">
                         {{ name }} год</time>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3 md:mt-0">
+                    <div class="grid grid-cols-1 2xl:grid-cols-2 gap-4 mt-3 md:mt-0">
                         <div v-for="card in cards" :key="card.id" class="w-full flex justify-center xl:p-10">
                             <a :href="route('articles/url', card.url)" target="_blank"
                                 :aria-label="'практика юриста - ' + card.header"
