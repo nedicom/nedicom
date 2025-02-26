@@ -14,7 +14,8 @@ defineProps({
 <template>
   <div class="p-5 text-center">
 
-    <h2 class="text-lg font-medium text-gray-900">Квадратное фото (для разных сервисов)</h2>
+    <h2 class="text-lg font-medium text-gray-900">Техническое фото (необзательно)</h2>
+    <h2 class="text-md font-medium text-gray-900">Генерирует квадратное фото для разных сервисов - авито, яндекс карты и т.д.</h2>
 
     <div class="md:h-12 w-full mt-3">
       <button

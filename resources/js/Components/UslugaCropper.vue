@@ -14,7 +14,7 @@ defineProps({
 <template>
   <div class="p-5 text-center">
 
-    <h2 class="text-lg font-medium text-gray-900">Фото на баннер (ПК)</h2>
+    <h2 class="text-lg font-medium text-gray-900">Фото на объявление</h2>
 
     <div class="md:h-12 w-full mt-3">
       <button

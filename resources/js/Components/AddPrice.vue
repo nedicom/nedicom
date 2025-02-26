@@ -18,7 +18,7 @@ function sendPrice(x) {
     Inertia.post(
       "/usluga/{url}/update",
       {
-        updtprice: x,
+        updtpractice: x,
         users_id: set.user,
         uslugis_id: set.usl_id,
         prices_id: form.insertPrice.id,

@@ -18,6 +18,8 @@ use App\Models\cities;
 use App\Models\price;
 use Illuminate\Support\Facades\DB;
 
+use Carbon\Carbon;
+
 use App\Helpers\CitySet;
 
 use Illuminate\Database\Eloquent\Builder;
@@ -361,21 +363,23 @@ class UslugiController extends Controller
 
         $user_id = Uslugi::where('url', '=', $url)->first()->user_id;
 
-        $city_id = $usluga->sity;
-
-        if ($city_id) {
-            $region_id = cities::where('id', $city_id)->first()->regionId;
-            $practice = Article::where('usluga_id', $mainid)->where(function (Builder $query) use ($region_id) {
-                $query->where('region', $region_id)
-                    ->orWhere('region', null);
-            })
-                ->where('practice_file_path', '!=', null)->get(['id', 'created_at', 'description', 'header', 'url', 'practice_file_path', 'region']);
-        } else {
-            $practice = Article::where('usluga_id', $mainid)->where('practice_file_path', '!=', null)->get(['id', 'created_at', 'description', 'header', 'url', 'practice_file_path']);
-        }
+        $practice = DB::table('uslugis_practice')
+                    ->leftJoin('articles', 'uslugis_practice.article_id', '=', 'articles.id')
+                    ->select(
+                        'uslugis_practice.*',
+                        'articles.id as id',
+                        'articles.created_at as created_at',
+                        'articles.description as description',
+                        'articles.header as header',
+                        'articles.url as url',
+                        'articles.practice_file_path as practice_file_path',
+                        'articles.region as region',
+                    )
+                    ->where('uslugis_practice.usluga_id', $usluga->id)
+                    ->get();
 
         $practice->map(function ($practice) {
-            $practice['year'] =  $practice->created_at->format("Y");
+            $practice->year =  Carbon::parse($practice->created_at)->format("Y");
             return $practice;
         });
 
@@ -531,6 +535,28 @@ class UslugiController extends Controller
                 'user' => User::where('id', $usluga->user_id)->first(),
                 'flash' => ['message' => $request->session()->get(key: 'message')],
                 'cities' => cities::all(),
+                'practice' => DB::table('articles')->where('userid', $usluga->user_id)
+                    ->leftJoin('uslugis', 'articles.usluga_id', '=', 'uslugis.id')
+                    ->select(
+                        'articles.id as id',
+                        'articles.header as header',
+                        'articles.usluga_id as usluga_id',
+                        'articles.practice_file_path as practice_file_path',                        
+                        'uslugis.id as uslugis_id',
+                        'uslugis.usl_name as usl_name',
+                    )  
+                    ->whereNotNull('articles.practice_file_path')                  
+                    ->get()->groupBy('usl_name'),
+                'userpractice' => DB::table('uslugis_practice')
+                    ->leftJoin('articles', 'uslugis_practice.article_id', '=', 'articles.id')
+                    ->select(
+                        'uslugis_practice.*',
+                        'articles.id as id',
+                        'articles.header as header',
+                        'articles.usluga_id as article_usluga_id',
+                    )
+                    ->where('uslugis_practice.usluga_id', $usluga->id)
+                    ->get(),
                 'prices' => price::all(),
                 'userprices' => DB::table('uslugis_prices')
                     ->where('users_id', $usluga->user_id)
@@ -544,6 +570,7 @@ class UslugiController extends Controller
 
     public function update(Request $request)
     {
+
         if ($request->updtprice) {
             if ($request->updtprice == 1) {
                 DB::table('uslugis_prices')->insert([
@@ -558,6 +585,22 @@ class UslugiController extends Controller
                 DB::table('uslugis_prices')
                     ->where('users_id', $request->users_id)
                     ->where('prices_id', $request->prices_id)
+                    ->delete();
+            }
+            return back();
+        }
+
+        if ($request->updtpractice) {
+            if ($request->updtpractice == 1) {
+                DB::table('uslugis_practice')->insert([
+                    'usluga_id' => $request->usluga_id,
+                    'article_id' => $request->article_id,
+                ]);
+            }
+            if ($request->updtpractice == 2) {
+                DB::table('uslugis_practice')
+                    ->where('usluga_id', $request->usluga_id)
+                    ->where('article_id', $request->article_id)
                     ->delete();
             }
             return back();
