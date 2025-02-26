@@ -43,7 +43,7 @@ function sendPractice(x, article_id) {
         <div class="text-center" v-else>Добавьте практику в объявление, это повышает вероятность заинтересовать клиента
         </div>
         <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
-        <div v-if="set.practice.length">
+        <div v-if="set.practice.length != 0  ">
             <p class="text-2xl font-semibold my-5 text-center">Добавьте еще</p>
 
             <div v-for="oneprc in set.practice" :key="oneprc.id" class="">
