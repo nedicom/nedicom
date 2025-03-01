@@ -74,12 +74,11 @@ const callChildMethod = () => {
   <div class="min-h-screen">
     <MainHeader :auth="set.auth" :city="set.city" ref="childRef" :mainurl="set.main_usluga ? set.main_usluga.url : null"
       :secondurl="set.second_usluga ? set.second_usluga.url : null" :reloadpage="true" />
-    <Header :modalPageTitle="title" />
 
     <Body>
       <div class="bg-white grid grid-cols-1 md:grid-cols-4">
         <div>
-          <div class="flex max-w-xl justify-end items-center cursor-pointer my-5 mr-5">
+          <div class="flex max-w-xl justify-end items-center cursor-pointer my-5 mr-5 lg:hidden">
             <button @click="callChildMethod()" type="button"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
               <span v-if="set.city.title">{{ set.city.title }}</span>
@@ -87,6 +86,7 @@ const callChildMethod = () => {
             </button>
           </div>
 
+          <!--
           <div v-if="set.allsities" сlass="flex justify-center md:justify-end">
             <div class="mb-10 px-2">
               <div class="flex flex-wrap gap-1 justify-center md:justify-end">
@@ -102,12 +102,15 @@ const callChildMethod = () => {
               </div>
             </div>
           </div>
+          -->
 
           <CategoryFilter :category="set.category" :cityUrl="set.city.url"
             :main_usluga_url="set.main_usluga.url ? set.main_usluga.url : '0'" :second_usluga_url="set.second_usluga ? set.second_usluga.url : 'false'
               " />
         </div>
-        <div class="w-full h-full col-span-3 md:pl-10 my-5 md:my-0" itemscope itemtype="https://schema.org/Product">
+
+
+        <div class="w-full h-full col-span-3 md:pl-10" itemscope itemtype="https://schema.org/Product">
           <meta v-if="set.second_usluga" itemprop="image"
             :content="'https://nedicom.ru/' + set.second_usluga.file_path" />
           <meta v-else itemprop="image" :content="'https://nedicom.ru/' + set.main_usluga.file_path" />
@@ -178,7 +181,7 @@ const callChildMethod = () => {
               <!-- card -->
 
               <OfferCard v-for="offer in set.uslugi.data" :key="offer.id" :offer="offer" :city="set.cities"
-                :getlwr="set.getLawyer" :auth="set.auth" />              
+                :getlwr="set.getLawyer" :auth="set.auth" />
               <!-- card -->
             </div>
 
@@ -230,7 +233,7 @@ const callChildMethod = () => {
     <CtaLwr v-if="true" />
 
     <MainFooter>
-      <BreadcrumbsUslugi class="p-4 bg-white flex flex-col items-center mb-2"
+      <BreadcrumbsUslugi class="p-4 bg-white flex flex-col items-center mb-2 w-full"
         :city="set.city.title !== '' ? set.city : null"
         :main_usluga="set.main_usluga.url !== 0 ? set.main_usluga : null"
         :second_usluga="set.second_usluga ? set.second_usluga : null" :usluga="null" />
