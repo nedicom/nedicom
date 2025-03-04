@@ -4,9 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\belongsTo;
+use Illuminate\Database\Eloquent\Relations\belongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+
 
 use Illuminate\Support\Facades\Auth;
 
@@ -142,7 +143,7 @@ class Uslugi extends Model
 
     public function cities(): HasOne
     {
-        return $this->HasOne(cities::class, 'id', 'sity')->select(['id', 'title', 'url', 'regionId']);
+        return $this->HasOne(cities::class, 'id', 'sity')->select(['id', 'title', 'url', 'regionId' ,'region']);
     }
 
     public function main(): HasOne
@@ -166,6 +167,12 @@ class Uslugi extends Model
     {
         return $this->HasMany(Review::class, 'usl_id', 'id')
             ->select(['id as revieid', 'usl_id', 'rating']);
+    }
+
+    public function userreview(): HasMany
+    {
+        return $this->HasMany(Review::class, 'lawyer_id', 'user_id')
+            ->select(['id as revieid', 'usl_id', 'rating', 'lawyer_id', 'user_id']);
     }
 
     public function mainreview(): HasMany

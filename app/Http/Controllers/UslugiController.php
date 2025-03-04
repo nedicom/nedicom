@@ -235,7 +235,7 @@ class UslugiController extends Controller
                 return $query->where('title', 'like', '%' . $city . '%')->get();
             });
         }
-
+//dd($uslugi->sum('review_sum_rating') + $uslugi->sum('userreview_sum_rating'));
         return Inertia::render('Uslugi/Uslugi', [
             'city' => $city,
             'category' => $category,
@@ -245,8 +245,8 @@ class UslugiController extends Controller
             'count' => $uslugi->count(),
             'max' => $uslugi->max('price'),
             'min' => $uslugi->min('price'),
-            'sumrating' => $uslugi->sum('review_sum_rating'),
-            'countrating' => $uslugi->sum('review_count'),
+            'sumrating' => ($uslugi->sum('review_sum_rating') + $uslugi->sum('userreview_sum_rating')),
+            'countrating' => ($uslugi->sum('review_count') + $uslugi->sum('userreview_count')),
             'cities' => $cities,
             'routeurl' => '/uslugi/' . $city->url . '/' . $main_usluga,
             'auth' => Auth::user(),
@@ -346,7 +346,6 @@ class UslugiController extends Controller
         $main = Uslugi::where('id', $usluga->main_usluga_id)->first(['id', 'usl_name', 'url',]);
 
         $reviews = Review::where('lawyer_id', $lawyer->id)
-            ->orWhere('mainusl_id', $main->id)
             ->orWhere('usl_id', $usluga->id)
             ->orderBy('created_at', 'desc')
             ->get();
@@ -363,9 +362,10 @@ class UslugiController extends Controller
             DB::table('uslugis')->where('uslugis.url', '=', $url)->increment('counter', 1);
         }
 
+        $usluga = Uslugi::where('url', $url)->with('cities')->first();
         return Inertia::render('Uslugi/Usluga', [
             'auth' => $auth,
-            'usluga' => Uslugi::where('url', $url)->with('cities')->first(),
+            'usluga' => $usluga,
             'userprices' => DB::table('uslugis_prices')
                 ->where('users_id', $usluga->user_id)
                 ->where('uslugis_id', $usluga->id)

@@ -16,15 +16,17 @@ defineProps({
 <style scoped>
 @media (max-width: 1024px) {
   .passive {
-    transition: opacity 0.2s, display 0.2s, height 0.2s;
+    transition: opacity 0.1s, display 0.1s, height 0.1s;
     opacity: 0;
     height: 0;
+    visibility: collapse
   }
 
   .active {
-    transition: opacity 0.2s, display 0.2s, height 0.2s;
+    transition: opacity 1s, display 0.2s, height 0.2s;
     opacity: 100;
     height: 100%;
+    visibility: visible
   }
 }
 
@@ -44,15 +46,12 @@ defineProps({
 </style>
 
 <template>
-  <div class="mx-2 lg:mt-10">
-    <h2 class="flex justify-center lg:justify-end px-3 lg:my-5">
-      <div @click="hideLinks = !hideLinks" class="text-center lg:text-right font-bold text-2xl lg:text-base">
-        юристы
-      </div>
+  <div class="lg:mt-10 flex items-center flex-col">
+    <h2 class="flex justify-center lg:justify-end px-3 lg:my-5 w-full">
       <button @click="hideLinks = !hideLinks" type="button"
-        class="flex items-center justify-between ml-4 font-medium text-gray-500">
+        class="flex items-center justify-between lg:ml-4 font-medium text-gray-500">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-          class="w-4 h-4 shrink-0">
+          class="w-6 h-6 shrink-0">
           <path stroke-linecap="round" stroke-linejoin="round"
             d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
         </svg>

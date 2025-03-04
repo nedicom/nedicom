@@ -50,11 +50,12 @@ description.value =
   "⚖️ Качество услуг юристов проверено системой nedicom";
 
 title.value = set.second_usluga
-  ? set.main_usluga.usl_name + " - " + set.second_usluga.usl_name
+  ? set.second_usluga.usl_name
   : set.main_usluga.usl_name;
+
 title.value =
   set.city.title != ""
-    ? title.value + " - " + set.city.title
+    ? title.value + " " + set.city.title
     : title.value + " по всем городам";
 
 const childRef = ref(null);
@@ -76,8 +77,8 @@ const callChildMethod = () => {
       :secondurl="set.second_usluga ? set.second_usluga.url : null" :reloadpage="true" />
 
     <Body>
-      <div class="bg-white grid grid-cols-1 md:grid-cols-4">
-        <div>
+      <div class="bg-white grid grid-cols-1 md:grid-cols-4 px-3">
+        <div class="" flex>
           <div class="flex max-w-xl justify-end items-center cursor-pointer my-5 mr-5 lg:hidden">
             <button @click="callChildMethod()" type="button"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
@@ -114,72 +115,75 @@ const callChildMethod = () => {
           <meta v-if="set.second_usluga" itemprop="image"
             :content="'https://nedicom.ru/' + set.second_usluga.file_path" />
           <meta v-else itemprop="image" :content="'https://nedicom.ru/' + set.main_usluga.file_path" />
+          <meta itemprop="name" :content="title" />
 
           <div class="my-6 md:mb-0">
-            <span>
-              <h1
-                class="md:mb-4 flex md:justify-start justify-center text-sm leading-tight text-gray-900 dark:text-white md:text-2xl xl:text-2xl">
-                <span itemprop="name" class="font-bold">
-                  <a v-if="set.city.title != ''" :href="route('uslugi.url', [set.city.url])"
-                    class="font-medium text-blue-600 hover:underline">
-                    {{ set.city.title }}</a>
+            <h1 class="md:mb-4 flex md:justify-start justify-center  leading-tight text-gray-900 text-xl lg:text-2xl ">
+              <span class="font-bold border-b-2">
+                <a v-if="set.city.title != ''" :href="route('uslugi.url', [set.city.url])"
+                  class="font-medium text-blue-600 hover:underline"><span> {{ set.city.title }}</span>
+                </a>
 
-                  <span v-if="set.main_usluga && set.city.title != ''">
-                    -
-                    <a v-if="set.main_usluga.url != 0" :href="route('offer.main', [set.city.url, set.main_usluga.url])
-                      " class="font-medium text-blue-600 hover:underline">
-                      {{ set.main_usluga.usl_name }}</a>
-                    <span v-else class="font-medium">
-                      {{ set.main_usluga.usl_name }}</span>
-                  </span>
-
-                  <span v-if="set.second_usluga && set.city.title != ''">
-                    -
-                    <a :href="route('offer.second', [
-                      set.city.url,
-                      set.main_usluga.url,
-                      set.second_usluga.url,
-                    ])
-                      " class="font-medium">
-                      {{ set.second_usluga.usl_name }}</a>
-                  </span>
+                <span v-if="set.main_usluga && set.city.title != ''">
+                  -
+                  <a v-if="set.main_usluga.url != 0" :href="route('offer.main', [set.city.url, set.main_usluga.url])
+                    " class="font-medium text-blue-600 hover:underline">
+                    {{ set.main_usluga.usl_name }}</a>
+                  <span v-else class="font-medium">
+                    {{ set.main_usluga.usl_name }}</span>
                 </span>
-              </h1>
-              <span v-if="set.second_usluga" itemprop="description"
-                class="font-bold flex md:justify-start justify-center">{{ set.second_usluga.usl_desc }}</span>
-              <span v-else itemprop="description" class="font-bold flex md:justify-start justify-center">{{
-                set.main_usluga.usl_desc }}</span>
-            </span>
 
+                <span v-if="set.second_usluga && set.city.title != ''">
+                  -
+                  <a :href="route('offer.second', [
+                    set.city.url,
+                    set.main_usluga.url,
+                    set.second_usluga.url,
+                  ])
+                    " class="font-medium">
+                    {{ set.second_usluga.usl_name }}</a>
+                </span>
+              </span>
+            </h1>
+
+            <p itemprop="description" class="flex md:justify-start justify-center my-5"> <span
+                v-if="set.second_usluga">{{ set.second_usluga.usl_desc }}</span> <span v-else>{{
+                  set.main_usluga.usl_desc }}</span></p>
             <div v-if="set.sumrating !== 0 && set.countrating !== 0"
-              class="mb-4 flex md:justify-start justify-center gap-2 text-sm font-medium text-gray-900"
-              itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
-              <span class="flex items-center" itemprop="ratingValue">
+              class="mb-4 flex justify-start gap-2 text-sm font-medium text-gray-900" itemprop="aggregateRating"
+              itemscope itemtype="https://schema.org/AggregateRating">
+              <span class="flex items-center">
                 <RatingReady :rating="Number((set.sumrating / set.countrating).toFixed(2))" :reviewRating="false" />
               </span>
-              из <span itemprop="bestRating">5.00</span> на основании
+              <span itemprop="ratingValue">{{Number((set.sumrating / set.countrating).toFixed(2))}}</span>
+              из <span itemprop="bestRating">5</span> на основании
               <span itemprop="ratingCount">{{ set.countrating }} </span>отзывов
             </div>
+
+            <div v-else class="mb-4 flex justify-start gap-2 text-sm font-medium text-gray-900"
+              itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+              <span class="flex items-center" itemprop="ratingValue">
+                <RatingReady :rating="0" :reviewRating="false" />
+              </span><span itemprop="ratingValue">0</span>
+              из <span itemprop="bestRating">5</span> на основании
+              <span itemprop="ratingCount">0 </span>отзывов
+            </div>
+
           </div>
 
           <div v-if="set.uslugi">
-            <div v-if="set.uslugi.data">
-              <div
-                class="flex justify-start px-3 my-2 md:px-0 w-full md:w-4/5 text-sm font-medium text-gray-900 text-center"
-                itemprop="offers" itemscope itemtype="https://schema.org/AggregateOffer">
+            <div v-if="set.uslugi.data" itemprop="offers" itemscope
+            itemtype="https://schema.org/AggregateOffer">
+              <div class="flex justify-start my-2 w-full text-sm font-medium text-gray-900" >
                 Цены за консультацию
                 <meta itemprop="priceCurrency" content="RUB" />
-                от &nbsp;<span itemprop="lowPrice" content="1000">{{
-                  set.min
-                }}</span>
-                &nbsp;до &nbsp;<span itemprop="highPrice" content="2000">
-                  {{ set.max }} рублей
-                </span>
-                &nbsp;у &nbsp;<span itemprop="offerCount">{{ set.count }}</span>
-                &nbsp;<span v-if="set.count == 1">юриста</span><span v-else>юристов</span>
+                <meta itemprop="lowPrice" :content="set.min" />
+                <meta itemprop="highPrice" :content="set.max" />
+                <meta itemprop="offerCount" :content="set.count" />
+                от {{ set.min }} до {{ set.max }} рублей. Найдено юристов - {{ set.count }}
               </div>
               <!-- card -->
-
+              <hr class="h-px my-3 bg-gray-200 border-0">
               <OfferCard v-for="offer in set.uslugi.data" :key="offer.id" :offer="offer" :city="set.cities"
                 :getlwr="set.getLawyer" :auth="set.auth" />
               <!-- card -->
