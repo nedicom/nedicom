@@ -133,7 +133,7 @@ details summary::-webkit-details-marker {
 
         <div
           itemscope
-          itemtype="https://schema.org/LegalService"
+          itemtype="https://schema.org/Attorney"
           class="md:col-span-3 md:mt-12 px-3 md:px-10 w-full"
         >
           <!-- edit btn -->
@@ -161,6 +161,7 @@ details summary::-webkit-details-marker {
           <Address
             v-if="usluga.cities"
             :usl_name="usluga.usl_name"
+            :region="usluga.cities"
             :phone="usluga.phone"
             :address="usluga.address"
             :dopadress="usluga.dopadress"

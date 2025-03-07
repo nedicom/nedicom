@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use Illuminate\Support\Facades\DB;
 use App\Helpers\PaginationHelper;
 use App\Models\Uslugi;
 use App\Models\User;
@@ -38,12 +39,14 @@ class GetUslugi
                 'uslugis.bookmarks',
                 'bundles_socials.likes as user_like',
                 'bundles_socials.bookmarks as user_bookmark',
-                'bundles_socials.shares as user_share'
-            )
+                'bundles_socials.shares as user_share',
+            )            
             ->selectRaw('IF(uslugis.id, "uslugi", false) AS type')
             ->with('cities')
             ->with('main')
             ->with('second')
+            ->with('review')
+            ->with('userreview')
             ->when($city->id == 0 ? 0 : $city->id, function ($query, $sescity) {
                 $query->where(function ($query) use ($sescity) {
                     $query->where('sity', $sescity);
@@ -60,8 +63,9 @@ class GetUslugi
                 });
             })
             ->withCount('review')
+            ->withCount('userreview')
+            ->withSum('userreview', 'rating')
             ->withSum('review', 'rating')
-            ->with('review')
             ->orderBy('user_id')
             ->get();
 
@@ -71,6 +75,10 @@ class GetUslugi
                 $item->second->url . '/' .
                 $item->url;
             $item->usl_desc = Str::limit($item->usl_desc, 200);
+            $item->total_rating = $item->review_sum_rating + $item->userreview_sum_rating;
+            $item->total_count = $item->userreview_count + $item->review_count;
+            $item->final_rating = $item->total_count ? $item->total_rating / $item->total_count : 0;
+            //$item->final_rating = number_format( $item->final_rating, 2);
         };
 
 
@@ -93,7 +101,7 @@ class GetUslugi
                 'users.bookmarks',
                 'users.id as user_like',
                 'users.id as user_bookmark',
-                'users.id as user_share'
+                'users.id as user_share',
             )
             ->selectRaw('IF(users.id, "user", false) AS type')
             ->with('cities')
@@ -140,10 +148,6 @@ class GetUslugi
             $i++;
         }
 
-
-
-        //dd($collection);
-        //dd($uslugi);
         $paginated = PaginationHelper::paginate($collection, 10);
 
         return $paginated;

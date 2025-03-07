@@ -18,8 +18,7 @@ let secondtext = "";
 
 <template>
   <section class="my-5 md:h-72">
-    <div class="flex flex-col md:flex-row mx-auto md:px-0 px-2" itemprop="offers" itemscope
-      itemtype="https://schema.org/Offer">
+    <div class="flex flex-col md:flex-row mx-auto" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
 
       <div class="w-full md:w-1/3 h-72">
         <a v-if="set.offer.type == 'uslugi'" :href="route('uslugi.canonical.url', [
@@ -45,7 +44,9 @@ let secondtext = "";
       <div class="w-full md:w-2/3 px-5 md:px-10 mt-5">
         <div class="mb-4 flex items-center justify-between gap-4">
 
-          <span v-if="set.offer.type == 'uslugi'"><ShareButtons :bundle="set.offer" :auth="set.auth" /></span>
+          <span v-if="set.offer.type == 'uslugi'">
+            <ShareButtons :bundle="set.offer" :auth="set.auth" />
+          </span>
           <span v-else></span>
 
           <div class="flex items-center justify-end gap-1">
@@ -85,29 +86,15 @@ let secondtext = "";
           " class="text-lg font-semibold leading-tight text-gray-900 hover:underline cursor-pointer"><span
             itemprop="name">{{ set.offer.usl_name }}</span></a>
 
-        <div v-if="set.offer.review_sum_rating && set.offer.review_count" class="mt-2 flex items-center gap-2">
+        <div class="mt-2 flex items-center gap-2">
           <div class="flex items-center">
-            <RatingReady :rating="Number(
-              (
-                set.offer.review_sum_rating / set.offer.review_count
-              ).toFixed(2)
-            )
-              " :reviewRating="false" />
+
+            <RatingReady :rating="set.offer.final_rating" :reviewRating="false" />
+            <span class="flex items-center justify-center ml-1 text-sm font-bold text-gray-900">
+              <span v-if="!isNaN(set.offer.total_count)">отзывов - {{ set.offer.total_count }}</span>
+              <span v-else>отзывов - 0</span>
+            </span>
           </div>
-
-          <p class="text-sm font-medium text-gray-900 dark:text-white">
-            отзывов - {{ set.offer.review_count }}
-          </p>
-        </div>
-
-        <div v-else class="mt-2 flex items-center gap-2">
-          <div class="flex items-center">
-            <RatingReady :rating="0" :reviewRating="false" />
-          </div>
-
-          <p class="text-sm font-medium text-gray-900 dark:text-white">
-            отзывов - {{ set.offer.review_count }}
-          </p>
         </div>
 
         <ul class="mt-2 flex flex-col items-start gap-1 px-0">
@@ -149,10 +136,11 @@ let secondtext = "";
           </li>
         </ul>
         - "<span class="text-sm font-bold text-gray-700 dark:text-gray-400" itemprop="description">{{ set.offer.usl_desc
-          }}</span>"
+        }}</span>"
 
         <div class="mt-4 flex items-center justify-between gap-4">
-          <p v-if="set.offer.type == 'uslugi'" class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">
+          <p v-if="set.offer.type == 'uslugi'"
+            class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">
             {{ set.offer.price }} р.
           </p>
           <p v-else class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">
@@ -160,16 +148,51 @@ let secondtext = "";
           </p>
           <meta itemprop="price" :content="set.offer.price" />
           <meta itemprop="priceCurrency" content="RUB" />
+          <meta itemprop="priceValidUntil" content="01-01-2026" />
           <link itemprop="availability" href="http://schema.org/InStock" />
 
+          <!-- shippingDetails -->
+          <div itemprop="shippingDetails" itemtype="https://schema.org/OfferShippingDetails" itemscope>
+            <div itemprop="shippingRate" itemtype="https://schema.org/MonetaryAmount" itemscope>
+              <meta itemprop="value" content="0" />
+              <meta itemprop="currency" content="RUB" />
+            </div>
+            <div itemprop="shippingDestination" itemtype="https://schema.org/DefinedRegion" itemscope>
+              <meta itemprop="addressCountry" content="RU" />
+            </div>
+            <div itemprop="deliveryTime" itemtype="https://schema.org/ShippingDeliveryTime" itemscope>
+              <div itemprop="handlingTime" itemtype="https://schema.org/QuantitativeValue" itemscope>
+                <meta itemprop="minValue" content="0" />
+                <meta itemprop="maxValue" content="1" />
+                <meta itemprop="unitCode" content="DAY" />
+              </div>
+              <div itemprop="transitTime" itemtype="https://schema.org/QuantitativeValue" itemscope>
+                <meta itemprop="minValue" content="1" />
+                <meta itemprop="maxValue" content="5" />
+                <meta itemprop="unitCode" content="DAY" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Return Policy -->
+          <div itemprop="hasMerchantReturnPolicy" itemscope itemtype="https://schema.org/MerchantReturnPolicy">
+            <meta itemprop="applicableCountry" content="RU" />
+            <meta itemprop="returnPolicyCountry" content="RU" />
+            <meta itemprop="returnPolicyCategory" content="https://schema.org/MerchantReturnFiniteReturnWindow" />
+            <meta itemprop="merchantReturnDays" content="30" />
+            <meta itemprop="returnMethod" content="https://schema.org/ReturnInStore" />
+            <meta itemprop="returnFees" content="https://schema.org/FreeReturn" />
+          </div>
+
+          <!--
           <div class="hidden md:flex items-center justify-start px-2">
             <Modal :ModalBtnText="ModalBtnText" :secondtext="secondtext" :modalPageTitle="'страница поиска услуг - ' +
               set.offer.usl_name
               " />
           </div>
+          -->
         </div>
       </div>
-
     </div>
 
   </section>

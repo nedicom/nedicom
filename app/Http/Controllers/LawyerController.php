@@ -43,13 +43,7 @@ class LawyerController extends Controller
         }
 
         return Inertia::render('Lawyers/Lawyer', [
-            'lawyer' => $user,
-            //'specializationOne' => User::find($id)->lawyerSpecOne,
-            //'specializationTwo' => User::find($id)->lawyerSpecTwo,
-            //'specializationThree' => User::find($id)->lawyerSpecThree,
-            //'specialization' => User::find($id)->arrayspec,
-
-            'articles' => Article::where('userid', $id)->where('practice_file_path', '=', null)->orderBy('updated_at', 'desc')->get(),
+            'lawyer' => $user,            'articles' => Article::where('userid', $id)->where('practice_file_path', '=', null)->orderBy('updated_at', 'desc')->get(),
             'practice' => Article::where('userid', $id)->where('practice_file_path', '!=', null)->orderBy('updated_at', 'desc')->get(),
             'anwswers' => Answer::where('users_id', $id)->orderBy('updated_at', 'desc')->with('Question')->get(),
             'countarticles' => Article::where('userid', $id)->count(),

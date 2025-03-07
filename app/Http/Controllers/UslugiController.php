@@ -55,7 +55,7 @@ class UslugiController extends Controller
         return Inertia::render('Uslugi/Uslugi', [
             'city' => $city,
             'main_usluga' => collect([
-                'url' => 0,
+                'url' => '0',
                 'usl_name' => 'Услуги юристов',
                 'usl_desc' => 'Услуги юристов: цены, отзывы, адреса.',
                 'file_path' => 'storage/images/landing/main/1280on600.webp',
@@ -227,50 +227,6 @@ class UslugiController extends Controller
 
         $user_id = Auth::user() ? Auth::user()->id : null;
 
-        /*
-        $uslugi = Uslugi::where('main_usluga_id', $main->id)
-            ->where('sity', $city->id)
-            ->where('is_main', '!=', 1)
-            ->where('is_second', null)
-            ->where('is_feed', 1)
-            ->leftjoin('bundles_socials', function ($join) use ($user_id) {
-                $join->on('bundles_socials.uslugis_id', '=', 'uslugis.id')
-                    ->where('bundles_socials.users_id', '=', $user_id);
-            })
-            ->select(
-                'uslugis.id',
-                'uslugis.file_path',
-                'uslugis.usl_name',
-                'uslugis.url',
-                'uslugis.url as clean_url',
-                'uslugis.sity',
-                'uslugis.main_usluga_id',
-                'uslugis.second_usluga_id',
-                'uslugis.usl_desc',
-                'uslugis.price',
-                'uslugis.likes',
-                'uslugis.shares',
-                'uslugis.bookmarks',
-                'bundles_socials.likes as user_like',
-                'bundles_socials.bookmarks as user_bookmark',
-                'bundles_socials.shares as user_share'
-            )
-            ->selectRaw('IF(uslugis.id, "uslugi", false) AS type')
-            ->with('cities')
-            ->with('main')
-            ->with('second')
-            ->withCount('review')
-            ->withSum('review', 'rating')
-            ->with('review')
-            ->paginate(10);
-
-        foreach ($uslugi as $item) {
-            $item->url = $item->cities->url . '/' .
-                $item->main->url . '/' .
-                $item->second->url . '/' .
-                $item->url;
-        }*/
-
         $uslugi = GetUslugi::GetUsl($user_id, $city,  $main, null);
 
         $cities = '';
@@ -279,7 +235,7 @@ class UslugiController extends Controller
                 return $query->where('title', 'like', '%' . $city . '%')->get();
             });
         }
-
+//dd($uslugi->sum('review_sum_rating') + $uslugi->sum('userreview_sum_rating'));
         return Inertia::render('Uslugi/Uslugi', [
             'city' => $city,
             'category' => $category,
@@ -289,8 +245,8 @@ class UslugiController extends Controller
             'count' => $uslugi->count(),
             'max' => $uslugi->max('price'),
             'min' => $uslugi->min('price'),
-            'sumrating' => $uslugi->sum('review_sum_rating'),
-            'countrating' => $uslugi->sum('review_count'),
+            'sumrating' => ($uslugi->sum('review_sum_rating') + $uslugi->sum('userreview_sum_rating')),
+            'countrating' => ($uslugi->sum('review_count') + $uslugi->sum('userreview_count')),
             'cities' => $cities,
             'routeurl' => '/uslugi/' . $city->url . '/' . $main_usluga,
             'auth' => Auth::user(),
@@ -390,7 +346,6 @@ class UslugiController extends Controller
         $main = Uslugi::where('id', $usluga->main_usluga_id)->first(['id', 'usl_name', 'url',]);
 
         $reviews = Review::where('lawyer_id', $lawyer->id)
-            ->orWhere('mainusl_id', $main->id)
             ->orWhere('usl_id', $usluga->id)
             ->orderBy('created_at', 'desc')
             ->get();
@@ -407,9 +362,10 @@ class UslugiController extends Controller
             DB::table('uslugis')->where('uslugis.url', '=', $url)->increment('counter', 1);
         }
 
+        $usluga = Uslugi::where('url', $url)->with('cities')->first();
         return Inertia::render('Uslugi/Usluga', [
             'auth' => $auth,
-            'usluga' => Uslugi::where('url', $url)->with('cities')->first(),
+            'usluga' => $usluga,
             'userprices' => DB::table('uslugis_prices')
                 ->where('users_id', $usluga->user_id)
                 ->where('uslugis_id', $usluga->id)
