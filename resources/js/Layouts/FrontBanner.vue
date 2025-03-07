@@ -28,21 +28,18 @@ function opencard() {
         <div class="card-page cart-page-outside"></div>
         <div class="card-page cart-page-inside">
           <span class="merry-christmas">
-            <span class="flex justify-center"><img alt="С Новым Годом"
-                src="https://nedicom.ru/storage/images/landing/main/coockie.png" /></span>
             <span class="goo text-xs md:text-xl">
-              промокод: "2025"<br>
-              *скажите его <br>перед консультацией</span>
+              nedicom.ru </span><br><br><span class="goo text-xs md:text-xl"> сервис<br>
+               качественных юридических услуг</span>
           </span>
         </div>
       </div>
       <div class="card-page cart-page-bottom text-center px-3">
         <div class="">
           <span class="goo font-semibold bg-white rounded-lg">
-            Приветствую, меня зовут Марк Мина. Я работаю над сервисом качественных юридических услуг</span><br><br>
+           Приветсвую, меня зовут Марк Мина. </span><br><br>
           <span class="goo font-semibold bg-white rounded-lg py-1 px-4">
-            Держите в подарок 2000 рублей,
-            которые можно потратить на наши услуги
+           Работаю над тем, чтобы качество юридических услуг в интернет соответствовало повышенным стандартом
           </span>
         </div>
       </div>
@@ -172,9 +169,7 @@ function opencard() {
 }
 
 .cart-page-outside {
-  border: 10px solid #fbfbfb;
-  background-color: #c72320;
-  background-image: url("https://nedicom.ru/storage/images/landing/main/xmas.png");
+  background-image: url("https://nedicom.ru/storage/images/landing/main/case.webp");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -182,11 +177,7 @@ function opencard() {
   height: 100%;
 }
 
-@media (max-width: 767px) {
-  .cart-page-outside {
-    border: 5px solid #fbfbfb;
-  }
-}
+
 
 .cart-page-inside,
 .cart-page-bottom {
