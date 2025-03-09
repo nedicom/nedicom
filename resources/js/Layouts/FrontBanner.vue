@@ -39,7 +39,7 @@ function opencard() {
           <span class="goo font-semibold bg-white rounded-lg">
            Приветсвую, меня зовут Марк Мина. </span><br><br>
           <span class="goo font-semibold bg-white rounded-lg py-1 px-4">
-           Работаю над тем, чтобы качество юридических услуг в интернет соответствовало повышенным стандартом
+           Работаю над тем, чтобы качество юридических услуг в интернет соответствовало повышенным стандартам
           </span>
         </div>
       </div>

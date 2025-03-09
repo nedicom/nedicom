@@ -32,8 +32,6 @@ let btnUsl = ref(true);
 
   <MainHeader :auth="auth" :city="city" />
 
-  <Header :modalPageTitle="'лента'" />
-
   <Body>
     <div class="grid grid-cols-1 md:grid-cols-4 bg-slate-100 py-5">
       <div class="">

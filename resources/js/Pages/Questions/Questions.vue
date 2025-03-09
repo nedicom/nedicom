@@ -26,8 +26,6 @@ let title = ref("Вопросы");
 
   <MainHeader :auth="auth" :city="city"/>
 
-  <Header :ttl="title" />
-
   <Body>
 
     <div class="bg-white py-12 md:mx-12">

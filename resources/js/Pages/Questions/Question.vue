@@ -125,8 +125,6 @@ percent.value == 100
   <div class="min-h-screen">
     <MainHeader :auth="set.auth" :city="set.city" ref="childRef" />
 
-    <Header />
-
     <Body>
       <div itemscope itemtype="https://schema.org/QAPage">
         <div

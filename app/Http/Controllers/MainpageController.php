@@ -25,7 +25,6 @@ class MainpageController extends Controller
 
     public function main(Request $request)
     {
-        //dd(Auth::user());
         $reviewscount = Review::count();
         $rating = Review::sum('rating');
         $rating =  round($rating / $reviewscount, 1);
@@ -122,13 +121,12 @@ class MainpageController extends Controller
         $articles_created_counter = 0;
         $articles_count_counter = 0;
 
-        $number_times_scroll = 2;
+        $number_times_scroll = 2; //bundle quantity for page 
 
-        function checkCollection($collection, $user_id, $counter)
+        function checkCollection($collection, $rawbundles, $counter)
         {
-            while ($collection->contains('id', $user_id[$counter]->user_id)) {   // need filter by type
+            while ($collection->contains('id', $rawbundles[$counter]->user_id)) {   // need filter by type
                 $counter++;
-                //return $counter;
             };
             return $counter;
         }
@@ -137,10 +135,10 @@ class MainpageController extends Controller
         for ($i = 0; $i < $number_times_scroll; $i++) {
             for ($a = 0; $a < 6; $a++) {
                 switch ($a) {
-                    case (0):
-                        $questions_count_counter = checkCollection($collection, $questions_by_counter, $questions_count_counter); //popular question
-                        $collection->push($questions_by_counter[$questions_count_counter]);
-                        $questions_count_counter++;
+                    case (0):                        
+                        $questions_created_counter = checkCollection($collection, $questions_by_created_at, $questions_created_counter); //new question
+                        $collection->push($questions_by_created_at[$questions_created_counter]);
+                        $questions_created_counter++;
                         break;
                     case (1):
                         $articles_count_counter = checkCollection($collection, $articles_by_counter, $articles_count_counter); //popular article

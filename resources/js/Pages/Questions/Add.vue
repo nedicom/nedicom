@@ -86,8 +86,6 @@ const getQuestions = () => {
 
   <MainHeader :auth="set.auth" :city="set.city"/>
 
-  <Header />
-
   <Body>
     <div class="bg-white py-6" itemscope itemtype="https://schema.org/WebSite">
       <link itemprop="url" href="http://nedicom.ru/" />
