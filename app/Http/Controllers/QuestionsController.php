@@ -226,12 +226,12 @@ class QuestionsController extends Controller
         if (Auth::user()) {
             $Question->user_id = Auth::user()->id;
             $Question->save();
-            TgSend::SendMess("Добавлен вопрос авторизирован", $Question->title." - ".$Question->body, "https://nedicom.ru/questions/".$Question->url);
-        
+            TgSend::SendMess("Добавлен вопрос авторизирован", $Question->title . " - " . $Question->body, "https://nedicom.ru/questions/" . $Question->url);
+
             return redirect()->route('questions.url', $url);
         }
 
-        TgSend::SendMess("Добавлен вопрос неавторизированного", $Question->title." - ".$Question->body, " ");
+        TgSend::SendMess("Добавлен вопрос неавторизированного", $Question->title . " - " . $Question->body, " ");
         $generated_text = 'тест';
 
         session(['questionTitle' => $Question->title, 'questionBody' => $request->body, 'aianswer' => $generated_text]);
@@ -244,8 +244,8 @@ class QuestionsController extends Controller
         $Question = Questions::find($request->id);
         $Question->body = $request->body;
         $Question->save();
-        
-        TgSend::SendMess("Вопрос изменен", $Question->title." - ".$Question->body, " ");
+
+        TgSend::SendMess("Вопрос изменен", $Question->title . " - " . $Question->body, " ");
         return redirect()->back();
     }
 
@@ -260,9 +260,11 @@ class QuestionsController extends Controller
 
     public function delete(int $id)
     {
-        if (Auth::user()->id == Questions::find($id)->user_id) {
-            Questions::find($id)->delete();
-            return redirect()->back()->with('success', 'Все в порядке, вопрос удален');
+        $question = Questions::where('id', $id)->first();
+        if (Auth::user()->id == $question->user_id || Auth::user()->id == 1) {
+            $question->QuantityAns()->delete();
+            $question->delete();           
+            return redirect()->route('lenta.questions')->with('success', 'Все в порядке, вопрос удален');
         } else {
             return redirect()->back()->with('success', 'Удалять вопросы могут только собственники или админ.');
         }
