@@ -110,7 +110,7 @@ class GetUslugi
             ->withSum('reviews', 'rating')            
             ->with('main')
             ->with('second')
-            //->inRandomOrder()
+            ->inRandomOrder()
             ->get();
 
         foreach ($users as $item) {

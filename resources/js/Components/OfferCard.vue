@@ -18,8 +18,9 @@ let secondtext = "";
 
 <template>
 
-  <section class="my-5 md:h-72">
-    <div class="flex flex-col md:flex-row mx-auto" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+  <section class="my-5">
+
+    <div class="flex flex-col md:flex-row mx-auto items-center" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
 
       <div class="w-full md:w-1/3 h-72">
         <a v-if="set.offer.type == 'uslugi'" :href="route('uslugi.canonical.url', [
@@ -42,7 +43,7 @@ let secondtext = "";
       </div>
 
 
-      <div class="w-full md:w-2/3 px-5 md:px-10 mt-5">
+      <div class="w-full md:w-2/3 px-5 md:px-10">
         <div class="mb-4 flex items-center justify-between gap-4">
 
           <span v-if="set.offer.type == 'uslugi'">
@@ -98,7 +99,7 @@ let secondtext = "";
           </div>
         </div>
 
-        <ul class="mt-2 flex flex-col items-start gap-1 px-0">
+        <ul v-if="set.offer.type == 'uslugi'" class="mt-2 flex flex-col items-start gap-1 px-0">
           <li class="flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500 dark:text-gray-400" fill="none"
               viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -136,15 +137,15 @@ let secondtext = "";
             </p>
           </li>
         </ul>
-        - "<span class="text-sm font-bold text-gray-700 dark:text-gray-400" itemprop="description">{{ set.offer.usl_desc
-        }}</span>"
+        <span class="text-sm font-bold text-gray-700 line-clamp-3" itemprop="description">{{ set.offer.usl_desc
+        }}</span>
 
         <div class="mt-4 flex items-center justify-between gap-4">
           <p v-if="set.offer.type == 'uslugi'"
-            class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">
+            class="text-2xl font-extrabold leading-tight text-gray-900">
             {{ set.offer.price }} р.
           </p>
-          <p v-else class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">
+          <p v-else class="text-2xl font-extrabold leading-tight text-gray-900">
             1000 р.
           </p>
           <meta itemprop="price" :content="set.offer.price" />
