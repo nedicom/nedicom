@@ -17,6 +17,7 @@ let secondtext = "";
 </script>
 
 <template>
+
   <section class="my-5 md:h-72">
     <div class="flex flex-col md:flex-row mx-auto" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
 

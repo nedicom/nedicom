@@ -75,7 +75,7 @@ class User extends Authenticatable
 
     public function reviews(): HasMany
     {
-        return $this->HasMany(Review::class, 'lawyer_id', 'id')->orderBy('created_at', 'desc');
+        return $this->HasMany(Review::class, 'lawyer_id', 'id')->select(['id as revieid', 'lawyer_id', 'rating'])->orderBy('created_at', 'desc');
     }
 
     public function scopeFilter($query, array $filters)

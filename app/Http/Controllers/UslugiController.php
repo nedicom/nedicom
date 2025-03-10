@@ -64,8 +64,8 @@ class UslugiController extends Controller
             'count' => $uslugi->count(),
             'max' => $uslugi->max('price'),
             'min' => $uslugi->min('price'),
-            'sumrating' => $uslugi->sum('review_sum_rating'),
-            'countrating' => $uslugi->sum('review_count'),
+            'sumrating' => ($uslugi->sum('review_sum_rating') + $uslugi->sum('userreview_sum_rating')),
+            'countrating' => ($uslugi->sum('review_count') + $uslugi->sum('userreview_count')),
             'cities' => $cities,
             'allsities' => Uslugi::where('is_main', '!=', 1)
                 ->where('is_second', null)
@@ -160,8 +160,8 @@ class UslugiController extends Controller
                 'count' => $uslugi->count(),
                 'max' => $uslugi->max('price'),
                 'min' => $uslugi->min('price'),
-                'sumrating' => $uslugi->sum('review_sum_rating'),
-                'countrating' => $uslugi->sum('review_count'),
+                'sumrating' => ($uslugi->sum('review_sum_rating') + $uslugi->sum('userreview_sum_rating')),
+                'countrating' => ($uslugi->sum('review_count') + $uslugi->sum('userreview_count')),
                 'cities' => $cities,
                 'category' => $category,
                 'routeurl' => '/uslugi',
@@ -235,7 +235,7 @@ class UslugiController extends Controller
                 return $query->where('title', 'like', '%' . $city . '%')->get();
             });
         }
-//dd($uslugi->sum('review_sum_rating') + $uslugi->sum('userreview_sum_rating'));
+        //dd($uslugi->sum('review_sum_rating') + $uslugi->sum('userreview_sum_rating'));
         return Inertia::render('Uslugi/Uslugi', [
             'city' => $city,
             'category' => $category,
@@ -298,8 +298,8 @@ class UslugiController extends Controller
             'count' => $uslugi->count(),
             'max' => $uslugi->max('price'),
             'min' => $uslugi->min('price'),
-            'sumrating' => $uslugi->sum('review_sum_rating'),
-            'countrating' => $uslugi->sum('review_count'),
+            'sumrating' => ($uslugi->sum('review_sum_rating') + $uslugi->sum('userreview_sum_rating')),
+            'countrating' => ($uslugi->sum('review_count') + $uslugi->sum('userreview_count')),
             'routeurl' => '/uslugi/' . $city->url . '/' . $main_usluga . '/' . $second_usluga,
             'auth' => Auth::user(),
         ]);
@@ -320,19 +320,19 @@ class UslugiController extends Controller
         $user_id = Uslugi::where('url', '=', $url)->first()->user_id;
 
         $practice = DB::table('uslugis_practice')
-                    ->leftJoin('articles', 'uslugis_practice.article_id', '=', 'articles.id')
-                    ->select(
-                        'uslugis_practice.*',
-                        'articles.id as id',
-                        'articles.created_at as created_at',
-                        'articles.description as description',
-                        'articles.header as header',
-                        'articles.url as url',
-                        'articles.practice_file_path as practice_file_path',
-                        'articles.region as region',
-                    )
-                    ->where('uslugis_practice.usluga_id', $usluga->id)
-                    ->get();
+            ->leftJoin('articles', 'uslugis_practice.article_id', '=', 'articles.id')
+            ->select(
+                'uslugis_practice.*',
+                'articles.id as id',
+                'articles.created_at as created_at',
+                'articles.description as description',
+                'articles.header as header',
+                'articles.url as url',
+                'articles.practice_file_path as practice_file_path',
+                'articles.region as region',
+            )
+            ->where('uslugis_practice.usluga_id', $usluga->id)
+            ->get();
 
         $practice->map(function ($practice) {
             $practice->year =  Carbon::parse($practice->created_at)->format("Y");
@@ -497,11 +497,11 @@ class UslugiController extends Controller
                         'articles.id as id',
                         'articles.header as header',
                         'articles.usluga_id as usluga_id',
-                        'articles.practice_file_path as practice_file_path',                        
+                        'articles.practice_file_path as practice_file_path',
                         'uslugis.id as uslugis_id',
                         'uslugis.usl_name as usl_name',
-                    )  
-                    ->whereNotNull('articles.practice_file_path')                  
+                    )
+                    ->whereNotNull('articles.practice_file_path')
                     ->get()->groupBy('usl_name'),
                 'userpractice' => DB::table('uslugis_practice')
                     ->leftJoin('articles', 'uslugis_practice.article_id', '=', 'articles.id')

@@ -74,7 +74,7 @@ class GetUslugi
                 $item->main->url . '/' .
                 $item->second->url . '/' .
                 $item->url;
-            $item->usl_desc = Str::limit($item->usl_desc, 200);
+            $item->usl_desc = Str::limit($item->usl_desc, 200);            
             $item->total_rating = $item->review_sum_rating + $item->userreview_sum_rating;
             $item->total_count = $item->userreview_count + $item->review_count;
             $item->final_rating = $item->total_count ? $item->total_rating / $item->total_count : 0;
@@ -86,7 +86,7 @@ class GetUslugi
             ->where('file_path', '!=', '/storage/images/landing/main/default.webp')
             ->select(
                 'users.id as user_id',
-                'users.id as id',
+                'users.id',
                 'users.file_path',
                 'users.name as usl_name',
                 'users.id as url',
@@ -105,16 +105,19 @@ class GetUslugi
             )
             ->selectRaw('IF(users.id, "user", false) AS type')
             ->with('cities')
-            ->withCount('review')
-            ->withSum('review', 'rating')
-            ->with('review')
+            ->with('reviews')
+            ->withCount('reviews')
+            ->withSum('reviews', 'rating')            
             ->with('main')
             ->with('second')
-            ->inRandomOrder ()
+            //->inRandomOrder()
             ->get();
 
         foreach ($users as $item) {
             $item->usl_desc = Str::limit($item->usl_desc, 200);
+            $item->total_rating = $item->reviews_sum_rating;
+            $item->total_count = $item->reviews_count;
+            $item->final_rating = $item->total_count ? $item->total_rating / $item->total_count : 0;
         };
 
         $grouped = $uslugi->groupBy('user_id');
