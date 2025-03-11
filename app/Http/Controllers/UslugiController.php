@@ -575,6 +575,9 @@ class UslugiController extends Controller
         $usluga->dopadress = $request->dopadress;
         $usluga->maps = $request->maps;
         $usluga->popular_question = $request->popular;
+//dd($request->ok);
+        $usluga->vk = $request->vk;
+        $usluga->ok = $request->ok;
 
         $usluga->expirience = $request->expirience;
         $usluga->price = $request->price;

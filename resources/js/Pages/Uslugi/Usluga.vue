@@ -8,6 +8,9 @@ import FlashMessage from "@/Components/FlashMessage.vue";
 import RatingReady from "@/Components/RatingReady.vue";
 import Prices from "@/Components/Prices.vue";
 import VideoBlock from "@/Components/VideoBlock.vue";
+import VKwidjet from "@/Components/VKwidjet.vue";
+import OKwidjet from "@/Components/OKwidjet.vue";
+
 import BreadcrumbsUslugi from "@/Components/BreadcrumbsUslugi.vue";
 import Address from "@/Layouts/Address.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
@@ -99,7 +102,7 @@ details summary::-webkit-details-marker {
               class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-x-1 duration-100"
               href="#about"
             >
-              <div class="">Юрист</div>
+              <div class="">Контакты</div>
             </a>
             <a
               class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-x-1 duration-100"
@@ -191,6 +194,19 @@ details summary::-webkit-details-marker {
             :mainuslugaid="vars.usluga.main_usluga_id"
             :uslugaid="vars.usluga.id"
           />
+
+          <!--vk widjet-->
+          <div v-if="usluga.vk || usluga.ok" class="pb-12">
+            <h2 class="font-semibold my-6 text-2xl tracking-tight text-center">
+              Присоединяйтесь, чтобы не потерять контакты
+            </h2>
+            <VKwidjet v-if="usluga.vk" :groupid="usluga.vk" />
+            <div class="flex justify-center">
+              <OKwidjet v-if="usluga.ok" :groupid="usluga.ok" />
+            </div>
+          </div>
+
+          <!--vk widjet-->
 
           <!--video block-->
           <VideoBlock :video="vars.usluga.video" />
