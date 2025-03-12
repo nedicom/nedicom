@@ -19,7 +19,7 @@ defineProps({
     <div id="prices" class="grid grid-cols-1 md:mt-6 justify-items-center" itemprop="itemListElement" itemscope
       itemtype="https://schema.org/OfferCatalog">
       <h2 class="font-semibold mt-6 text-2xl tracking-tight mx-12 text-gray-900 text-center mb-10" itemprop="name">
-        {{ keyword }} - цены ({{ city.title }})
+       Стоимость услуг
       </h2>
       <div v-if="userprices[0]" class="w-full mb-5 px-2">
         <div class="relative overflow-x-auto">

@@ -93,7 +93,7 @@ details summary::-webkit-details-marker {
     <div>
       <div class="grid grid-cols-1 md:grid-cols-4 py-5">
         <div
-          class="w-full flex justify-between md:flex-col md:text-xl md:mt-12 lg:px-5 sticky top-0 z-40 h-10 bg-white"
+          class="w-full flex justify-between md:flex-col md:text-xl lg:px-5 sticky top-0 z-40 h-10 bg-white"
         >
           <div
             class="w-full flex justify-between md:flex-col md:text-xl md:mt-12 px-2 sticky top-0"
@@ -137,7 +137,7 @@ details summary::-webkit-details-marker {
         <div
           itemscope
           itemtype="https://schema.org/Attorney"
-          class="md:col-span-3 md:mt-12 px-3 md:px-10 w-full"
+          class="md:col-span-3 px-3 md:px-10 w-full"
         >
           <!-- edit btn -->
           <span v-if="auth" class="">
@@ -223,12 +223,12 @@ details summary::-webkit-details-marker {
           <div id="questions" v-if="vars.usluga.popular_question">
             <div
               v-if="vars.usluga.popular_question[0].answer"
-              class="my-12 pb-12"
+              class="pb-12"
               itemscope
               itemtype="https://schema.org/FAQPage"
             >
               <h2
-                class="font-semibold mt-6 text-2xl md:mt-20 tracking-tight text-center"
+                class="font-semibold mt-6 text-2xl tracking-tight text-center"
               >
                 Частые вопросы
               </h2>
