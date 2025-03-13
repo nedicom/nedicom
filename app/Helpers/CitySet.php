@@ -53,7 +53,9 @@ class CitySet
         $secret = "9d6b5f1aabde129507b11950dbdf272716443d54";
         $dadata = new \Dadata\DadataClient($token, $secret);
         $result = $dadata->iplocate('qwery');
-        dd($result['data']['postal_code']);
+        if ($result) {
+            dd($result['data']['postal_code']);
+        }
 
 
         $city = cities::find(0);
@@ -62,7 +64,7 @@ class CitySet
 
 
 
-        if($cityid){
+        if ($cityid) {
             $city = cities::where('id', $cityid)->first();
             session(['cityid' => $city->id, 'citytitle' => $city->title]);
             return $city;
@@ -71,9 +73,9 @@ class CitySet
         if (session()->get('cityid')) {
             $city = cities::where('id', session()->get('cityid'))->first();
             return $city;
-        }    
+        }
 
-            
+
         /* sypexGeo 
         
         $sxGeo = new SxGeo('../database/GeoIP.dat');
@@ -85,7 +87,5 @@ class CitySet
             }
         }
 */
-
-
     }
 }
