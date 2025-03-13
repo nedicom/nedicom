@@ -59,7 +59,7 @@ class Handler extends ExceptionHandler
     {
         $response = parent::render($request, $e);
 
-        dd($response);
+        // catch error dd($response);
         
         if (!app()->environment('local') && in_array($response->status(), [500, 503, 404, 403, 410])) {
             return Inertia::render('Errors/Errors', ['status' => $response->status()])
