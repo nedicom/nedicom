@@ -52,7 +52,7 @@ class CitySet
         $token = "4667f5f8016f7069789e94041a49052dd82414a3";
         $secret = "9d6b5f1aabde129507b11950dbdf272716443d54";
         $dadata = new \Dadata\DadataClient($token, $secret);
-        $result = $dadata->iplocate($ip);
+        $result = $dadata->iplocate('qwery');
         //dd($result['data']['postal_code']);
 
 
