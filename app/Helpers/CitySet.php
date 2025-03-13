@@ -53,7 +53,7 @@ class CitySet
         $secret = "9d6b5f1aabde129507b11950dbdf272716443d54";
         $dadata = new \Dadata\DadataClient($token, $secret);
         $result = $dadata->iplocate('qwery');
-        //dd($result['data']['postal_code']);
+        dd($result['data']['postal_code']);
 
 
         $city = cities::find(0);
