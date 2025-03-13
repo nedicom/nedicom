@@ -224,7 +224,7 @@ details summary::-webkit-details-marker {
           <div id="questions" v-if="vars.usluga.popular_question">
             <div
               v-if="vars.usluga.popular_question[0].answer"
-              class="pb-12 md:w-11/12"
+              class="pb-12"
               itemscope
               itemtype="https://schema.org/FAQPage"
             >
@@ -234,7 +234,7 @@ details summary::-webkit-details-marker {
                 Частые вопросы
               </h2>
               <ul
-                class="w-full mx-auto mt-10 divide-y shadow-gray-600 shadow-2xl rounded-xl list-none"
+                class="w-full mx-auto mt-10 md:w-11/12 divide-y shadow-gray-600 shadow-2xl rounded-xl list-none"
               >
                 <li
                   v-for="item in vars.usluga.popular_question"
