@@ -28,11 +28,13 @@ defineProps({
 
         <div
           class="mt-2 font-bold text-gray-600 text-xl text-center "
+          itemprop="brand"
         >
           {{ lawyer.name }}
         </div>
         <div
           class="font-medium text-gray-900 text-base text-center "
+          itemprop="category"
         >
           {{ main_usluga.usl_name }}.
           <span v-if="usluga.cities">{{ usluga.cities.title }}</span>

@@ -45,7 +45,10 @@ class CitySet
     }
 
     public static function CityGet($cityid)
-    {       
+    {
+
+        $city = false;
+
         // &cityheader=id for force checked city
         if ($cityid) {
             $city = cities::where('id', $cityid)->first();
@@ -60,14 +63,16 @@ class CitySet
         }
 
         // &cityheader=null city from ip
-        $ip = GetIp::get_ip();
-        $token = env('DADATA_TOKEN');
-        $secret = env('DADATA_SECRET');
-        $dadata = new \Dadata\DadataClient($token, $secret);
-        $result = $dadata->iplocate($ip);
+        if (env('APP_ENV') != 'local') {
+            $ip = GetIp::get_ip();
+            $token = env('DADATA_TOKEN');
+            $secret = env('DADATA_SECRET');
+            $dadata = new \Dadata\DadataClient($token, $secret);
+            $result = $dadata->iplocate($ip);
 
-        if ($result) {
-            $city = cities::where('postalcode', $result['data']['postal_code'])->first();
+            if ($result) {
+                $city = cities::where('postalcode', $result['data']['postal_code'])->first();
+            }
         }
 
         if (!$city) {
