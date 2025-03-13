@@ -45,11 +45,24 @@ class CitySet
     }
 
     public static function CityGet($cityid)
-    {
+    {       
+        // &cityheader=id for force checked city
+        if ($cityid) {
+            $city = cities::where('id', $cityid)->first();
+            session(['cityid' => $city->id, 'citytitle' => $city->title]);
+            return $city;
+        }
 
+        // &cityheader=null check city from session
+        if (session()->get('cityid')) {
+            $city = cities::where('id', session()->get('cityid'))->first();
+            return $city;
+        }
+
+        // &cityheader=null city from ip
         $ip = GetIp::get_ip();
-        $token = "4667f5f8016f7069789e94041a49052dd82414a3";
-        $secret = "9d6b5f1aabde129507b11950dbdf272716443d54";
+        $token = env('DADATA_TOKEN');
+        $secret = env('DADATA_SECRET');
         $dadata = new \Dadata\DadataClient($token, $secret);
         $result = $dadata->iplocate($ip);
 
@@ -61,29 +74,5 @@ class CitySet
             $city = cities::find(0);
         }
         return $city;
-        
-        if ($cityid) {
-            $city = cities::where('id', $cityid)->first();
-            session(['cityid' => $city->id, 'citytitle' => $city->title]);
-            return $city;
-        }
-
-        if (session()->get('cityid')) {
-            $city = cities::where('id', session()->get('cityid'))->first();
-            return $city;
-        }
-
-
-        /* sypexGeo 
-        
-        $sxGeo = new SxGeo('../database/GeoIP.dat');
-        
-        if ($ip) {
-            $fullInfo  = $sxGeo->getCityFull('188.191.20.139');
-            if ($fullInfo) {
-                dd($fullInfo['city']);
-            }
-        }
-*/
     }
 }
