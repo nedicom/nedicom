@@ -74,10 +74,10 @@ class CitySet
         $secret = "9d6b5f1aabde129507b11950dbdf272716443d54";
         $dadata = new \Dadata\DadataClient($token, $secret);
         $result = $dadata->iplocate($ip);
-        dd($result);
+        dd($ip);
 
 
-            $city = cities::find(0);
+        $city = cities::find(0);
 
         return $city;
     }
