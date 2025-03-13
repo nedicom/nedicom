@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.0.2",
         "doctrine/dbal": "^4.2",
+        "eseath/sypexgeo": "^2.3",
         "guzzlehttp/guzzle": "^7.5",
         "inertiajs/inertia-laravel": "^0.6.8",
         "laravel/framework": "^9.19",

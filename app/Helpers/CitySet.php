@@ -5,6 +5,7 @@ namespace App\Helpers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\cities;
+use Eseath\SxGeo\SxGeo;
 
 
 class CitySet
@@ -29,7 +30,7 @@ class CitySet
                         $user->city_id = $request->cityid;
                         $user->save();
                     }
-                }                
+                }
             } else {  //url has city url; 
                 if ($cityurl != '') {
                     $city = cities::where('url', $cityurl)->first();
@@ -44,6 +45,11 @@ class CitySet
 
     public static function CityGet()
     {
+
+        $sxGeo = new SxGeo();
+        $fullInfo  = $sxGeo->getCityFull('232.223.11.11');
+        //dd($fullInfo);
+
         if (session()->get('cityid')) {
             $city = cities::where('id', session()->get('cityid'))->first();
         } else {

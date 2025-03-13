@@ -185,6 +185,7 @@ return [
         /*
          * Package Service Providers...
          */
+        \Eseath\SxGeo\SxGeoServiceProvider::class,
 
         /*
          * Application Service Providers...
