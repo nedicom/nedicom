@@ -48,7 +48,7 @@ class CitySet
 
         $sxGeo = new SxGeo('../database/GeoIP.dat');
         $fullInfo  = $sxGeo->getCityFull('232.223.11.11');
-        dd($fullInfo);
+        //dd($fullInfo);
 
         if (session()->get('cityid')) {
             $city = cities::where('id', session()->get('cityid'))->first();
