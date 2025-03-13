@@ -11,7 +11,7 @@ defineProps({
   <section class="bg-white " id="about">
     <h1
       itemprop="name"
-      class="mb-4 px-6 py-12 text-4xl tracking-tight font-bold text-gray-900"
+      class="mb-4 px-6 py-6 lg:py-12 lg:my-12 text-4xl tracking-tight font-bold text-gray-900 lg:text-center"
     >
       {{ usluga.usl_name }}
     </h1>
@@ -21,19 +21,19 @@ defineProps({
       <div class="mt-4 md:mt-0">
         <p
           itemprop="description"
-          class="mb-6 font-light text-gray-500 md:text-lg text-justify"
+          class="mb-6 font-light text-gray-700 text-lg lg:text-2xl text-justify"
         >
           {{ usluga.usl_desc }}
         </p>
 
         <div
-          class="mt-2 font-bold text-gray-600 text-xl text-center "
+          class="mt-2 font-bold text-gray-700 text-xl text-center lg:text-4xl"
           itemprop="brand"
         >
           {{ lawyer.name }}
         </div>
         <div
-          class="font-medium text-gray-900 text-base text-center "
+          class="font-medium text-gray-900 text-base lg:text-xl text-center "
           itemprop="category"
         >
           {{ main_usluga.usl_name }}.

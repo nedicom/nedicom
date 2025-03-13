@@ -77,7 +77,7 @@ if (props.phone !== undefined) {
                 <p v-if="dopadress" class="font-semibold text-2xl tracking-tight">
                   Главный офис:
                 </p>
-                <p itemprop="streetAddress" class="mb-4 mt-6 font-semibold text-xl md:text-lg">
+                <p itemprop="streetAddress" class="mb-4 mt-6 font-semibold text-xl lg:text-2xl">
                   {{ address }}
                 </p>
                 <meta itemprop="addressCountry" content="RU" />
