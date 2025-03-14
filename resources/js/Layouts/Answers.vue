@@ -24,8 +24,8 @@ defineProps({
         itemtype="https://schema.org/Answer"
       >
       <meta v-if="!answer.parent_comment_id" itemprop="datePublished" :content="answer.updated_at" />
-      <meta itemprop="url" :content="'https://nedicom.ru/questions/' + question.url + '#comment'" />
-      <meta v-if="question.user_like" itemprop="upvoteCount" :content="question.user_like" />
+      <meta v-if="question" itemprop="url" :content="'https://nedicom.ru/questions/' + question.url + '#comment'" />
+      <meta v-if="question" itemprop="upvoteCount" :content="question.user_like" />
       <meta v-else itemprop="upvoteCount" content="1" />
         <div class="flex flex-right mb-2">
           <Link
@@ -56,7 +56,7 @@ defineProps({
           {{ answer.body }}
         </p>
 
-        <AccordionComment
+        <AccordionComment v-if="question"
           :question="question.id"
           :answerid="answer.id"
           :authid="authid"

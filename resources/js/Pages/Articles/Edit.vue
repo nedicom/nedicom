@@ -40,7 +40,7 @@ watch(() => form.body, () => {
       timerId = setTimeout(() => {
         recentlySuccessful.value = true;
         Inertia.post("/articles/" + set.article.id + "/autoupdate", form, {
-          preserveScroll: false,
+          preserveScroll: true,
           onSuccess: () => setTimeout(() => {
             recentlySuccessful.value = false;
             savedelay.value = false;

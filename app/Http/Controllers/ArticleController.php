@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\draft;
 use App\Models\Uslugi;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreArticleRequest;
 use App\Models\cities;
@@ -186,7 +187,6 @@ class ArticleController extends Controller
 
         DB::statement("SET lc_time_names = 'ru_RU'");
 
-        //dd(Uslugi::where('id', $usluga_id_sec)->first());
         return Inertia::render('Articles/Article', [
             'article' => DB::table('articles')
                 ->where('articles.url', '=', $url)
@@ -201,6 +201,7 @@ class ArticleController extends Controller
                     'bundles_socials.bookmarks as user_bookmark',
                     'bundles_socials.shares as user_share',
                     'users.id as user_id',
+                    'users.phone',
                     'users.name',
                     'users.avatar_path',
                     DB::raw("DATE_FORMAT(articles.created_at, '%d-%M-%Y') as created"),
@@ -208,7 +209,6 @@ class ArticleController extends Controller
                 )
                 ->selectRaw('IF(articles.id, "articles", false) AS type')
                 ->first(),
-            'user' => Auth::user(),
             'auth' => Auth::user(),
             'region' =>  cities::where('regionId', $article->region)->first(),
             'usluga' => Uslugi::where('id', $usluga_id_sec)->select('uslugis.url', 'uslugis.usl_name')->first(),
@@ -218,7 +218,6 @@ class ArticleController extends Controller
                 ->with('subcomments')
                 ->get(),
             'authid' => (Auth::user()) ? Auth::user()->id : null,
-
         ]);
     }
 
