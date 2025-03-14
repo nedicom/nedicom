@@ -5,6 +5,8 @@ namespace App\Helpers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\cities;
+use Eseath\SxGeo\SxGeo;
+use App\Helpers\GetIp;
 
 
 class CitySet
@@ -29,7 +31,7 @@ class CitySet
                         $user->city_id = $request->cityid;
                         $user->save();
                     }
-                }                
+                }
             } else {  //url has city url; 
                 if ($cityurl != '') {
                     $city = cities::where('url', $cityurl)->first();
@@ -42,11 +44,38 @@ class CitySet
         return $city;
     }
 
-    public static function CityGet()
+    public static function CityGet($cityid)
     {
+
+        $city = false;
+
+        // &cityheader=id for force checked city
+        if ($cityid) {
+            $city = cities::where('id', $cityid)->first();
+            session(['cityid' => $city->id, 'citytitle' => $city->title]);
+            return $city;
+        }
+
+        // &cityheader=null check city from session
         if (session()->get('cityid')) {
             $city = cities::where('id', session()->get('cityid'))->first();
-        } else {
+            return $city;
+        }
+
+        // &cityheader=null city from ip
+        if (env('APP_ENV') != 'local') {
+            $ip = GetIp::get_ip();
+            $token = env('DADATA_TOKEN');
+            $secret = env('DADATA_SECRET');
+            $dadata = new \Dadata\DadataClient($token, $secret);
+            $result = $dadata->iplocate($ip);
+
+            if ($result) {
+                $city = cities::where('postalcode', $result['data']['postal_code'])->first();
+            }
+        }
+
+        if (!$city) {
             $city = cities::find(0);
         }
         return $city;

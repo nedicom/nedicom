@@ -13,7 +13,7 @@ let set = defineProps({
     "
     onclick="ym(24900584, 'reachGoal', 'Wa_Click'); return true;"
     type="button"
-    class="inline-flex items-center h-10 w-full md:w-48 xl:w-64 mx-1 md:mx-auto py-1 px-2 xl:py-2.5 xl:px-5 font-medium focus:outline-none rounded-lg border border-gray-200 text-white hover:bg-[#25d366] bg-emerald-600 focus:z-10 focus:ring-4 focus:ring-gray-100 justify-center cursor-pointer"
+    class="inline-flex items-center h-10 w-full md:w-48 xl:w-64 mx-1 md:mx-auto py-1 px-2 xl:py-2.5 xl:px-5 focus:outline-none rounded-lg border border-gray-200 text-white hover:bg-[#25d366] bg-emerald-600 focus:z-10 focus:ring-4 focus:ring-gray-100 justify-center cursor-pointer"
     target="_blank"
   >
     <svg

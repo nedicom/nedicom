@@ -36,7 +36,7 @@ class UslugiController extends Controller
             });
         }
 
-        $city = CitySet::CityGet();
+        $city = CitySet::CityGet(false);
 
         $category = Uslugi::where('is_main', 1)
             ->where('is_feed', 1)

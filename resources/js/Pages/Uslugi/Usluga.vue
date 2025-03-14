@@ -45,6 +45,7 @@ let secondbannerpc = "https://nedicom.ru/" + pcimg;
 let secondbannerimgmobile = "https://nedicom.ru/" + vars.usluga.mob_file_path;
 
 let metaimage = "https://nedicom.ru/" + vars.usluga.file_path;
+
 </script>
 
 <style>
@@ -93,40 +94,40 @@ details summary::-webkit-details-marker {
     <div>
       <div class="grid grid-cols-1 md:grid-cols-4 py-5">
         <div
-          class="w-full flex justify-between md:flex-col md:text-xl lg:px-5 sticky top-0 z-40 h-10 bg-white"
+          class="w-full flex justify-between md:flex-col md:text-xl lg:px-5 fixed lg:sticky bottom-0 lg:top-0 z-40 h-10 bg-white"
         >
           <div
-            class="w-full flex justify-between md:flex-col md:text-xl md:mt-12 px-2 sticky top-0"
+            class="flex justify-between md:flex-col md:text-xl md:mt-12 px-2"
           >
             <a
-              class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-x-1 duration-100"
+              class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-y-1 lg:hover:translate-x-1 duration-100"
               href="#about"
             >
               <div class="">Контакты</div>
             </a>
-            <a
-              class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-x-1 duration-100"
+            <a v-if="vars.userprices[0]"
+              class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-y-1 lg:hover:translate-x-1 duration-100"
               href="#prices"
             >
               <div class="">Цены</div>
             </a>
-            <a
-              class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-x-1 duration-100"
+            <a 
+              class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-y-1 lg:hover:translate-x-1 duration-100"
               href="#reviews"
             >
               <div class="">Отзывы</div> </a
-            ><a
-              class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-x-1 duration-100"
+            ><a v-if="practice != 0"
+              class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-y-1 lg:hover:translate-x-1 duration-100"
               href="#prctglr"
             >
               <div class="">Практика</div> </a
-            ><a
-              class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-x-1 duration-100"
+            ><a v-if="vars.usluga.popular_question"
+              class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-y-1 lg:hover:translate-x-1 duration-100"
               href="#questions"
             >
               <div class="">Вопросы</div> </a
             ><a
-              class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-x-1 duration-100"
+              class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-y-1 lg:hover:translate-x-1 duration-100"
               href="#description"
             >
               <div class="">Описание</div>
@@ -136,7 +137,7 @@ details summary::-webkit-details-marker {
 
         <div
           itemscope
-          itemtype="https://schema.org/Attorney"
+          itemtype="https://schema.org/Product"
           class="md:col-span-3 px-3 md:px-10 w-full"
         >
           <!-- edit btn -->
@@ -197,7 +198,7 @@ details summary::-webkit-details-marker {
 
           <!--vk widjet-->
           <div v-if="usluga.vk || usluga.ok" class="pb-12">
-            <h2 class="font-semibold my-6 text-2xl tracking-tight text-center">
+            <h2 class="mx-auto max-w-5xl font-semibold my-6 text-2xl tracking-tight px-4 2xl:px-0">
               Присоединяйтесь, чтобы не потерять контакты
             </h2>
             <VKwidjet v-if="usluga.vk" :groupid="usluga.vk" />
@@ -228,12 +229,12 @@ details summary::-webkit-details-marker {
               itemtype="https://schema.org/FAQPage"
             >
               <h2
-                class="font-semibold mt-6 text-2xl tracking-tight text-center"
+                class="font-semibold mt-6 text-2xl tracking-tight mx-auto max-w-5xl px-4 2xl:px-0"
               >
                 Частые вопросы
               </h2>
               <ul
-                class="w-full mx-auto mt-10 divide-y shadow-gray-600 shadow-2xl rounded-xl list-none"
+                class="w-full mx-auto mt-10 md:w-11/12 divide-y shadow-gray-600 shadow-2xl rounded-xl list-none"
               >
                 <li
                   v-for="item in vars.usluga.popular_question"
@@ -281,13 +282,13 @@ details summary::-webkit-details-marker {
           <!-- popular question -->
 
           <!-- seo description -->
-          <div class="my-20" id="description">
-            <h2 class="font-semibold mb-6 text-2xl tracking-tight text-center">
+          <div class="my-20 mx-auto max-w-5xl" id="description">
+            <h2 class="font-semibold mb-6 text-2xl tracking-tight px-4 2xl:px-0">
               Подробнее
             </h2>
             <div
               itemprop="disambiguatingDescription"
-              class="mx-auto max-w-2xl px-6 space-y-6 text-gray-900 text-justify"
+              class="mx-auto space-y-6 text-gray-900 text-justify"
               v-html="usluga.longdescription"
             ></div>
           </div>

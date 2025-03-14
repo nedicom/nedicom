@@ -31,14 +31,14 @@ if (props.phone !== undefined) {
     <div class="w-full">
       <section>
         <div class="px-4 mx-auto grid grid-cols-1 lg:grid-cols-3 items-center">
-          <h3 class="font-semibold text-2xl tracking-tight m-0 my-10 md:hidden block text-center">
-            Запланируйте консультацию с юристом
+          <h3 class="font-semibold text-2xl tracking-tight m-0 mt-12 md:hidden block text-center">
+            Контакты
           </h3>
           <div class="flex justify-center lg:justify-start">
             <div class="mt-5 w-2/3 lg:w-full font-bold">
 
               <div class="w-full flex items-center mb-5">
-                <ModalPhone :phone="phone" :lawyer="'Обратиться к юристу'" :phoneto="'tel:' + phone"
+                <ModalPhone :phone="phone" :lawyer="'Позвонить'" :phoneto="'tel:' + phone"
                   :avatarPath="null" />
               </div>
 
@@ -71,16 +71,13 @@ if (props.phone !== undefined) {
           </div>
 
           <div class="lg:col-span-2 mt-6 flex items-center">
-            <div class="text-center lg:text-left h-full grid grid-cols-1 place-content-around gap-4 p-5">
+            <div class="text-center lg:text-left h-full grid grid-cols-1 place-content-around gap-4 lg:p-5">
               
               <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
                 <p v-if="dopadress" class="font-semibold text-2xl tracking-tight">
                   Главный офис:
                 </p>
-                <p v-else class="font-semibold text-2xl lg:text-base  tracking-tight">
-                  Адрес:
-                </p>
-                <p itemprop="streetAddress" class="mb-4 mt-6 font-semibold text-xl md:text-lg">
+                <p itemprop="streetAddress" class="mb-4 mt-6 font-semibold text-xl lg:text-2xl">
                   {{ address }}
                 </p>
                 <meta itemprop="addressCountry" content="RU" />

@@ -17,14 +17,14 @@ defineProps({
 <template>
   <!--reviews carousel-->
   <div id="reviews" class="py-12">
-    <h2 class="font-semibold mt-6 text-2xl tracking-tight text-center">
+    <h2 class="mx-auto max-w-5xl font-semibold mt-6 text-2xl tracking-tight px-4 2xl:px-0">
       Отзывы заказчиков
     </h2>
     <p
       itemprop="aggregateRating"
       itemscope
       itemtype="https://schema.org/AggregateRating"
-      class="text-xs mx-12 font-semibold text-grey text-center md:text-end py-5"
+      class="text-xs font-semibold text-grey px-4 2xl:px-0 py-5"
     >
       общая оценка: 
       <span  itemprop="ratingValue" v-if="rating"
