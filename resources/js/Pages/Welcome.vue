@@ -65,6 +65,7 @@ let mainbannerpc =
     <meta property="og:image" :content="secondbannerpc" />
     <meta property="og:site_name" content="nedicom.ru" />
     <meta property="og:locale" content="ru_RU" />
+    <link rel="canonical" href="https://nedicom.ru" />
   </Head>
 
   <div class="min-h-screen" itemscope itemtype="https://schema.org/LegalService">
