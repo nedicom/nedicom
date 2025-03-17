@@ -45,7 +45,7 @@ class OpenAI
             'messages' => [
                 [
                     'role' => 'system',
-                    'text' => 'Ты юрист. Дай ответ на следующий вопрос, учитывая нормы российского законодательтсва.'
+                    'text' => 'Ты юрист. Дай ответ на следующий вопрос, учитывая нормы российского законодательтсва. Не говори что ты искусственный интеллект. Объем ответа не должен превышать 500 символов.'
                 ],
                 [
                     'role' => 'user',
@@ -153,5 +153,86 @@ class OpenAI
             curl_close($ch);
             return $generated_text;
             */
+    }
+
+
+    public static function Comment($ask, $comment_type)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://iam.api.cloud.yandex.net/iam/v1/tokens');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, '{"yandexPassportOauthToken": "' . env('YANDEX_GPT_API_KEY') . '"}');
+
+        $headers = array();
+        $headers[] = 'Content-Type: application/json';
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+
+        $result = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+        }
+        $response_data = json_decode($result, true);
+        curl_close($ch);
+
+        $data = [
+            'modelUri' => 'gpt://' . env('YANDEX_CT_ID') . '/yandexgpt',
+            'completionOptions' =>
+            [
+                "stream" => false,
+                "temperature" => 0.6,
+                "maxTokens" => "20000",
+                "reasoningOptions" => [
+                    "mode" => "ENABLED_HIDDEN"
+                ]
+            ],
+            'messages' => [
+                [
+                    'role' => 'system',
+                    'text' => 'Ты - пользователь сайта. Дай ' . $comment_type .' комментарий к этой статье. Не говори что ты искусственный интеллект. Объем ответа не должен превышать 500 символов.'
+                ],
+                [
+                    'role' => 'user',
+                    'text' => $ask,
+                ],
+            ]
+        ];
+        $json_data = json_encode($data);
+
+        $url = 'https://llm.api.cloud.yandex.net/foundationModels/v1/completion';
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+
+        $headers = array();
+        $headers[] = 'Content-Type: application/json';
+        $headers[] = 'Authorization: Bearer ' . $response_data['iamToken'];
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+
+        $result = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+        }
+        $response_data = json_decode($result, true);
+
+        $generated_text = $response_data['result']['alternatives'][0]['message']['text'];
+        curl_close($ch);
+
+        if ($generated_text) {
+            return $generated_text;
+        } else {
+            return 'Отличная статья, мне понравилась';
+        }
     }
 }

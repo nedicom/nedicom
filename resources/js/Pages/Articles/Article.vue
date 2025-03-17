@@ -369,13 +369,14 @@ blockquote {
             itemprop="text"
           ></div>
 
-          <div class="flex justify-center">
+          <div class="w-full">
             <Answer
-              :answerclass="'md:w-4/6 w-full sm:px-6 lg:px-4 mx-5 py-12 bg-white overflow-hidden shadow-sm sm:rounded-lg'"
+              :answerclass="'w-full sm:px-6 lg:px-4 mx-5 py-12 bg-white overflow-hidden'"
               :question="vars.article"
               :authid="vars.authid"
               :type="'article'"
               :article_id="vars.article.id"
+              :subcomments="'false'"
             />
           </div>
 
