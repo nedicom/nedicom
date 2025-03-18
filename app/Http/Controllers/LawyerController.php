@@ -29,7 +29,7 @@ class LawyerController extends Controller
         LawyerRating::QuestionRating();
         LawyerRating::AnswerRating();
 
-        $user = User::where('id', $id)->with('reviews')->withCount('reviews')
+        $user = User::where('id', $id)->with('reviews')->with('cities')->withCount('reviews')
             ->withSum('reviews', 'rating')->first();
 
         if (!$user->lawyer) {

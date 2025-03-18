@@ -28,6 +28,7 @@ let form = useForm({
   phone: user.phone,
   about: user.about,
   lawyer: user.lawyer,
+  address: user.address,
 });
 
 
@@ -35,9 +36,6 @@ watch(() => form.lawyer, (lawyer) => {
   emit('checkLawyer', lawyer)
 }
 )
-
-
-
 </script>
 
 <template>
@@ -79,13 +77,6 @@ watch(() => form.lawyer, (lawyer) => {
 
       </div>
 
-      <div>
-        <InputLabel for="about" value="О себе" />
-
-        <TextArea id="about" type="text" class="mt-1 block w-full" v-model="form.about" autocomplete="about" rows="4" />
-
-        <InputError class="mt-2" :message="form.errors.about" />
-      </div>
 
       <div class="flex items-center">
         <div class="flex w-full items-center">
@@ -103,6 +94,24 @@ watch(() => form.lawyer, (lawyer) => {
           </Link>
         </div>
       </div>
+
+      <div v-if="form.lawyer">
+        <InputLabel for="about" value="О себе" />
+
+        <TextArea id="about" type="text" class="mt-1 block w-full" v-model="form.about" autocomplete="about" rows="4" />
+
+        <InputError class="mt-2" :message="form.errors.about" />
+      </div>
+
+      <div v-if="form.lawyer">
+        <InputLabel for="address" value="Адрес офиса" />
+
+        <TextArea id="address" type="text" class="mt-1 block w-full" v-model="form.address" autocomplete="address" rows="2" />
+
+        <InputError class="mt-2" :message="form.errors.address" />
+      </div>
+
+
 
       <div v-if="props.mustVerifyEmail && user.email_verified_at === null">
         <p class="text-sm mt-2 text-gray-800">

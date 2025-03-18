@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use App\Helpers\PaginationHelper;
 use App\Models\Uslugi;
 use App\Models\User;
+use App\Models\cities;
 
 use Illuminate\Support\Str;
 
@@ -13,7 +14,6 @@ class GetUslugi
 {
     public static function GetUsl($user_id, $city, $main, $second)
     {
-
         $uslugi = Uslugi::where('is_main', '!=', 1)
             ->where('is_second', null)
             ->where('is_feed', 1)
@@ -40,7 +40,7 @@ class GetUslugi
                 'bundles_socials.likes as user_like',
                 'bundles_socials.bookmarks as user_bookmark',
                 'bundles_socials.shares as user_share',
-            )            
+            )
             ->selectRaw('IF(uslugis.id, "uslugi", false) AS type')
             ->with('cities')
             ->with('main')
@@ -74,13 +74,12 @@ class GetUslugi
                 $item->main->url . '/' .
                 $item->second->url . '/' .
                 $item->url;
-            $item->usl_desc = Str::limit($item->usl_desc, 200);            
+            $item->usl_desc = Str::limit($item->usl_desc, 200);
             $item->total_rating = $item->review_sum_rating + $item->userreview_sum_rating;
             $item->total_count = $item->userreview_count + $item->review_count;
             $item->final_rating = $item->total_count ? $item->total_rating / $item->total_count : 0;
             //$item->final_rating = number_format( $item->final_rating, 2);
         };
-
 
         $users = User::where('lawyer', '=', 1)
             ->where('file_path', '!=', '/storage/images/landing/main/default.webp')
@@ -92,6 +91,7 @@ class GetUslugi
                 'users.id as url',
                 'users.id as clean_url',
                 'users.city as sity',
+                'users.city_id',
                 'users.id as main_usluga_id',
                 'users.id as second_usluga_id',
                 'users.about as usl_desc',
@@ -104,10 +104,17 @@ class GetUslugi
                 'users.id as user_share',
             )
             ->selectRaw('IF(users.id, "user", false) AS type')
+
+            ->when($city->id == 0 ? 0 : $city->id, function ($query, $sescity) {
+                $query->where(function ($query) use ($sescity) {
+                    $query->where('city_id', $sescity);
+                });
+            })
+
             ->with('cities')
             ->with('reviews')
             ->withCount('reviews')
-            ->withSum('reviews', 'rating')            
+            ->withSum('reviews', 'rating')
             ->with('main')
             ->with('second')
             ->inRandomOrder()
@@ -131,25 +138,80 @@ class GetUslugi
             $maxvalue = $maxvalue < $groupedvalue->count() ? $groupedvalue->count() : $maxvalue;
         }
 
-        while ($i <= $maxvalue) {
-            foreach ($grouped as $groupedvalue) {
-                $a++;
-                if (is_int($a / 4) && isset($users[$i])) {
-                    $collection->push($users[$i]);
+        if ($maxvalue > 3) {
+            while ($i < $maxvalue) {
+                foreach ($grouped as $groupedvalue) {
+                    $a++;
+                    if (is_int($a / 4) && isset($users[$i])) {
+                        $collection->push($users[$i]);
+                    }
+                    if (isset($groupedvalue[$i])) {
+                        $collection->push($groupedvalue[$i]);
+                    }
                 }
-                if (isset($groupedvalue[$i])) {
-                    $collection->push($groupedvalue[$i]);
-                }
+                $i++;
             }
-            $i++;
+        } else {
+            foreach ($uslugi as $usluga) {
+                $collection->push($usluga);
+            }
+            foreach ($users as $user) {
+                $collection->push($user);
+            }
+        }
+        
+        //if there are few lawyers and services in city we add lawyers from region
+        if ($collection->count() < 10 && $city->id != 0) {
+            $old_users = $users->pluck('id')->toArray();
+            $array = cities::where('regionId', $city->regionId)->get()->pluck('id')->toArray();
+            $dop_users = User::where('lawyer', '=', 1)
+                ->where('file_path', '!=', '/storage/images/landing/main/default.webp')
+                ->whereIn('city_id',  $array)
+                ->whereNotIn('id',  $old_users)
+                ->select(
+                    'users.id as user_id',
+                    'users.id',
+                    'users.file_path',
+                    'users.name as usl_name',
+                    'users.id as url',
+                    'users.id as clean_url',
+                    'users.city as sity',
+                    'users.city_id',
+                    'users.id as main_usluga_id',
+                    'users.id as second_usluga_id',
+                    'users.about as usl_desc',
+                    'users.id as price',
+                    'users.likes',
+                    'users.shares',
+                    'users.bookmarks',
+                    'users.id as user_like',
+                    'users.id as user_bookmark',
+                    'users.id as user_share',
+                )
+                ->selectRaw('IF(users.id, "user", false) AS type')
+                ->with('cities')
+                ->with('reviews')
+                ->withCount('reviews')
+                ->withSum('reviews', 'rating')
+                ->with('main')
+                ->with('second')
+                ->inRandomOrder()
+                ->get();
+
+            foreach ($dop_users as $user) {
+                $collection->push($user);
+            }
         }
 
-        while ($i <= $users->count()) {
+
+        /*
+        while ($i <= $users->count()) { //add to collection users more than we have after take uslugis
             if (isset($users[$i])) {
                 $collection->push($users[$i]);
             }
             $i++;
         }
+            */
 
         $paginated = PaginationHelper::paginate($collection, 10);
 

@@ -17,7 +17,8 @@ class ProfileUpdateRequest extends FormRequest
     {
         return [
             'name' => ['max:255', 'required'],
-            'about' => ['min:20', 'required'],
+            'about' => [],
+            'address' => [],
             'phone' => ['between:9,15', 'required'],
             'jsonspec' => ['json'],
             'speciality_one_id' => ['numeric'],
@@ -31,8 +32,6 @@ class ProfileUpdateRequest extends FormRequest
     public function messages(): array
 {
     return [
-        'about.required' => 'О себе нужно обязательно рассказать.', 
-        'about.min' => 'Расскажите чуточку подробнее',
         'phone.required' => 'Телефон обязателен',
         'phone.between' => 'Телефон не больше 15 цифр и не меньше 9', 
     ];

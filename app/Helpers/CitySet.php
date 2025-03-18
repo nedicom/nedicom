@@ -62,6 +62,14 @@ class CitySet
             return $city;
         }
 
+        // check city from user dta
+        if (Auth::user()) {
+            if(Auth::user()->city_id){
+                $city = cities::where('id', Auth::user()->city_id)->first();
+                return $city;
+            } 
+        }
+
         // &cityheader=null city from ip
         if (env('APP_ENV') != 'local') {
             $ip = GetIp::get_ip();
@@ -75,6 +83,7 @@ class CitySet
             }
         }
 
+        // all=null city from ip
         if (!$city) {
             $city = cities::find(0);
         }
