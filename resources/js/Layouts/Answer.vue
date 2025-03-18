@@ -1,5 +1,4 @@
 <script setup>
-import { usePage } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
 import { reactive } from "vue";
 import AuthRegisterPropose from "@/Components/AuthRegisterPropose.vue";
@@ -12,16 +11,19 @@ let set = defineProps({
     answerclass: String,
     authid: Number,
     type: String,
+    subcomments: Boolean,
 });
 
 
 let form = reactive({
     body: "",
     article_id: set.article_id,
+    article_body: set.question.body,
     questions_id: set.question.id,
     url: set.question.id,
     answer_id: set.answerid,
     type: set.type,
+    comment_type: "",
 });
 
 let user = null;
@@ -48,9 +50,46 @@ let submit = (x) => {
     });
 
 };
+
+let aicomment = () => {
+    Inertia.post(route("article.comment.post"), {form}, {
+        preserveState: false,
+        preserveScroll: true,
+        onFinish: visit => {
+                window.scrollTo(0, document.body.scrollHeight);
+        },
+    });
+
+};
 </script>
 
 <template>
+    <form v-if="set.authid == 95 || set.authid == 1 && set.type == 'article' && set.subcomments" @submit.prevent="aicomment()" class="mx-5 text-center"
+        :class="answerclass">
+        <p class="">комментарий юриста</p>
+        <div class="flex justify-center gap-4">
+            <p class="text-center w-48"> <input required list="commenttype" v-model="form.comment_type"
+                    class="bg-gray-50 w-48 inline-flex items-center border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            </p>
+            <datalist id="commenttype">
+                <option>Благодарный</option>
+                <option>Грустный</option>
+                <option>Токсичный</option>
+                <option>Вопросительный</option>
+                <option>Позитивный</option>
+                <option>Приветливый</option>
+                <option>Язвительный</option>
+                <option>Нейтральный</option>
+                <option>Юридический</option>
+            </datalist>
+
+            <button type="submit" class="w-48 inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg 
+                focus:ring-4 focus:ring-blue-200">
+                Комментировать
+            </button>
+        </div>
+
+    </form>
     <form v-if="user" @submit.prevent="submit(set.answerid)" class="mx-5" :class="answerclass">
         <textarea v-model="form.body" @input="onInput" spellcheck="true" :maxlength="maxlength" :disabled="!set.authid"
             required
