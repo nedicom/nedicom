@@ -376,7 +376,7 @@ blockquote {
               :authid="vars.authid"
               :type="'article'"
               :article_id="vars.article.id"
-              :subcomments="'false'"
+              :subcomments="true"
             />
           </div>
 
@@ -384,7 +384,7 @@ blockquote {
             <Answers
               class="sm:px-6 lg:px-4 mx-5 py-12 md:w-4/6 w-full"
               :answers="vars.answers"
-              :question="vars.question ? vars.question.id : null"
+              :question="vars.question ? vars.question : null"
               :authid="vars.authid"
               :type="'article'"
               :article_id="vars.article.id"

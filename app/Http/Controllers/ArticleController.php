@@ -212,7 +212,7 @@ class ArticleController extends Controller
             'auth' => Auth::user(),
             'region' =>  cities::where('regionId', $article->region)->first(),
             'usluga' => Uslugi::where('id', $usluga_id_sec)->select('uslugis.url', 'uslugis.usl_name')->first(),
-            'question' => Questions::where('id', $article->id)->withCount('QuantityAns')->with('User')->with('Usluga')->first(),
+            'question' => Article::where('id', $article->id)->with('User')->first(),
             'answers' => Article_comment::where('article_id', $article->id)
                 ->with('UserAns')
                 ->with('subcomments')

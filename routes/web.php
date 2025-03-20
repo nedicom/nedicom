@@ -178,7 +178,9 @@ Route::controller(AiController::class)->group(function () {
 Route::controller(AnswerController::class)->group(function () {
     Route::get('/my/answers', 'my')->middleware('lawyer')->name('my.answers');
     Route::post('/answerpost', 'post')->name('answer.post');
+    Route::post('/answer/{id}/delete', 'AnswerDelete')->name('answer.delete');
     Route::post('/aiarticlecommentpost', 'ArticleComment')->name('article.comment.post');
+    Route::post('/aiarticlecomment/{id}/delete', 'ArticleCommentDelete')->name('article.comment.delete');
     Route::post('/aianswerpost', 'aiComment')->name('answer.ia');
 });
 

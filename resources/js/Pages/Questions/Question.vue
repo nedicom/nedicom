@@ -188,7 +188,7 @@ percent.value == 100
             >
               <div v-if="authid === 1">
                 <svg @click="Inertia.post(route('questions.delete', [question.id]))"
-                  class="w-6 h-6 text-gray-800 dark:text-white"
+                  class="w-6 h-6 text-gray-800"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -371,7 +371,6 @@ percent.value == 100
               :question="set.question"
               :authid="set.authid"
               :type="'question'"
-              :article="null"
               :article_id="null"
             />
           </div>

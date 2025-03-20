@@ -10,7 +10,7 @@ onMounted(() => {
 
 defineProps({
     article_id: Number,
-    question: Number,
+    question: Object,
     answerid: Number,
     authid: Number,
     type: String,
@@ -87,7 +87,7 @@ defineProps({
             <div class="overflow-hidden">
                 <p class="pb-3">
                     <Answer
-                        :question="{id: question}"
+                        :question="question"
                         :answerid="answerid"
                         :answerclass="'py-12 bg-white overflow-hidden shadow-sm sm:rounded-lg'"
                         :authid="authid"
@@ -98,4 +98,5 @@ defineProps({
             </div>
         </div>
     </div>
+   
 </template>

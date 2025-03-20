@@ -1,6 +1,6 @@
 <script setup>
 import { Inertia } from "@inertiajs/inertia";
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import AuthRegisterPropose from "@/Components/AuthRegisterPropose.vue";
 
 let set = defineProps({
@@ -18,7 +18,7 @@ let set = defineProps({
 let form = reactive({
     body: "",
     article_id: set.article_id,
-    article_body: set.question.body,
+    article_body: set.question.description,
     questions_id: set.question.id,
     url: set.question.id,
     answer_id: set.answerid,
@@ -35,10 +35,11 @@ if (set.authid) {
 let comment = "чтобы дать ответ или оставить комментарий";
 
 let placeholder = "Ответ / Комментарий";
-
+let disableBtn = ref(false);
 
 //window.scrollTo(0, document.body.scrollHeight);
 let submit = (x) => {
+    disableBtn.value = true;
     Inertia.post(route("answer.post"), form, {
         preserveState: false,
         preserveScroll: true,
@@ -46,6 +47,7 @@ let submit = (x) => {
             if (!x) {
                 window.scrollTo(0, document.body.scrollHeight);
             }
+            disableBtn.value = false;
         },
     });
 
@@ -64,12 +66,13 @@ let aicomment = () => {
 </script>
 
 <template>
+    <!-- ai answer for article -->
     <form v-if="set.authid == 95 || set.authid == 1 && set.type == 'article' && set.subcomments" @submit.prevent="aicomment()" class="mx-5 text-center"
         :class="answerclass">
         <p class="">комментарий юриста</p>
         <div class="flex justify-center gap-4">
             <p class="text-center w-48"> <input required list="commenttype" v-model="form.comment_type"
-                    class="bg-gray-50 w-48 inline-flex items-center border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    class="bg-gray-50 items-center border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
             </p>
             <datalist id="commenttype">
                 <option>Благодарный</option>
@@ -90,6 +93,8 @@ let aicomment = () => {
         </div>
 
     </form>
+    <!-- ai answer for article -->
+
     <form v-if="user" @submit.prevent="submit(set.answerid)" class="mx-5" :class="answerclass">
         <textarea v-model="form.body" @input="onInput" spellcheck="true" :maxlength="maxlength" :disabled="!set.authid"
             required
@@ -103,8 +108,8 @@ let aicomment = () => {
         </p>
 
         <div class="text-center">
-            <button type="submit" :disabled="!set.authid" class="my-5 inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg 
-                focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+            <button type="submit" :disabled="!set.authid || disableBtn == true" class="my-5 inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg 
+                focus:ring-4 focus:ring-blue-200 hover:bg-blue-800">
                 Ответить
             </button>
         </div>

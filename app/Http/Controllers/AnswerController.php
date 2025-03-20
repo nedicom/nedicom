@@ -36,7 +36,11 @@ class AnswerController extends Controller
                     "url" => "https://nedicom.ru/questions/" . $question->url,
                     "question" => $question->title,
                 ];
-                Mail::to($user->email)->send(new TestEmail($mailData));
+                try{
+                    Mail::to($user->email)->send(new TestEmail($mailData));
+                }
+                catch(\Exception $e){
+                }                
             }
         }
 
@@ -65,6 +69,7 @@ class AnswerController extends Controller
 
     public function ArticleComment(Request $request)
     {
+        //dd($request);
         $article = Article_comment::where('article_id', $request->form['article_id'])->select('users_id')
         ->pluck('users_id')->toArray();
         $input = [1, 67, 68, 69, 87, 94, 95, 109, 150, 262];
@@ -90,4 +95,36 @@ class AnswerController extends Controller
             'auth' => Auth::user(),
         ]);
     }
+
+    public function ArticleCommentDelete(int $id)
+    {
+        $article_comment = Article_comment::where('id', $id)->first();
+        if (Auth::user()->isadmin == 1) {
+            try{
+                $article_comment->delete();  
+                return redirect()->back()->with('success', 'Комментарий удален');
+            }
+            catch(\Exception $e){
+                return redirect()->back()->with('success', 'Комментарий не был удален');
+            } 
+        } else {
+            return redirect()->back()->with('success', 'Удалять вопросы могут только собственники или админ.');
+        }
+    }
+
+    public function AnswerDelete(int $id)
+    {
+        $answer = Answer::where('id', $id)->first();        
+        if (Auth::user()->isadmin == 1) {
+            try{
+                $answer->delete();
+                return redirect()->back()->with('success', 'Комментарий удален');
+            }
+            catch(\Exception $e){
+                return redirect()->back()->with('success', 'Комментарий не был удален');
+            } 
+        } else {
+            return redirect()->back()->with('success', 'Удалять вопросы могут только собственники или админ.');
+        }
+    }   
 }

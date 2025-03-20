@@ -1,11 +1,12 @@
 <script setup>
 import { Link } from "@inertiajs/inertia-vue3";
 import AccordionComment from "@/Components/AccordionComment.vue";
+import { Inertia } from "@inertiajs/inertia";
 
 defineProps({
   article_id: Number,
   answers: Object,
-  question: Number,
+  question: Object,
   authid: Number,
   type: String,
 });
@@ -23,10 +24,22 @@ defineProps({
         itemscope
         itemtype="https://schema.org/Answer"
       >
-      <meta v-if="!answer.parent_comment_id" itemprop="datePublished" :content="answer.updated_at" />
-      <meta v-if="question" itemprop="url" :content="'https://nedicom.ru/questions/' + question.url + '#comment'" />
-      <meta v-if="question" itemprop="upvoteCount" :content="question.user_like" />
-      <meta v-else itemprop="upvoteCount" content="1" />
+        <meta
+          v-if="!answer.parent_comment_id"
+          itemprop="datePublished"
+          :content="answer.updated_at"
+        />
+        <meta
+          v-if="question"
+          itemprop="url"
+          :content="'https://nedicom.ru/questions/' + question.url + '#comment'"
+        />
+        <meta
+          v-if="question"
+          itemprop="upvoteCount"
+          :content="question.user_like"
+        />
+        <meta v-else itemprop="upvoteCount" content="1" />
         <div class="flex flex-right mb-2">
           <Link
             :href="route('lawyer', answer.user_ans.id)"
@@ -35,7 +48,10 @@ defineProps({
             itemscope
             itemtype="https://schema.org/Person"
           >
-          <meta itemprop="url" :content="'https://nedicom.ru/lawyers/' + answer.user_ans.id" />
+            <meta
+              itemprop="url"
+              :content="'https://nedicom.ru/lawyers/' + answer.user_ans.id"
+            />
             <img
               :src="'https://nedicom.ru/' + answer.user_ans.avatar_path"
               width="40"
@@ -56,8 +72,51 @@ defineProps({
           {{ answer.body }}
         </p>
 
-        <AccordionComment v-if="question"
-          :question="question.id"
+        <div v-if="authid === 1">
+          <svg
+            v-if="type === 'article'"
+            @click="Inertia.post(route('article.comment.delete', [answer.id]))"
+            class="w-6 h-6 text-gray-800 hover:cursor-pointer"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
+            />
+          </svg>
+
+          <svg
+            v-if="type === 'question'"
+            @click="Inertia.post(route('answer.delete', [answer.id]))"
+            class="w-6 h-6 text-gray-800 hover:cursor-pointer"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
+            />
+          </svg>
+        </div>
+
+        <AccordionComment
+          v-if="question"
+          :question="question"
           :answerid="answer.id"
           :authid="authid"
           :type="type"
@@ -97,8 +156,48 @@ defineProps({
               {{ subcomments.pivot.body }}
             </p>
 
+            <svg
+              v-if="type === 'question' && authid === 1"
+              @click="Inertia.post(route('answer.delete', [subcomments.pivot.id]))"
+              class="w-6 h-6 text-gray-800 hover:cursor-pointer"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
+              />
+            </svg>
+
+            <svg
+              v-if="type === 'article' && authid === 1"
+              @click="Inertia.post(route('article.comment.delete', [subcomments.pivot.id]))"
+              class="w-6 h-6 text-gray-800 hover:cursor-pointer"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
+              />
+            </svg>
+
             <AccordionComment
-              :question="question.id"
+              :question="question"
               :answerid="answer.id"
               :authid="authid"
               :type="type"
