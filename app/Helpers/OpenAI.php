@@ -28,9 +28,6 @@ class OpenAI
         $response_data = json_decode($result, true);
         curl_close($ch);
 
-
-        //dd($response_data['iamToken']);
-
         $data = [
             'modelUri' => 'gpt://' . env('YANDEX_CT_ID') . '/yandexgpt',
             'completionOptions' =>
@@ -82,6 +79,9 @@ class OpenAI
         curl_close($ch);
 
         if ($generated_text) {
+            if (str_contains($generated_text, 'интеллект')) {
+                return 'Простите, но Ваш вопрос представляет сложность. Нужно немного больше времени.';
+            }
             return $generated_text;
         } else {
             return 'Простите, я сейчас немного занят';
@@ -230,7 +230,10 @@ class OpenAI
         curl_close($ch);
 
         if ($generated_text) {
-            return $generated_text;
+            if (str_contains($generated_text, 'ya.ru')) {
+                return 'Классная статья. Спасибо.';
+            }
+            return $generated_text;            
         } else {
             return 'Отличная статья, мне понравилась';
         }
