@@ -4,7 +4,8 @@
 <head>
     @if (env('APP_ENV') != 'local')
         <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBPD2D669T"></script>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16952783137"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
 
@@ -13,7 +14,7 @@
             }
             gtag('js', new Date());
 
-            gtag('config', 'G-EBPD2D669T');
+            gtag('config', 'AW-16952783137');
         </script>
 
         <!-- Yandex.Metrika counter -->
