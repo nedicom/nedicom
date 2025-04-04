@@ -4,7 +4,7 @@
 <head>
     @if (env('APP_ENV') != 'local')
         <!-- Google tag (gtag.js) -->
-        <!-- Google tag (gtag.js) -->
+
         <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16952783137"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
@@ -16,6 +16,17 @@
 
             gtag('config', 'AW-16952783137');
         </script>
+
+        <!-- Event snippet for Page view conversion page -->
+        <script>
+            gtag('event', 'conversion', {
+                'send_to': 'AW-16952783137/dqBuCMzIqbAaEKHi25M_',
+                'value': 1.0,
+                'currency': 'EUR'
+            });
+        </script>
+        <!-- Google tag (gtag.js) -->
+
 
         <!-- Yandex.Metrika counter -->
         <script type="text/javascript">
