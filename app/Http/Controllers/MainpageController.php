@@ -187,6 +187,8 @@ class MainpageController extends Controller
             'reviewscount' => $reviewscount,
             'rating' => $rating,
             'auth' => Auth::user(),
+            'user' => User::find(94),
+            'usluga' => Uslugi::where('id', 1)->select('uslugis.url', 'uslugis.usl_name')->first(),            
         ]);
     }
 }

@@ -5,7 +5,7 @@
         </span>
         <ul class="flex flex-wrap list-none items-center mt-3 text-sm text-gray-500 sm:mt-0">
             <li>
-                <a href="/policy" class="hover:underline mx-1">Юридическая информация</a>
+                <a href="/policy" class="hover:underline mx-1">Политика в отношении персональных данных</a>
             </li>
             <li>
                 <a href="/contacts" class="hover:underline mx-1">Контакты</a>

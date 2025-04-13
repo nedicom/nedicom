@@ -18,6 +18,7 @@ import PopupDialogue from "@/Layouts/PopupDialogue/PopupDialogue.vue";
 import Bundle from "@/Components/Bundle.vue";
 import FlashMessage from "@/Components/FlashMessage.vue";
 import { Head } from "@inertiajs/inertia-vue3";
+import Chat from "@/Layouts/Chat.vue";
 
 import { ref } from 'vue';
 
@@ -35,6 +36,8 @@ defineProps({
   users: Object,
   auth: Object,
   bundles: Object,
+  user: Object,
+  usluga: Object,
 });
 
 let secondbannerimgmobile =
@@ -46,6 +49,7 @@ let mainbannerimgmobile =
   'url("https://nedicom.ru/storage/images/landing/main/nmainmob.webp")';
 let mainbannerpc =
   'url("https://nedicom.ru/storage/images/landing/main/nmainpc.webp")';
+
 </script>
 
 <template>
@@ -69,21 +73,25 @@ let mainbannerpc =
   </Head>
 
   <div class="min-h-screen" itemscope itemtype="https://schema.org/LegalService">
-    <MainHeader :auth="auth" :city="city"/>
+    <MainHeader :auth="auth" :city="city" />
 
     <Header :modalPageTitle="'Модальное окно главная'" />
 
+
+    <Chat :user="user" :usluga="usluga" />
+
+    <!--
     <FrontBanner :statusonimage="'Юридическая компания МИНА'" :phnform="true"
       :secondbannerimgmobile="secondbannerimgmobile" :secondbannerpc="secondbannerpc" />
-
-    <FrontQuestion :mainoffers="mainoffers" :secondoffers="secondoffers" :city="city" />
-
-    <Pile :uslugislider="mainoffers" :secondoffers="secondoffers" :city="city.url" />
-
+-->
     <!--
     <SliderUslug :secondoffers="secondoffers" :city="city.url" />-->
 
     <InfinityScroll :bundles="bundles" :auth="auth" />
+
+    <FrontQuestion :mainoffers="mainoffers" :secondoffers="secondoffers" :city="city" />
+
+    <Pile :uslugislider="mainoffers" :secondoffers="secondoffers" :city="city.url" />
 
     <!--<Mainbanner :mainbannerimgmobile="mainbannerimgmobile" :mainbannerpc="mainbannerpc" />-->
 
@@ -100,6 +108,7 @@ let mainbannerpc =
     <!--<VK />-->
 
     <MainFooter />
+
 
     <!--<PopupDialogue />-->
   </div>

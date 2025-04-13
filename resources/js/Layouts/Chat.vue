@@ -37,7 +37,6 @@ const send = async function () {
         processing.value = true;
         form.mess = message.value.innerText;
         message.value.innerText = "";
-
         (async () => {
             let resp = await fetch(route("lawyer.message.send"), {
                 method: "POST",
@@ -51,8 +50,9 @@ const send = async function () {
 
             if (resp.ok) {
                 jsonresp = await resp.json();
+
             } else {
-                alert("Ошибка HTTP: ");
+                alert("Ошибка lawyer.message.send: ");
             }
             processing.value = false;
         })();
@@ -84,6 +84,7 @@ const send = async function () {
                 printing.value = false;
                 processing.value = false;
             } else {
+                const json = await response.json();
                 alert("Пользователь занят. Попробуйте позже");
             }
         })();
@@ -93,10 +94,37 @@ const send = async function () {
 </script>
 
 <template>
-    <div class="h-screen">
+
+
+    <div class="text-center my-10">
+        <h1 class="text-2xl/7 font-bold text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">Задайте вопрос
+            юристу онлайн</h1>
+        <div class="min-w-0 flex items-center justify-center">
+            <div class="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
+                <div class="mt-2 flex items-center text-sm text-gray-500">
+                    <BriefcaseIcon class="mr-1.5 size-5 shrink-0 text-gray-400" aria-hidden="true" />
+                    круглосуточно
+                </div>
+                <div class="mt-2 flex items-center text-sm text-gray-500">
+                    <MapPinIcon class="mr-1.5 size-5 shrink-0 text-gray-400" aria-hidden="true" />
+                    онлайн
+                </div>
+                <div class="mt-2 flex items-center text-sm text-gray-500">
+                    <CurrencyDollarIcon class="mr-1.5 size-5 shrink-0 text-gray-400" aria-hidden="true" />
+                    бесплатно
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="h-[70vh] flex justify-center items-center">
         <div
-            class="w-full h-4/6 mt-10 md:w-96 md:right-1 rounded-t-2xl rounded-b-2xl border-y-8 border-x-4 border-gray-900  flex-col mr-0">
-            <div class="h-full flex flex-col items-start bg-white">
+            class="w-full h-full mt-10 xl:w-96 md:right-1 rounded-t-2xl rounded-b-2xl border-y-8 border-x-4 border-gray-900  flex-col mr-0">
+            <div class="h-full flex flex-col items-start ">
                 <div class="sticky top-0 w-full py-2 flex px-3">
                     <div class="w-full flex justify-between">
                         <div class="w-full flex justify-start">
@@ -105,13 +133,14 @@ const send = async function () {
                             <div class="grid grid-cols-1 ml-3 content-end">
                                 <div class="text-sm font-bold">{{ props.user.name }} </div>
                                 <div class="text-xs font-semibold text-gray-500">
-                                    {{ props.usluga.usl_name }}
+                                    юрист
                                 </div>
                             </div>
                         </div>
                         <div class="grid grid-cols-1 content-end">
-                            <div class="text-xs font-semibold text-gray-500">                                
-                                <span class="flex items-center text-xs font-semibold text-gray-500 "><span class="animate-pulse flex w-2.5 h-2.5 mr-1 bg-green-400 rounded-full me-1.5 flex-shrink-0"></span>онлайн</span>
+                            <div class="text-xs font-semibold text-gray-500">
+                                <span class="flex items-center text-xs font-semibold text-gray-500 "><span
+                                        class="animate-pulse flex w-2.5 h-2.5 mr-1 bg-green-400 rounded-full me-1.5 flex-shrink-0"></span>онлайн</span>
                             </div>
                         </div>
                     </div>
@@ -121,16 +150,17 @@ const send = async function () {
                     bg-cover overflow-y-auto scroll-smooth rounded-t-md py-5" id="scrollparent">
                     <div v-if="!jsonresp"
                         class="mx-5 h-full text-center  grid grid-cols-1 content-center font-semibold">
-                        <div class="inline-block  mb-3"><span class="bg-white py-2 px-3 rounded-lg">Автор статьи сейчас
+                        <div class="inline-block  mb-3"><span class="bg-white py-2 px-3 rounded-lg">Юрист сейчас
                                 на
                                 связи!</span></div>
                         <div class="inline-block mt-2 mb-3"><span class="bg-white  py-2 px-2 rounded-lg">Можете задать
                                 вопрос</span></div>
                     </div>
-                    <div class="grid grid-cols-1 content-end" id="scrollchild">
+                    <div class="grid grid-cols-1 content-end px-1" id="scrollchild">
                         <div v-for="question in jsonresp" :key="question">
                             <Question v-if="question.user_message" :question="question.user_message" />
-                            <Answer v-if="question.ai_message" :answer="question.ai_message" :lawyer="user.name" :img="user.avatar_path"/>
+                            <Answer v-if="question.ai_message" :answer="question.ai_message" :lawyer="user.name"
+                                :img="user.avatar_path" />
                         </div>
                         <Answer v-if="printing" :lawyer="user.name" :img="user.avatar_path">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -143,9 +173,9 @@ const send = async function () {
                 </div>
 
                 <!-- message input @keyup.enter="send"-->
-                <div class="sticky top-[100vh] w-full my-1 flex px-2">
+                <div class="sticky top-[100vh] w-full my-1 flex px-2 max-h-32">
                     <div ref="message" contenteditable="true"
-                        class="w-full rounded-md p-1 max-h-20 overflow-y-auto scroll-smooth text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 focus:text-gray-700 focus:bg-white  focus:outline-none"
+                        class="w-full rounded-md p-1 overflow-y-auto scroll-smooth text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 focus:text-gray-700 focus:bg-white  focus:outline-none"
                         :class="{ 'border-2 border-rose-600': empty }"></div>
                     <!-- send button -->
                     <div class="grid grid-cols-1 content-center ml-1">
@@ -171,6 +201,10 @@ const send = async function () {
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="text-center my-10">
+        <h2 class="text-xl font-bold text-gray-900 sm:truncate sm:tracking-tight">Общение в чате с юристом бесплатно</h2>
     </div>
 </template>
 

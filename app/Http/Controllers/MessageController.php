@@ -139,7 +139,7 @@ class MessageController extends Controller
 
     public function sent(Request $request)
     {
-        sleep(1);
+        sleep(3);
         $message = Dialogue::find($request->session()->get('dialogue'));
         $array = json_decode($message->json, JSON_FORCE_OBJECT);
         $openAi = OpenAIDialogue::Answer($request->mess, $array);

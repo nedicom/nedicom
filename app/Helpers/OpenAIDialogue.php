@@ -3,96 +3,117 @@
 namespace App\Helpers;
 
 
-class OpenAIDialogue{
+class OpenAIDialogue
+{
     public static function Answer($ask, $array_conversation)
     {
-            $ch = curl_init();
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://iam.api.cloud.yandex.net/iam/v1/tokens');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, '{"yandexPassportOauthToken": "' . env('YANDEX_GPT_API_KEY') . '"}');
 
-            $proxy = env('PROXY');
-            $proxyauth = env('PROXY_AUTH');
-            $url = 'https://api.openai.com/v1/chat/completions';
-            $mesquantity = count($array_conversation);
+        $headers = array();
+        $headers[] = 'Content-Type: application/json';
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
 
-            $data = array(
-                'model' => 'gpt-3.5-turbo',
-                'messages' => [
-                    [
-                        'role' => 'system',
-                        'content' => 'You are a man - lawyer. 
-                        '
-                    ],
-                    [
-                        'role' => 'system',
-                        'content' => 'Your task is to: Understand the language of the question.
-                            Clarify the question if it is unclear. Invite the user to leave a phone number for contact under some pretext.'
-                    ],
-                    [
-                        'role' => 'system',
-                        'content' => 'Your message should be on russian and should not be more than 300 characters.'
-                    ],
-                    [
-                        'role' => 'system',
-                        'content' => "If the user's message contains a phone number, give a one-word response 'challenge'"
-                    ],
-                 ],
-                'temperature' => 0.5,
-                'max_tokens' => 500
-            );
+        $result = curl_exec($ch);
+        
+        if (curl_errno($ch)) {
+            return 'Извините, ошибка получения секретного ключа. Мы скоро ее починим. Возможно завтра.';
+        }
+        $response_data = json_decode($result, true);
+        curl_close($ch);
+        // testing for fetch - return $result;
 
-            if($mesquantity > 1){
-                foreach ($array_conversation as $val) {
-                    if(array_key_first($val) == 'user_message')
-                    {
-                        $data['messages'][] = 
+        $data = [
+            'modelUri' => 'gpt://' . env('YANDEX_CT_ID') . '/yandexgpt',
+            'completionOptions' =>
+            [
+                "stream" => false,
+                "temperature" => 0.6,
+                "maxTokens" => "2000",
+                "reasoningOptions" => [
+                    "mode" => "DISABLED"
+                ]
+            ],
+            'messages' => [
+                [
+                    'role' => 'system',
+                    'text' => 'Ты юрист. Уточни вопрос пользователя. Не говори что ты искусственный интеллект. Объем ответа не должен превышать 200 символов.'
+                ],
+            ]
+        ];
+
+        $mesquantity = count($array_conversation);
+
+        if ($mesquantity > 1) {            
+            foreach ($array_conversation as $val) {                
+                if (array_key_first($val) == 'user_message') {
+                    $data['messages'][] =
                         [
                             'role' => 'user',
-                            'content' => $val['user_message']
+                            'text' => $val['user_message']
                         ];
-                    }
-                    if(array_key_first($val) == 'ai_message')
-                    {
-                        $data['messages'][] = 
+                }
+                if (array_key_first($val) == 'ai_message') {
+                    $data['messages'][] =
                         [
                             'role' => 'assistant',
-                            'content' => $val['ai_message']
+                            'text' => $val['ai_message']
                         ];
-                    }
                 }
             }
+        }
 
-            $data['messages'][] = 
-                [
-                    'role' => 'user',
-                    'content' => $ask,
-                ];
-
-            $json_data = json_encode($data);
-
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
-            curl_setopt($ch, CURLOPT_PROXY, $proxy);
-            curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
+        $data['messages'][] =
+            [
+                'role' => 'user',
+                'text' => $ask,
+            ];
 
 
-            $headers = array();
-            $headers[] = 'Content-Type: application/json';
-            $headers[] = 'Authorization: Bearer '.env('OPENAI_API_KEY');
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($ch, CURLOPT_HEADER, 0);
 
-            $result = curl_exec($ch);
-            if (curl_errno($ch)) {
-                echo 'Error:' . curl_error($ch);
+        $json_data = json_encode($data);
+
+        $url = 'https://llm.api.cloud.yandex.net/foundationModels/v1/completion';
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+
+        $headers = array();
+        $headers[] = 'Content-Type: application/json';
+        $headers[] = 'Authorization: Bearer ' . $response_data['iamToken'];
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+
+        $result = curl_exec($ch);
+       
+        if (curl_errno($ch)) {
+            return 'Извините, ошибка взаимодействия с сервером. Мы скоро ее починим. Возможно завтра.';
+        }
+        $response_data = json_decode($result, true);
+
+        $generated_text = $response_data['result']['alternatives'][0]['message']['text'];
+        curl_close($ch);
+
+        if ($generated_text) {
+            if (str_contains($generated_text, 'интеллект')) {
+                return 'Простите, но Ваш вопрос представляет сложность. Нужно немного больше времени.';
             }
-           
-            $response_data = json_decode($result, true);
-            $generated_text = $response_data['choices'][0]['message']['content'];
-            curl_close($ch);        
             return $generated_text;
+        } else {
+            return 'Простите, я сейчас немного занят';
+        }
     }
 }
