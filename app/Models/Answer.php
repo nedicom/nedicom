@@ -15,7 +15,7 @@ class Answer extends Model
 
     public function UserAns(): belongsTo
     {
-        return $this->belongsTo(User::class, 'users_id', 'id')->select(['id', 'name', 'avatar_path']);
+        return $this->belongsTo(User::class, 'users_id', 'id')->select(['id', 'name', 'avatar_path', 'lawyer']);
     }
 
     public function Question(): belongsTo
@@ -28,7 +28,7 @@ class Answer extends Model
         return $this->belongsToMany(User::class, 'answers', 'parent_comment_id', 'users_id')
         ->using(PivotDate::class)
         ->withPivot('id', 'created_at', 'body')
-        ->select(['users.id', 'users.name', 'users.avatar_path']);
+        ->select(['users.id', 'users.name', 'users.avatar_path', 'users.lawyer']);
     }
 
     protected $casts = [

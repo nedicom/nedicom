@@ -52,6 +52,9 @@ class HandleInertiaRequests extends Middleware
                 ? session()->get('citytitle')
                 : null,
             ],
+            'cookie' => fn () => session()->get('cookie')
+                ? session()->get('cookie')
+                : false,            
         ]);
     }
 }

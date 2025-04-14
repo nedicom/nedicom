@@ -173,7 +173,7 @@ percent.value == 100
                     "
                   />
                   <span itemprop="name" class="truncate">
-                    {{ set.question.name }}
+                    пользователь скрыт
                   </span>
                 </span>
 

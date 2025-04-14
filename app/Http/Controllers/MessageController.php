@@ -13,6 +13,10 @@ use Inertia\Inertia;
 class MessageController extends Controller
 {
 
+    public function cookie()
+    {     
+        session(['cookie' => true]);
+    }
 
     public function messages()
     {

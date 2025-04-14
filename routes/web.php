@@ -44,6 +44,7 @@ Route::get('/my', [MyController::class, 'my'])->middleware('lawyer')->name('my')
 
 Route::get('/messages', [MessageController::class, 'messages'])->name('messages');
 Route::post('/message', [MessageController::class, 'send'])->name('message');
+Route::post('/cookie', [MessageController::class, 'cookie'])->name('cookie');
 Route::post('/messagesent', [MessageController::class, 'sent'])->name('message.sent');
 Route::post('/messagegetdata', [MessageController::class, 'getdata'])->name('message.get');
 
@@ -131,6 +132,14 @@ Route::controller(OffersController::class)->group(function () {
 Route::get('/policy', function () {
     return Inertia::render('Policy', ['auth' => Auth::user()]);
 })->name('policy');
+
+Route::get('/cookie', function () {
+    return Inertia::render('Cookie', ['auth' => Auth::user()]);
+})->name('cookie.page');
+
+Route::get('/personal', function () {
+    return Inertia::render('Personal', ['auth' => Auth::user()]);
+})->name('personal');
 
 Route::controller(LentaController::class)->group(function () {
     Route::get('/liked', 'liked')->name('lenta.liked');

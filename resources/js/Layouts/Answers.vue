@@ -58,10 +58,19 @@ defineProps({
               class="rounded-full mr-3"
             />
             <p
+              v-if="answer.user_ans.lawyer == 1"
               class="mr-3 text-sm text-gray-900 dark:text-white font-semibold h-min-24 flex items-center"
               itemprop="name"
             >
               {{ answer.user_ans.name }}
+            </p>
+
+            <p
+              v-else
+              class="mr-3 text-sm text-gray-900 dark:text-white font-semibold h-min-24 flex items-center"
+              itemprop="name"
+            >
+              пользователь скрыт
             </p>
           </Link>
           <p class="text-gray-400 text-sm mx-4 flex items-center">
@@ -134,6 +143,7 @@ defineProps({
           <div class="min-w-full p-6 bg-white max-w-sm flex flex-col">
             <div class="flex flex-right mb-2">
               <Link
+                v-if="subcomments.lawyer == 1"
                 :href="route('lawyer', subcomments.id)"
                 class="hover:underline flex flex-justify"
               >
@@ -148,6 +158,23 @@ defineProps({
                   {{ subcomments.name }}
                 </p>
               </Link>
+
+              <Link
+                v-else
+                href="#"
+                class="flex flex-justify cursor-default"
+              >
+                <img
+                  :src="'https://nedicom.ru/' + subcomments.avatar_path"
+                  width="40"
+                  class="rounded-full mr-3"
+                />
+                <p
+                  class="mr-3 text-sm text-gray-900  font-semibold h-min-24 flex items-center"
+                >
+                  пользователь скрыт
+                </p>
+              </Link>
               <p class="text-gray-400 text-sm mx-4 flex items-center">
                 {{ subcomments.pivot.created_at }}
               </p>
@@ -158,7 +185,9 @@ defineProps({
 
             <svg
               v-if="type === 'question' && authid === 1"
-              @click="Inertia.post(route('answer.delete', [subcomments.pivot.id]))"
+              @click="
+                Inertia.post(route('answer.delete', [subcomments.pivot.id]))
+              "
               class="w-6 h-6 text-gray-800 hover:cursor-pointer"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
@@ -178,7 +207,11 @@ defineProps({
 
             <svg
               v-if="type === 'article' && authid === 1"
-              @click="Inertia.post(route('article.comment.delete', [subcomments.pivot.id]))"
+              @click="
+                Inertia.post(
+                  route('article.comment.delete', [subcomments.pivot.id])
+                )
+              "
               class="w-6 h-6 text-gray-800 hover:cursor-pointer"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"

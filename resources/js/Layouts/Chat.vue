@@ -104,7 +104,7 @@ const send = async function () {
       class="w-full h-full mt-10 md:w-80 xl:w-96 md:right-1 rounded-t-2xl rounded-b-2xl border-y-8 border-x-4 border-gray-900 flex-col mr-0"
     >
       <div class="h-full flex flex-col items-start">
-        <div class="sticky top-0 w-full py-2 flex px-3">
+        <div class="top-0 w-full py-2 flex px-3">
           <div class="w-full flex justify-between">
             <div class="w-full flex justify-start">
               <img
