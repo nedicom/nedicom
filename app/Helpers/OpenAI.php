@@ -238,4 +238,124 @@ class OpenAI
             return 'Отличная статья, мне понравилась';
         }
     }
+
+    public static function ArticleBody($title)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://iam.api.cloud.yandex.net/iam/v1/tokens');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, '{"yandexPassportOauthToken": "' . env('YANDEX_GPT_API_KEY') . '"}');
+
+        $headers = array();
+        $headers[] = 'Content-Type: application/json';
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+
+        $result = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+        }
+        $response_data = json_decode($result, true);
+        curl_close($ch);
+
+        $data = [
+            'modelUri' => 'gpt://' . env('YANDEX_CT_ID') . '/yandexgpt',
+            'completionOptions' =>
+            [
+                "stream" => false,
+                "temperature" => 0.6,
+                "maxTokens" => "2000",
+                "reasoningOptions" => [
+                    "mode" => "ENABLED_HIDDEN"
+                ]
+            ],
+            'messages' => [
+                [
+                    'role' => 'system',
+                    'text' => 'Ты - опытный юрист - сео -копирайтер. Напиши статью для сайта объемом более 4000 символов. Статья должна содержать исключительно следующие html теги <h2>, <h3>, <p>, <ul>, <li>. Других тегов быть не должно. Заголовок статьи указывать не нужно. Начни статью с параграфа - <p>. В тексте не должно быть лишних абзацев, пробелов и знаков ```.'
+                ],
+                [
+                    'role' => 'user',
+                    'text' => $title,
+                ],
+            ]
+        ];
+
+
+        $json_data = json_encode($data);
+
+        function curlpost($json_data, $response_data){
+            $url = 'https://llm.api.cloud.yandex.net/foundationModels/v1/completion';
+    
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+    
+            $headers = array();
+            $headers[] = 'Content-Type: application/json';
+            $headers[] = 'Authorization: Bearer ' . $response_data['iamToken'];
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+    
+            $result = curl_exec($ch);
+            if (curl_errno($ch)) {
+                echo 'Error:' . curl_error($ch);
+            }
+            $response_data = json_decode($result, true);
+    
+            $generated_text = $response_data['result']['alternatives'][0]['message']['text'];
+            curl_close($ch);
+            if ($generated_text) {
+                if (str_contains($generated_text, 'ya.ru')) {
+                    return back();
+                }                      
+            } else {
+                return back();
+            }
+            return $generated_text;
+        }   
+
+        $body = curlpost($json_data, $response_data);
+
+
+        $data = [
+            'modelUri' => 'gpt://' . env('YANDEX_CT_ID') . '/yandexgpt',
+            'completionOptions' =>
+            [
+                "stream" => false,
+                "temperature" => 0.6,
+                "maxTokens" => "100",
+                "reasoningOptions" => [
+                    "mode" => "ENABLED_HIDDEN"
+                ]
+            ],
+            'messages' => [
+                [
+                    'role' => 'system',
+                    'text' => 'Ты - опытный юрист - сео -копирайтер. Напиши сео описание статьи для сайта объемом до 200 символов. Описание должно подходить поисковым машинам Google и Yandex. Не использу кавычки.'
+                ],
+                [
+                    'role' => 'user',
+                    'text' => $title,
+                ],
+            ]
+        ];
+
+        $json_data = json_encode($data);
+        $description = curlpost($json_data, $response_data);
+
+        $arr = [$body, $description];
+        return $arr;  
+    }
+
+    
 }

@@ -146,12 +146,13 @@ Route::controller(LentaController::class)->group(function () {
     Route::get('/bookmarked', 'bookmarked')->name('lenta.bookmarked');
     Route::get('/popular', 'popular')->name('lenta.popular');
     Route::get('/new', 'new')->name('lenta.new');
-    Route::get('/articles', 'articles')->name('lenta.articles');
+    Route::get('/articles', 'articles')->name('lenta.articles');    
     Route::get('/questions', 'questions')->name('lenta.questions');
 });
 
 Route::controller(ArticleController::class)->group(function () {
-    //Route::get('/articles', 'index')->name('articles');
+    Route::get('/generator', 'articleGeneration')->name('article.generator');
+    Route::post('/articles/generate', 'generate')->name('article.generate');
     Route::get('/articles/my', 'my')->middleware('lawyer')->name('my.articles');
     Route::get('/articles/{url}', 'articleURL')->name('articles/url');
     Route::get('/articlesadd', 'formadd')->name('articles.add');

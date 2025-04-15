@@ -12,6 +12,7 @@ use App\Models\cities;
 use App\Models\Questions;
 use App\Models\Article_comment;
 use Illuminate\Support\Facades\Storage;
+use App\Helpers\OpenAI;
 
 use App\Helpers\Translate;
 use App\Helpers\TgSend;
@@ -58,6 +59,32 @@ class ArticleController extends Controller
             'draft' => $draft,
         ]);
     }
+
+    public function articleGeneration()
+    {
+        return Inertia::render('Articles/Generator', [
+            'auth' => Auth::user(),
+        ]);
+    }
+
+    public function generate(Request $request)
+    {
+        $article = new Article;
+        $article->userid = Auth::user()->id;
+        $article->username = Auth::user()->name;
+        $article->header = $request->header;
+        $generation =  OpenAI::ArticleBody($request->header);
+        //dd($generation);
+        $article->body = $generation[0];
+        $article->description = $generation[1];
+        $url = Translate::translit($request->header);
+        $article->url = $url;
+
+        $article->save();
+
+        return redirect()->route('articles/url', $url);
+    }
+
 
     public function draft(Request $request)
     {

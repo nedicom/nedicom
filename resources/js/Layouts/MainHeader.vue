@@ -241,6 +241,12 @@ defineExpose({ open });
                       >
                         Сообщения
                       </DropdownLink>
+                      <DropdownLink
+                        v-if="props.auth.isadmin"
+                        :href="route('article.generator')"
+                      >
+                        Генератор
+                      </DropdownLink>
                       <DropdownLink :href="route('profile.edit')">
                         Профиль
                       </DropdownLink>
