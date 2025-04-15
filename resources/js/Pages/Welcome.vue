@@ -59,9 +59,9 @@ let mainbannerpc =
     <title>
       Услуги юриста: бесплатно, онлайн, телефон, задать вопрос, консультация
     </title>
-    <meta name="description" content="Ресурс позволяет найти юриста по своей проблеме, получить консультацию юриста, задать вопрос юристу онлайн, поулчить телефон юриста." />
+    <meta name="description" content="Услуги проверенных юристов. Консультации, вопросы, онлайн." />
     <meta property="og:title" content="Услуги юриста: бесплатно, онлайн, телефон, задать вопрос, консультация" />
-    <meta property="og:description" content="Ресурс позволяет найти юриста по своей проблеме, получить консультацию юриста, задать вопрос юристу онлайн, получить телефон юриста." />
+    <meta property="og:description" content="Услуги проверенных юристов. Консультации, вопросы, онлайн." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://nedicom.ru" />
     <meta property="og:image" :content="secondbannerpc" />
