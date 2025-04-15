@@ -59,7 +59,7 @@
         </noscript>
         <!-- /Yandex.Metrika counter -->
 
-        <!-- Top.Mail.Ru counter -->
+        <!-- Top.Mail.Ru counter 
         <script type="text/javascript">
             var _tmr = window._tmr || (window._tmr = []);
             _tmr.push({
