@@ -66,8 +66,8 @@ let aicomment = () => {
 </script>
 
 <template>
-    <!-- ai answer for article -->
-    <form v-if="set.authid == 95 || set.authid == 1 && set.type == 'article' && set.subcomments" @submit.prevent="aicomment()" class="mx-5 text-center"
+    <!-- ai answer for article -->{{  }}
+    <form v-if="set.authid == (1 || 95) && set.type == 'article' && set.subcomments" @submit.prevent="aicomment()" class="mx-5 text-center"
         :class="answerclass">
         <p class="">комментарий юриста</p>
         <div class="flex justify-center gap-4">

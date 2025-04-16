@@ -34,7 +34,7 @@ watch(() => form.body, () => {
       timerId = setTimeout(() => {
         recentlySuccessful.value = true;
         Inertia.post("/articles/draft", form, {
-          preserveScroll: false,
+          preserveScroll: true,
           onSuccess: () => setTimeout(() => {
             recentlySuccessful.value = false;
             savedelay.value = false;
