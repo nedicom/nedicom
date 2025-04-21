@@ -161,6 +161,12 @@ class QuestionsController extends Controller
     {
         $city = CitySet::CityGet(false);
 
+        if(Auth::user()){
+           if(Questions::where('user_id', Auth::user()->id)->where('created_at', '>', Carbon::now()->subDay())->first()){
+            return redirect()->route('questions.add');
+           };
+        }
+
         return Inertia::render('Questions/QuestionNA', [
             'ownercookie' => [
                 'questionTitle' => session()->get(key: 'questionTitle'),
@@ -197,6 +203,12 @@ class QuestionsController extends Controller
     {
         $city = CitySet::CityGet(false);
 
+        $hasquestion = false;
+
+        if(Auth::user()){
+            $hasquestion = Questions::where('user_id', Auth::user()->id)->where('created_at', '>', Carbon::now()->subDay())->first();
+        }
+
         $questions = Questions::limit(20)->withCount('QuantityAns')->orderBy('updated_at', 'desc')->get();
 
         return Inertia::render('Questions/Add', [
@@ -204,6 +216,7 @@ class QuestionsController extends Controller
             'SliderQ' => $questions,
             'auth' => Auth::user(),
             'filters' => $request->all(),
+            'hasquestion' => $hasquestion,
             'city' => $city,
         ]);
     }

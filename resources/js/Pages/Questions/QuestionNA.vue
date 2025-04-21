@@ -34,12 +34,12 @@ const form = useForm({
 });
 
 let submit = () => {
+  buttonDisabled.value = true;
   Inertia.post("/questions/post", form);
 };
 </script>
 
 <template>
-  {{ set.test }}
   <Head>
     <title>Проверка вопроса юристу перед публикацией</title>
     <meta
@@ -65,7 +65,7 @@ let submit = () => {
         <article
           class="mx-auto w-full max-w-2xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert"
         >
-          <SendButton class="" @click="submit(), buttonDisabled = true" :disabled="!set.auth || buttonDisabled"
+          <SendButton class="" @click="submit()" :disabled="!set.auth || buttonDisabled"
             >Опубликовать</SendButton
           >
         </article>
@@ -78,7 +78,7 @@ let submit = () => {
           <div class="grid grid-cols-1 gap-9 my-2">
             <div class="flex justify-center">
               <div class="block min-w-full p-6 bg-white max-w-sm">
-                <AIAnswer class="sm:px-6 lg:px-4 mx-5">{{ aianswer }}
+                <AIAnswer>{{ aianswer }}
                 </AIAnswer>
               </div>
             </div>
