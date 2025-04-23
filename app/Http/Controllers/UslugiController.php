@@ -446,6 +446,7 @@ class UslugiController extends Controller
                 'second_uslugi' => Uslugi::where('is_second', 1)->select('id', 'usl_name', 'main_usluga_id')
                     ->doesntHave('doesntHaveoffersbysecond')->get()->groupBy('main_usluga_id'),
                 'user' => User::where('id', $usluga->user_id)->first(),
+                'lawyers' => User::where('lawyer', 1)->get(['id', 'name']),
                 'flash' => ['message' => $request->session()->get(key: 'message')],
                 'cities' => cities::all(),
                 'practice' => DB::table('articles')->where('userid', $usluga->user_id)
@@ -523,6 +524,7 @@ class UslugiController extends Controller
         $usluga = Uslugi::find($id);
         $usluga->usl_name = $request->header;
         $usluga->usl_desc = $request->description;
+        $usluga->user_id = $request->lawyer;
         $usluga->longdescription = $request->longdescription;
         $usluga->preimushestvo1 = $request->preimushestvo1;
         $usluga->preimushestvo2 = $request->preimushestvo2;

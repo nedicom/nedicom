@@ -304,7 +304,7 @@ blockquote {
           >
             <a
               :href="
-                'https://wa.me/79855582170?text=Здравствуйте. Меня заинтересовала статья.' +
+                'https://wa.me/79788838978?text=Здравствуйте. Меня заинтересовала статья.' +
                 vars.article.header +
                 ' Не могли бы Вы мне помочь?'
               "
@@ -328,7 +328,7 @@ blockquote {
               </svg>
 
               <span class="flex flex-col">
-                <span class=""> 8 (985) 558 2170 </span>
+                <span class=""> 8 (978) 8838 978 </span>
                 <span class="text-xs"> свзяаться с автором в whatsapp </span>
               </span>
             </a>
