@@ -87,24 +87,6 @@ const callChildMethod = () => {
             </button>
           </div>
 
-          <!--
-          <div v-if="set.allsities" сlass="flex justify-center md:justify-end">
-            <div class="mb-10 px-2">
-              <div class="flex flex-wrap gap-1 justify-center md:justify-end">
-                <p class="w-full text-md font-bold text-center md:text-right">
-                  Недавно юристов искали в этих городах
-                </p>
-                <div v-for="(allcity, n) in set.allsities" :key="n">
-                  <h3 class="m-0">
-                    <a :href="route('uslugi.url', [allcity.cities.url])"
-                      class="bg-gray-100 text-xs rounded-md px-2 py-1">{{ allcity.cities.title }}</a>
-                  </h3>
-                </div>
-              </div>
-            </div>
-          </div>
-          -->
-
           <CategoryFilter :category="set.category" :cityUrl="set.city.url"
             :main_usluga_url="set.main_usluga.url ? set.main_usluga.url : '0'" :second_usluga_url="set.second_usluga ? set.second_usluga.url : 'false'
               " />
@@ -155,7 +137,7 @@ const callChildMethod = () => {
               <span class="flex items-center">
                 <RatingReady :rating="Number((set.sumrating / set.countrating).toFixed(2))" :reviewRating="false" />
               </span>
-              <span itemprop="ratingValue">{{Number((set.sumrating / set.countrating).toFixed(2))}}</span>
+              <span itemprop="ratingValue">{{ Number((set.sumrating / set.countrating).toFixed(2)) }}</span>
               из <span itemprop="bestRating">5</span> на основании
               <span itemprop="ratingCount">{{ set.countrating }} </span>отзывов
             </div>
@@ -172,9 +154,8 @@ const callChildMethod = () => {
           </div>
 
           <div v-if="set.uslugi">
-            <div v-if="set.uslugi.data" itemprop="offers" itemscope
-            itemtype="https://schema.org/AggregateOffer">
-              <div class="flex justify-start my-2 w-full text-sm font-medium text-gray-900" >
+            <div v-if="set.uslugi.data" itemprop="offers" itemscope itemtype="https://schema.org/AggregateOffer">
+              <div class="flex justify-start my-2 w-full text-sm font-medium text-gray-900">
                 Цены за консультацию
                 <meta itemprop="priceCurrency" content="RUB" />
                 <meta itemprop="lowPrice" :content="set.min" />

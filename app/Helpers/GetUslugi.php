@@ -82,7 +82,7 @@ class GetUslugi
         };
 
         $users = User::where('lawyer', '=', 1)
-            ->where('file_path', '!=', '/storage/images/landing/main/default.webp')
+            //->where('file_path', '!=', '/storage/images/landing/main/default.webp')
             ->select(
                 'users.id as user_id',
                 'users.id',

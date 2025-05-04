@@ -23,6 +23,7 @@ if (set.lawyer.total_rating < 2.0) {
 </script>
 
 <template>
+  <!--
   <h2 class="text-4xl font-semibold text-grey text-center py-10"  id="otzivi">
     Рейтинг юриста
   </h2>
@@ -139,4 +140,5 @@ if (set.lawyer.total_rating < 2.0) {
       </div>
     </div>
   </div>
+  -->
 </template>

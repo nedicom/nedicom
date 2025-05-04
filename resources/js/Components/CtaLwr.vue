@@ -10,7 +10,7 @@
                     <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl">
                         Мы не испортим Вам отзывы, чтобы заманить на платное продвижение и не разрешим безумным конкурентам испортить Вам репутацию.</p>
                         <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl">
-                           Система рейтинга основана на активности юриста на сайте. Дата запуска - 1 мая 2025 года</p>
+                           Система рейтинга основана на активности юриста на сайте. Дата запуска - 1 июня 2025 года</p>
                             <a href="/login"
                         class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900">
                         Войти

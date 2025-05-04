@@ -19,26 +19,36 @@ let secondtext = "";
 <template>
 
   <section class="my-5">
+    <div class="flex flex-col md:flex-row mx-auto items-center" itemprop="offers" itemscope
+      itemtype="https://schema.org/Offer">
 
-    <div class="flex flex-col md:flex-row mx-auto items-center" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-
-      <div class="w-full md:w-1/3 h-72">
+      <div class="w-full md:w-1/3 h-72 flex justify-center">
+                
         <a v-if="set.offer.type == 'uslugi'" :href="route('uslugi.canonical.url', [
           set.offer.cities.url,
           set.offer.main.url,
           set.offer.second.url,
           set.offer.clean_url,
         ])
-          ">
+          "
+          class="relative w-full rounded-lg  flex justify-center">
           <img class="h-full rounded-lg shadow-xl object-cover" :src="'https://nedicom.ru/' + set.offer.file_path"
-            :alt="set.offer.usl_name" loading="lazy" itemprop="image" />
+            :alt="set.offer.usl_name" loading="lazy" itemprop="image" 
+            onerror="this.style.display='none'"/>
         </a>
+
         <a v-if="set.offer.type == 'user'" :href="route('lawyer', [
           set.offer.url
         ])
-          ">
-          <img class="h-full rounded-lg shadow-xl object-cover bg-" :src="'https://nedicom.ru/' + set.offer.file_path"
-            :alt="set.offer.usl_name" loading="lazy" itemprop="image" />
+          " class="relative w-full rounded-lg shadow-xl flex justify-center">
+          <img class="h-full rounded-lg shadow-xl object-cover transition-opacity group-hover:opacity-90"
+            :src="'https://nedicom.ru/' + set.offer.file_path" :alt="set.offer.usl_name" loading="lazy"
+            itemprop="image" 
+            onerror="this.style.display='none'"/>
+
+          <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 transition-all group-hover:bg-opacity-50 rounded-lg shadow-xl">
+            <span class="text-white text-xl font-bold tracking-wide">{{ set.offer.usl_name }}</span>
+          </div>
         </a>
       </div>
 
@@ -141,8 +151,7 @@ let secondtext = "";
         }}</span>
 
         <div class="mt-4 flex items-center justify-between gap-4">
-          <p v-if="set.offer.type == 'uslugi'"
-            class="text-2xl font-extrabold leading-tight text-gray-900">
+          <p v-if="set.offer.type == 'uslugi'" class="text-2xl font-extrabold leading-tight text-gray-900">
             {{ set.offer.price }} р.
           </p>
           <p v-else class="text-2xl font-extrabold leading-tight text-gray-900">
