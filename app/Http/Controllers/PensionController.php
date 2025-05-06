@@ -29,8 +29,14 @@ class PensionController extends Controller
      */
     public function create()
     {
+        if (Cookie::get('pension_data')) {
+            $pension = json_decode(Cookie::get('pension_data'), true);
+        } else {
+            $pension = ['pension_data' => 0];
+        }
+
         return Inertia::render('Pension/Create', [
-            'pensionData' => json_decode(Cookie::get('pension_data'), true),
+            'pensionData' =>  $pension,
             'auth' => Auth::user(),
         ]);
     }
@@ -43,10 +49,10 @@ class PensionController extends Controller
      */
     public function store(StorePensionRequest $request)
     {
-        
+
         // Валидация входящих данных
         $validated = $request->validated();
-//dd($validated);
+        //dd($validated);
         $cookieValue = json_encode($validated);
         //dd($cookieValue);
         Cookie::queue('pension_data',  $cookieValue, 120);
