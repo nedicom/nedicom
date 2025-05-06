@@ -22,6 +22,8 @@ use App\Http\Controllers\MyController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\LentaController;
 use App\Http\Controllers\SocialController;
+use App\Http\Controllers\PensionController;
+
 use App\Http\Middleware\owner;
 
 use App\Http\Controllers\Admin\ArticlesController as AdminArticleController;
@@ -41,6 +43,8 @@ use Inertia\Inertia;
 Route::get('', [MainpageController::class, 'main'])->name('Welcome');
 
 Route::get('/my', [MyController::class, 'my'])->middleware('lawyer')->name('my');
+
+Route::resource('pension', PensionController::class);
 
 Route::get('/messages', [MessageController::class, 'messages'])->name('messages');
 Route::post('/message', [MessageController::class, 'send'])->name('message');
