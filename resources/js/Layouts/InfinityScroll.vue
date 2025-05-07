@@ -8,6 +8,17 @@ defineProps({
 </script>
 
 <template>
+  <div class="text-center my-20 py-20">
+    <h1
+      class="text-2xl/7 font-bold text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight"
+    >
+      Наши сервисы
+    </h1>
+  </div>
+  <div class="flex justify-center px-3 md:px-10">
+    <a href="pension/create" class="hover:text-gray-900 hover:underline text-2xl/7">Калькулятор пенсии по старости</a>
+  </div>
+
   <div class="text-center mt-20 mb-10">
     <h1
       class="text-2xl/7 font-bold text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight"

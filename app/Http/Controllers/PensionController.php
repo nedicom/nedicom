@@ -29,14 +29,18 @@ class PensionController extends Controller
      */
     public function create()
     {
+
+        $years = [['year' => 2024, 'stipk' => 133.05, 'fvipl' => 8134.88], ['year' => 2025, 'stipk' => 145.69, 'fvipl' => 8907.70]];
+
         if (Cookie::get('pension_data')) {
             $pension = json_decode(Cookie::get('pension_data'), true);
         } else {
-            $pension = ['pension_data' => 0];
+            $pension = ['gender' => 20, 'stagh2002' => 15, 'stagh1991' => 3, 'zp' => 201, 'szp' => 212, 'pktwo' => 550000, 'ipkn' => 20.1, 'year' => 2025];
         }
 
         return Inertia::render('Pension/Create', [
             'pensionData' =>  $pension,
+            'years' => $years,
             'auth' => Auth::user(),
         ]);
     }

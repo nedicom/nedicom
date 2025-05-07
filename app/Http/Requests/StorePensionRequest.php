@@ -13,6 +13,11 @@ class StorePensionRequest extends FormRequest
             'gender' => 'required',
             'stagh2002' => 'required',
             'stagh1991' => 'required',
+            'zp' => 'required',
+            'szp' => 'required',
+            'pktwo' => 'required',
+            'ipkn' => 'required',
+            'year' => 'required',
         ];
     }
     
