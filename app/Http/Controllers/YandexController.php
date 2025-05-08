@@ -4,20 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 
-use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Cookie;
+
 
 class YandexController extends Controller
 {
     public function yandexoauth()
     {
-
-
-
         try {
             // 1. Получаем access token по коду
             $response = Http::asForm()->post(config('services.yandex.token_url'), [
@@ -63,36 +58,6 @@ class YandexController extends Controller
                 }
             </script>
         HTML);
-
-            /*
-            return response(<<<HTML
-                <script>
-                if (window.opener) {
-                    // Отправляем сообщение об успехе
-                    window.opener.postMessage({
-                        type: 'yandex-auth-success',
-                        user: {
-                            id: "{$user->id}",
-                            name: "{$user->name}"
-                        }
-                    }, window.location.origin);
-                    
-                    // Закрываем окно
-                    window.close();
-                } else {
-                    // Если нет родительского окна - редирект
-                    window.location.href = '/Welcome';
-                }
-            </script>
-            HTML);
-
-
-            
-            if (Cookie::get('last_url')) {
-                return redirect()->to(Cookie::get('last_url'));
-            } else {
-                return redirect()->route('Welcome');
-            }*/
         } catch (\Exception $e) {
             return inertia('Auth/Login', [
                 'error' => 'Yandex authentication failed: ' . $e->getMessage()

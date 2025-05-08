@@ -52,12 +52,18 @@ const initYandexAuth = () => {
         }
     )
         .then(({ handler }) => handler())
+        .then(data => {
+            // Отправляем код на бэкенд
+            router.post(route('welcome'), { code: data.code });
+        })
         .catch(console.error);
 };
 
+// Безопасный обработчик сообщений
 window.addEventListener("message", (e) => {
+    if (e.origin !== window.location.origin) return;
     if (e.data === "oauthSuccess") {
-        location.reload();
+        router.reload();
     }
 });
 </script>
