@@ -52,27 +52,6 @@ const initYandexAuth = () => {
         }
     )
         .then(({ handler }) => handler())
-        .then((data) => {
-            console.log('Токен Яндекса:', data)
-            // Отправляем токен на сервер для авторизации
-            fetch('/yandexoauth', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify({ token: data.access_token })
-            })
-                .then(res => res.json())
-                .then(res => {
-                    if (res.success) {
-                        // Например, редирект или обновление состояния Inertia
-                        window.location.reload()
-                    } else {
-                        alert('Ошибка авторизации')
-                    }
-                })
-        })
         .catch(console.error);
 };
 </script>
