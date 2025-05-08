@@ -18,7 +18,7 @@ class YandexController extends Controller
         return response(<<<HTML
         <script>
             // Если нет родительского окна - редирект
-            window.location.href = '/Welcome';
+            window.close();
     </script>
     HTML);
     }
