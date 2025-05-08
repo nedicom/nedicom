@@ -31,7 +31,9 @@ class YandexController extends Controller
             }
 
             $accessToken = $response->json()['access_token'];
-dd( $accessToken);
+
+dd($accessToken);
+
             // 2. Получаем информацию о пользователе
             $userInfo = Http::withHeaders([
                 'Authorization' => 'OAuth ' . $accessToken,
@@ -51,7 +53,7 @@ dd( $accessToken);
             // 4. Авторизуем пользователя
             Auth::login($user);
     }
-
+    }
 
     public function yandexoauth()
     {
