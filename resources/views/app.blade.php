@@ -50,10 +50,6 @@
                                 f();
                             }
                         })(document, window, "tmr-code");
-
-                        <noscript >
-                            <div> <img src = "https://top-fwz1.mail.ru/counter?id=3623031;js=na" style = "position:absolute;left:-9999px;" alt = "Top.Mail.Ru" /></div> 
-                        </noscript>
                     }, 1000)
                 }
             });
