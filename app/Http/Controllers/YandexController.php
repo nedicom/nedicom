@@ -7,28 +7,30 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Request;
 
 
 class YandexController extends Controller
 {
-    public function yandexoauth()
+    public function yandexoauth(Request $request)
     {
         try {
+            
             // 1. Получаем access token по коду
             $response = Http::asForm()->post(config('services.yandex.token_url'), [
                 'grant_type' => 'authorization_code',
-                'code' => request('code'),
+                'code' => $request->input('code'),
+                //'code' => request('code'),
                 'client_id' => config('services.yandex.client_id'),
                 'client_secret' => config('services.yandex.client_secret'),
             ]);
-
 
             if (!$response->ok()) {
                 throw new \Exception('Failed to get access token');
             }
 
-            $accessToken = $response->json()['access_token'];
-
+            $accessToken = $request->input('token');
+        
             // 2. Получаем информацию о пользователе
             $userInfo = Http::withHeaders([
                 'Authorization' => 'OAuth ' . $accessToken,
@@ -48,6 +50,7 @@ class YandexController extends Controller
             // 4. Авторизуем пользователя
             Auth::login($user);
 
+            /*
             return response(<<<HTML
             <script>
                 if (window.opener) {
@@ -57,11 +60,12 @@ class YandexController extends Controller
                     window.location.href = "/";
                 }
             </script>
-        HTML);
+        HTML);*/
         } catch (\Exception $e) {
             return inertia('Auth/Login', [
                 'error' => 'Yandex authentication failed: ' . $e->getMessage()
             ]);
         }
+            
     }
 }

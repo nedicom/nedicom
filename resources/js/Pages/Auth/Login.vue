@@ -7,6 +7,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
 import { onMounted } from 'vue';
+import { Inertia } from '@inertiajs/inertia';
 
 let props = defineProps({
     canResetPassword: Boolean,
@@ -33,7 +34,6 @@ onMounted(() => {
     script.src = 'https://yastatic.net/s3/passport-sdk/autofill/v1/sdk-suggest-with-polyfills-latest.js';
     script.onload = initYandexAuth;
     document.head.appendChild(script);
-    console.log('Токен Яндекса:');
 });
 
 const initYandexAuth = () => {
@@ -56,6 +56,15 @@ const initYandexAuth = () => {
         .then(data => {
             // data - объект с токеном
             console.log('Токен Яндекса:', data);
+            Inertia.post('/yandexoauth', { code: data.code }, {
+                onSuccess: (page) => {
+                    // Если сервер возвращает редирект или успех, можно сделать так:
+                    window.location.href = '/';
+                },
+                onError: (errors) => {
+                    alert('Ошибка авторизации');
+                }
+            });
         })
         .catch(console.error);
 };

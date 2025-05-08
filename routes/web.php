@@ -251,8 +251,7 @@ Route::controller(FeedController::class)->group(function () {
 
 Route::post('/send/review', [ReviewController::class, 'store'])->name('create.review');
 
-Route::get('/yandexoauth', [YandexController::class, 'yandexoauth'])->name('yandexoauth');
-Route::post('/yandexoauttest', [YandexController::class, 'yandexoauttest'])->name('yandexoauttest');
+Route::post('/yandexoauth', [YandexController::class, 'yandexoauth'])->name('yandexoauth');
 
 Route::view('/suggest/token', 'suggest-token');
 
