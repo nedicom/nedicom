@@ -54,7 +54,7 @@ const initYandexAuth = () => {
         .then(({ handler }) => handler())
         .then(data => {
             // Отправляем код на бэкенд
-            router.post(route('welcome'), { code: data.code });
+            router.post(route('Welcome'), { code: data.code });
         })
         .catch(console.error);
 };
