@@ -14,13 +14,15 @@ class YandexController extends Controller
 {
     public function yandexoauthsucces()
     {
+        return redirect()->route('Welcome');
+        /*
         if (Cookie::get('last_url')) {
             if (Cookie::get('last_url') != 'https://nedicom.ru/login') {
                 return redirect()->to(Cookie::get('last_url'));
             }
         } else {
             return redirect()->route('Welcome');
-        }
+        }*/
     }
 
     public function yandexoauth(Request $request)
