@@ -51,12 +51,20 @@ class YandexController extends Controller
             // 4. Авторизуем пользователя
             Auth::login($user);
 
+
+            return response(<<<HTML
+                <script>
+                    window.close();
+                </script>
+            HTML);
+
+
+            /*
             if (Cookie::get('last_url')) {
                 return redirect()->to(Cookie::get('last_url'));
             } else {
                 return redirect()->route('Welcome');
-            }
-            
+            }*/
         } catch (\Exception $e) {
             return inertia('Auth/Login', [
                 'error' => 'Yandex authentication failed: ' . $e->getMessage()
