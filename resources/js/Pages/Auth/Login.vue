@@ -59,7 +59,7 @@ const initYandexAuth = () => {
             Inertia.post('/yandexoauth', { code: data.code }, {
                 onSuccess: (page) => {
                     // Если сервер возвращает редирект или успех, можно сделать так:
-                    window.location.href = '/';
+                    window.location.href = '/uslugi';
                 },
                 onError: (errors) => {
                     alert('Ошибка авторизации');
