@@ -254,6 +254,8 @@ Route::post('/send/review', [ReviewController::class, 'store'])->name('create.re
 Route::get('/yandexoauth', [YandexController::class, 'yandexoauth'])->name('yandexoauth');
 Route::post('/yandexoauttest', [YandexController::class, 'yandexoauttest'])->name('yandexoauttest');
 
+Route::view('/suggest/token', 'suggest-token');
+
 
 /*Route::get('test', [TestController::class, 'test'])
     ->name('test');*/

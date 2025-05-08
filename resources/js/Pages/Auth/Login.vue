@@ -33,6 +33,7 @@ onMounted(() => {
     script.src = 'https://yastatic.net/s3/passport-sdk/autofill/v1/sdk-suggest-with-polyfills-latest.js';
     script.onload = initYandexAuth;
     document.head.appendChild(script);
+    console.log('Токен Яндекса:');
 });
 
 const initYandexAuth = () => {
@@ -40,7 +41,7 @@ const initYandexAuth = () => {
         {
             client_id: 'aee386867bdb4be6a5c47d9bf43d5070',
             response_type: 'code',
-            redirect_uri: 'https://nedicom.ru/yandexoauth'
+            redirect_uri: 'https://nedicom.ru/suggest/token'
         },
         'https://nedicom.ru',
         {
@@ -52,20 +53,12 @@ const initYandexAuth = () => {
         }
     )
         .then(({ handler }) => handler())
-        .then(function(data) {
-               console.log('Сообщение с токеном: ', data);
-               document.body.innerHTML += `Сообщение с токеном: ${JSON.stringify(data)}`;
-            })
+        .then(data => {
+            // data - объект с токеном
+            console.log('Токен Яндекса:', data);
+        })
         .catch(console.error);
 };
-
-// Безопасный обработчик сообщений
-window.addEventListener("message", (e) => {
-    if (e.origin !== window.location.origin) return;
-    if (e.data === "oauthSuccess") {
-        router.reload();
-    }
-});
 </script>
 
 <template>
