@@ -14,7 +14,7 @@ class YandexController extends Controller
 {
     public function yandexoauth(Request $request)
     {
-        
+
         try {
 
             // 1. Получаем access token по коду
@@ -52,11 +52,11 @@ class YandexController extends Controller
 
             // 4. Авторизуем пользователя
             Auth::login($user);
+            
         } catch (\Exception $e) {
             return inertia('Auth/Login', [
                 'error' => 'Yandex authentication failed: ' . $e->getMessage()
             ]);
         }
-            
     }
 }
