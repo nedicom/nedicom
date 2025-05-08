@@ -12,9 +12,15 @@ use Illuminate\Support\Facades\Cookie;
 
 class YandexController extends Controller
 {
-    public function yandexoauthsucces()
+    public function yandexoauthsucces(Request $request)
     {
-        return redirect()->route('Welcome');
+        dd($request);
+        return response(<<<HTML
+        <script>
+            window.close();        
+        </script>
+        HTML);
+
         /*
         if (Cookie::get('last_url')) {
             if (Cookie::get('last_url') != 'https://nedicom.ru/login') {
@@ -27,7 +33,7 @@ class YandexController extends Controller
 
     public function yandexoauth(Request $request)
     {
-dd(1);
+        dd(1);
         try {
             // 1. Получаем access token по коду
             $response = Http::asForm()->post(config('services.yandex.token_url'), [
@@ -64,26 +70,7 @@ dd(1);
             Auth::login($user);
 
             /*
-            return response(<<<HTML
-                <script>
-                if (window.opener) {
-                    // Отправляем сообщение об успехе
-                    window.opener.postMessage({
-                        type: 'yandex-auth-success',
-                        user: {
-                            id: "{$user->id}",
-                            name: "{$user->name}"
-                        }
-                    }, window.location.origin);
-                    
-                    // Закрываем окно
-                    window.close();
-                } else {
-                    // Если нет родительского окна - редирект
-                    window.location.href = '/Welcome';
-                }
-            </script>
-            HTML);
+
 
 
             
