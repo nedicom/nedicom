@@ -13,10 +13,14 @@ return [
     | a conventional file to locate the various service credentials.
     |
     */
+
     'yandex' => [
         'client_id' => env('YANDEX_CLIENT_ID'),
         'client_secret' => env('YANDEX_CLIENT_SECRET'),
-        'redirect' => env('https://nedicom.ru/yandexoauth'),
+        'redirect' => env('YANDEX_REDIRECT_URI'),
+        'auth_url' => 'https://oauth.yandex.ru/authorize',
+        'token_url' => 'https://oauth.yandex.ru/token',
+        'user_info_url' => 'https://login.yandex.ru/info',
     ],
 
     'mailgun' => [

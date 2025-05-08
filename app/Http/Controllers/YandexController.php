@@ -12,7 +12,6 @@ class YandexController extends Controller
 {
     public function yandexoauth()
     {
-        dd(1);
         $user = Socialite::driver('yandex')->user();
 
         // Ваша логика создания/авторизации пользователя
