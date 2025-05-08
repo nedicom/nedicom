@@ -41,7 +41,7 @@ class YandexController extends Controller
             ])->get(config('services.yandex.user_info_url'), [
                 'format' => 'json',
             ])->json();
-
+            dd($userInfo);
             // 3. Создаем или обновляем пользователя
             $user = User::updateOrCreate([
                 'email' => $userInfo['default_email'],
