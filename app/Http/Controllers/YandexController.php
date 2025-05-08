@@ -34,8 +34,6 @@ class YandexController extends Controller
 
             $accessToken = $data['access_token'];
 
-            //$accessToken = $request->input('token');
-            dd($data);
             // 2. Получаем информацию о пользователе
             $userInfo = Http::withHeaders([
                 'Authorization' => 'OAuth ' . $accessToken,
