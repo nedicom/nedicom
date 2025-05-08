@@ -14,25 +14,7 @@ class YandexController extends Controller
 {
     public function yandexoauthsucces(Request $request)
     {
-        dd($request);
-        return response(<<<HTML
-        <script>
-            window.close();        
-        </script>
-        HTML);
 
-        /*
-        if (Cookie::get('last_url')) {
-            if (Cookie::get('last_url') != 'https://nedicom.ru/login') {
-                return redirect()->to(Cookie::get('last_url'));
-            }
-        } else {
-            return redirect()->route('Welcome');
-        }*/
-    }
-
-    public function yandexoauth(Request $request)
-    {
         try {
             // 1. Получаем access token по коду
             $response = Http::asForm()->post(config('services.yandex.token_url'), [
@@ -47,7 +29,6 @@ class YandexController extends Controller
                 throw new \Exception('Failed to get access token');
             }
 
-            $accessToken = $response->json()['access_token'];
             $accessToken = $request->input('token');
             // 2. Получаем информацию о пользователе
             $userInfo = Http::withHeaders([
@@ -83,5 +64,25 @@ class YandexController extends Controller
                 'error' => 'Yandex authentication failed: ' . $e->getMessage()
             ]);
         }
+
+        return response(<<<HTML
+        <script>
+            window.close();        
+        </script>
+        HTML);
+
+        /*
+        if (Cookie::get('last_url')) {
+            if (Cookie::get('last_url') != 'https://nedicom.ru/login') {
+                return redirect()->to(Cookie::get('last_url'));
+            }
+        } else {
+            return redirect()->route('Welcome');
+        }*/
+    }
+
+    public function yandexoauth(Request $request)
+    {
+        
     }
 }
