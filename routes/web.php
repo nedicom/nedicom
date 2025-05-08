@@ -251,9 +251,7 @@ Route::controller(FeedController::class)->group(function () {
 
 Route::post('/send/review', [ReviewController::class, 'store'])->name('create.review');
 
-Route::post('/yandexoauth', [YandexController::class, 'yandexoauth'])->name('yandexoauth');
-Route::get('/yandexoauthsucces', [YandexController::class, 'yandexoauthsucces'])->name('yandexoauthsucces');
-
+Route::get('/yandexoauth', [YandexController::class, 'yandexoauth'])->name('yandexoauth');
 
 /*Route::get('test', [TestController::class, 'test'])
     ->name('test');*/

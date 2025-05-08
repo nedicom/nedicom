@@ -40,9 +40,9 @@ const initYandexAuth = () => {
         {
             client_id: 'aee386867bdb4be6a5c47d9bf43d5070',
             response_type: 'code',
-            redirect_uri: 'https://nedicom.ru/yandexoauthsucces'
+            redirect_uri: 'https://nedicom.ru/yandexoauth'
         },
-        'https://nedicom.ru/yandexoauth',
+        'https://nedicom.ru',
         {
             view: 'button',
             parentId: 'yandex-auth-container',
