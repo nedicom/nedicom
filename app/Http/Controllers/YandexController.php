@@ -50,7 +50,7 @@ class YandexController extends Controller
             // 4. Авторизуем пользователя
             Auth::login($user);
 
-            return inertia('Welcome');
+            return back();
 
         } catch (\Exception $e) {
             return inertia('Auth/Login', [
