@@ -27,7 +27,7 @@ class YandexController extends Controller
 
     public function yandexoauth(Request $request)
     {
-
+dd(1);
         try {
             // 1. Получаем access token по коду
             $response = Http::asForm()->post(config('services.yandex.token_url'), [
