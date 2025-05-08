@@ -49,7 +49,7 @@ return new class extends Migration
         */
 
         Schema::table('users', function (Blueprint $table) {
-            $table->string('yandex_id')->nullable()->change();
+            $table->string('yandex_id')->nullable();
         });
     }
 
@@ -61,5 +61,9 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('Pension');
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('yandex_id');
+        });
     }
 };

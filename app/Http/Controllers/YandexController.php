@@ -4,18 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
-
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class YandexController extends Controller
 {
-    public function yandexoauth(Request $request)
+    public function yandexoauth()
     {
+        dd(1);
         $user = Socialite::driver('yandex')->user();
 
         // Ваша логика создания/авторизации пользователя
@@ -25,8 +22,6 @@ class YandexController extends Controller
         ], [
             'yandex_id' => $user->id,
             'name' => $user->name,
-            'email' => $user->email,
-            'password' => Hash::make(Str::random(24))
         ]);
 
         Auth::login($authUser, true);
