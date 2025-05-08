@@ -14,9 +14,10 @@ class YandexController extends Controller
 {
     public function yandexoauthsucces()
     {
-        dd(Cookie::get('last_url'));
         if (Cookie::get('last_url')) {
-            return redirect()->to(Cookie::get('last_url'));
+            if (Cookie::get('last_url') != 'https://nedicom.ru/login') {
+                return redirect()->to(Cookie::get('last_url'));
+            }
         } else {
             return redirect()->route('Welcome');
         }
@@ -60,7 +61,7 @@ class YandexController extends Controller
             // 4. Авторизуем пользователя
             Auth::login($user);
 
-/*
+            /*
             return response(<<<HTML
                 <script>
                 if (window.opener) {
