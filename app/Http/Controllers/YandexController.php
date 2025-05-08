@@ -13,6 +13,15 @@ use Illuminate\Support\Facades\Cookie;
 
 class YandexController extends Controller
 {
+    public function yandexoauthsucces()
+    {
+        if (Cookie::get('last_url')) {
+            return redirect()->to(Cookie::get('last_url'));
+        } else {
+            return redirect()->route('Welcome');
+        }
+    }
+
     public function yandexoauth()
     {
 
