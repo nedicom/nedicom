@@ -14,6 +14,7 @@ class YandexController extends Controller
 {
     public function yandexoauth(Request $request)
     {
+        dd(1);
         try {
             
             // 1. Получаем access token по коду
@@ -49,18 +50,6 @@ class YandexController extends Controller
 
             // 4. Авторизуем пользователя
             Auth::login($user);
-
-            /*
-            return response(<<<HTML
-            <script>
-                if (window.opener) {
-                    window.opener.postMessage("oauthSuccess", "*");
-                    window.close();
-                } else {
-                    window.location.href = "/";
-                }
-            </script>
-        HTML);*/
         } catch (\Exception $e) {
             return inertia('Auth/Login', [
                 'error' => 'Yandex authentication failed: ' . $e->getMessage()
