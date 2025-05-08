@@ -32,7 +32,7 @@ class YandexController extends Controller
 
             $accessToken = $response->json()['access_token'];
 
-dd($accessToken);
+            //dd($accessToken);
 
             // 2. Получаем информацию о пользователе
             $userInfo = Http::withHeaders([
