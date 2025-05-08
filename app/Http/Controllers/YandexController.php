@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 
-use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cookie;
 
 class YandexController extends Controller
@@ -22,7 +21,7 @@ class YandexController extends Controller
         }
     }
 
-    public function yandexoauth()
+    public function yandexoauth(Request $request)
     {
 
         try {
