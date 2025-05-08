@@ -51,7 +51,7 @@ class YandexController extends Controller
             // 4. Авторизуем пользователя
             Auth::login($user);
 
-
+/*
             return response(<<<HTML
                 <script>
                 if (window.opener) {
@@ -74,7 +74,7 @@ class YandexController extends Controller
             HTML);
 
 
-            /*
+            
             if (Cookie::get('last_url')) {
                 return redirect()->to(Cookie::get('last_url'));
             } else {
