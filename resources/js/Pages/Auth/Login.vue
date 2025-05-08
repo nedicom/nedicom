@@ -56,7 +56,7 @@ const initYandexAuth = () => {
             console.log('Токен Яндекса:', data)
             // Отправляем токен на сервер для авторизации
             fetch('/yandexoauth', {
-                method: 'GET',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
