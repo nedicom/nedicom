@@ -16,7 +16,7 @@ class YandexController extends Controller
     {
         
         try {
-            
+            dd($request);
             // 1. Получаем access token по коду
             $response = Http::asForm()->post(config('services.yandex.token_url'), [
                 'grant_type' => 'authorization_code',
@@ -31,7 +31,7 @@ class YandexController extends Controller
             }
 
             $accessToken = $request->input('token');
-            dd($accessToken);
+            
             // 2. Получаем информацию о пользователе
             $userInfo = Http::withHeaders([
                 'Authorization' => 'OAuth ' . $accessToken,
