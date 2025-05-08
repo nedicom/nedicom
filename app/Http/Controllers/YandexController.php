@@ -30,8 +30,12 @@ class YandexController extends Controller
                 throw new \Exception('Failed to get access token');
             }
 
-            $accessToken = $request->input('token');
-            dd($response);
+            $data = $response->json();
+
+            $accessToken = $data['access_token'];
+
+            //$accessToken = $request->input('token');
+            dd($data);
             // 2. Получаем информацию о пользователе
             $userInfo = Http::withHeaders([
                 'Authorization' => 'OAuth ' . $accessToken,
