@@ -59,8 +59,6 @@ class YandexController extends Controller
         }
     }
 
-
-
     public function yandexoauth()
     {
 

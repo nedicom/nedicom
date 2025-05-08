@@ -5,7 +5,7 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import {  Head, Link, useForm } from '@inertiajs/inertia-vue3';
+import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
 import { onMounted } from 'vue';
 
 let props = defineProps({
@@ -29,35 +29,57 @@ const submit = () => {
 
 
 onMounted(() => {
-  const script = document.createElement('script');
-  script.src = 'https://yastatic.net/s3/passport-sdk/autofill/v1/sdk-suggest-with-polyfills-latest.js';
-  script.onload = initYandexAuth;
-  document.head.appendChild(script);
+    const script = document.createElement('script');
+    script.src = 'https://yastatic.net/s3/passport-sdk/autofill/v1/sdk-suggest-with-polyfills-latest.js';
+    script.onload = initYandexAuth;
+    document.head.appendChild(script);
 });
 
 const initYandexAuth = () => {
-  window.YaAuthSuggest.init(
-    {
-      client_id: 'aee386867bdb4be6a5c47d9bf43d5070',
-      response_type: 'code',
-      redirect_uri: 'https://nedicom.ru/yandexoauthsucces'
-    },
-    'https://nedicom.ru/yandexoauth',
-    {
-      view: 'button',
-      parentId: 'yandex-auth-container',
-      buttonView: 'main',
-      buttonTheme: 'light',
-      buttonSize: 'm'
-    }
-  )
-  .then(({ handler }) => handler())
-  .catch(console.error);
+    window.YaAuthSuggest.init(
+        {
+            client_id: 'aee386867bdb4be6a5c47d9bf43d5070',
+            response_type: 'code',
+            redirect_uri: 'https://nedicom.ru/yandexoauthsucces'
+        },
+        'https://nedicom.ru/yandexoauth',
+        {
+            view: 'button',
+            parentId: 'yandex-auth-container',
+            buttonView: 'main',
+            buttonTheme: 'light',
+            buttonSize: 'm'
+        }
+    )
+        .then(({ handler }) => handler())
+        .then((data) => {
+            console.log('Токен Яндекса:', data)
+            // Отправляем токен на сервер для авторизации
+            fetch('/yandexoauth', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ token: data.access_token })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.success) {
+                        // Например, редирект или обновление состояния Inertia
+                        window.location.reload()
+                    } else {
+                        alert('Ошибка авторизации')
+                    }
+                })
+        })
+        .catch(console.error);
 };
 </script>
 
 <template>
     <GuestLayout>
+
         <Head title="Вход" />
 
         <div id="yandex-auth-container"></div>
@@ -70,15 +92,8 @@ const initYandexAuth = () => {
             <div>
                 <InputLabel for="email" value="Ваш email" />
 
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autofocus
-                    autocomplete="username"
-                />
+                <TextInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus
+                    autocomplete="username" />
 
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
@@ -86,14 +101,8 @@ const initYandexAuth = () => {
             <div class="mt-4">
                 <InputLabel for="password" value="Пароль" />
 
-                <TextInput
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password"
-                    required
-                    autocomplete="current-password"
-                />
+                <TextInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required
+                    autocomplete="current-password" />
 
                 <InputError class="mt-2" :message="form.errors.password" />
             </div>
@@ -106,19 +115,14 @@ const initYandexAuth = () => {
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <Link
-                    v-if="props.canResetPassword"
-                    :href="route('password.request')"
-                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                    Забыли пароль?
+                <Link v-if="props.canResetPassword" :href="route('password.request')"
+                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Забыли пароль?
                 </Link>
 
-                <Link
-                    :href="route('register')"
-                    class="underline ml-5 text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                    Регистрация
+                <Link :href="route('register')"
+                    class="underline ml-5 text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Регистрация
                 </Link>
 
                 <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
