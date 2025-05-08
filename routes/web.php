@@ -23,6 +23,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\LentaController;
 use App\Http\Controllers\SocialController;
 use App\Http\Controllers\PensionController;
+use App\Http\Controllers\YandexController;
 
 use App\Http\Middleware\owner;
 
@@ -249,6 +250,8 @@ Route::controller(FeedController::class)->group(function () {
 });
 
 Route::post('/send/review', [ReviewController::class, 'store'])->name('create.review');
+
+Route::get('/yandexoauth', [YandexController::class, 'yandexoauth'])->name('yandexoauth');
 
 /*Route::get('test', [TestController::class, 'test'])
     ->name('test');*/

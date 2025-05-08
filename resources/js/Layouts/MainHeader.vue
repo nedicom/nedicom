@@ -37,6 +37,7 @@ const { open, close } = useModal({
 });
 
 defineExpose({ open });
+
 </script>
 
 <template>
@@ -179,9 +180,6 @@ defineExpose({ open });
                       <DropdownLink :href="route('login')">
                         Войти
                       </DropdownLink>
-                      <DropdownLink :href="route('register')">
-                        Регистрация
-                      </DropdownLink>
                     </div>
                   </template>
                 </Dropdown>
@@ -260,9 +258,6 @@ defineExpose({ open });
               <ResponsiveNavLink :href="route('login')" class="underline">
                 Войти
               </ResponsiveNavLink>
-              <ResponsiveNavLink :href="route('register')">
-                Регистрация
-              </ResponsiveNavLink>
             </div>
           </div>
         </div>
@@ -290,5 +285,5 @@ defineExpose({ open });
       Хорошо
     </button>
   </div>
-  
+    
 </template>

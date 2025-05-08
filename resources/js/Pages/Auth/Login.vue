@@ -6,6 +6,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import {  Head, Link, useForm } from '@inertiajs/inertia-vue3';
+import { onMounted } from 'vue';
 
 let props = defineProps({
     canResetPassword: Boolean,
@@ -25,11 +26,41 @@ const submit = () => {
         onFinish: () => form.reset('password'),
     });
 };
+
+
+onMounted(() => {
+  const script = document.createElement('script');
+  script.src = 'https://yastatic.net/s3/passport-sdk/autofill/v1/sdk-suggest-with-polyfills-latest.js';
+  script.onload = initYandexAuth;
+  document.head.appendChild(script);
+});
+
+const initYandexAuth = () => {
+  window.YaAuthSuggest.init(
+    {
+      client_id: 'aee386867bdb4be6a5c47d9bf43d5070',
+      response_type: 'code',
+      redirect_uri: 'https://nedicom.ru/yandexoauth'
+    },
+    window.location.origin,
+    {
+      view: 'button',
+      parentId: 'yandex-auth-container',
+      buttonView: 'main',
+      buttonTheme: 'light',
+      buttonSize: 'm'
+    }
+  )
+  .then(({ handler }) => handler())
+  .catch(console.error);
+};
 </script>
 
 <template>
     <GuestLayout>
         <Head title="Вход" />
+
+        <div id="yandex-auth-container"></div>
 
         <div v-if="props.status" class="mb-4 font-medium text-sm text-green-600">
             {{ props.status }}
