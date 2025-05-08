@@ -4,15 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
+use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cookie;
 
 class YandexController extends Controller
 {
-    public function yandexoauthsucces(Request $request)
+    public function yandexoauthsucces()
+    {
+        return response(<<<HTML
+        <script>
+            // Если нет родительского окна - редирект
+            window.location.href = '/Welcome';
+    </script>
+    HTML);
+    }
+
+
+    public function yandexoauth()
     {
 
         try {
@@ -29,8 +41,8 @@ class YandexController extends Controller
                 throw new \Exception('Failed to get access token');
             }
 
-            $accessToken = $request->input('token');
-            dd($accessToken );
+            $accessToken = $response->json()['access_token'];
+
             // 2. Получаем информацию о пользователе
             $userInfo = Http::withHeaders([
                 'Authorization' => 'OAuth ' . $accessToken,
@@ -51,7 +63,26 @@ class YandexController extends Controller
             Auth::login($user);
 
             /*
-
+            return response(<<<HTML
+                <script>
+                if (window.opener) {
+                    // Отправляем сообщение об успехе
+                    window.opener.postMessage({
+                        type: 'yandex-auth-success',
+                        user: {
+                            id: "{$user->id}",
+                            name: "{$user->name}"
+                        }
+                    }, window.location.origin);
+                    
+                    // Закрываем окно
+                    window.close();
+                } else {
+                    // Если нет родительского окна - редирект
+                    window.location.href = '/Welcome';
+                }
+            </script>
+            HTML);
 
 
             
@@ -65,25 +96,5 @@ class YandexController extends Controller
                 'error' => 'Yandex authentication failed: ' . $e->getMessage()
             ]);
         }
-
-        return response(<<<HTML
-        <script>
-            window.close();        
-        </script>
-        HTML);
-
-        /*
-        if (Cookie::get('last_url')) {
-            if (Cookie::get('last_url') != 'https://nedicom.ru/login') {
-                return redirect()->to(Cookie::get('last_url'));
-            }
-        } else {
-            return redirect()->route('Welcome');
-        }*/
-    }
-
-    public function yandexoauth(Request $request)
-    {
-        
     }
 }

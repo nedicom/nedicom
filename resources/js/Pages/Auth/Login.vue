@@ -42,7 +42,7 @@ const initYandexAuth = () => {
       response_type: 'code',
       redirect_uri: 'https://nedicom.ru/yandexoauthsucces'
     },
-    'https://nedicom.ru/yandexoauth', //origin вспомогательной страницы, которая принимает токен.
+    'https://nedicom.ru/yandexoauth',
     {
       view: 'button',
       parentId: 'yandex-auth-container',
