@@ -13,6 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
+        /*
         Schema::create('Pension', function (Blueprint $table) {
             $table->id();            
             $table->unsignedBigInteger('user_id');
@@ -44,6 +45,11 @@ return new class extends Migration
             $table->decimal('p', 7, 2);    
             $table->decimal('nadb', 7, 2);       
             $table->decimal('pension', 8, 2);
+        });
+        */
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('yandex_id')->nullable()->change();
         });
     }
 
