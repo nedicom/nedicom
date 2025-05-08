@@ -52,8 +52,14 @@ dd($accessToken);
 
             // 4. Авторизуем пользователя
             Auth::login($user);
+        } catch (\Exception $e) {
+            return inertia('Auth/Login', [
+                'error' => 'Yandex authentication failed: ' . $e->getMessage()
+            ]);
+        }
     }
-    }
+
+
 
     public function yandexoauth()
     {
