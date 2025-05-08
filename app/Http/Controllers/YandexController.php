@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Redirect;
 
 
 class YandexController extends Controller
@@ -16,7 +18,6 @@ class YandexController extends Controller
     {
 
         try {
-
             // 1. Получаем access token по коду
             $response = Http::asForm()->post(config('services.yandex.token_url'), [
                 'grant_type' => 'authorization_code',
@@ -52,7 +53,10 @@ class YandexController extends Controller
 
             // 4. Авторизуем пользователя
             Auth::login($user);
-            
+
+            $lastUrl = Cookie::get('last_url');
+            return Redirect::to($lastUrl ?: '/profile');
+
         } catch (\Exception $e) {
             return inertia('Auth/Login', [
                 'error' => 'Yandex authentication failed: ' . $e->getMessage()

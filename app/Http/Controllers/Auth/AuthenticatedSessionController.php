@@ -20,12 +20,19 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): Response
     {
-        Cookie::queue('last_url', back()->getTargetUrl(), 60);
+        $previousUrl = back()->getTargetUrl();
+
+        if ($previousUrl != url('/login') && $previousUrl != url('/register')) {
+            Cookie::queue('last_url', $previousUrl, 60);
+        } else {
+            Cookie::queue('last_url', url('/profile'), 60);
+        }
+
         $red = back()->getTargetUrl();
         return Inertia::render('Auth/Login', [
             'redirect' => $red,
             'canResetPassword' => Route::has('password.request'),
-            'status' => session('status'),            
+            'status' => session('status'),
         ]);
     }
 
