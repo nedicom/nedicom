@@ -16,11 +16,11 @@ class YandexController extends Controller
     {
         
         try {
-            dd($request);
+            dd($request->code);
             // 1. Получаем access token по коду
             $response = Http::asForm()->post(config('services.yandex.token_url'), [
                 'grant_type' => 'authorization_code',
-                'code' => $request->input('code'),
+                'code' => $request->code,
                 //'code' => request('code'),
                 'client_id' => config('services.yandex.client_id'),
                 'client_secret' => config('services.yandex.client_secret'),
