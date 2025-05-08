@@ -54,8 +54,23 @@ class YandexController extends Controller
 
             return response(<<<HTML
                 <script>
+                if (window.opener) {
+                    // Отправляем сообщение об успехе
+                    window.opener.postMessage({
+                        type: 'yandex-auth-success',
+                        user: {
+                            id: "{$user->id}",
+                            name: "{$user->name}"
+                        }
+                    }, window.location.origin);
+                    
+                    // Закрываем окно
                     window.close();
-                </script>
+                } else {
+                    // Если нет родительского окна - редирект
+                    window.location.href = '/Welcome';
+                }
+            </script>
             HTML);
 
 
