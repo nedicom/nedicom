@@ -14,7 +14,7 @@ class YandexController extends Controller
 {
     public function yandexoauthsucces()
     {
-        dd(1);
+        dd(Cookie::get('last_url'));
         if (Cookie::get('last_url')) {
             return redirect()->to(Cookie::get('last_url'));
         } else {
