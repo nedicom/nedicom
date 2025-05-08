@@ -54,6 +54,12 @@ const initYandexAuth = () => {
         .then(({ handler }) => handler())
         .catch(console.error);
 };
+
+window.addEventListener("message", (e) => {
+    if (e.data === "oauthSuccess") {
+        location.reload();
+    }
+});
 </script>
 
 <template>

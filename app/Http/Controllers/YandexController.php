@@ -16,6 +16,8 @@ class YandexController extends Controller
     public function yandexoauth()
     {
 
+
+
         try {
             // 1. Получаем access token по коду
             $response = Http::asForm()->post(config('services.yandex.token_url'), [
@@ -52,11 +54,15 @@ class YandexController extends Controller
             Auth::login($user);
 
             return response(<<<HTML
-            <script>    
-                window.opener.location.reload();        
-                window.close();          
+            <script>
+                if (window.opener) {
+                    window.opener.postMessage("oauthSuccess", "*");
+                    window.close();
+                } else {
+                    window.location.href = "/";
+                }
             </script>
-            HTML);
+        HTML);
 
             /*
             return response(<<<HTML
