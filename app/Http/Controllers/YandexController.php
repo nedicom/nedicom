@@ -52,7 +52,8 @@ class YandexController extends Controller
             Auth::login($user);
 
             return response(<<<HTML
-            <script>            
+            <script>    
+                window.opener.location.reload();        
                 window.close();          
             </script>
             HTML);
