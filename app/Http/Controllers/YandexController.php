@@ -14,7 +14,7 @@ class YandexController extends Controller
 {
     public function yandexoauth(Request $request)
     {
-        dd(1);
+        
         try {
             
             // 1. Получаем access token по коду
@@ -31,7 +31,7 @@ class YandexController extends Controller
             }
 
             $accessToken = $request->input('token');
-        
+            dd($accessToken);
             // 2. Получаем информацию о пользователе
             $userInfo = Http::withHeaders([
                 'Authorization' => 'OAuth ' . $accessToken,
