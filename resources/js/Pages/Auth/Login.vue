@@ -52,14 +52,10 @@ const initYandexAuth = () => {
         }
     )
         .then(({ handler }) => handler())
-        .then(data => {
-            conslole.log(data.code);
-            router.post(route('yandexoauttest'), { code: data.code }, {
-                onSuccess: () => {
-                    router.visit(route('Welcome'));
-                }
-            });
-        })
+        .then(function(data) {
+               console.log('Сообщение с токеном: ', data);
+               document.body.innerHTML += `Сообщение с токеном: ${JSON.stringify(data)}`;
+            })
         .catch(console.error);
 };
 
