@@ -6,7 +6,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { Inertia } from '@inertiajs/inertia';
 
 let props = defineProps({
@@ -14,6 +14,18 @@ let props = defineProps({
     status: String,
     redirect: String,
 });
+
+const openForm = ref(false);
+const isChecked = ref(false);
+const showHint = ref(false);
+
+const handleClick = (event) => {
+    console.log('Клик по документу:', event.target);
+    if (!isChecked.value) {
+        showHint.value = true;
+        setTimeout(() => showHint.value = false, 3000);
+    }
+};
 
 const form = useForm({
     email: '',
@@ -74,13 +86,51 @@ const initYandexAuth = () => {
 
         <Head title="Вход" />
 
-        <div id="yandex-auth-container"></div>
+        <div class="flex items-center my-5">
+            <div class="w-full">
+                <div class="rounded-xl w-full overflow-hidden" @click="handleClick">
+                    <div id="yandex-auth-container" class="w-full h-full"
+                        :class="{ 'pointer-events-none': !isChecked }"></div>
+                </div>
+            </div>
+        </div>
 
         <div v-if="props.status" class="mb-4 font-medium text-sm text-green-600">
             {{ props.status }}
         </div>
 
-        <form @submit.prevent="submit">
+        <div class="flex items-start my-5">
+            <div class="flex items-center h-5">
+                <input id="remember" type="checkbox" v-model="isChecked" :class="{
+                    'ring-2 ring-red-500 animate-pulse': showHint,
+                    'ring-2 ring-green-500': isChecked
+                }" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
+                    required />
+            </div>
+            <label for="remember" class="ml-2 text-sm font-medium bg-white rounded-lg px-1 text-gray-900">Даю
+                согласие на обработку
+                <Link href="/policy"
+                    class="underline text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                персональных данных
+                </Link>
+            </label>
+        </div>
+
+        <div class="flex justify-between gap-5">
+            <div @click="openForm = !openForm"
+                class="hover:underline cursor-pointer text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Войти через форму
+            </div>
+
+            <Link :href="route('register')"
+                class="hover:underline cursor-pointer text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Регистрация
+            </Link>
+        </div>
+
+
+        <form @submit.prevent="submit" v-if="openForm">
+
             <div>
                 <InputLabel for="email" value="Ваш email" />
 
@@ -110,11 +160,6 @@ const initYandexAuth = () => {
                 <Link v-if="props.canResetPassword" :href="route('password.request')"
                     class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Забыли пароль?
-                </Link>
-
-                <Link :href="route('register')"
-                    class="underline ml-5 text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Регистрация
                 </Link>
 
                 <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">

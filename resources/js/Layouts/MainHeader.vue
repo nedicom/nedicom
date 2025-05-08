@@ -113,7 +113,7 @@ defineExpose({ open });
                   <span v-else>город</span>
                 </button>
 
-                <Dropdown align="right" width="48">
+                <Dropdown align="right" width="48" v-if="props.auth">
                   <template #trigger>
                     <span class="inline-flex rounded-md">
                       <button type="button" aria-label="enter"
@@ -121,7 +121,7 @@ defineExpose({ open });
                         <span v-if="props.auth !== null">{{
                           props.auth.name
                         }}</span>
-                        <span v-else>Войти</span>
+                        
 
                         <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                           fill="currentColor">
@@ -134,7 +134,7 @@ defineExpose({ open });
                   </template>
 
                   <template #content>
-                    <div v-if="props.auth">
+                    <div>
                       <DropdownLink :href="route('lenta.bookmarked')">
                         Закладки
                       </DropdownLink>
@@ -172,17 +172,15 @@ defineExpose({ open });
                       </DropdownLink>
                       <DropdownLink :href="route('logout')" method="post" as="button">Выйти</DropdownLink>
                     </div>
-
-                    <div v-else>
-                      <DropdownLink :href="route('lenta.bookmarked')">
-                        Мои закладки
-                      </DropdownLink>
-                      <DropdownLink :href="route('login')">
-                        Войти
-                      </DropdownLink>
-                    </div>
                   </template>
                 </Dropdown>
+
+
+                <button v-if="!props.auth" type="button"
+                  class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                  <Link :href="route('login')"> Войти </Link>
+                </button>
+                
               </div>
             </div>
 
