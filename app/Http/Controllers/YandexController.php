@@ -51,6 +51,12 @@ class YandexController extends Controller
             // 4. Авторизуем пользователя
             Auth::login($user);
 
+            return response(<<<HTML
+            <script>            
+                window.close();          
+            </script>
+            HTML);
+
             /*
             return response(<<<HTML
                 <script>
