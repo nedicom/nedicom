@@ -9,11 +9,13 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cookie;
 
 class YandexController extends Controller
 {
     public function yandexoauth()
     {
+
         try {
             // 1. Получаем access token по коду
             $response = Http::asForm()->post(config('services.yandex.token_url'), [
@@ -22,12 +24,12 @@ class YandexController extends Controller
                 'client_id' => config('services.yandex.client_id'),
                 'client_secret' => config('services.yandex.client_secret'),
             ]);
-    
-    
+
+
             if (!$response->ok()) {
                 throw new \Exception('Failed to get access token');
             }
-    
+
             $accessToken = $response->json()['access_token'];
 
             // 2. Получаем информацию о пользователе
@@ -39,10 +41,9 @@ class YandexController extends Controller
 
             // 3. Создаем или обновляем пользователя
             $user = User::updateOrCreate([
-                'email' => $userInfo['default_email'],                
+                'email' => $userInfo['default_email'],
             ], [
                 'name' => $userInfo['real_name'] ?? $userInfo['login'],
-                'email' => $userInfo['default_email'],
                 'yandex_id' => $userInfo['id'],
                 //'password' => bcrypt(Str::random(16)), // Генерируем случайный пароль
             ]);
@@ -50,35 +51,16 @@ class YandexController extends Controller
             // 4. Авторизуем пользователя
             Auth::login($user);
 
-            return back();
-
+            if (Cookie::get('last_url')) {
+                return redirect()->to(Cookie::get('last_url'));
+            } else {
+                return redirect()->route('Welcome');
+            }
+            
         } catch (\Exception $e) {
             return inertia('Auth/Login', [
-                'error' => 'Yandex authentication failed: '.$e->getMessage()
+                'error' => 'Yandex authentication failed: ' . $e->getMessage()
             ]);
         }
-
-
-
-
-
-
-
-        dd($accessToken);
-
-        $user = Socialite::driver('yandex')->user();
-
-        // Ваша логика создания/авторизации пользователя
-        $authUser = User::updateOrCreate([
-            'email' => $user->email,
-
-        ], [
-            'yandex_id' => $user->id,
-            'name' => $user->name,
-        ]);
-
-        Auth::login($authUser, true);
-
-        return redirect()->route('Welcome');
     }
 }

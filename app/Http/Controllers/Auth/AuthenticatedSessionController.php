@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Cookie;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -19,6 +20,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): Response
     {
+        Cookie::queue('last_url', back()->getTargetUrl(), 60);
         $red = back()->getTargetUrl();
         return Inertia::render('Auth/Login', [
             'redirect' => $red,
