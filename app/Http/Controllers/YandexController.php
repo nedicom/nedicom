@@ -15,12 +15,14 @@ class YandexController extends Controller
 {
     public function yandexoauthsucces()
     {
-        return response(<<<HTML
+       
+       /*return response(<<<HTML
         <script>
             // Если нет родительского окна - редирект
             window.close();
     </script>
     HTML);
+    */
     }
 
 
