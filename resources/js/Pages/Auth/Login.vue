@@ -53,9 +53,12 @@ const initYandexAuth = () => {
     )
         .then(({ handler }) => handler())
         .then(data => {
-            // Отправляем код на бэкенд
-            router.post(route('Welcome'), { code: data.code });
-            router.visit(route('Welcome'));
+            conslole.log(data.code);
+            router.post(route('yandexoauttest'), { code: data.code }, {
+                onSuccess: () => {
+                    router.visit(route('Welcome'));
+                }
+            });
         })
         .catch(console.error);
 };
