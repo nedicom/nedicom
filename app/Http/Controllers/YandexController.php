@@ -70,7 +70,6 @@ class YandexController extends Controller
             }
             // Иначе создаем/обновляем по yandex_id
             else {
-                dd(2);
                 $user = User::updateOrCreate(
                     ['yandex_id' => $userInfo['id']], // Главный ключ
                     [
@@ -80,7 +79,7 @@ class YandexController extends Controller
                     ]
                 );
             }
-            dd(3);
+
             if (!$user) {
                 return inertia('Auth/Login', [
                     'error' => 'Что-то не получилось сверить с данными Яндекса. Войдите через форму'
