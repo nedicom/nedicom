@@ -55,6 +55,7 @@ class YandexController extends Controller
             }
 
             // 3. Создаем или обновляем пользователя
+            // Если пришел email от yandex
             if (!empty($userInfo['default_email'])) {
                 $existingUserByEmail = User::where('email', $userInfo['default_email'])->first();
             }
@@ -69,13 +70,9 @@ class YandexController extends Controller
             }
             // Иначе создаем/обновляем по yandex_id
             else {
-                $email = !empty($userInfo['default_email'])
-                    ? $userInfo['default_email']
-                    : 'temp_' . $userInfo['id'] . '@yandex.ru';
                 $user = User::updateOrCreate(
                     ['yandex_id' => $userInfo['id']], // Главный ключ
                     [
-                        'email' => $email,
                         'name' => $userInfo['real_name'] ?? $userInfo['login'],
                         'client_id' => $userInfo['client_id'],
                         'default_avatar_id' => $userInfo['default_avatar_id'],
