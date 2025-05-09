@@ -93,7 +93,7 @@ class YandexController extends Controller
             return Redirect::to($lastUrl ?: '/profile');
         } catch (\Exception $e) {
             return inertia('Auth/Login', [
-                'error' => 'Что-то пошло не так'
+                'error' => 'Что-то пошло не так. Войдите через форму' . $e,
             ]);
         }
     }
