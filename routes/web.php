@@ -255,10 +255,6 @@ Route::post('/yandexoauth', [YandexController::class, 'yandexoauth'])->name('yan
 
 Route::view('/suggest/token', 'suggest-token');
 
-
-/*Route::get('test', [TestController::class, 'test'])
-    ->name('test');*/
-
 require __DIR__ . '/auth.php';
 
 Route::fallback(function (): void {

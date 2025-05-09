@@ -18,17 +18,23 @@ class YandexController extends Controller
     {
 
         try {
+            if (empty($request->code)) {
+                return inertia('Auth/Login', [
+                    'error' => 'Сервис Яндекса прямо сейчас не доступен. Войдите через форму'
+                ]);
+            }
             // 1. Получаем access token по коду
             $response = Http::asForm()->post(config('services.yandex.token_url'), [
                 'grant_type' => 'authorization_code',
                 'code' => $request->code,
-                //'code' => request('code'),
                 'client_id' => config('services.yandex.client_id'),
                 'client_secret' => config('services.yandex.client_secret'),
             ]);
 
             if (!$response->ok()) {
-                throw new \Exception('Failed to get access token');
+                return inertia('Auth/Login', [
+                    'error' => 'Сервис Яндекса прямо сейчас не доступен. Войдите через форму'
+                ]);
             }
 
             $data = $response->json();
@@ -41,27 +47,53 @@ class YandexController extends Controller
             ])->get(config('services.yandex.user_info_url'), [
                 'format' => 'json',
             ])->json();
-            dd($userInfo);
+            // проверяем
+            if (empty($userInfo['id'])) {
+                return inertia('Auth/Login', [
+                    'error' => 'Не получили от Яндекса подтверждение. Войдите через форму'
+                ]);
+            }
+
             // 3. Создаем или обновляем пользователя
-            $user = User::updateOrCreate([
-                'email' => $userInfo['default_email'],
-            ], [
-                'name' => $userInfo['real_name'] ?? $userInfo['login'],
-                'client_id' => $userInfo['client_id'],
-                "default_avatar_id" => $userInfo['default_avatar_id'],
-                'yandex_id' => $userInfo['id'],
-                //'password' => bcrypt(Str::random(16)), // Генерируем случайный пароль
-            ]);
+            if (!empty($userInfo['default_email'])) {
+                $existingUserByEmail = User::where('email', $userInfo['default_email'])->first();
+            }
+            
+            // Если пользователь найден по email, но у него нет yandex_id — обновляем
+            if (isset($existingUserByEmail) && empty($existingUserByEmail->yandex_id)) {
+                $user = $existingUserByEmail->update([
+                    'yandex_id' => $userInfo['id'],
+                    'client_id' => $userInfo['client_id'],
+                    'default_avatar_id' => $userInfo['default_avatar_id'],
+                ]);
+            } 
+            // Иначе создаем/обновляем по yandex_id
+            else {
+                $user = User::updateOrCreate(
+                    ['yandex_id' => $userInfo['id']], // Главный ключ
+                    [
+                        'email' => $userInfo['default_email'], // Может быть null
+                        'name' => $userInfo['real_name'] ?? $userInfo['login'],
+                        'client_id' => $userInfo['client_id'],
+                        'default_avatar_id' => $userInfo['default_avatar_id'],
+                    ]
+                );
+            }
+
+            if (!$user) {
+                return inertia('Auth/Login', [
+                    'error' => 'Что-то не получилось сверить с данными Яндекса. Войдите через форму'
+                ]);
+            }
 
             // 4. Авторизуем пользователя
             Auth::login($user);
 
             $lastUrl = Cookie::get('last_url');
             return Redirect::to($lastUrl ?: '/profile');
-
         } catch (\Exception $e) {
             return inertia('Auth/Login', [
-                'error' => 'Yandex authentication failed: ' . $e->getMessage()
+                'error' => 'Что-то пошло не так'
             ]);
         }
     }
