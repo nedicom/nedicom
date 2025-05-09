@@ -62,8 +62,6 @@ class YandexController extends Controller
 
             // Если пользователь найден по email, но у него нет yandex_id — обновляем
             if (isset($existingUserByEmail) && empty($existingUserByEmail->yandex_id)) {
-
-                dd(1);
                 $user = $existingUserByEmail->update([
                     'yandex_id' => $userInfo['id'],
                     'client_id' => $userInfo['client_id'],
