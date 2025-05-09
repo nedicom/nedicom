@@ -50,6 +50,8 @@ return new class extends Migration
 
         Schema::table('users', function (Blueprint $table) {
             $table->string('yandex_id')->nullable();
+            $table->string('client_id')->nullable();
+            $table->string('default_avatar_id')->nullable();
         });
     }
 
