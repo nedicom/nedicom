@@ -62,6 +62,8 @@ class YandexController extends Controller
 
             // Если пользователь найден по email, но у него нет yandex_id — обновляем
             if (isset($existingUserByEmail) && empty($existingUserByEmail->yandex_id)) {
+
+                dd(1);
                 $user = $existingUserByEmail->update([
                     'yandex_id' => $userInfo['id'],
                     'client_id' => $userInfo['client_id'],
@@ -70,6 +72,7 @@ class YandexController extends Controller
             }
             // Иначе создаем/обновляем по yandex_id
             else {
+                dd(2);
                 $user = User::updateOrCreate(
                     ['yandex_id' => $userInfo['id']], // Главный ключ
                     [
@@ -79,7 +82,7 @@ class YandexController extends Controller
                     ]
                 );
             }
-
+            dd(3);
             if (!$user) {
                 return inertia('Auth/Login', [
                     'error' => 'Что-то не получилось сверить с данными Яндекса. Войдите через форму'
