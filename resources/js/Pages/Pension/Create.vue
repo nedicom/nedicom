@@ -29,10 +29,14 @@ let form = reactive({
 });
 
 // Автоматически обновляем yearData при изменении selectedYear
-watch(() => form.year, (newYear) => {
-  const selected = set.years.find(item => item.year === newYear);
-  pensYear.value = selected ? { ...selected } : null;
-}, { immediate: true });
+watch(
+  () => form.year,
+  (newYear) => {
+    const selected = set.years.find((item) => item.year === newYear);
+    pensYear.value = selected ? { ...selected } : null;
+  },
+  { immediate: true }
+);
 
 const pns = computed(() => {
   return form.stagh2002 ? Math.min(form.stagh2002 / form.gender, 1) : 0;
@@ -53,8 +57,7 @@ const rp = computed(() => {
   if (isChecked.value) {
     console.log(isChecked.value);
     return form.szp ? Math.round(szp.value * sk.value * 1671.0 * 100) / 100 : 0;
-  }
-  else {
+  } else {
     console.log(isChecked.value);
     return 660;
   }
@@ -79,30 +82,25 @@ const pk = computed(() => {
 });
 
 const sch = computed(() => {
-  return form.ipkn
-    ? Math.round((pk.value / 228) * 100) / 100
-    : 0;
+  return form.ipkn ? Math.round((pk.value / 228) * 100) / 100 : 0;
 });
 
 const ipks = computed(() => {
-  return form.ipkn
-    ? Math.round((sch.value / 64.10) * 100) / 100
-    : 0;
+  return form.ipkn ? Math.round((sch.value / 64.1) * 100) / 100 : 0;
 });
 
 const ipktotal = computed(() => {
-  return form.ipkn
-    ? Math.round((form.ipkn + ipks.value) * 100) / 100
-    : 0;
+  return form.ipkn ? Math.round((form.ipkn + ipks.value) * 100) / 100 : 0;
 });
 
 const spst = computed(() => {
   if (!pensYear.value || !pensYear.value.stipk) return 0;
   return pensYear.value.stipk
-    ? Math.round((ipktotal.value * pensYear.value.stipk + pensYear.value.fvipl) * 100) / 100
+    ? Math.round(
+        (ipktotal.value * pensYear.value.stipk + pensYear.value.fvipl) * 100
+      ) / 100
     : 0;
 });
-
 
 let submit = () => {
   Inertia.post("/pension", form);
@@ -110,64 +108,90 @@ let submit = () => {
 </script>
 
 <template>
-
   <Head title="Пенсионный калькулятор Марка Мины" />
 
   <MainHeader :auth="auth" />
 
   <Body>
-    <div class="bg-white py-12 min-h-screen max-w-7xl mx-auto sm:px-6 lg:px-8" itemscope
-      itemtype="https://schema.org/WebApplication">
-      <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
-        <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl"
-          itemprop="name">Пенсионный калькулятор <br>Марка Мины</h1>
-        <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48" itemprop="description">
-          Калькулятор пенсии по старости с возможностью расчета ИПК за прошлый период</p>
-        <div class="flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
-          <a href="https://www.youtube.com/@advokatmina"
-            class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-gray-900 rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-            <svg class="mr-2 -ml-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z">
-              </path>
-            </svg>
-            смотреть видео
-          </a>
-        </div>
+    <div
+      class="bg-white py-12 min-h-screen max-w-7xl mx-auto sm:px-6 lg:px-8"
+      itemscope
+      itemtype="https://schema.org/WebApplication"
+    >
+      <!--promo-->
+      <div
+        class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12"
+      >
+        <h1
+          class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl"
+          itemprop="name"
+        >
+          Пенсионный калькулятор <br />Марка Мины
+        </h1>
+        <p
+          class="my-8 text-lg font-normal text-gray-500 lg:text-2xl sm:px-16 xl:px-48"
+          itemprop="description"
+        >
+          Калькулятор пенсии по старости с возможностью расчета ИПК за прошлый
+          период
+        </p>
 
-        <div class="px-4 mx-auto text-center md:max-w-screen-md lg:max-w-screen-lg lg:px-36">
-          <span class="font-semibold text-gray-400 uppercase">УЗНАТЬ БОЛЬШЕ</span>
-          <div class="flex flex-wrap justify-center items-center mt-8 text-gray-500 sm:justify-between">
-            <a href="https://www.youtube.com/@advokatmina" target="_blank" class="mr-5 mb-5 lg:mb-0 hover:text-gray-800 hover:opacity-80 flex items-center gap-4">
-              <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="48" height="48" viewBox="0 0 48 48">
-                <path fill="#FF3D00"
-                  d="M43.2,33.9c-0.4,2.1-2.1,3.7-4.2,4c-3.3,0.5-8.8,1.1-15,1.1c-6.1,0-11.6-0.6-15-1.1c-2.1-0.3-3.8-1.9-4.2-4C4.4,31.6,4,28.2,4,24c0-4.2,0.4-7.6,0.8-9.9c0.4-2.1,2.1-3.7,4.2-4C12.3,9.6,17.8,9,24,9c6.2,0,11.6,0.6,15,1.1c2.1,0.3,3.8,1.9,4.2,4c0.4,2.3,0.9,5.7,0.9,9.9C44,28.2,43.6,31.6,43.2,33.9z">
-                </path>
-                <path fill="#FFF" d="M20 31L20 17 32 24z"></path>
+        <div
+          class="px-4 mx-auto text-center md:max-w-screen-md lg:max-w-screen-lg lg:px-36"
+        >
+          <div
+            class="flex flex-wrap flex-col justify-center items-center mt-8 text-gray-500"
+          >
+            <a
+              href="https://t.me/na_pens"
+              target="_blank"
+              class="mr-5 mb-5 lg:mb-0 hover:text-gray-800 hover:opacity-80 flex items-center gap-4"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                x="0px"
+                y="0px"
+                width="48"
+                height="48"
+                viewBox="0 0 48 48"
+              >
+                <path
+                  fill="#29b6f6"
+                  d="M24 4A20 20 0 1 0 24 44A20 20 0 1 0 24 4Z"
+                ></path>
+                <path
+                  fill="#fff"
+                  d="M33.95,15l-3.746,19.126c0,0-0.161,0.874-1.245,0.874c-0.576,0-0.873-0.274-0.873-0.274l-8.114-6.733 l-3.97-2.001l-5.095-1.355c0,0-0.907-0.262-0.907-1.012c0-0.625,0.933-0.923,0.933-0.923l21.316-8.468 c-0.001-0.001,0.651-0.235,1.126-0.234C33.667,14,34,14.125,34,14.5C34,14.75,33.95,15,33.95,15z"
+                ></path>
+                <path
+                  fill="#b0bec5"
+                  d="M23,30.505l-3.426,3.374c0,0-0.149,0.115-0.348,0.12c-0.069,0.002-0.143-0.009-0.219-0.043 l0.964-5.965L23,30.505z"
+                ></path>
+                <path
+                  fill="#cfd8dc"
+                  d="M29.897,18.196c-0.169-0.22-0.481-0.26-0.701-0.093L16,26c0,0,2.106,5.892,2.427,6.912 c0.322,1.021,0.58,1.045,0.58,1.045l0.964-5.965l9.832-9.096C30.023,18.729,30.064,18.416,29.897,18.196z"
+                ></path>
               </svg>
-              <div class="text-2xl font-extrabold tracking-tight leading-none md:text-3xl lg:text-4xl">youtube</div>
+              <div
+                class="text-2xl font-extrabold tracking-tight leading-none md:text-3xl lg:text-4xl"
+              >
+                telegram
+              </div>
             </a>
-            <a href="https://t.me/na_pens" target="_blank" class="mr-5 mb-5 lg:mb-0  hover:text-gray-800 hover:opacity-80 flex items-center gap-4">
-              <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="48" height="48" viewBox="0 0 48 48">
-                <path fill="#29b6f6" d="M24 4A20 20 0 1 0 24 44A20 20 0 1 0 24 4Z"></path>
-                <path fill="#fff"
-                  d="M33.95,15l-3.746,19.126c0,0-0.161,0.874-1.245,0.874c-0.576,0-0.873-0.274-0.873-0.274l-8.114-6.733 l-3.97-2.001l-5.095-1.355c0,0-0.907-0.262-0.907-1.012c0-0.625,0.933-0.923,0.933-0.923l21.316-8.468 c-0.001-0.001,0.651-0.235,1.126-0.234C33.667,14,34,14.125,34,14.5C34,14.75,33.95,15,33.95,15z">
-                </path>
-                <path fill="#b0bec5"
-                  d="M23,30.505l-3.426,3.374c0,0-0.149,0.115-0.348,0.12c-0.069,0.002-0.143-0.009-0.219-0.043 l0.964-5.965L23,30.505z">
-                </path>
-                <path fill="#cfd8dc"
-                  d="M29.897,18.196c-0.169-0.22-0.481-0.26-0.701-0.093L16,26c0,0,2.106,5.892,2.427,6.912 c0.322,1.021,0.58,1.045,0.58,1.045l0.964-5.965l9.832-9.096C30.023,18.729,30.064,18.416,29.897,18.196z">
-                </path>
-              </svg>
-              <div class="text-2xl font-extrabold tracking-tight leading-none md:text-3xl lg:text-4xl">telegram</div>
-            </a>
+            <p
+              class="my-2 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48"
+              itemprop="description"
+            >
+              В телеграм публикую все что нужно для выхода на пенсию и для проверки пенсии
+            </p>
           </div>
         </div>
       </div>
 
-      <form @submit.prevent="submit"
-        class="py-12 grid grid-cols-1 md:grid-cols-2 place-items-center gap-10 text-gray-900 text-3xl font-medium">
+      <form
+        @submit.prevent="submit"
+        class="py-12 grid grid-cols-1 md:grid-cols-2 place-items-center gap-10 text-gray-900 text-3xl font-medium"
+      >
         <!--header-->
         <h2 class="text-4xl">Ваши данные</h2>
         <h2 class="text-4xl hidden sm:block">Как мы считаем</h2>
@@ -176,16 +200,40 @@ let submit = () => {
         <div class="relative">
           <label for="quantity-input" class="block mb-2">Ваш пол:</label>
           <div class="flex items-center mb-4">
-            <input id="default-radio-1" v-model="form.gender" type="radio" :value="25" name="default-radio"
-              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 text-xl" />
-            <label for="default-radio-1" class="ms-2 text-lg font-medium text-gray-900">Мужчина</label>
+            <input
+              id="default-radio-1"
+              v-model="form.gender"
+              type="radio"
+              :value="25"
+              name="default-radio"
+              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 text-xl"
+            />
+            <label
+              for="default-radio-1"
+              class="ms-2 text-lg font-medium text-gray-900"
+              >Мужчина</label
+            >
           </div>
           <div class="flex items-center">
-            <input checked id="default-radio-2" v-model="form.gender" type="radio" :value="20" name="default-radio"
-              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500" />
-            <label for="default-radio-2" class="ms-2 text-lg font-medium text-gray-900">Женщина</label>
+            <input
+              checked
+              id="default-radio-2"
+              v-model="form.gender"
+              type="radio"
+              :value="20"
+              name="default-radio"
+              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+            />
+            <label
+              for="default-radio-2"
+              class="ms-2 text-lg font-medium text-gray-900"
+              >Женщина</label
+            >
           </div>
-          <div v-if="errors.gender" class="text-red-500 text-base animate-pulse">
+          <div
+            v-if="errors.gender"
+            class="text-red-500 text-base animate-pulse"
+          >
             {{ errors.gender }}
           </div>
         </div>
@@ -198,12 +246,22 @@ let submit = () => {
 
         <!-- стаж до 2002 года -->
         <div class="grid place-items-center">
-          <label for="quantity-input" class="block mb-2">Трудовой стаж до 2002:</label>
+          <label for="quantity-input" class="block mb-2"
+            >Трудовой стаж до 2002:</label
+          >
           <div class="relative flex items-center max-w-[8rem]">
-            <input type="number" id="stagh2002" v-model="form.stagh2002" aria-describedby="helper-text-explanation"
-              min="0" max="50" step="1"
+            <input
+              type="number"
+              id="stagh2002"
+              v-model="form.stagh2002"
+              aria-describedby="helper-text-explanation"
+              min="0"
+              max="50"
+              step="1"
               class="bg-gray-50 text-2xl border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-4 py-3"
-              placeholder="20" required />
+              placeholder="20"
+              required
+            />
           </div>
           <p id="helper-text-explanation" class="mt-2 text-lg text-gray-500">
             Укажите количество полных лет трудового стажа до 2002 года
@@ -219,10 +277,15 @@ let submit = () => {
         <!-- справка о зарплате -->
         <div class="grid place-items-center">
           <label class="inline-flex items-center cursor-pointer">
-            <input checked type="checkbox" v-model="isChecked" class="sr-only peer" />
+            <input
+              checked
+              type="checkbox"
+              v-model="isChecked"
+              class="sr-only peer"
+            />
             <div
-              class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600">
-            </div>
+              class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600"
+            ></div>
             <span class="ms-3">Справка о зарплате</span>
           </label>
           <p id="helper-text-explanation" class="mt-2 text-lg text-gray-500">
@@ -253,20 +316,37 @@ let submit = () => {
         <!-- справка о зарплате -->
 
         <!-- размер зарплаты -->
-        <transition enter-active-class="transition-opacity duration-300" enter-from-class="opacity-0"
-          enter-to-class="opacity-100" leave-active-class="transition-opacity duration-300"
-          leave-from-class="opacity-100" leave-to-class="opacity-0">
+        <transition
+          enter-active-class="transition-opacity duration-300"
+          enter-from-class="opacity-0"
+          enter-to-class="opacity-100"
+          leave-active-class="transition-opacity duration-300"
+          leave-from-class="opacity-100"
+          leave-to-class="opacity-0"
+        >
           <span v-if="isChecked">
             <div class="grid place-items-center">
-              <label for="quantity-input" class="block mb-2 text-2xl">Размер зарплаты:
+              <label for="quantity-input" class="block mb-2 text-2xl"
+                >Размер зарплаты:
               </label>
               <div class="relative flex items-center max-w-[12rem]">
-                <input type="number" id="zp" v-model="form.zp" aria-describedby="helper-text-explanation" min="0"
-                  max="50000" step="1"
+                <input
+                  type="number"
+                  id="zp"
+                  v-model="form.zp"
+                  aria-describedby="helper-text-explanation"
+                  min="0"
+                  max="50000"
+                  step="1"
                   class="bg-gray-50 text-2xl border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-4 py-3"
-                  placeholder="200" required />
+                  placeholder="200"
+                  required
+                />
               </div>
-              <p id="helper-text-explanation" class="mt-2 text-lg text-gray-500">
+              <p
+                id="helper-text-explanation"
+                class="mt-2 text-lg text-gray-500"
+              >
                 Ваша средняя зарплата на основании среднемесячного заработка за
                 5 лет до 2000 года или за 2 года до 2002. Берем из справки от
                 работодателя
@@ -274,15 +354,27 @@ let submit = () => {
             </div>
 
             <div class="grid place-items-center">
-              <label for="quantity-input" class="block mb-2 text-2xl">Средняя зарплата по стране:
+              <label for="quantity-input" class="block mb-2 text-2xl"
+                >Средняя зарплата по стране:
               </label>
               <div class="relative flex items-center max-w-[12rem]">
-                <input type="number" id="stagh2002" v-model="form.szp" aria-describedby="helper-text-explanation"
-                  min="0" max="50000" step="1"
+                <input
+                  type="number"
+                  id="stagh2002"
+                  v-model="form.szp"
+                  aria-describedby="helper-text-explanation"
+                  min="0"
+                  max="50000"
+                  step="1"
                   class="bg-gray-50 text-2xl border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-4 py-3"
-                  placeholder="215" required />
+                  placeholder="215"
+                  required
+                />
               </div>
-              <p id="helper-text-explanation" class="mt-2 text-lg text-gray-500">
+              <p
+                id="helper-text-explanation"
+                class="mt-2 text-lg text-gray-500"
+              >
                 Средняя зарплата по стране за 5 лет Вашей работы до 2000 года
                 (или 2 года до 2002)
               </p>
@@ -292,9 +384,14 @@ let submit = () => {
         <!-- размер зарплаты -->
 
         <!-- средняя зарплата по стране -->
-        <transition enter-active-class="transition-opacity duration-300" enter-from-class="opacity-0"
-          enter-to-class="opacity-100" leave-active-class="transition-opacity duration-300"
-          leave-from-class="opacity-100" leave-to-class="opacity-0">
+        <transition
+          enter-active-class="transition-opacity duration-300"
+          enter-from-class="opacity-0"
+          enter-to-class="opacity-100"
+          leave-active-class="transition-opacity duration-300"
+          leave-from-class="opacity-100"
+          leave-to-class="opacity-0"
+        >
           <div v-if="isChecked" class="text-lg w-full">
             Соотношение зарплат (СЗП) = {{ szp }}
           </div>
@@ -303,12 +400,22 @@ let submit = () => {
 
         <!-- стаж до 1991 года -->
         <div class="grid place-items-center">
-          <label for="quantity-input" class="block mb-2">Стаж до 1991 года:</label>
+          <label for="quantity-input" class="block mb-2"
+            >Стаж до 1991 года:</label
+          >
           <div class="relative flex items-center max-w-[8rem]">
-            <input type="number" id="stagh1991" v-model="form.stagh1991" min="0" max="50" step="1"
+            <input
+              type="number"
+              id="stagh1991"
+              v-model="form.stagh1991"
+              min="0"
+              max="50"
+              step="1"
               aria-describedby="helper-text-explanation"
               class="bg-gray-50 text-2xl border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-4 py-3"
-              placeholder="10" required />
+              placeholder="10"
+              required
+            />
           </div>
           <p id="helper-text-explanation" class="mt-2 text-lg text-gray-500">
             Укажите количество полных лет стажа до 1991 года
@@ -322,13 +429,22 @@ let submit = () => {
         <!-- стаж до 1991 года -->
 
         <div class="grid place-items-center">
-          <label for="quantity-input" class="block mb-2">Размер отчислений с 2002 года:
+          <label for="quantity-input" class="block mb-2"
+            >Размер отчислений с 2002 года:
           </label>
           <div class="relative flex items-center max-w-[12rem]">
-            <input type="number" id="pktwo" v-model="form.pktwo" aria-describedby="helper-text-explanation" min="0"
-              max="5000000" step="1"
+            <input
+              type="number"
+              id="pktwo"
+              v-model="form.pktwo"
+              aria-describedby="helper-text-explanation"
+              min="0"
+              max="5000000"
+              step="1"
               class="bg-gray-50 text-2xl border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-4 py-3"
-              placeholder="600000" required />
+              placeholder="600000"
+              required
+            />
           </div>
           <p id="helper-text-explanation" class="mt-2 text-lg text-gray-500">
             Сумма страховых взносов в ПФР, начиная с 1 января 2002 года. Можно
@@ -344,16 +460,26 @@ let submit = () => {
           <p>СЧ = {{ pk }} / 228 = {{ sch }} руб.</p>
 
           <p>ИПКс = {{ sch }} / 64,10 = {{ ipks }} руб.</p>
-
         </div>
 
         <div class="grid place-items-center">
-          <label for="quantity-input" class="block mb-2 font-medium text-gray-900 text-lg">Год на который считаем
-            пенсию</label>
+          <label
+            for="quantity-input"
+            class="block mb-2 font-medium text-gray-900 text-lg"
+            >Год на который считаем пенсию</label
+          >
           <div class="relative flex items-center max-w-[12rem]">
-            <select id="year-select" v-model="form.year"
-              class="bg-gray-50 border border-gray-300 text-2xl text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-              <option v-for="item in set.years" :key="item.year" :value="item.year" :data-value="item.stipk">
+            <select
+              id="year-select"
+              v-model="form.year"
+              class="bg-gray-50 border border-gray-300 text-2xl text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            >
+              <option
+                v-for="item in set.years"
+                :key="item.year"
+                :value="item.year"
+                :data-value="item.stipk"
+              >
                 {{ item.year }}
               </option>
             </select>
@@ -373,35 +499,112 @@ let submit = () => {
         <div class="grid place-items-center">
           <label for="quantity-input" class="block mb-2">ИПКн:</label>
           <div class="relative flex items-center max-w-[8rem]">
-            <input type="number" id="ipkn" v-model="form.ipkn" min="0" max="1000" step="0.01"
+            <input
+              type="number"
+              id="ipkn"
+              v-model="form.ipkn"
+              min="0"
+              max="1000"
+              step="0.01"
               aria-describedby="helper-text-explanation"
               class="bg-gray-50 text-2xl border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-4 py-3"
-              placeholder="10" required />
+              placeholder="10"
+              required
+            />
           </div>
           <p id="helper-text-explanation" class="mt-2 text-lg text-gray-500">
             Он же пенсионный бал с 2015 года. Смотрите размер в выписке из ИЛС
           </p>
         </div>
 
-        <div class="text-lg w-full">ИПК = ({{ ipks }}+ {{ form.ipkn }}) * 1 = {{ ipktotal }}</div>
+        <div class="text-lg w-full">
+          ИПК = ({{ ipks }}+ {{ form.ipkn }}) * 1 = {{ ipktotal }}
+        </div>
 
-        <button type="submit"
-          class="my-5 inline-flex items-center px-5 py-3 text-2xl font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+        <button
+          type="submit"
+          class="my-5 inline-flex items-center px-5 py-3 text-2xl font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800"
+        >
           Расчитать
         </button>
 
-        <div class="text-lg w-full">СПст (Ваша пенсия) = ({{ ipktotal }} * {{ pensYear.stipk }}) + {{ pensYear.fvipl }}
-          = {{
-            spst }}</div>
+        <div class="text-lg w-full">
+          СПст (Ваша пенсия) = ({{ ipktotal }} * {{ pensYear.stipk }}) +
+          {{ pensYear.fvipl }} = {{ spst }}
+        </div>
       </form>
+
+      <div
+        class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12"
+      >
+        <div
+          class="flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4"
+        >
+          <a
+            href="https://www.youtube.com/@advokatmina"
+            class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-gray-900 rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
+          >
+            <svg
+              class="mr-2 -ml-1 w-5 h-5"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"
+              ></path>
+            </svg>
+            смотреть видео
+          </a>
+        </div>
+
+        <div
+          class="px-4 mx-auto text-center md:max-w-screen-md lg:max-w-screen-lg lg:px-36"
+        >
+          <span class="font-semibold text-gray-400 uppercase"
+            >УЗНАТЬ БОЛЬШЕ</span
+          >
+          <div
+            class="flex flex-wrap justify-center items-center mt-8 text-gray-500"
+          >
+            <a
+              href="https://www.youtube.com/@advokatmina"
+              target="_blank"
+              class="mr-5 mb-5 lg:mb-0 hover:text-gray-800 hover:opacity-80 flex items-center gap-4"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                x="0px"
+                y="0px"
+                width="48"
+                height="48"
+                viewBox="0 0 48 48"
+              >
+                <path
+                  fill="#FF3D00"
+                  d="M43.2,33.9c-0.4,2.1-2.1,3.7-4.2,4c-3.3,0.5-8.8,1.1-15,1.1c-6.1,0-11.6-0.6-15-1.1c-2.1-0.3-3.8-1.9-4.2-4C4.4,31.6,4,28.2,4,24c0-4.2,0.4-7.6,0.8-9.9c0.4-2.1,2.1-3.7,4.2-4C12.3,9.6,17.8,9,24,9c6.2,0,11.6,0.6,15,1.1c2.1,0.3,3.8,1.9,4.2,4c0.4,2.3,0.9,5.7,0.9,9.9C44,28.2,43.6,31.6,43.2,33.9z"
+                ></path>
+                <path fill="#FFF" d="M20 31L20 17 32 24z"></path>
+              </svg>
+              <div
+                class="text-2xl font-extrabold tracking-tight leading-none md:text-3xl lg:text-4xl"
+              >
+                youtube
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
 
       <div class="text-center text-gray-400">
         <link itemprop="url" href="https://nedicom.ru/pension/create" />
 
-        <div >
-          Требования:
-        </div>
-        <div itemprop="applicationCategory" itemscope itemtype="PensionCalculator">
+        <div>Требования:</div>
+        <div
+          itemprop="applicationCategory"
+          itemscope
+          itemtype="PensionCalculator"
+        >
           <meta itemprop="name" content="PensionCalculator" />
         </div>
 
@@ -417,6 +620,7 @@ let submit = () => {
         <div itemprop="operatingSystem" content="Web browser">
           Платформа: Веб-браузер
         </div>
+        <div itemprop="operatingSystem" content="Web browser">Посещений</div>
       </div>
     </div>
   </Body>
