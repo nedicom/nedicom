@@ -29,8 +29,7 @@ if (set.auth == null) {
 }
 
 const form = useForm({
-  header: set.ownercookie.questionTitle,
-  body: set.ownercookie.questionBody,
+  header: set.ownercookie.questionBody,
 });
 
 let submit = () => {
@@ -53,9 +52,6 @@ let submit = () => {
 
     <Body>
       <Question :user="set.auth">
-        <template v-slot:title>
-          {{ ownercookie.questionTitle }}
-        </template>
         <template v-slot:body>
           {{ ownercookie.questionBody }}
         </template>
