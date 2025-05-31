@@ -14,7 +14,7 @@ class MessageController extends Controller
 {
 
     public function cookie()
-    {     
+    {
         session(['cookie' => true]);
     }
 
@@ -22,7 +22,7 @@ class MessageController extends Controller
     {
         return Inertia::render('Admin/Messages/Messages', [
             'messages' => Dialogue::orderBy('created_at', 'desc')->paginate(99),
-            'auth' => Auth::user(), 
+            'auth' => Auth::user(),
         ]);
     }
 
@@ -33,7 +33,7 @@ class MessageController extends Controller
         $dialogue_id = null;
         if (Auth::user()) {
             $current_dialogue = Dialogue::where('user_id', Auth::user()->id)->where('lawyer_id', $id)->first();
-        } else if (session()->get('dialogue') && !Auth::user()) {            
+        } else if (session()->get('dialogue') && !Auth::user()) {
             $current_dialogue = Dialogue::where('id', session()->get('dialogue'))->where('lawyer_id', $id)->first();
         } else {
             $current_dialogue = false;
@@ -56,15 +56,13 @@ class MessageController extends Controller
             $message = Dialogue::where('id', $request->dlg_id)->first();
             $array = json_decode($message->json, JSON_FORCE_OBJECT);
             $array[] = ['user_message' => $request->mess];
-        } 
-        else if (session()->get('dialogue') && !Auth::user()){
+        } else if (session()->get('dialogue') && !Auth::user()) {
             $message = Dialogue::where('id', session()->get('dialogue'))
-            ->where('lawyer_id', $request->lawyer_id)
-            ->first();
+                ->where('lawyer_id', $request->lawyer_id)
+                ->first();
             $array = json_decode($message->json, JSON_FORCE_OBJECT);
             $array[] = ['user_message' => $request->mess];
-        }
-        else {
+        } else {
             $message = new Dialogue;
             $array = array(array('user_message' => $request->mess));
         }
@@ -89,13 +87,8 @@ class MessageController extends Controller
         }
         $array = json_decode($message->json, JSON_FORCE_OBJECT);
         $openAi = OpenAIDialogue::Answer($request->mess, $array);
-        $gotit = strripos($openAi, 'challenge');
-        if ($gotit !== false) {
-            $array[] = ['ai_message' => "Спасибо, я свяжусь с Вами, как освобожусь. Запишите номер по которому можно связаться со мной 89788838978"];
-            PostDataOpenAI::PostData($message->json, $request->mess);
-        } else {
-            $array[] = ['ai_message' => $openAi];
-        }
+
+        $array[] = ['ai_message' => $openAi];
         $message->json = json_encode($array);
         $message->save();
         return ($array);
