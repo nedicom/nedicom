@@ -2,6 +2,7 @@
 import Question from "@/Layouts/PopupDialogue/Question.vue";
 import Answer from "@/Layouts/PopupDialogue/Answer.vue";
 import { ref, reactive } from "vue";
+import { Link } from "@inertiajs/inertia-vue3";
 
 const props = defineProps({
   dialogue_id: Number,
@@ -12,6 +13,7 @@ const props = defineProps({
 });
 
 const message = ref(null);
+const WaInput = ref(false);
 let jsonresp = ref(props.messages);
 
 let processing = ref(false);
@@ -181,10 +183,34 @@ const send = async function () {
         </div>
 
         <!-- message input @keyup.enter="send"-->
+        <div class="flex items-start py-2 px-5">
+          <p>Checkbox is {{ WaInput ? 'checked' : 'unchecked' }}</p>
+          <div class="flex items-center h-5">
+            <input
+              id="remember"
+              v-model="WaInput" 
+              type="checkbox"
+              value=""
+              class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
+              required
+            />
+          </div>
+          <label
+            for="remember"
+            class="ml-2 text-xs font-medium bg-white rounded-lg px-1 text-gray-900"
+            >Даю согласие на обработку
+            <Link
+              href="/policy"
+              class="underline text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              персональных данных
+            </Link></label
+          >
+        </div>
         <div class="sticky top-[100vh] w-full my-1 flex px-2 max-h-32">
           <div
             ref="message"
-            contenteditable="true"
+            :contenteditable="WaInput"
             class="w-full rounded-md p-1 overflow-y-auto scroll-smooth text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 focus:text-gray-700 focus:bg-white focus:outline-none"
             :class="{ 'border-2 border-rose-600': empty }"
           ></div>
