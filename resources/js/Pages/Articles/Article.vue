@@ -20,6 +20,16 @@ let vars = defineProps({
 });
 
 let avito = vars.article.avito.includes('avito')
+
+const trackClick = (x) => {
+  if (typeof ym !== 'undefined') {
+    ym(24900584, 'reachGoal', x, {
+      url: vars.article.avito,
+      element: 'avito_link'
+    });
+    console.log('Клик зарегистрирован - ' + x); 
+  }     
+};
 </script>
 
 <style>
@@ -223,7 +233,7 @@ blockquote {
               class="flex flex-col md:flex-row items-center justify-between my-8 p-6 bg-white rounded-lg shadow-md ">
               <h2 class="text-base text-center font-semibold text-gray-800 mb-2 md:mb-0 px-5">Этот юрист оказывает услуги на
                 Авито. Скажите, что Вы нашли его через nedicom.ru</h2>
-              <a :href="vars.article.avito" target="_blank"
+              <a :href="vars.article.avito" target="_blank" @click="trackClick('avito_click')"
                 class="inline-flex items-center px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                   <path fill-rule="evenodd"
@@ -236,7 +246,7 @@ blockquote {
             <div v-else
               class="flex flex-col md:flex-row items-center justify-between my-8 p-6 bg-white rounded-lg shadow-md ">
               <h2 class="text-base text-center font-semibold text-gray-800 mb-2 md:mb-0">Этот юрист оказывает услуги по теме статьи</h2>
-              <a :href="vars.article.avito" target="_blank"
+              <a :href="vars.article.avito" target="_blank" @click="trackClick('usluga_click')"
                 class="inline-flex items-center px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                   <path fill-rule="evenodd"
