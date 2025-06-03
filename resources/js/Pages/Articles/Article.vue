@@ -212,22 +212,25 @@ blockquote {
             class="my-4 text-3xl font-extrabold leading-tight lg:mb-6 lg:text-4xl dark:text-white lead">
             {{ vars.article.header }}
           </h1>
-
-          <div v-if="usluga" class="my-9 text-lg">
-            Найти юриста:
-            <a v-if="vars.region && vars.usluga" :href="'https://nedicom.ru/uslugi/' +
-              vars.region.url +
-              '/' +
-              vars.usluga.url
-              " class="font-bold hover:underline">{{ usluga.usl_name }} ({{ vars.region.title }})</a>
-            <a v-else-if="vars.region" :href="'https://nedicom.ru/uslugi/' + vars.region.url"
-              class="font-bold hover:underline">{{ vars.region.title }}</a>
-            <a v-else-if="vars.usluga" :href="'https://nedicom.ru/uslugi/all-cities/' + vars.usluga.url"
-              class="font-bold hover:underline">{{ usluga.usl_name }}</a>
-          </div>
           <p v-if="article.description" class="my-9 text-2xl lead text-gray-800" itemprop="description">
             {{ article.description }}
           </p>
+
+          <div v-if="vars.article.avito.includes('avito')" class="flex items-center justify-between my-8 p-6 bg-white rounded-lg shadow-md ">
+              <h2 class="text-xl font-semibold text-gray-800">Этот юрист оказывает услуги через Авито. Скажите, что Вы нашли его через nedicom.ru</h2>
+              <a :href="vars.article.avito" target="_blank"
+                class="inline-flex items-center px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd"
+                    d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"
+                    clip-rule="evenodd" />
+                </svg>
+                Заказать на Авито
+              </a>
+          </div>
+
+
+
 
           <!-- CTA wa -->
           <div class="md:hidden md:h-96 md:w-1/4 grid grid-cols-1 place-content-center px-5">
@@ -267,6 +270,19 @@ blockquote {
             </div>
           </div>
           <div class="text-justify text-lg text-gray-800 articlebody" v-html="article.body" itemprop="text"></div>
+
+          <div v-if="usluga" class="my-9 text-lg">
+            Найти юриста:
+            <a v-if="vars.region && vars.usluga" :href="'https://nedicom.ru/uslugi/' +
+              vars.region.url +
+              '/' +
+              vars.usluga.url
+              " class="font-bold hover:underline">{{ usluga.usl_name }} ({{ vars.region.title }})</a>
+            <a v-else-if="vars.region" :href="'https://nedicom.ru/uslugi/' + vars.region.url"
+              class="font-bold hover:underline">{{ vars.region.title }}</a>
+            <a v-else-if="vars.usluga" :href="'https://nedicom.ru/uslugi/all-cities/' + vars.usluga.url"
+              class="font-bold hover:underline">{{ usluga.usl_name }}</a>
+          </div>
 
           <div class="w-full">
             <Answer :answerclass="'w-full sm:px-6 lg:px-4 mx-5 py-12 bg-white overflow-hidden'" :question="vars.article"

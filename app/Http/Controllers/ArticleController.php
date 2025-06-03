@@ -155,6 +155,7 @@ class ArticleController extends Controller
         $article->usluga_id = $request->usluga_id;
         $article->youtube_file_path = $request->youtube;
         $article->region = $request->region;
+        $article->avito = $request->avito;
         $article->save();
         return redirect()->route('articles/url', $article->url);
     }
