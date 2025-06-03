@@ -19,7 +19,7 @@ let vars = defineProps({
   authid: Number,
 });
 
-let avito = vars.article.avito.includes('avito')
+let avito = vars.article.avito ? vars.article.avito.includes('avito') : null;
 
 const trackClick = (x) => {
   if (typeof ym !== 'undefined') {
