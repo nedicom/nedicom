@@ -18,6 +18,8 @@ let vars = defineProps({
   answers: Object,
   authid: Number,
 });
+
+let avito = vars.article.avito.includes('avito')
 </script>
 
 <style>
@@ -216,8 +218,11 @@ blockquote {
             {{ article.description }}
           </p>
 
-          <div v-if="vars.article.avito.includes('avito')" class="flex items-center justify-between my-8 p-6 bg-white rounded-lg shadow-md ">
-              <h2 class="text-xl font-semibold text-gray-800">Этот юрист оказывает услуги через Авито. Скажите, что Вы нашли его через nedicom.ru</h2>
+          <span v-if="vars.article.avito">
+            <div v-if="avito"
+              class="flex flex-col md:flex-row items-center justify-between my-8 p-6 bg-white rounded-lg shadow-md ">
+              <h2 class="text-base text-center font-semibold text-gray-800 mb-2 md:mb-0 px-5">Этот юрист оказывает услуги на
+                Авито. Скажите, что Вы нашли его через nedicom.ru</h2>
               <a :href="vars.article.avito" target="_blank"
                 class="inline-flex items-center px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
@@ -227,8 +232,21 @@ blockquote {
                 </svg>
                 Заказать на Авито
               </a>
-          </div>
-
+            </div>
+            <div v-else
+              class="flex flex-col md:flex-row items-center justify-between my-8 p-6 bg-white rounded-lg shadow-md ">
+              <h2 class="text-base text-center font-semibold text-gray-800 mb-2 md:mb-0">Этот юрист оказывает услуги по теме статьи</h2>
+              <a :href="vars.article.avito" target="_blank"
+                class="inline-flex items-center px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd"
+                    d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"
+                    clip-rule="evenodd" />
+                </svg>
+                Заказать услугу
+              </a>
+            </div>
+          </span>
 
 
 
@@ -260,7 +278,7 @@ blockquote {
               allowfullscreen></iframe>
           </div>
           <div v-if="vars.article.practice_file_path"
-            class="float-none lg:float-right w-1/2 text-center mx-auto mx-1 lg:ml-10 rounded-lg">
+            class="float-none lg:float-right lg:w-1/2 text-center mx-auto mx-1 lg:ml-10 rounded-lg">
             <img rel="preload" fetchpriority="high" itemprop="image"
               class="border-2 border-gray-600 rounded-lg shadow-lg"
               :src="'https://nedicom.ru/' + vars.article.practice_file_path"

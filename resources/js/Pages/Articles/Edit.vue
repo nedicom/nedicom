@@ -148,7 +148,7 @@ function submit() {
                   class="form-control mt-3 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" />
                 <p class="mt-2 text-sm">
                   <span class="font-medium">Такая ссылка увеличивает поток Ваших клиентов.</span>
-                  Просто скопируйте ссылку на Ваш профиль или объявление.
+                  Просто скопируйте ссылку на Ваш профиль или объявление. Можно вставить ссылку на Авито.
                 </p>
 
                 <!--
