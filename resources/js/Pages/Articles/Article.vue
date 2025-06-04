@@ -5,11 +5,14 @@ import Body from "@/Layouts/Body.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import Answer from "@/Layouts/Answer.vue";
 import Answers from "@/Layouts/Answers.vue";
+import SliderQuestions from "@/Layouts/SliderQuestions.vue";
 import ShareButtons from "@/Components/ShareButtons.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 
 let vars = defineProps({
   article: Object,
+  totalComments: Number,
+  SliderQ: Object,
   user: Object,
   usluga: Object,
   auth: Object,
@@ -27,8 +30,8 @@ const trackClick = (x) => {
       url: vars.article.avito,
       element: 'avito_link'
     });
-    console.log('Клик зарегистрирован - ' + x); 
-  }     
+    console.log('Клик зарегистрирован - ' + x);
+  }
 };
 </script>
 
@@ -228,11 +231,40 @@ blockquote {
             {{ article.description }}
           </p>
 
+
+          <span v-if="vars.article.tg">
+            <div class="flex flex-col md:flex-row items-center justify-between my-8 p-6 bg-white rounded-lg shadow-md">
+              <h2 v-if="vars.article.tg_description" class="text-base text-center font-semibold text-gray-800 mb-2 md:mb-0 px-5">{{ vars.article.tg_description }}</h2>
+              <h2 v-else class="text-base text-center font-semibold text-gray-800 mb-2 md:mb-0 px-5">У этого юриста есть
+                телеграм</h2>
+              <a :href="vars.article.tg" target="_blank" @click="trackClick('tg_click')"
+                class="mr-5 mb-5 lg:mb-0 hover:text-gray-800 hover:opacity-80 flex items-center gap-4">
+                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="48" height="48" viewBox="0 0 48 48">
+                  <path fill="#29b6f6" d="M24 4A20 20 0 1 0 24 44A20 20 0 1 0 24 4Z"></path>
+                  <path fill="#fff"
+                    d="M33.95,15l-3.746,19.126c0,0-0.161,0.874-1.245,0.874c-0.576,0-0.873-0.274-0.873-0.274l-8.114-6.733 l-3.97-2.001l-5.095-1.355c0,0-0.907-0.262-0.907-1.012c0-0.625,0.933-0.923,0.933-0.923l21.316-8.468 c-0.001-0.001,0.651-0.235,1.126-0.234C33.667,14,34,14.125,34,14.5C34,14.75,33.95,15,33.95,15z">
+                  </path>
+                  <path fill="#b0bec5"
+                    d="M23,30.505l-3.426,3.374c0,0-0.149,0.115-0.348,0.12c-0.069,0.002-0.143-0.009-0.219-0.043 l0.964-5.965L23,30.505z">
+                  </path>
+                  <path fill="#cfd8dc"
+                    d="M29.897,18.196c-0.169-0.22-0.481-0.26-0.701-0.093L16,26c0,0,2.106,5.892,2.427,6.912 c0.322,1.021,0.58,1.045,0.58,1.045l0.964-5.965l9.832-9.096C30.023,18.729,30.064,18.416,29.897,18.196z">
+                  </path>
+                </svg>
+                <div class="text-2xl font-extrabold tracking-tight leading-none md:text-3xl lg:text-4xl">
+                  telegram
+                </div>
+              </a>
+            </div>
+          </span>
+
+
           <span v-if="vars.article.avito">
             <div v-if="avito"
               class="flex flex-col md:flex-row items-center justify-between my-8 p-6 bg-white rounded-lg shadow-md ">
-              <h2 class="text-base text-center font-semibold text-gray-800 mb-2 md:mb-0 px-5">Этот юрист оказывает услуги на
-                Авито. Скажите, что Вы нашли его через nedicom.ru</h2>
+              <h2 class="text-base text-center font-semibold text-gray-800 mb-2 md:mb-0 px-5">Этот юрист оказывает
+                услуги на
+                Авито.</h2>
               <a :href="vars.article.avito" target="_blank" @click="trackClick('avito_click')"
                 class="inline-flex items-center px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
@@ -245,7 +277,8 @@ blockquote {
             </div>
             <div v-else
               class="flex flex-col md:flex-row items-center justify-between my-8 p-6 bg-white rounded-lg shadow-md ">
-              <h2 class="text-base text-center font-semibold text-gray-800 mb-2 md:mb-0">Этот юрист оказывает услуги по теме статьи</h2>
+              <h2 class="text-base text-center font-semibold text-gray-800 mb-2 md:mb-0">Этот юрист оказывает услуги по
+                теме статьи</h2>
               <a :href="vars.article.avito" target="_blank" @click="trackClick('usluga_click')"
                 class="inline-flex items-center px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
@@ -257,6 +290,8 @@ blockquote {
               </a>
             </div>
           </span>
+
+          <p class="text-xs text-center my-8">*nedicom.ru не отвечает за ресурсы по внешним ссылкам</p>
 
 
 
@@ -312,6 +347,8 @@ blockquote {
               class="font-bold hover:underline">{{ usluga.usl_name }}</a>
           </div>
 
+
+
           <div class="w-full">
             <Answer :answerclass="'w-full sm:px-6 lg:px-4 mx-5 py-12 bg-white overflow-hidden'" :question="vars.article"
               :authid="vars.authid" :type="'article'" :article_id="vars.article.id" :subcomments="true" />
@@ -323,7 +360,12 @@ blockquote {
               :article_id="vars.article.id" />
           </div>
         </div>
+
+
+
       </div>
+
+
       <!--
       <Chat
         :user="vars.article"
@@ -332,6 +374,42 @@ blockquote {
       />
     -->
     </div>
+
+
+
+    <div
+      class="fixed left-1/2 bottom-0 -translate-x-1/2 flex items-center p-3 mb-4 text-gray-500 bg-white rounded-lg z-50 shadow-lg"
+      role="menu">
+      <a href="#"
+        class="inline-flex items-center justify-center shrink-0 w-8 h-8 text-blue-500 bg-blue-100 rounded-lg mx-2">
+        <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+          viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 6v13m0-13 4 4m-4-4-4 4" />
+        </svg>
+        <span class="sr-only">Top icon</span>
+      </a>
+      <a href="#question-article"
+        class="inline-flex items-center justify-center shrink-0 w-8 h-8 text-blue-500 bg-blue-100 rounded-lg mx-2">
+        <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M14.6144 7.19994c.3479.48981.5999 1.15357.5999 1.80006 0 1.6569-1.3432 3-3 3-1.6569 0-3.00004-1.3431-3.00004-3 0-.67539.22319-1.29865.59983-1.80006M6.21426 6v4m0-4 6.00004-3 6 3-6 2-2.40021-.80006M6.21426 6l3.59983 1.19994M6.21426 19.8013v-2.1525c0-1.6825 1.27251-3.3075 2.95093-3.6488l3.04911 2.9345 3-2.9441c1.7026.3193 3 1.9596 3 3.6584v2.1525c0 .6312-.5373 1.1429-1.2 1.1429H7.41426c-.66274 0-1.2-.5117-1.2-1.1429Z" />
+        </svg>
+        <span class="sr-only">Question icon</span>
+      </a>
+      <a href="#comment"
+        class="inline-flex items-center justify-center shrink-0 w-8 h-8 text-blue-500 bg-blue-100 rounded-lg mx-2">
+        <svg class="w-6 h-6 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M7 9h5m3 0h2M7 12h2m3 0h5M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-6.616a1 1 0 0 0-.67.257l-2.88 2.592A.5.5 0 0 1 8 18.477V17a1 1 0 0 0-1-1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" />
+        </svg>
+        <span class="sr-only">Comment icon</span>
+      </a>{{ vars.totalComments }}
+
+    </div>
+
+    <SliderQuestions :sliderq="vars.SliderQ" />
+
   </Body>
 
   <!-- <Sidebaraction :ModalBtnText="ModalBtnText" /> -->

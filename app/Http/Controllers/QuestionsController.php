@@ -227,7 +227,8 @@ class QuestionsController extends Controller
     public function post(Request $request)
     {
         $Question = new Questions;
-        $Question->title = mb_substr($request->header, 0, 55);
+        $Question->title = OpenAI::Header($request->header);
+        
         $Question->body = $request->header;
         $url = Translate::translit($request->header);
 

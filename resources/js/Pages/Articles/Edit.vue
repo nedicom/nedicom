@@ -29,6 +29,8 @@ let form = reactive({
   id: set.article.id,
   youtube: set.article.youtube_file_path,
   avito: set.article.avito,
+  tg: set.article.tg,
+  tg_description: set.article.tg_description,
   auth: Object,
 });
 
@@ -149,6 +151,21 @@ function submit() {
                 <p class="mt-2 text-sm">
                   <span class="font-medium">Такая ссылка увеличивает поток Ваших клиентов.</span>
                   Просто скопируйте ссылку на Ваш профиль или объявление. Можно вставить ссылку на Авито.
+                </p>
+
+                <label class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white">Ссылка на
+                  телеграм</label>
+                <input v-model="form.tg"
+                  class="form-control mt-3 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" />
+                <p class="mt-2 text-sm">
+                  <span class="font-medium">Такая ссылка увеличивает число заявок или подписчиков.</span>
+                  Просто скопируйте ссылку на ТГ канал или в чат.
+                </p>
+                <label class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white">Описание телеграм</label>
+                <input v-model="form.tg_description"
+                  class="form-control mt-3 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" />
+                <p class="mt-2 text-sm">
+                  <span class="font-medium">Расскажите пользователю зачем он должен перейти в Ваш телеграм</span>
                 </p>
 
                 <!--

@@ -50,8 +50,7 @@ class ArticleController extends Controller
     {
         if (Auth::user()) {
             $draft = draft::where('user_id', Auth::user()->id)->first() ? draft::where('user_id', Auth::user()->id)->first() : ['header' => '', 'description' => '', 'body' => ''];
-        }
-        else{
+        } else {
             $draft = ['header' => '', 'description' => '', 'body' => ''];
         }
         return Inertia::render('Articles/Add', [
@@ -156,6 +155,8 @@ class ArticleController extends Controller
         $article->youtube_file_path = $request->youtube;
         $article->region = $request->region;
         $article->avito = $request->avito;
+        $article->tg = $request->tg;
+        $article->tg_description = $request->tg_description;
         $article->save();
         return redirect()->route('articles/url', $article->url);
     }
@@ -188,66 +189,101 @@ class ArticleController extends Controller
         }
     }
 
+
+    //article by url
     public function articleURL($url)
     {
+        // Получаем статью с проверкой существования
+        $article = DB::table('articles')->where('url', $url)->first();
 
-        $article = DB::table('articles')->where('articles.url', '=', $url)->first();
-        if (is_null($article)) {
-            abort(410);
+        if (!$article) {
+            abort(410, 'Статья не найдена');
         }
 
-        if (Auth::user()) {
-            $user_id = Auth::user()->id;
-            if (Auth::user()->id != $article->userid) {
-                DB::table('articles')->where('articles.url', '=', $url)->increment('counter', 1);
-            }
-        } else {
-            $user_id = null;
-            DB::table('articles')->where('articles.url', '=', $url)->increment('counter', 1);
+        // Обновляем счетчик просмотров
+        $this->incrementArticleCounter($article, $url);
+
+        // Получаем данные для отображения
+        $data = $this->prepareArticleData($article, $url);
+
+        return Inertia::render('Articles/Article', $data);
+    }
+
+    protected function incrementArticleCounter($article, $url)
+    {
+        // Увеличиваем счетчик только если пользователь не автор
+        if (!Auth::user() || Auth::id() != $article->userid) {
+            DB::table('articles')->where('url', $url)->increment('counter');
         }
+    }
 
+    protected function prepareArticleData($article, $url)
+    {
+        $userId = Auth::id();
+        $uslugaId = $article->usluga_id ?? 1;
 
-        if ($article->usluga_id == null) {
-            $usluga_id_sec = 1;
-        } else {
-            $usluga_id_sec = $article->usluga_id;
-        }
-
+        // Устанавливаем локаль для дат
         DB::statement("SET lc_time_names = 'ru_RU'");
 
-        return Inertia::render('Articles/Article', [
-            'article' => DB::table('articles')
-                ->where('articles.url', '=', $url)
-                ->leftJoin('users', 'articles.userid', '=', 'users.id')
-                ->leftjoin('bundles_socials', function ($join) use ($user_id) {
-                    $join->on('bundles_socials.article_id', '=', 'articles.id')
-                        ->where('bundles_socials.users_id', '=', $user_id);
-                })
-                ->select(
-                    'articles.*',
-                    'bundles_socials.likes as user_like',
-                    'bundles_socials.bookmarks as user_bookmark',
-                    'bundles_socials.shares as user_share',
-                    'users.id as user_id',
-                    'users.phone',
-                    'users.name',
-                    'users.avatar_path',
-                    DB::raw("DATE_FORMAT(articles.created_at, '%d-%M-%Y') as created"),
-                    DB::raw("DATE_FORMAT(articles.updated_at, '%d-%M-%Y') as updated")
-                )
-                ->selectRaw('IF(articles.id, "articles", false) AS type')
-                ->first(),
+        // Получаем вопросы для слайдера
+        $sliderQ = $this->getSliderQuestions($uslugaId);
+
+        $totalComments = Article_comment::where('article_id', $article->id)
+            ->withCount('subcomments')
+            ->get()
+            ->sum(function ($comment) {
+                return 1 + $comment->subcomments_count;
+            });
+
+        return [
+            'article' => $this->getArticleWithDetails($url, $userId),
+            'totalComments' => $totalComments,
             'auth' => Auth::user(),
-            'region' =>  cities::where('regionId', $article->region)->first(),
-            'usluga' => Uslugi::where('id', $usluga_id_sec)->select('uslugis.url', 'uslugis.usl_name')->first(),
-            'question' => Article::where('id', $article->id)->with('User')->first(),
+            'region' => Cities::where('regionId', $article->region)->first(),
+            'usluga' => Uslugi::where('id', $uslugaId)->select('url', 'usl_name')->first(),
+            'question' => Article::with('User')->find($article->id),
+            'SliderQ' => $sliderQ,
             'answers' => Article_comment::where('article_id', $article->id)
-                ->with('UserAns')
-                ->with('subcomments')
+                ->with(['UserAns', 'subcomments'])
                 ->get(),
-            'authid' => (Auth::user()) ? Auth::user()->id : null,
-        ]);
+            'authid' => $userId,
+        ];
     }
+
+    protected function getSliderQuestions($uslugaId)
+    {
+        $query = Questions::limit(20)->orderBy('updated_at', 'desc');
+
+        return $uslugaId != 1
+            ? $query->where('usluga', $uslugaId)->get()
+            : $query->get();
+    }
+
+    protected function getArticleWithDetails($url, $userId)
+    {
+        return DB::table('articles')
+            ->where('articles.url', $url)
+            ->leftJoin('users', 'articles.userid', '=', 'users.id')
+            ->leftJoin('bundles_socials', function ($join) use ($userId) {
+                $join->on('bundles_socials.article_id', '=', 'articles.id')
+                    ->where('bundles_socials.users_id', '=', $userId);
+            })
+            ->select(
+                'articles.*',
+                'bundles_socials.likes as user_like',
+                'bundles_socials.bookmarks as user_bookmark',
+                'bundles_socials.shares as user_share',
+                'users.id as user_id',
+                'users.phone',
+                'users.name',
+                'users.avatar_path',
+                DB::raw("DATE_FORMAT(articles.created_at, '%d-%M-%Y') as created"),
+                DB::raw("DATE_FORMAT(articles.updated_at, '%d-%M-%Y') as updated"),
+                DB::raw('IF(articles.id, "articles", false) AS type')
+            )
+            ->first();
+    }
+    //article by url
 
     /**
      * Remove the specified resource from storage.
