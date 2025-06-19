@@ -1,6 +1,6 @@
 <script setup>
 const props = defineProps({
-  city: String,
+  city: Object,
 });
 </script>
 
