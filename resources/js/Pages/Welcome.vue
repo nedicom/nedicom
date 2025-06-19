@@ -49,7 +49,7 @@ let secondbannerpc =
 
 let mainbannerimgmobile =
   'url("https://nedicom.ru/storage/images/landing/main/nmainmob.webp")';
-let mainbannerpc = 'url("/storage/images/services/mainpcjune3.png")';
+let mainbannerpc = 'url("/storage/images/services/mainpcjune4.png")';
 </script>
 
 <template>
