@@ -28,6 +28,9 @@ let form = reactive({
   region: set.article.region,
   id: set.article.id,
   youtube: set.article.youtube_file_path,
+  avito: set.article.avito,
+  tg: set.article.tg,
+  tg_description: set.article.tg_description,
   auth: Object,
 });
 
@@ -138,7 +141,32 @@ function submit() {
                       </option>
                     </select>
                   </div>
+
                 </div>
+
+                <label class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white">Ссылка на
+                  Услугу</label>
+                <input v-model="form.avito"
+                  class="form-control mt-3 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" />
+                <p class="mt-2 text-sm">
+                  <span class="font-medium">Такая ссылка увеличивает поток Ваших клиентов.</span>
+                  Просто скопируйте ссылку на Ваш профиль или объявление. Можно вставить ссылку на Авито.
+                </p>
+
+                <label class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white">Ссылка на
+                  телеграм</label>
+                <input v-model="form.tg"
+                  class="form-control mt-3 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" />
+                <p class="mt-2 text-sm">
+                  <span class="font-medium">Такая ссылка увеличивает число заявок или подписчиков.</span>
+                  Просто скопируйте ссылку на ТГ канал или в чат.
+                </p>
+                <label class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white">Описание телеграм</label>
+                <input v-model="form.tg_description"
+                  class="form-control mt-3 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" />
+                <p class="mt-2 text-sm">
+                  <span class="font-medium">Расскажите пользователю зачем он должен перейти в Ваш телеграм</span>
+                </p>
 
                 <!--
                 <label class="block mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white">Ссылка на
@@ -151,9 +179,10 @@ function submit() {
                   скопировать". Сложно, но только так.
                 </p>
               -->
-              <label for="post" class="block mb-1 mt-5 text-xs font-medium text-gray-700">Ваш пост будет шикарен</label>
+                <label for="post" class="block mb-1 mt-5 text-xs font-medium text-gray-700">Ваш пост будет
+                  шикарен</label>
                 <editor spellcheck="true" v-model="form.body" :auth="set.auth" :imgurl="$page.props.flash"
-                  :id="set.article.userid" :type="'article'" id="post"/>
+                  :id="set.article.userid" :type="'article'" id="post" />
 
                 <div class="flex justify-center">
                   <button type="submit"
@@ -193,7 +222,7 @@ function submit() {
                     <p>тут немного технической информации. не обращайте внимания, скоро мы ее уберем</p>
                     <p>{{ savedelay }} задержка автосохранения savedelay</p>
                     <p>{{ recentlySuccessful }} кнопка сохранения recentlySuccessful</p>
-                    <p> {{ autosave }} автосохр autosave</p> 
+                    <p> {{ autosave }} автосохр autosave</p>
                   </div>
                 </div>
 

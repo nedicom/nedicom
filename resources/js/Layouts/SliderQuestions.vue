@@ -10,9 +10,9 @@ const set = defineProps({
 </script>
 
 <template>
-  <h2 v-if="!set.sliderq[0].status" class="text-4xl font-semibold text-grey text-center py-10">
+  <h2 v-if="!set.sliderq[0].status" class="text-4xl font-semibold text-grey text-center py-10" id="question-article">
     {{ set.sliderq[0].status }}
-    Последние 20 вопросов юристам 
+    Какие вопросы нам задают
   </h2>
   <h2 v-else class="text-4xl font-semibold text-grey text-center py-10">
     Мы нашли похожие вопросы
@@ -23,44 +23,31 @@ const set = defineProps({
       <Slide v-for="card in set.sliderq" :key="card">
         <div class="carousel__item w-full mx-3">
           <!-- card -->
-          <div
-            class="w-full mx-1 rounded-lg border-1 border-gray-600 flex flex-col bg-white"
-          >
-            <div class="h-24 mt-3 mx-3 grid grid-cols-1 content-center">
-              <h3
-                class="text-gray-900 subpixel-antialiased text-center text-lg line-clamp-2 font-bold px-1"
-              >
-                {{ card.title }}
+          <div class="w-full mx-1 rounded-lg border-1 border-gray-600 flex flex-col bg-white py-5">
+            <div class="h-24 mx-3 grid grid-cols-1 content-center">
+              <h3 class="text-gray-900 subpixel-antialiased text-center text-lg line-clamp-2 font-bold px-1 hover:underline">
+                <a :href="'https://nedicom.ru/questions/' + card.url">{{ card.title }}</a>
               </h3>
             </div>
 
-            <div class="h-24 mb-3 grid grid-cols-1 content-center">
+            <div class="h-24 grid grid-cols-1 content-center">
               <p class="text-gray-700/75 line-clamp-3 px-5">
                 {{ card.body }}
               </p>
             </div>
 
-            <p class="text-gray-500">
-              ответили:
+            <p v-if="card.quantity_ans_count" class="text-gray-500 h-12 flex  justify-center items-center" >
+              <a :href="'https://nedicom.ru/questions/' + card.url"
+                class="my-3 text-sm text-gray-700/75 hover:underline">ответили</a>
               <span
-                v-if="card.quantity_ans_count"
-                class="inline-flex items-center ml-2 rounded-full bg-blue-500 px-2 py-1 text-xs font-bold text-white"
-                >{{ card.quantity_ans_count }}</span
-              >
-              <span
-                v-else
-                class="inline-flex items-center ml-2 rounded-full bg-gray-500 px-2 py-1 text-xs font-bold text-white"
-                >0</span
-              >
+                class="inline-flex items-center ml-2 rounded-full bg-blue-500 px-2 py-1 text-xs font-bold text-white w-5 h-5">{{
+                  card.quantity_ans_count }}</span>
+                  
             </p>
-
-            <div class="h-24 grid grid-cols-1 content-center">
-              <a
-                :href="'https://nedicom.ru/questions/' + card.url"
-                class="my-3 text-sm text-gray-700/75"
-                >подробнее</a
-              >
-            </div>
+            <p v-else class="text-gray-500 h-12 grid grid-cols-1 content-center" >
+              <a :href="'https://nedicom.ru/questions/' + card.url"
+                class="my-3 text-sm text-gray-700/75 hover:underline">подробнее</a>
+            </p>
           </div>
 
           <!-- card -->

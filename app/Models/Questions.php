@@ -26,7 +26,7 @@ class Questions extends Model
 
     public function QuantityAns(): hasMany
     {
-        return $this->hasMany(Answer::class,'questions_id',  'id');
+        return $this->hasMany(Answer::class, 'questions_id',  'id');
     }
 
     protected $casts = [
