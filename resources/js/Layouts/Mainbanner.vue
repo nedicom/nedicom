@@ -8,7 +8,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <!-- main banner -->asd
+  <!-- main banner -->
   <div
     id="mainbanner"
     class="relative overflow-hidden bg-cover bg-transparent bg-no-repeat bg-md-top w-full h-screen"
@@ -19,7 +19,7 @@ const props = defineProps({
           <div class="m-5">
             <span
               class="goo text-xl font-semibold bg-white rounded-lg py-1 px-4"
-              >„быть юристом - помогать людям“</span
+              >Когда юристы действительно помогают</span
             >
           </div>
         </div>

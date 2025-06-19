@@ -184,7 +184,6 @@ const send = async function () {
 
         <!-- message input @keyup.enter="send"-->
         <div class="flex items-start py-2 px-5">
-          <p>Checkbox is {{ WaInput ? 'checked' : 'unchecked' }}</p>
           <div class="flex items-center h-5">
             <input
               id="remember"
