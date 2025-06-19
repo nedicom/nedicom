@@ -48,8 +48,8 @@ let secondbannerpc =
   "https://nedicom.ru/storage/images/landing/main/nmainpc.webp";
 
 let mainbannerimgmobile =
-  'url("https://nedicom.ru/storage/images/landing/main/nmainmob.webp")';
-let mainbannerpc = 'url("/storage/images/services/mainpcjune4.png")';
+  'url("/storage/images/services/mainpcjune4.png")';
+let mainbannerpc = '/storage/images/services/mainpcjune4.png';
 </script>
 
 <template>
@@ -90,7 +90,7 @@ let mainbannerpc = 'url("/storage/images/services/mainpcjune4.png")';
     -->
     
 
-    <Mainbanner :mainbannerpc="mainbannerpc" />
+    <Mainbanner :mainbannerpc="mainbannerpc" :mainbannerimgmobile="mainbannerimgmobile"/>
 
     <FrontSecondBanner :city="city" />
 

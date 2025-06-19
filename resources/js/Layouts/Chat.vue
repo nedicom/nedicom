@@ -96,13 +96,7 @@ const send = async function () {
 </script>
 
 <template>
-  <div class="text-center my-10">
-    <h1 class="text-2xl/7 font-bold text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-      Задайте вопрос юристу онлайн
-    </h1>
-  </div>
-
-  <div class="h-[64vh] md:h-[80vh] xl:h-[70vh] flex justify-center items-center px-1">
+  <div class="h-[64vh] md:h-[80vh] xl:h-[70vh] flex justify-center items-center px-1 my-10">
     <div
       class="w-full h-full mt-10 md:w-80 xl:w-96 md:right-1 rounded-t-2xl rounded-b-2xl border-y-8 border-x-4 border-gray-900 flex-col mr-0">
       <div class="h-full flex flex-col items-start">

@@ -5,7 +5,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <section class="h-screen">
+  <section class="lg:h-screen">
     <div class="mx-auto max-w-screen-xl text-center py-8 lg:py-16 lg:px-12 flex flex-col justify-between">
       <div>
         <a
@@ -50,7 +50,7 @@ const props = defineProps({
         Номер сохранять не нужно
       </p>
       <div
-        class="flex flex-col lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4"
+        class="px-5 flex flex-col lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4"
       >
         <a
           href="#"

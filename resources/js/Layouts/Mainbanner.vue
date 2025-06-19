@@ -9,23 +9,9 @@ const props = defineProps({
 
 <template>
   <!-- main banner -->
-  <div
-    id="mainbanner"
-    class="relative overflow-hidden bg-cover bg-transparent bg-no-repeat bg-md-top w-full h-screen"
-  >
-    <div class="grid grid-cols-1 justify-items-center py-5 w-full h-full">
-      <div class="flex items-end">
-        <div class="text-black text-center">
-          <div class="m-5">
-            <span
-              class="goo text-xl font-semibold bg-white rounded-lg py-1 px-4"
-              >Когда юристы действительно помогают</span
-            >
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
+<img class="h-auto max-w-full" :src="props.mainbannerpc" alt="Мина и партенры. Юристы">
+
   <!-- main banner -->
 
   <!-- Filter: https://css-tricks.com/gooey-effect/ -->
