@@ -349,6 +349,13 @@ defineExpose({ open });
             >
               Найти юриста
             </ResponsiveNavLink>
+
+            <ResponsiveNavLink
+              :href="route('contacts')"
+              :active="route().current('contacts')"
+            >
+              Реквизиты
+            </ResponsiveNavLink>
           </div>
 
           <!-- Responsive Settings Options -->
