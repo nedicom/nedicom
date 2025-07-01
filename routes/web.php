@@ -213,13 +213,17 @@ Route::middleware('auth')->group(function () {
     Route::post('/uslimagesquare', [ImageController::class, 'square'])->name('square.post');
 });
 
-//aboutcompany
 Route::post('/social', [SocialController::class, 'reaction'])->name('reaction');
 
 //aboutcompany
 Route::get('contacts/', function () {
     return Inertia::render('About', ['auth' => Auth::user()]);
 })->name('contacts');
+
+//offer
+Route::get('oferta', function () {
+    return Inertia::render('Oferta', ['auth' => Auth::user()]);
+})->name('oferta');
 
 //success page
 Route::get('success', function () {

@@ -23,6 +23,11 @@
         >
       </li>
       <li>
+        <a href="/oferta" class="hover:underline mx-1"
+          >Оферта</a
+        >
+      </li>
+      <li>
         <a href="/personal" class="hover:underline mx-1"
           >Согласие на обработку персональных данных</a
         >
@@ -31,6 +36,5 @@
         <a href="/contacts" class="hover:underline mx-1">Контакты</a>
       </li>
     </ul>
-
   </footer>
 </template>
