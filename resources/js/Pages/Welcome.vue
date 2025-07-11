@@ -48,8 +48,8 @@ let secondbannerpc =
   "https://nedicom.ru/storage/images/landing/main/nmainpc.webp";
 
 let mainbannerimgmobile =
-  'url("/storage/images/services/mainpcjune4.png")';
-let mainbannerpc = '/storage/images/services/mainpcjune4.png';
+  'url("/storage/images/services/mainpcjuly.webp")';
+let mainbannerpc = '/storage/images/services/mainpcjuly.webp';
 </script>
 
 <template>
