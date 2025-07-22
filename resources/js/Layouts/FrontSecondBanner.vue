@@ -1,17 +1,21 @@
 <script setup>
 const props = defineProps({
   city: Object,
+  usluga_from_url: Object,
 });
 </script>
 
 <template>
-  <section class="lg:h-screen">
-    <div class="mx-auto max-w-screen-xl text-center py-8 lg:py-16 lg:px-12 flex flex-col justify-between">
+  <section class="">
+    <div
+      class="mx-auto h-[50vh] max-w-screen-xl text-center flex flex-col justify-between"
+    >
+
       <div>
         <a
           v-if="props.city"
           href="#utp"
-          class="inline-flex justify-between items-center px-1 pr-4 mb-7 text-sm text-gray-700 bg-gray-100 rounded-full"
+          class="inline-flex justify-between items-center px-1 pr-4 text-sm text-gray-700 bg-gray-100 rounded-full"
           role="alert"
         >
           <span
@@ -39,18 +43,31 @@ const props = defineProps({
           </svg>
         </a>
       </div>
+
       <h1
-        class="mb-8 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl"
+        v-if="usluga_from_url"
+        class="text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl"
+      >
+        <span v-if="usluga_from_url.usl_name">{{
+          usluga_from_url.usl_name
+        }}</span>
+        <span v-else>Чтобы разобраться в проблеме достаточно позвонить</span>
+      </h1>
+      <h1
+        v-else
+        class="text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl"
       >
         Чтобы разобраться в проблеме достаточно позвонить
       </h1>
+
       <p
-        class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48"
+        class="text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48"
       >
-        Номер сохранять не нужно
+        Нажмите на номер чтобы позвонить
       </p>
+
       <div
-        class="px-5 flex flex-col lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4"
+        class="px-5 flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4"
       >
         <a
           href="tel:+79788838978"
@@ -59,6 +76,7 @@ const props = defineProps({
           89788838978
         </a>
       </div>
+
     </div>
   </section>
 </template>

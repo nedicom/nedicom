@@ -40,6 +40,7 @@ defineProps({
   bundles: Object,
   user: Object,
   usluga: Object,
+  usluga_from_url: Object,
 });
 
 let secondbannerimgmobile =
@@ -92,7 +93,7 @@ let mainbannerpc = '/storage/images/services/mainpcjuly.webp';
 
     <Mainbanner :mainbannerpc="mainbannerpc" :mainbannerimgmobile="mainbannerimgmobile"/>
 
-    <FrontSecondBanner :city="city" />
+    <FrontSecondBanner :city="city" :usluga_from_url="usluga_from_url"/>
 
     
 

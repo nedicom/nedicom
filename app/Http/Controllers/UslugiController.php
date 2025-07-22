@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 use App\Helpers\CitySet;
+use App\Helpers\UslugaSet;
 
 use Illuminate\Database\Eloquent\Builder;
 
@@ -37,6 +38,7 @@ class UslugiController extends Controller
         }
 
         $city = CitySet::CityGet(false);
+
 
         $category = Uslugi::where('is_main', 1)
             ->where('is_feed', 1)
@@ -103,7 +105,7 @@ class UslugiController extends Controller
                 ->get();
 
             $user_id = Auth::user() ? Auth::user()->id : null;
-           
+
             $uslugi = GetUslugi::GetUsl($user_id, $city, null, null);
 
             return Inertia::render('Uslugi/Uslugi', [
@@ -168,7 +170,7 @@ class UslugiController extends Controller
     // http://nedicom.ru/uslugi/city/main
     {
         if (!$city) abort(404);
-
+        UslugaSet::setFromUrl($main_usluga);
         $route = ['name' => 'uslugi.url', 'urls' => [$city, $main_usluga]];
         $city = CitySet::CitySet($request, $city, false, $route);
         $main = Uslugi::where('url', $main_usluga)->with('cities')->first(['id', 'usl_name', 'url', 'usl_desc', 'file_path', 'popular_question']);
@@ -214,6 +216,8 @@ class UslugiController extends Controller
     // http://nedicom.ru/uslugi/city/main/second
     {
         $city = CitySet::CitySet($request, $city, false);
+
+        UslugaSet::setFromUrl($second_usluga);
 
         $main = Uslugi::where('url', $main_usluga)->first(['id', 'usl_name', 'usl_desc', 'url', 'popular_question']);
         $second = Uslugi::where('url', $second_usluga)->with('cities')->with('main')->first(['id', 'usl_name', 'usl_desc', 'url', 'file_path', 'popular_question']);
@@ -264,6 +268,7 @@ class UslugiController extends Controller
 
     public function showcanonical($city, $main_usluga, $second_usluga, $url,  Request $request)
     {
+        UslugaSet::setFromUrl($url);
         // http://nedicom.ru/uslugi/city/main/second/usl-name
         $usluga = Uslugi::where('url', '=', $url)->first();
 
@@ -534,7 +539,7 @@ class UslugiController extends Controller
         $usluga->dopadress = $request->dopadress;
         $usluga->maps = $request->maps;
         $usluga->popular_question = $request->popular;
-//dd($request->ok);
+        //dd($request->ok);
         $usluga->vk = $request->vk;
         $usluga->ok = $request->ok;
 

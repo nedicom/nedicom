@@ -10,7 +10,7 @@ const props = defineProps({
 <template>
   <!-- main banner -->
 
-<img class="h-auto max-w-full" :src="props.mainbannerpc" alt="Мина и партенры. Юристы">
+<img class="h-auto max-w-full mb-20" :src="props.mainbannerpc" alt="Мина и партнеры. Юристы">
 
   <!-- main banner -->
 
