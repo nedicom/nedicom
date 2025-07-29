@@ -7,7 +7,7 @@ defineProps({
 </script>
 
 <template>
-    <section id="prctglr" class="w-full flex justify-center">
+    <section id="prctglr" class="w-full flex justify-center border-b-4 border-indigo-500">
         <div class="md:w-11/12">
             <h2 class="font-semibold mt-6 text-2xl tracking-tight mx-auto max-w-5xl px-4 2xl:px-0">{{ keyword }} - практика</h2>
             <p class="mb-6 mx-12 font-light text-gray-500 md:text-lg mx-auto max-w-5xl px-4 2xl:px-0">Возможно Ваше дело

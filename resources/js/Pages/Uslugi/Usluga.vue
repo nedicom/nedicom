@@ -221,7 +221,7 @@ details summary::-webkit-details-marker {
           />
 
           <!-- popular question -->
-          <div id="questions" v-if="vars.usluga.popular_question">
+          <div id="questions" v-if="vars.usluga.popular_question" class="border-b-4 border-indigo-500">
             <div
               v-if="vars.usluga.popular_question[0].answer"
               class="pb-12"

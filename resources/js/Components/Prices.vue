@@ -14,7 +14,7 @@ defineProps({
 </script>
 
 <template>
-  <section id="prices" v-if="userprices[0]" class="bg-white py-8 antialiased md:py-16">
+  <section id="prices" v-if="userprices[0]" class="bg-white py-8 antialiased md:py-16 border-b-4 border-indigo-500">
     <!--   <meta itemprop="priceRange" content="1000р. - 2000р.">-->
     <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
       <div class="mx-auto max-w-5xl">
