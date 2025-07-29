@@ -27,23 +27,19 @@ if (props.phone !== undefined) {
 
 <template>
   <!-- address -->
-  <div class="md:flex justify-center p-2">
+  <div class="md:flex justify-center p-2 border-b-4 border-indigo-500">
     <div class="w-full">
       <section>
         <div class="px-4 mx-auto grid grid-cols-1 lg:grid-cols-3 items-center">
-          <h3 class="font-semibold text-2xl tracking-tight m-0 mt-12 md:hidden block text-center">
+          <h3 class="font-semibold text-3xl tracking-tight m-0 mt-12 md:hidden block text-center">
             Контакты
           </h3>
-          <div class="flex justify-center lg:justify-start">
-            <div class="mt-5 w-2/3 lg:w-full font-bold">
+          <div class="flex justify-center lg:justify-start my-10 lg:my-0">
+            <div class="w-2/3 lg:w-full font-bold">
 
-              <div class="w-full flex items-center mb-5">
+              <div class="w-full flex items-center ">
                 <ModalPhone :phone="phone" :lawyer="'Позвонить'" :phoneto="'tel:' + phone"
                   :avatarPath="null" />
-              </div>
-
-              <div class="w-full flex items-center mb-5">
-                <WaBtn :phone="phone" />
               </div>
 
               <div v-if="props.maps" class="w-full flex justify-center items-center mb-5">
@@ -70,7 +66,7 @@ if (props.phone !== undefined) {
             </div>
           </div>
 
-          <div class="lg:col-span-2 mt-6 flex items-center">
+          <div class="lg:col-span-2 flex items-center">
             <div class="text-center lg:text-left h-full grid grid-cols-1 place-content-around gap-4 lg:p-5">
               
               <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">

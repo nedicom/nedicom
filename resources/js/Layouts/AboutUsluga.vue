@@ -27,13 +27,13 @@ defineProps({
         </p>
 
         <div
-          class="mt-2 font-bold text-gray-700 text-xl text-center lg:text-4xl"
+          class="mt-2 font-bold text-gray-700 text-3xl text-center lg:text-3xl"
           itemprop="brand"
         >
           {{ lawyer.name }}
         </div>
         <div
-          class="font-medium text-gray-900 text-base lg:text-xl text-center "
+          class="font-medium text-gray-900 text-lg lg:text-2xl text-center "
           itemprop="category"
         >
           {{ main_usluga.usl_name }}.

@@ -29,7 +29,7 @@ const { open, close } = useModal({
   <button
     onclick="ym(24900584, 'reachGoal', 'OPEN_PHONE'); return true;"
     @click="() => open()"
-    class="inline-flex w-full h-10 md:w-48 xl:w-64 mx-1 md:mx-auto  py-1 px-2 xl:py-2.5 xl:px-5 focus:outline-none text-white sm:text-base text-sm bg-blue-700 hover:bg-blue-800 rounded-lg justify-center cursor-pointer"
+    class="inline-flex w-full h-10 md:w-48 xl:w-64 mx-1 md:mx-auto py-1 px-2 xl:py-2.5 xl:px-5 focus:outline-none text-white sm:text-base text-sm bg-blue-700 hover:bg-blue-800 rounded-lg justify-center cursor-pointer"
   >
     <div class="flex items-center justify-center h-full">
       <svg
