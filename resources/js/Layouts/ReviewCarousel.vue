@@ -181,7 +181,7 @@ export default defineComponent({
   components: {
     Carousel,
     Slide,
-    Navigation,
+    Pagination,
   },
   data: () => ({
     // carousel settings
