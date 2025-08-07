@@ -1,4 +1,68 @@
+<script setup>
+import MainHeader from "@/Layouts/MainHeader.vue";
+import Header from "@/Layouts/Header.vue";
+import SecondBanner from "@/Layouts/SecondBanner.vue";
+import AboutUsluga from "@/Layouts/AboutUsluga.vue";
+import Body from "@/Layouts/Body.vue";
+import FlashMessage from "@/Components/FlashMessage.vue";
+import RatingReady from "@/Components/RatingReady.vue";
+import Prices from "@/Components/Prices.vue";
+import VideoBlock from "@/Components/VideoBlock.vue";
+import VKwidjet from "@/Components/VKwidjet.vue";
+import OKwidjet from "@/Components/OKwidjet.vue";
 
+import BreadcrumbsUslugi from "@/Components/BreadcrumbsUslugi.vue";
+import Address from "@/Layouts/Address.vue";
+import MainFooter from "@/Layouts/MainFooter.vue";
+import PracticeGallery from "@/Layouts/PracticeGallery.vue";
+import ReviewCarousel from "@/Layouts/ReviewCarousel.vue";
+import { Head } from "@inertiajs/inertia-vue3";
+
+let vars = defineProps({
+  usluga: Object,
+  userprices: Object,
+  lawyers: "Object",
+  lawyer: Object,
+  practice: Object,
+  flash: "Object",
+  reviews: "Object",
+  reviewscount: Number,
+  rating: Number,
+  main_usluga: Object,
+  second_usluga: Object,
+  city: Object,
+  auth: Object,
+  url: String,
+  errors: Object,
+  cityheader: Object,
+});
+
+let pcimg = vars.lawyer.file_path;
+if (vars.usluga.file_path) {
+  pcimg = vars.usluga.file_path;
+}
+let secondbannerpc = "https://nedicom.ru/" + pcimg;
+let secondbannerimgmobile = "https://nedicom.ru/" + vars.usluga.mob_file_path;
+
+let metaimage = "https://nedicom.ru/" + vars.usluga.file_path;
+</script>
+
+<style>
+.article h3 {
+  font-size: 2rem;
+}
+
+.article ul,
+ol {
+  padding: 0 1rem;
+  margin-left: 1rem;
+  list-style-type: square;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+</style>
 
 <template>
   123
