@@ -17,6 +17,7 @@ import MainFooter from "@/Layouts/MainFooter.vue";
 import PracticeGallery from "@/Layouts/PracticeGallery.vue";
 import ReviewCarousel from "@/Layouts/ReviewCarousel.vue";
 import { Head } from "@inertiajs/inertia-vue3";
+import { ref, onMounted, onUnmounted } from 'vue';
 
 let vars = defineProps({
   usluga: Object,
@@ -35,6 +36,19 @@ let vars = defineProps({
   url: String,
   errors: Object,
   cityheader: Object,
+});
+
+
+const showButton = ref(false);
+
+function checkScroll() {
+  showButton.value = window.scrollY > window.innerHeight * 2;
+}
+onMounted(() => {
+  window.addEventListener('scroll', checkScroll);
+});
+onUnmounted(() => {
+  window.removeEventListener('scroll', checkScroll);
 });
 
 let pcimg = vars.lawyer.file_path;
@@ -65,7 +79,6 @@ details summary::-webkit-details-marker {
 </style>
 
 <template>
-
   <FlashMessage :message="flash.message" />
 
   <Head>
@@ -91,21 +104,14 @@ details summary::-webkit-details-marker {
   <MainHeader :auth="vars.auth" :city="vars.cityheader" :hideBtn="true" />
 
   <Body>
-    
     <div>
       <div class="grid grid-cols-1 md:grid-cols-4 py-5">
         <div
-          class="w-full flex justify-between md:flex-col md:text-xl lg:px-5 fixed lg:sticky bottom-0 lg:top-0 z-40 h-10 bg-white"
+          class="w-full flex justify-center md:flex-col md:text-xl lg:px-5 fixed lg:sticky bottom-0 lg:top-60 z-40 h-10 bg-white"
         >
           <div
-            class="flex justify-between md:flex-col md:text-xl md:mt-12 px-2"
+            class="flex w-full justify-between md:flex-col md:text-xl md:mt-12 px-2"
           >
-            <a
-              class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-y-1 lg:hover:translate-x-1 duration-100"
-              href="#"
-            >
-              <div class="">Наверх</div>
-            </a>
             <a
               class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-y-1 lg:hover:translate-x-1 duration-100"
               href="#contacts"
@@ -119,7 +125,7 @@ details summary::-webkit-details-marker {
               <div class="">Отзывы</div>
             </a>
             <a
-              class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-y-1 lg:hover:translate-x-1 duration-100"
+              class="hidden md:flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-y-1 lg:hover:translate-x-1 duration-100"
               href="#description"
             >
               <div class="">Описание</div>
@@ -143,8 +149,8 @@ details summary::-webkit-details-marker {
               class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-y-1 lg:hover:translate-x-1 duration-100"
               href="#questions"
             >
-              <div class="">Вопросы</div> </a
-            >
+              <div class="">Вопросы</div>
+            </a>
           </div>
         </div>
 
@@ -153,7 +159,6 @@ details summary::-webkit-details-marker {
           itemtype="https://schema.org/Product"
           class="md:col-span-3 px-3 md:px-10 w-full"
         >
-
           <span v-if="auth" class="">
             <a
               v-if="
@@ -196,8 +201,10 @@ details summary::-webkit-details-marker {
             :uslugaid="vars.usluga.id"
           />
 
-
-          <div class="py-12 px-3 mx-auto max-w-5xl border-b-4 border-indigo-500" id="description">
+          <div
+            class="py-12 px-3 mx-auto max-w-5xl border-b-4 border-indigo-500"
+            id="description"
+          >
             <h2
               class="font-semibold mb-6 text-2xl tracking-tight px-4 2xl:px-0"
             >
@@ -209,7 +216,6 @@ details summary::-webkit-details-marker {
               v-html="usluga.longdescription"
             ></div>
           </div>
-
 
           <PracticeGallery
             v-if="practice != 0"
@@ -305,12 +311,10 @@ details summary::-webkit-details-marker {
               </ul>
             </div>
           </div>
-
-
         </div>
       </div>
     </div>
-    
+
     <BreadcrumbsUslugi
       v-if="vars.city"
       :city="vars.city ? vars.city : null"
@@ -320,16 +324,17 @@ details summary::-webkit-details-marker {
     />
 
     <div
-      class="fixed left-1/2 bottom-0 -translate-x-1/2 flex items-center p-3 mb-4 text-gray-500 bg-white rounded-lg z-50 shadow-lg"
+      v-if="showButton"
+      class="fixed left-1/2 bottom-6 -translate-x-1/2 flex items-center p-3 mb-4 text-gray-500 bg-white rounded-lg z-50 shadow-2xl"
       role="menu"
     >
-      <a href="#contacts">на консультацию</a>
+      <a href="#contacts" class="whitespace-nowrap font-semibold">на консультацию</a>
       <a
         href="#contacts"
         class="inline-flex items-center justify-center shrink-0 w-8 h-8 text-blue-500 bg-blue-100 rounded-lg mx-2"
       >
         <svg
-          class="w-6 h-6 text-gray-800 dark:text-white"
+          class="w-6 h-6 text-gray-800 "
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -349,11 +354,7 @@ details summary::-webkit-details-marker {
         <span class="sr-only">phone icon</span>
       </a>
     </div>
-
-
   </Body>
 
-  
   <MainFooter />
-
 </template>

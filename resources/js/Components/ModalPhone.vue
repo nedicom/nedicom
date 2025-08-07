@@ -13,7 +13,7 @@ const set = defineProps({
 // Функция, заменяющая последние 7 цифр в номере на 7 звездочек
 function maskPhone(phone?: string): string {
   if (!phone) return "";
-  return phone.replace(/(\d{7})$/, "*******");
+  return phone.replace(/(\d{4})$/, "****");
 }
 
 const { open, close } = useModal({
