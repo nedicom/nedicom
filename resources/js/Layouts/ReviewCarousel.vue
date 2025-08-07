@@ -35,7 +35,7 @@ defineProps({
       <span itemprop="reviewCount">{{ reviewscount }}</span>
     </p>
     <Carousel v-bind="settings" :breakpoints="breakpoints">
-      <Slide v-for="(card, n) in 1" :key="n">
+      <Slide :key="'add-review'">
         <!-- add review -->
         <div class="carousel__item w-full h-full mx-3">
           <div

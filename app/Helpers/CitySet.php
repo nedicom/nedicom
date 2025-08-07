@@ -47,9 +47,8 @@ class CitySet
 
     public static function CityGet($cityid)
     {
-
         $city = false;
-/*
+
         // &cityheader=id for force checked city
         if ($cityid) {
             $city = cities::where('id', $cityid)->first();
@@ -83,7 +82,7 @@ class CitySet
                 $city = cities::where('postalcode', $result['data']['postal_code'])->first();
             }
         }
-*/
+
         // all=null city from ip
         if (!$city) {
             $city = cities::find(0);
