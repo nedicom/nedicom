@@ -199,18 +199,15 @@ export default defineComponent({
       700: {
         itemsToShow: 2.5,
         snapAlign: "center",
-        wrapAround: true,
       },
       // 1024 and up
       1024: {
         itemsToShow: 2.5,
         snapAlign: "start",
-        wrapAround: true,
       },
       1280: {
         itemsToShow: 3.5,
         snapAlign: "start",
-        wrapAround: true,
       },
     },
   }),
