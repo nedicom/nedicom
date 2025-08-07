@@ -345,7 +345,7 @@ class UslugiController extends Controller
             'firstlawyer' => User::where('id', $user_id)->get(),
             'reviews' => $reviews,
             'reviewscount' => $reviews->count(),
-            'rating' => $reviews->sum('rating'),
+            'rating' => $reviews->count() ? round($reviews->sum('rating') / $reviews->count(), 1) : null,
             'main_usluga' =>  $main,
             'second_usluga' => Uslugi::where('id', $usluga->second_usluga_id)->first(['id', 'usl_name', 'url']),
             'city' => is_null(cities::find($usluga->sity)) ? cities::find(0) : cities::find($usluga->sity),

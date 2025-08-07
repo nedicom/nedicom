@@ -1,7 +1,5 @@
 <script setup>
-import Modal from "@/Components/Modal.vue";
 import ModalPhone from "@/Components/ModalPhone.vue";
-import WaBtn from "@/Components/WaBtn.vue";
 
 let address = "Респ. Крым, г. Симферополь, ул. Долгоруковская, 5";
 let phone = "+7 978 8838 978";
@@ -27,18 +25,21 @@ if (props.phone !== undefined) {
 
 <template>
   <!-- address -->
-  <div class="md:flex justify-center p-2 border-b-4 border-indigo-500">
+  <div class="md:flex justify-center p-2 border-b-4 border-indigo-500" id="contacts">
     <div class="w-full">
       <section>
-        <div class="px-4 mx-auto grid grid-cols-1 lg:grid-cols-3 items-center">
+        <div class="px-4 grid justify-items-center py-12">
           <h3
-            class="font-semibold text-3xl tracking-tight m-0 mt-12 md:hidden block text-center"
+            class="m-0 font-semibold text-3xl tracking-tight  block text-center justify-items-center items-center"
           >
             Контакты
           </h3>
-          <div class="flex justify-center lg:justify-start my-10 lg:my-0">
-            <div class="w-2/3 lg:w-full font-bold grid gap-y-4">
-              <div class="w-full flex items-center">
+          <div class="text-center lg:text-2xl lg:py-6 pt-3">
+            Позвоните сейчас или сохраните номер юриста
+          </div>
+          <div class="flex w-full justify-center lg:justify-start my-6 lg:my-0">
+            <div class="w-4/5 lg:w-full font-bold grid gap-y-4">
+              <div class="w-full flex items-center animate-custom-pulse">
                 <ModalPhone
                   :phone="phone"
                   :lawyer="'Позвонить'"
@@ -49,21 +50,20 @@ if (props.phone !== undefined) {
 
               <div
                 v-if="props.maps"
-                class="w-full flex justify-center items-centermb-5"
+                class="w-full flex justify-center items-center mb-5"
               >
                 <a
                   :href="props.maps"
                   onclick="ym(24900584, 'reachGoal', 'YaMap_Click'); return true;"
-                  class="w-full hover:bg-slate-100 md:w-48 xl:w-64 flex flex-col text-center items-center justify-center py-2 text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 focus:ring-4 focus:ring-primary-300 font-medium px-3"
+                  class="w-full hover:bg-slate-100 h-12 md:w-48 xl:w-64 flex flex-col text-center items-center justify-center py-2 text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 focus:ring-4 focus:ring-primary-300 font-medium px-3"
                   target="_blank"
                 >
-
-                  <div class="flex items-center"                 
-                  >
-
-                                    <span class="h-full mr-1 flex items-center"
-                    ><img class="h-4" src="https://yandex.ru/maps/favicon.svg"
-                  /></span>
+                  <div class="flex items-center">
+                    <span class="h-full mr-1 flex items-center"
+                      ><img
+                        class="h-4"
+                        src="https://yandex.ru/maps/favicon.svg"
+                    /></span>
 
                     <div class="flex">
                       <span
@@ -93,7 +93,7 @@ if (props.phone !== undefined) {
             </div>
           </div>
 
-          <div class="lg:col-span-2 flex items-center">
+          <div class="flex items-center">
             <div
               class="text-center lg:text-left h-full grid grid-cols-1 place-content-around gap-4 lg:p-5"
             >
@@ -110,7 +110,7 @@ if (props.phone !== undefined) {
                 </p>
                 <p
                   itemprop="streetAddress"
-                  class="mb-4 mt-6 font-semibold text-xl lg:text-2xl"
+                  class="font-semibold text-xl lg:text-2xl"
                 >
                   {{ address }}
                 </p>

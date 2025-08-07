@@ -45,7 +45,6 @@ let secondbannerpc = "https://nedicom.ru/" + pcimg;
 let secondbannerimgmobile = "https://nedicom.ru/" + vars.usluga.mob_file_path;
 
 let metaimage = "https://nedicom.ru/" + vars.usluga.file_path;
-
 </script>
 
 <style>
@@ -69,7 +68,7 @@ details summary::-webkit-details-marker {
   <FlashMessage :message="flash.message" />
 
   <Head>
-    <title>{{ vars.usluga.usl_name }} ({{ vars.city.title }})</title>
+    <title>{{ vars.usluga.usl_name }} - юрист {{ vars.city.title }}</title>
     <meta
       head-key="description"
       name="description"
@@ -101,37 +100,49 @@ details summary::-webkit-details-marker {
           >
             <a
               class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-y-1 lg:hover:translate-x-1 duration-100"
-              href="#about"
+              href="#"
+            >
+              <div class="">Наверх</div>
+            </a>
+            <a
+              class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-y-1 lg:hover:translate-x-1 duration-100"
+              href="#contacts"
             >
               <div class="">Контакты</div>
             </a>
-            <a v-if="vars.userprices[0]"
-              class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-y-1 lg:hover:translate-x-1 duration-100"
-              href="#prices"
-            >
-              <div class="">Цены</div>
-            </a>
-            <a 
+            <a
               class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-y-1 lg:hover:translate-x-1 duration-100"
               href="#reviews"
             >
-              <div class="">Отзывы</div> </a
-            ><a v-if="practice != 0"
-              class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-y-1 lg:hover:translate-x-1 duration-100"
-              href="#prctglr"
-            >
-              <div class="">Практика</div> </a
-            ><a v-if="vars.usluga.popular_question"
-              class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-y-1 lg:hover:translate-x-1 duration-100"
-              href="#questions"
-            >
-              <div class="">Вопросы</div> </a
-            ><a
+              <div class="">Отзывы</div>
+            </a>
+            <a
               class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-y-1 lg:hover:translate-x-1 duration-100"
               href="#description"
             >
               <div class="">Описание</div>
             </a>
+            <a
+              v-if="practice != 0"
+              class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-y-1 lg:hover:translate-x-1 duration-100"
+              href="#prctglr"
+            >
+              <div class="">Практика</div>
+            </a>
+            <a
+              v-if="vars.userprices[0]"
+              class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-y-1 lg:hover:translate-x-1 duration-100"
+              href="#prices"
+            >
+              <div class="">Цены</div>
+            </a>
+            <a
+              v-if="vars.usluga.popular_question"
+              class="flex justify-end md:min-w-full md:mx-5 md:p-3 my-1 mr-1 text-gray-600 focus:outline-none transition hover:translate-y-1 lg:hover:translate-x-1 duration-100"
+              href="#questions"
+            >
+              <div class="">Вопросы</div> </a
+            >
           </div>
         </div>
 
@@ -160,6 +171,8 @@ details summary::-webkit-details-marker {
             :usluga="vars.usluga"
             :lawyer="vars.lawyer"
             :main_usluga="vars.main_usluga"
+            :reviewscount="vars.reviewscount"
+            :rating="vars.rating"
           />
 
           <Address
@@ -174,17 +187,6 @@ details summary::-webkit-details-marker {
             :company="lawyer.name + ' юрист по городу ' + usluga.cities.title"
           />
 
-          <Prices
-            :userprices="vars.userprices"
-            :subheader="vars.main_usluga.usl_name"
-            :city="vars.city"
-            :reviewcoutnt="vars.main_usluga.mainreview_count"
-            :rating="Number(vars.main_usluga.avg_review)"
-            :secondbannerimgmobile="secondbannerimgmobile"
-            :metaimage="metaimage"
-            :keyword="vars.main_usluga.usl_name"
-          />
-
           <ReviewCarousel
             :reviews="vars.reviews"
             :rating="vars.rating"
@@ -196,9 +198,44 @@ details summary::-webkit-details-marker {
             :uslugaid="vars.usluga.id"
           />
 
+                    <!-- seo description -->
+          <div class="py-12 px-3 mx-auto max-w-5xl border-b-4 border-indigo-500" id="description">
+            <h2
+              class="font-semibold mb-6 text-2xl tracking-tight px-4 2xl:px-0"
+            >
+              Подробнее
+            </h2>
+            <div
+              itemprop="disambiguatingDescription"
+              class="mx-auto space-y-6 text-gray-900 text-justify"
+              v-html="usluga.longdescription"
+            ></div>
+          </div>
+          <!-- seo description -->
+
+          <PracticeGallery
+            v-if="practice != 0"
+            :sliderheader="'Доверяйте делам'"
+            :keyword="vars.main_usluga.usl_name"
+            :practice="vars.practice"
+          />
+
+          <Prices
+            :userprices="vars.userprices"
+            :subheader="vars.main_usluga.usl_name"
+            :city="vars.city"
+            :reviewcoutnt="vars.main_usluga.mainreview_count"
+            :rating="Number(vars.main_usluga.avg_review)"
+            :secondbannerimgmobile="secondbannerimgmobile"
+            :metaimage="metaimage"
+            :keyword="vars.main_usluga.usl_name"
+          />
+
           <!--vk widjet-->
           <div v-if="usluga.vk || usluga.ok" class="pb-12">
-            <h2 class="mx-auto max-w-5xl font-semibold my-6 text-2xl tracking-tight px-4 2xl:px-0">
+            <h2
+              class="mx-auto max-w-5xl font-semibold my-6 text-2xl tracking-tight px-4 2xl:px-0"
+            >
               Присоединяйтесь, чтобы не потерять контакты
             </h2>
             <VKwidjet v-if="usluga.vk" :groupid="usluga.vk" />
@@ -213,15 +250,12 @@ details summary::-webkit-details-marker {
           <VideoBlock :video="vars.usluga.video" />
           <!--video block-->
 
-          <PracticeGallery
-            v-if="practice != 0"
-            :sliderheader="'Доверяйте делам'"
-            :keyword="vars.main_usluga.usl_name"
-            :practice="vars.practice"
-          />
-
           <!-- popular question -->
-          <div id="questions" v-if="vars.usluga.popular_question" class="border-b-4 border-indigo-500">
+          <div
+            id="questions"
+            v-if="vars.usluga.popular_question"
+            class="border-b-4 border-indigo-500"
+          >
             <div
               v-if="vars.usluga.popular_question[0].answer"
               class="pb-12"
@@ -281,18 +315,6 @@ details summary::-webkit-details-marker {
           </div>
           <!-- popular question -->
 
-          <!-- seo description -->
-          <div class="my-20 mx-auto max-w-5xl" id="description">
-            <h2 class="font-semibold mb-6 text-2xl tracking-tight px-4 2xl:px-0">
-              Подробнее
-            </h2>
-            <div
-              itemprop="disambiguatingDescription"
-              class="mx-auto space-y-6 text-gray-900 text-justify"
-              v-html="usluga.longdescription"
-            ></div>
-          </div>
-          <!-- seo description -->
         </div>
       </div>
     </div>
@@ -303,6 +325,37 @@ details summary::-webkit-details-marker {
       :second_usluga="vars.second_usluga ? vars.second_usluga : null"
       :usluga="vars.usluga"
     />
+
+    <div
+      class="fixed left-1/2 bottom-0 -translate-x-1/2 flex items-center p-3 mb-4 text-gray-500 bg-white rounded-lg z-50 shadow-lg"
+      role="menu"
+    >
+      <a href="#contacts">на консультацию</a>
+      <a
+        href="#contacts"
+        class="inline-flex items-center justify-center shrink-0 w-8 h-8 text-blue-500 bg-blue-100 rounded-lg mx-2"
+      >
+        <svg
+          class="w-6 h-6 text-gray-800 dark:text-white"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M18.427 14.768 17.2 13.542a1.733 1.733 0 0 0-2.45 0l-.613.613a1.732 1.732 0 0 1-2.45 0l-1.838-1.84a1.735 1.735 0 0 1 0-2.452l.612-.613a1.735 1.735 0 0 0 0-2.452L9.237 5.572a1.6 1.6 0 0 0-2.45 0c-3.223 3.2-1.702 6.896 1.519 10.117 3.22 3.221 6.914 4.745 10.12 1.535a1.601 1.601 0 0 0 0-2.456Z"
+          />
+        </svg>
+
+        <span class="sr-only">phone icon</span>
+      </a>
+    </div>
   </Body>
   <MainFooter />
 </template>

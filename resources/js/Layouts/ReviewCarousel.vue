@@ -16,8 +16,10 @@ defineProps({
 
 <template>
   <!--reviews carousel-->
-  <div id="reviews" class="py-12 border-b-4 border-gray-500">
-    <h2 class="mx-auto max-w-5xl font-semibold mt-6 text-2xl tracking-tight px-4 2xl:px-0">
+  <div id="reviews" class="py-12 border-b-4 border-indigo-500">
+    <h2
+      class="mx-auto max-w-5xl font-semibold mt-6 text-2xl tracking-tight px-4 2xl:px-0"
+    >
       Отзывы заказчиков
     </h2>
     <p
@@ -26,9 +28,8 @@ defineProps({
       itemtype="https://schema.org/AggregateRating"
       class="text-xs font-semibold text-grey px-4 2xl:px-0 py-5"
     >
-      общая оценка: 
-      <span  itemprop="ratingValue" v-if="rating"
-        >{{ (rating / reviewscount).toFixed(1) }}</span 
+      общая оценка:
+      <span itemprop="ratingValue" v-if="rating"> {{ reviewscount }}</span
       ><span itemprop="ratingValue" v-else>0</span>
       всего отзывов:
       <span itemprop="reviewCount">{{ reviewscount }}</span>
@@ -147,7 +148,9 @@ defineProps({
             </div>
 
             <div class="flex items-center h-24 col-span-3">
-              <p class="text-gray-700/75 line-clamp-3 flex text-left text-base md:text-xs xl:-text-base">
+              <p
+                class="text-gray-700/75 line-clamp-3 flex text-left text-base md:text-xs xl:-text-base"
+              >
                 -
                 <span itemprop="reviewBody">"{{ card.description }}"</span>
               </p>
@@ -157,6 +160,9 @@ defineProps({
         </div>
       </Slide>
 
+      <template #addons>
+        <Pagination />
+      </template>
     </Carousel>
   </div>
   <!--reviews carousel-->
@@ -166,7 +172,7 @@ defineProps({
 
 <script>
 import { defineComponent } from "vue";
-import { Carousel, Navigation, Slide } from "vue3-carousel";
+import { Carousel, Pagination, Slide } from "vue3-carousel";
 
 import "vue3-carousel/dist/carousel.css";
 
@@ -184,6 +190,7 @@ export default defineComponent({
       snapAlign: "center",
       autoplay: 2000,
       pauseAutoplayOnHover: true,
+      wrapAround: true, // вот здесь включаем бесконечный цикл
     },
     // breakpoints are mobile first
     // any settings not specified will fallback to the carousel settings
@@ -192,15 +199,18 @@ export default defineComponent({
       700: {
         itemsToShow: 2.5,
         snapAlign: "center",
+        wrapAround: true,
       },
       // 1024 and up
       1024: {
         itemsToShow: 2.5,
         snapAlign: "start",
+        wrapAround: true,
       },
       1280: {
         itemsToShow: 3.5,
         snapAlign: "start",
+        wrapAround: true,
       },
     },
   }),

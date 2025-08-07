@@ -12,6 +12,12 @@ module.exports = {
 
     theme: {
         extend: {
+            keyframes: {
+                customPulse: {               // Имя вашей анимации
+                    '0%, 100%': { opacity: '1' },
+                    '80%': { opacity: '0.8' }, // Можно изменить уровень "пульсации"
+                },
+            },
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
@@ -20,7 +26,8 @@ module.exports = {
             },
             animation: {
                 'spin-pulse': 'pulse 1s linear infinite',
-               },
+                'custom-pulse': 'customPulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            },
             fontSize: {
                 xxs: '0.5rem',
             },
@@ -31,5 +38,5 @@ module.exports = {
         },
     },
 
-    plugins: [require('@tailwindcss/forms'),require('@tailwindcss/typography'), require('flowbite/plugin')],
+    plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography'), require('flowbite/plugin')],
 };
