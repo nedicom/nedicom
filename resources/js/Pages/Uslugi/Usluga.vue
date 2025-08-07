@@ -65,8 +65,7 @@ details summary::-webkit-details-marker {
 </style>
 
 <template>
-  12346
-  <!--
+
   <FlashMessage :message="flash.message" />
 
   <Head>
@@ -356,5 +355,5 @@ details summary::-webkit-details-marker {
 
   
   <MainFooter />
-  -->
+
 </template>
