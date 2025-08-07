@@ -1,22 +1,5 @@
 <script setup>
-import MainHeader from "@/Layouts/MainHeader.vue";
-import Header from "@/Layouts/Header.vue";
-import SecondBanner from "@/Layouts/SecondBanner.vue";
-import AboutUsluga from "@/Layouts/AboutUsluga.vue";
-import Body from "@/Layouts/Body.vue";
-import FlashMessage from "@/Components/FlashMessage.vue";
-import RatingReady from "@/Components/RatingReady.vue";
-import Prices from "@/Components/Prices.vue";
-import VideoBlock from "@/Components/VideoBlock.vue";
-import VKwidjet from "@/Components/VKwidjet.vue";
-import OKwidjet from "@/Components/OKwidjet.vue";
 
-import BreadcrumbsUslugi from "@/Components/BreadcrumbsUslugi.vue";
-import Address from "@/Layouts/Address.vue";
-import MainFooter from "@/Layouts/MainFooter.vue";
-import PracticeGallery from "@/Layouts/PracticeGallery.vue";
-import ReviewCarousel from "@/Layouts/ReviewCarousel.vue";
-import { Head } from "@inertiajs/inertia-vue3";
 
 let vars = defineProps({
   usluga: Object,
@@ -154,7 +137,7 @@ details summary::-webkit-details-marker {
           itemtype="https://schema.org/Product"
           class="md:col-span-3 px-3 md:px-10 w-full"
         >
-          <!-- edit btn -->
+
           <span v-if="auth" class="">
             <a
               v-if="
@@ -166,7 +149,6 @@ details summary::-webkit-details-marker {
             >
           </span>
 
-        <!--
           <AboutUsluga
             :usluga="vars.usluga"
             :lawyer="vars.lawyer"
@@ -359,42 +341,3 @@ details summary::-webkit-details-marker {
   <MainFooter />
   -->
 </template>
-
-<!--
-<script>
-import { defineComponent } from "vue";
-import { Carousel, Navigation, Slide } from "vue3-carousel";
-
-import "vue3-carousel/dist/carousel.css";
-
-export default defineComponent({
-  name: "Breakpoints",
-  components: {
-    Carousel,
-    Slide,
-    Navigation,
-  },
-  data: () => ({
-    // carousel settings
-    settings: {
-      itemsToShow: 1.25,
-      snapAlign: "center",
-    },
-    // breakpoints are mobile first
-    // any settings not specified will fallback to the carousel settings
-    breakpoints: {
-      // 700px and up
-      700: {
-        itemsToShow: 3.5,
-        snapAlign: "center",
-      },
-      // 1024 and up
-      1024: {
-        itemsToShow: 3.5,
-        snapAlign: "start",
-      },
-    },
-  }),
-});
-</script>
--->
