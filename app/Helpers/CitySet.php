@@ -49,7 +49,7 @@ class CitySet
     {
 
         $city = false;
-/*
+
         // &cityheader=id for force checked city
         if ($cityid) {
             $city = cities::where('id', $cityid)->first();
@@ -65,10 +65,10 @@ class CitySet
 
         // check city from user dta
         if (Auth::user()) {
-            if(Auth::user()->city_id){
+            if (Auth::user()->city_id) {
                 $city = cities::where('id', Auth::user()->city_id)->first();
                 return $city;
-            } 
+            }
         }
 
         // &cityheader=null city from ip
@@ -88,7 +88,7 @@ class CitySet
         if (!$city) {
             $city = cities::find(0);
         }
-            */
+
         return $city;
     }
 }
