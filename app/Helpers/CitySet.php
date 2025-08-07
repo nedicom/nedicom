@@ -48,7 +48,7 @@ class CitySet
     public static function CityGet($cityid)
     {
 
-        $city = false;
+        $city = 0;
 /*
         // &cityheader=id for force checked city
         if ($cityid) {
