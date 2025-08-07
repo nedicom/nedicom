@@ -65,6 +65,7 @@ details summary::-webkit-details-marker {
 </style>
 
 <template>
+  <!--
   <FlashMessage :message="flash.message" />
 
   <Head>
@@ -163,10 +164,6 @@ details summary::-webkit-details-marker {
               >Редактировать объявление</a
             >
           </span>
-          <!-- edit btn -->
-          <!--<SecondBanner :statusonimage="usluga.usl_name" :phnform="false" :secondbannerpc="secondbannerpc"
-            :secondbannerimgmobile="secondbannerimgmobile" :metaimage="metaimage" />
-        -->
 
         <!--
           <AboutUsluga
@@ -309,7 +306,7 @@ details summary::-webkit-details-marker {
               </ul>
             </div>
           </div>
--->
+
 
         </div>
       </div>
@@ -356,7 +353,10 @@ details summary::-webkit-details-marker {
 
 
   </Body>
+
+  
   <MainFooter />
+  -->
 </template>
 
 
