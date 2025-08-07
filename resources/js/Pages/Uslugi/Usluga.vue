@@ -90,6 +90,7 @@ details summary::-webkit-details-marker {
   <MainHeader :auth="vars.auth" :city="vars.cityheader" :hideBtn="true" />
 
   <Body>
+    
     <div>
       <div class="grid grid-cols-1 md:grid-cols-4 py-5">
         <div
@@ -167,6 +168,7 @@ details summary::-webkit-details-marker {
             :secondbannerimgmobile="secondbannerimgmobile" :metaimage="metaimage" />
         -->
 
+        <!--
           <AboutUsluga
             :usluga="vars.usluga"
             :lawyer="vars.lawyer"
@@ -198,7 +200,7 @@ details summary::-webkit-details-marker {
             :uslugaid="vars.usluga.id"
           />
 
-                    <!-- seo description -->
+
           <div class="py-12 px-3 mx-auto max-w-5xl border-b-4 border-indigo-500" id="description">
             <h2
               class="font-semibold mb-6 text-2xl tracking-tight px-4 2xl:px-0"
@@ -211,7 +213,7 @@ details summary::-webkit-details-marker {
               v-html="usluga.longdescription"
             ></div>
           </div>
-          <!-- seo description -->
+
 
           <PracticeGallery
             v-if="practice != 0"
@@ -231,7 +233,6 @@ details summary::-webkit-details-marker {
             :keyword="vars.main_usluga.usl_name"
           />
 
-          <!--vk widjet-->
           <div v-if="usluga.vk || usluga.ok" class="pb-12">
             <h2
               class="mx-auto max-w-5xl font-semibold my-6 text-2xl tracking-tight px-4 2xl:px-0"
@@ -244,13 +245,8 @@ details summary::-webkit-details-marker {
             </div>
           </div>
 
-          <!--vk widjet-->
-
-          <!--video block-->
           <VideoBlock :video="vars.usluga.video" />
-          <!--video block-->
 
-          <!-- popular question -->
           <div
             id="questions"
             v-if="vars.usluga.popular_question"
@@ -313,11 +309,12 @@ details summary::-webkit-details-marker {
               </ul>
             </div>
           </div>
-          <!-- popular question -->
+-->
 
         </div>
       </div>
     </div>
+    
     <BreadcrumbsUslugi
       v-if="vars.city"
       :city="vars.city ? vars.city : null"
@@ -356,6 +353,8 @@ details summary::-webkit-details-marker {
         <span class="sr-only">phone icon</span>
       </a>
     </div>
+
+
   </Body>
   <MainFooter />
 </template>
