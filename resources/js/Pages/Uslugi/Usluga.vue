@@ -1,5 +1,22 @@
 <script setup>
+import MainHeader from "@/Layouts/MainHeader.vue";
+import Header from "@/Layouts/Header.vue";
+import SecondBanner from "@/Layouts/SecondBanner.vue";
+import AboutUsluga from "@/Layouts/AboutUsluga.vue";
+import Body from "@/Layouts/Body.vue";
+import FlashMessage from "@/Components/FlashMessage.vue";
+import RatingReady from "@/Components/RatingReady.vue";
+import Prices from "@/Components/Prices.vue";
+import VideoBlock from "@/Components/VideoBlock.vue";
+import VKwidjet from "@/Components/VKwidjet.vue";
+import OKwidjet from "@/Components/OKwidjet.vue";
 
+import BreadcrumbsUslugi from "@/Components/BreadcrumbsUslugi.vue";
+import Address from "@/Layouts/Address.vue";
+import MainFooter from "@/Layouts/MainFooter.vue";
+import PracticeGallery from "@/Layouts/PracticeGallery.vue";
+//import ReviewCarousel from "@/Layouts/ReviewCarousel.vue";
+import { Head } from "@inertiajs/inertia-vue3";
 
 let vars = defineProps({
   usluga: Object,
