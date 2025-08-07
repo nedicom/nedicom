@@ -29,7 +29,7 @@ defineProps({
       class="text-xs font-semibold text-grey px-4 2xl:px-0 py-5"
     >
       общая оценка:
-      <span itemprop="ratingValue" v-if="rating"> {{ reviewscount }}</span
+      <span itemprop="ratingValue" v-if="rating"> {{ rating }}</span
       ><span itemprop="ratingValue" v-else>0</span>
       всего отзывов:
       <span itemprop="reviewCount">{{ reviewscount }}</span>
