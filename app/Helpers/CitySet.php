@@ -49,7 +49,7 @@ class CitySet
     {
 
         $city = false;
-
+/*
         // &cityheader=id for force checked city
         if ($cityid) {
             $city = cities::where('id', $cityid)->first();
@@ -88,7 +88,7 @@ class CitySet
         if (!$city) {
             $city = cities::find(0);
         }
-
+*/
         return $city;
     }
 }
