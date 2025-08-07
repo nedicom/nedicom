@@ -325,7 +325,7 @@ details summary::-webkit-details-marker {
 
     <div
       v-if="showButton"
-      class="fixed left-1/2 bottom-6 -translate-x-1/2 flex items-center p-3 mb-4 text-gray-500 bg-white rounded-lg z-50 shadow-2xl"
+      class="fixed left-1/2 bottom-6 lg:bottom-0 -translate-x-1/2 flex items-center p-3 mb-4 text-gray-500 bg-white rounded-lg z-50 shadow-2xl"
       role="menu"
     >
       <a href="#contacts" class="whitespace-nowrap font-semibold">на консультацию</a>
