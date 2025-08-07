@@ -360,7 +360,7 @@ details summary::-webkit-details-marker {
   -->
 </template>
 
-
+<!--
 <script>
 import { defineComponent } from "vue";
 import { Carousel, Navigation, Slide } from "vue3-carousel";
@@ -397,3 +397,4 @@ export default defineComponent({
   }),
 });
 </script>
+-->
