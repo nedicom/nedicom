@@ -70,6 +70,15 @@ class GetUslugi
             ->get();
 
         foreach ($uslugi as $item) {
+            if ($item->cities === null) {
+                $item->cities = (object) [ // создаем relation
+                    'id' => 1,
+                    'title' => 'Симферополь',
+                    'url' => 'simferopol',
+                    'regionId' => 10,
+                    'region' => 'Республика Крым',
+                ];
+            }
             $item->url = $item->cities->url . '/' .
                 $item->main->url . '/' .
                 $item->second->url . '/' .
@@ -159,7 +168,7 @@ class GetUslugi
                 $collection->push($user);
             }
         }
-        
+
         //if there are few lawyers and services in city we add lawyers from region
         if ($collection->count() < 10 && $city->id != 0) {
             $old_users = $users->pluck('id')->toArray();
