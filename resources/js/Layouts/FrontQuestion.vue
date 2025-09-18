@@ -59,7 +59,7 @@ let submit = () => {
 </script>
 
 <template>
-  <form @submit.prevent="submit" class="flex justify-center mt-20 px-5 lg:px-0">
+  <form @submit.prevent="submit" class="flex justify-center px-5 lg:px-0 my-20">
     <div class="w-full md:w-4/5 lg:w-1/2 xl:w-2/5 flex justify-center">
       <div class="w-1/5">
         <button  @click="() => open()"

@@ -41,6 +41,7 @@ defineProps({
   user: Object,
   usluga: Object,
   usluga_from_url: Object,
+  lawyers: Object,
 });
 
 let secondbannerimgmobile =
@@ -60,18 +61,9 @@ let mainbannerpc = '/storage/images/services/mainpcjuly.webp';
     <title>
       Услуги юриста: от консультаций до судебных прогнозов
     </title>
-    <meta
-      name="description"
-      content="Услуги проверенных юристов. Консультации, вопросы, онлайн."
-    />
-    <meta
-      property="og:title"
-      content="Услуги юриста: бесплатно, онлайн, телефон, задать вопрос, консультация"
-    />
-    <meta
-      property="og:description"
-      content="Услуги проверенных юристов. Консультации, вопросы, онлайн."
-    />
+    <meta name="description" content="Услуги проверенных юристов. Консультации, вопросы, онлайн." />
+    <meta property="og:title" content="Услуги юриста: бесплатно, онлайн, телефон, задать вопрос, консультация" />
+    <meta property="og:description" content="Услуги проверенных юристов. Консультации, вопросы, онлайн." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://nedicom.ru" />
     <meta property="og:image" :content="secondbannerpc" />
@@ -80,22 +72,18 @@ let mainbannerpc = '/storage/images/services/mainpcjuly.webp';
     <link rel="canonical" href="https://nedicom.ru" />
   </Head>
 
-  <div
-    class="min-h-screen"
-    itemscope
-    itemtype="https://schema.org/LegalService"
-  >
+  <div class="min-h-screen" itemscope itemtype="https://schema.org/LegalService">
     <MainHeader :auth="auth" :city="city" />
     <!--
     <Header :modalPageTitle="'Модальное окно главная'" />
     -->
-    
 
-    <Mainbanner :mainbannerpc="mainbannerpc" :mainbannerimgmobile="mainbannerimgmobile"/>
 
-    <FrontSecondBanner :city="city" :usluga_from_url="usluga_from_url"/>
+    <Mainbanner :mainbannerpc="mainbannerpc" :mainbannerimgmobile="mainbannerimgmobile" />
 
-    
+    <FrontSecondBanner :city="city" :usluga_from_url="usluga_from_url" :lawyers="lawyers" />
+
+
 
     <!--
     <FrontBanner
@@ -113,18 +101,15 @@ let mainbannerpc = '/storage/images/services/mainpcjuly.webp';
 
     <Chat :user="user" :usluga="usluga" />
 
-    <FrontQuestion
-      :mainoffers="mainoffers"
-      :secondoffers="secondoffers"
-      :city="city"
-    />
+    <FrontQuestion :mainoffers="mainoffers" :secondoffers="secondoffers" :city="city"/>
 
+    <!--
     <Pile
       :uslugislider="mainoffers"
       :secondoffers="secondoffers"
       :city="city.url"
     />
-
+-->
     <!--<Mainbanner :mainbannerimgmobile="mainbannerimgmobile" :mainbannerpc="mainbannerpc" />-->
 
     <!--<Slider :practice="practice" :sliderheader="'Практика юристов'" />-->

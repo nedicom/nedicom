@@ -27,10 +27,9 @@ let avito = vars.article.avito ? vars.article.avito.includes('avito') : null;
 const trackClick = (x) => {
   if (typeof ym !== 'undefined') {
     ym(24900584, 'reachGoal', x, {
-      url: vars.article.avito,
-      element: 'avito_link'
-    });
-    console.log('Клик зарегистрирован - ' + x);
+      url: vars.article.url,
+      element: 'link'
+    });   
   }
 };
 </script>
@@ -230,7 +229,6 @@ blockquote {
           <p v-if="article.description" class="my-9 text-2xl lead text-gray-800" itemprop="description">
             {{ article.description }}
           </p>
-
 
           <span v-if="vars.article.tg">
             <div class="flex flex-col md:flex-row items-center justify-between my-8 p-6 bg-white rounded-lg shadow-md">

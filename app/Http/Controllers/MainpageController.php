@@ -223,6 +223,7 @@ class MainpageController extends Controller
             'reviewscount' => $reviewscount,
             'rating' => $rating,
             'auth' => Auth::user(),
+            'lawyers' => User::where('lawyer', 1)->select('id', 'name', 'avatar_path')->limit(9)->get(),
             'user' => User::find(94),
             'usluga' => Uslugi::where('id', 1)->select('uslugis.url', 'uslugis.usl_name')->first(),
             'usluga_from_url' => $usluga_from_url,
