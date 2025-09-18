@@ -18,7 +18,7 @@ let props = defineProps({
   profile: Boolean,
   hideBtn: Boolean,
   reloadpage: Boolean,
-  mainurl: String,
+  mainurl: Number,
   secondurl: String,
 });
 

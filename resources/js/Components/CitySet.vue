@@ -7,7 +7,7 @@ let set = defineProps({
   profile: Boolean,
   reloadpage: Boolean,
   newurl: String,
-  mainurl: String,
+  mainurl: Number,
   secondurl: String,
 });
 
