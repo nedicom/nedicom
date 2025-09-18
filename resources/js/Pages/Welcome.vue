@@ -44,14 +44,13 @@ defineProps({
   lawyers: Object,
 });
 
-let secondbannerimgmobile =
-  "https://nedicom.ru/storage/images/landing/main/nmainmob.webp";
+
 let secondbannerpc =
-  "https://nedicom.ru/storage/images/landing/main/nmainpc.webp";
+  "https://nedicom.ru/storage/images/services/mainpcjuly.webp";
 
 let mainbannerimgmobile =
-  'url("/storage/images/services/mainpcjuly.webp")';
-let mainbannerpc = '/storage/images/services/mainpcjuly.webp';
+  'url("https://nedicom.ru/storage/images/services/mainpcjuly.webp")';
+let mainbannerpc = 'https://nedicom.ru/storage/images/services/mainpcjuly.webp';
 </script>
 
 <template>
@@ -74,59 +73,18 @@ let mainbannerpc = '/storage/images/services/mainpcjuly.webp';
 
   <div class="min-h-screen" itemscope itemtype="https://schema.org/LegalService">
     <MainHeader :auth="auth" :city="city" />
-    <!--
-    <Header :modalPageTitle="'Модальное окно главная'" />
-    -->
-
 
     <Mainbanner :mainbannerpc="mainbannerpc" :mainbannerimgmobile="mainbannerimgmobile" />
 
     <FrontSecondBanner :city="city" :usluga_from_url="usluga_from_url" :lawyers="lawyers" />
 
-
-
-    <!--
-    <FrontBanner
-      :statusonimage="'Юридическая компания МИНА'"
-      :phnform="true"
-      :secondbannerimgmobile="secondbannerimgmobile"
-      :secondbannerpc="secondbannerpc"
-    />
-    -->
-
-    <!--
-    <SliderUslug :secondoffers="secondoffers" :city="city.url" />-->
-
     <InfinityScroll :bundles="bundles" :auth="auth" />
 
     <Chat :user="user" :usluga="usluga" />
 
-    <FrontQuestion :mainoffers="mainoffers" :secondoffers="secondoffers" :city="city"/>
-
-    <!--
-    <Pile
-      :uslugislider="mainoffers"
-      :secondoffers="secondoffers"
-      :city="city.url"
-    />
--->
-    <!--<Mainbanner :mainbannerimgmobile="mainbannerimgmobile" :mainbannerpc="mainbannerpc" />-->
-
-    <!--<Slider :practice="practice" :sliderheader="'Практика юристов'" />-->
-
-    <!--<Testimonials />-->
-
-    <!--reviews carousel-->
-
-    <!--<Youtube />-->
-
-    <!--<Address />-->
-
-    <!--<VK />-->
+    <FrontQuestion :mainoffers="mainoffers" :secondoffers="secondoffers" :city="city" />
 
     <MainFooter />
-
-    <!--<PopupDialogue />-->
   </div>
 </template>
 

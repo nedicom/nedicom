@@ -2,7 +2,10 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vite build && vite build --ssr"
+        "build": "vite build && vite build --ssr",
+        "build:ssr": "vite build --ssr resources/js/ssr.js",
+        "preview": "vite preview",
+        "dev:ssr": "vite build --ssr resources/js/ssr.js && node bootstrap/ssr/ssr.mjs"
     },
     "devDependencies": {
         "@inertiajs/inertia": "^0.11.1",
