@@ -51,7 +51,7 @@ class ImageController extends Controller
             }
 
             if (!Storage::exists($filePath)) {
-                Storage::makeDirectory($filePath);
+                Storage::makeDirectory($filePath);                               
             }
 
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
@@ -65,7 +65,7 @@ class ImageController extends Controller
             } else {
                 return redirect()->back();
             }
-
+dd(5);
             $files = Storage::allFiles($filePath);
             Storage::delete($files);
 
