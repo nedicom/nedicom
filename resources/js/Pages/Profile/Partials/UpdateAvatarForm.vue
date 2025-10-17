@@ -12,7 +12,6 @@ const emit = defineEmits({
 defineProps({
   avatarurl: String,
 });
-
 </script>
 
 <template>
@@ -32,17 +31,20 @@ defineProps({
               aspectRatio: 1 / 1,
             }" image-restriction="stencil" />
         </div>
-        <div class="my-5">
-          <button
-            class="button mr-5  inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
-            @click="$refs.file.click()">
-            <input type="file" ref="file" accept="image/jpeg, image/png" @change="uploadImage($event)" />
-            Загрузить
-          </button>
-          <button
-            class="button inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
-            @click="cropImage">Сохранить</button>
-        </div>
+<div class="my-5 flex gap-2">
+    <button
+        class="button inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 min-w-24 justify-center"
+        @click="$refs.file.click()">
+        <input type="file" ref="file" accept="image/jpeg, image/png" @change="uploadImage($event)" />
+        Загрузить
+    </button>
+    <button
+        :disabled="isLoading"
+        class="button inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 disabled:opacity-50 min-w-24 justify-center whitespace-nowrap"
+        @click="cropImage">
+        {{ isLoading ? 'Сохранение...' : 'Сохранить' }}
+    </button>
+</div>
       </div>
 
       <div class="grid justify-items-center">
@@ -69,6 +71,7 @@ export default {
         src: this.avatarurl,
         type: null,
       },
+      isLoading: false,
     };
   },
   components: {
@@ -78,11 +81,20 @@ export default {
     cropImage() {
       const { canvas } = this.$refs.cropper.getResult();
       if (canvas) {
+        this.isLoading = true;
         const avaform = new FormData();
         avaform.append('pagetype', 'profileavatar');
         canvas.toBlob(blob => {
           avaform.append('file', blob, 'avatar');
-          Inertia.post("/imagepost", avaform);
+                    Inertia.post("/imagepost", avaform, {
+            onFinish: () => {
+              this.isLoading = false;
+              this.$emit('close');
+            },
+            onError: () => {
+              this.isLoading = false;
+            }
+          });
         });
       }
     },
