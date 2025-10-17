@@ -59,7 +59,7 @@ const callChildMethod = () => {
   <Head title="Профиль" />
 
   <MainHeader :auth="set.auth" ref="childRef" :profile="true" />
-
+{{ set.auth }}
   <Body>
     <div class="py-12">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">          
