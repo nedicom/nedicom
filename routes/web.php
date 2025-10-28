@@ -105,6 +105,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/uslugi/user', [UslugiController::class, 'useruslugi'])->name('uslugi.user');
 });
 
+Route::middleware(['admin'])->group(function () {
+    Route::get('/api/search-author', [UslugiController::class, 'searchAuthor'])->name('api.search-author');
+    Route::post('/change-author', [UslugiController::class, 'changeAuthor'])->name('api.change-author');
+});
+
 Route::controller(UslugiController::class)->group(function () {
     Route::get('/uslugi', 'index')->name('uslugi');
     Route::get('/uslugi/{url}', 'show')->name('uslugi.url');
@@ -121,7 +126,7 @@ Route::controller(UslugiController::class)->group(function () {
 
 Route::controller(CityController::class)->group(function () {
     Route::get('/offers/{city}', 'showCities')->name('offers.city');
-    Route::get('/offers/{city}/{main_usluga}/{second_usluga}/{url}', 'showOffer')->name('offer.show');    
+    Route::get('/offers/{city}/{main_usluga}/{second_usluga}/{url}', 'showOffer')->name('offer.show');
     Route::get('/uslugi/{main_usluga}/{second_usluga}/{city}', 'showCityFromUslugi')->name('show.city'); //del
     Route::post('/setcity', 'setCity')->name('set.city');
     Route::get('/getcities', 'getCities')->name('get.cities');
@@ -151,7 +156,7 @@ Route::controller(LentaController::class)->group(function () {
     Route::get('/bookmarked', 'bookmarked')->name('lenta.bookmarked');
     Route::get('/popular', 'popular')->name('lenta.popular');
     Route::get('/new', 'new')->name('lenta.new');
-    Route::get('/articles', 'articles')->name('lenta.articles');    
+    Route::get('/articles', 'articles')->name('lenta.articles');
     Route::get('/questions', 'questions')->name('lenta.questions');
 });
 
@@ -177,7 +182,7 @@ Route::controller(QuestionsController::class)->group(function () {
     Route::get('/questions/add', 'questionAdd')->name('questions.add');
     Route::get('/questions/similar/{url}', 'similar')->name('questions.similar');
     Route::post('/questions/post', 'post')->name('questions.post');
-    Route::post('/questions/update', 'update')->name('questions.update');    
+    Route::post('/questions/update', 'update')->name('questions.update');
     Route::get('/questions/{url}', 'questionsURL')->name('questions.url');
     Route::get('/question/nonauth', 'questionsNonAuth')->name('questions.nonauth');
     Route::post('/questions/{id}/setusl', 'setUsl')->name('questions.setusl');

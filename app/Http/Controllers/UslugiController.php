@@ -12,6 +12,7 @@ use App\Helpers\GetUslugi;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use App\Models\Review;
 use App\Models\cities;
@@ -529,7 +530,6 @@ class UslugiController extends Controller
         $usluga = Uslugi::find($id);
         $usluga->usl_name = $request->header;
         $usluga->usl_desc = $request->description;
-        $usluga->user_id = $request->lawyer;
         $usluga->longdescription = $request->longdescription;
         $usluga->preimushestvo1 = $request->preimushestvo1;
         $usluga->preimushestvo2 = $request->preimushestvo2;
@@ -616,6 +616,55 @@ class UslugiController extends Controller
             'uslugi' =>  $uslugi,
             'auth' => Auth::user(),
         ]);
+    }
+
+    public function searchAuthor(Request $request)
+    {
+        $request->validate([
+            'q' => 'required|string|min:2|max:50'
+        ]);
+
+        $query = $request->get('q');
+
+        $users = User::where('name', 'like', "%{$query}%")
+            ->orWhere('email', 'like', "%{$query}%")
+            ->select('id', 'name', 'email')
+            ->limit(10)
+            ->get()
+            ->map(function ($user) {
+                $email = $user->email;
+                $parts = explode('@', $email);
+                if (count($parts) === 2) {
+                    $username = $parts[0];
+                    $domain = $parts[1];
+                    $maskedUsername = substr($username, 0, 2) . '***';
+                    $user->email = $maskedUsername . '@' . $domain;
+                }
+                return $user;
+            });
+
+        // Возвращаем данные для Inertia
+        return response()->json($users);
+
+
+        // return Inertia::render('YourComponent', [
+        //     'authors' => $users
+        // ]);
+    }
+
+    public function changeAuthor(Request $request)
+    {
+        $request->validate([
+            'author_id' => 'required|integer|exists:users,id',
+            'usluga_id' => 'required|integer|exists:uslugis,id',
+        ]);
+
+        $usluga = Uslugi::findOrFail($request->usluga_id);
+        $usluga->user_id = $request->author_id;
+        $usluga->save();
+
+        return redirect()->back()->with('success', 'Автор успешно изменен');
+
     }
 
     public function delete(int $id)
