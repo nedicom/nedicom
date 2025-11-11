@@ -143,46 +143,39 @@ let submit = () => {
             class="flex flex-wrap flex-col justify-center items-center mt-8 text-gray-500"
           >
             <a
-              href="https://t.me/na_pens"
+              href="https://uslugi.yandex.ru/profile/MarkAnatolevichMina-2975377"
               target="_blank"
+              rel="nofollow noopener noreferrer"
               class="mr-5 mb-5 lg:mb-0 hover:text-gray-800 hover:opacity-80 flex items-center gap-4"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                x="0px"
-                y="0px"
                 width="48"
                 height="48"
                 viewBox="0 0 48 48"
               >
                 <path
-                  fill="#29b6f6"
+                  fill="#fc3f1d"
                   d="M24 4A20 20 0 1 0 24 44A20 20 0 1 0 24 4Z"
-                ></path>
+                />
                 <path
                   fill="#fff"
-                  d="M33.95,15l-3.746,19.126c0,0-0.161,0.874-1.245,0.874c-0.576,0-0.873-0.274-0.873-0.274l-8.114-6.733 l-3.97-2.001l-5.095-1.355c0,0-0.907-0.262-0.907-1.012c0-0.625,0.933-0.923,0.933-0.923l21.316-8.468 c-0.001-0.001,0.651-0.235,1.126-0.234C33.667,14,34,14.125,34,14.5C34,14.75,33.95,15,33.95,15z"
-                ></path>
-                <path
-                  fill="#b0bec5"
-                  d="M23,30.505l-3.426,3.374c0,0-0.149,0.115-0.348,0.12c-0.069,0.002-0.143-0.009-0.219-0.043 l0.964-5.965L23,30.505z"
-                ></path>
-                <path
-                  fill="#cfd8dc"
-                  d="M29.897,18.196c-0.169-0.22-0.481-0.26-0.701-0.093L16,26c0,0,2.106,5.892,2.427,6.912 c0.322,1.021,0.58,1.045,0.58,1.045l0.964-5.965l9.832-9.096C30.023,18.729,30.064,18.416,29.897,18.196z"
-                ></path>
+                  d="M32.5 16.5H15.5C14.1 16.5 13 17.6 13 19V29C13 30.4 14.1 31.5 15.5 31.5H32.5C33.9 31.5 35 30.4 35 29V19C35 17.6 33.9 16.5 32.5 16.5ZM19.5 28.5H16.5V21.5H19.5V28.5ZM23.5 28.5H20.5V21.5H23.5V28.5ZM27.5 28.5H24.5V21.5H27.5V28.5ZM31.5 28.5H28.5V21.5H31.5V28.5Z"
+                />
               </svg>
               <div
                 class="text-2xl font-extrabold tracking-tight leading-none md:text-3xl lg:text-4xl"
               >
-                telegram
+                Яндекс услуги
               </div>
             </a>
             <p
-              class="my-2 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48"
+              class="my-2 text-lg font-normal text-gray-500 lg:text-xl px-16"
               itemprop="description"
             >
-              В телеграм публикую все что нужно для выхода на пенсию и для проверки пенсии
+              Если нужна бесплатная помощь, у нас стартовала акция -
+              консультация за отзыв. Перейдите по ссылке, оформите заказ на мое
+              имя на Яндекс услугах.
             </p>
           </div>
         </div>
@@ -542,6 +535,7 @@ let submit = () => {
         >
           <a
             href="https://www.youtube.com/@advokatmina"
+            rel="nofollow noopener noreferrer"
             class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-gray-900 rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
           >
             <svg
@@ -569,6 +563,7 @@ let submit = () => {
           >
             <a
               href="https://www.youtube.com/@advokatmina"
+              rel="nofollow noopener noreferrer"
               target="_blank"
               class="mr-5 mb-5 lg:mb-0 hover:text-gray-800 hover:opacity-80 flex items-center gap-4"
             >
@@ -613,14 +608,11 @@ let submit = () => {
         </div>
 
         <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-          <span itemprop="priceCurrency" content="RUB">$</span>
-          <span itemprop="price" content="500">500</span>
+          <span itemprop="priceCurrency" content="RUB">р. </span>
+          <span itemprop="price" content="15000">15000</span>
         </div>
 
-        <div itemprop="operatingSystem" content="Web browser">
-          Платформа: Веб-браузер
-        </div>
-        <div itemprop="operatingSystem" content="Web browser">Посещений</div>
+        <div itemprop="operatingSystem" content="Web browser">Веб-браузер</div>
       </div>
     </div>
   </Body>

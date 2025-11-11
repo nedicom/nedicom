@@ -13,22 +13,22 @@
       class="flex flex-wrap list-none items-center mt-3 text-sm text-gray-500 sm:mt-0"
     >
       <li>
-        <a href="/policy" class="hover:underline mx-1"
+        <a href="/policy" class="hover:underline mx-1" rel="nofollow noopener noreferrer"
           >Политика в отношении персональных данных</a
         >
       </li>
       <li>
-        <a href="/cookie" class="hover:underline mx-1"
+        <a href="/cookie" class="hover:underline mx-1" rel="nofollow noopener noreferrer"
           >Правила обработки cookie</a
         >
       </li>
       <li>
-        <a href="/oferta" class="hover:underline mx-1"
+        <a href="/oferta" class="hover:underline mx-1" rel="nofollow noopener noreferrer"
           >Оферта</a
         >
       </li>
       <li>
-        <a href="/personal" class="hover:underline mx-1"
+        <a href="/personal" class="hover:underline mx-1" rel="nofollow noopener noreferrer"
           >Согласие на обработку персональных данных</a
         >
       </li>
