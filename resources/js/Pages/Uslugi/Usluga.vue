@@ -82,11 +82,11 @@ details summary::-webkit-details-marker {
   <FlashMessage :message="flash.message" />
 
   <Head>
-    <title>{{ vars.usluga.usl_name }} - юрист {{ vars.city.title }}</title>
+    <title>{{ vars.usluga.usl_name }} - {{ vars.city.title }}</title>
     <meta
       head-key="description"
       name="description"
-      :content="vars.usluga.usl_name + ' - ' + vars.usluga.usl_desc"
+      :content="vars.usluga.usl_desc"
     />
     <meta property="og:title" :content="vars.usluga.usl_name" />
     <meta property="og:description" :content="vars.usluga.usl_desc" />

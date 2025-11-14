@@ -108,7 +108,11 @@ blockquote {
       <!-- call to action -->
       <div v-if="article.phone"
         class="hidden h-96 md:w-1/4 2xl:w-1/4 md:grid grid-cols-1 place-content-center px-5 md:px-0">
-        <a :href="'https://wa.me/' + article.phone + '?text=Здравствуйте.'" type="button" aria-label="Calltowhatsapp"
+        <a :href="'https://wa.me/' + article.phone + '?text=Здравствуйте. Меня заинтересовала статья на nedicom.ru - ' +
+              vars.article.header +
+              '. Можно к Вам обратиться?'
+              " 
+         type="button" aria-label="Calltowhatsapp"
           class="mb-5 w-full inline-flex items-center justify-center text-white bg-emerald-700 hover:bg-emerald-800 font-medium rounded-lg py-2.5">
           <svg class="mr-2 w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
             stroke-width="1.5" stroke="currentColor">
@@ -291,14 +295,14 @@ blockquote {
 
           <p class="text-xs text-center my-8">*nedicom.ru не отвечает за ресурсы по внешним ссылкам</p>
 
-
-
           <!-- CTA wa -->
-          <div class="md:hidden md:h-96 md:w-1/4 grid grid-cols-1 place-content-center px-5">
-            <a :href="'https://wa.me/79788838978?text=Здравствуйте. Меня заинтересовала статья.' +
+          <div v-if="article.phone" class="md:hidden md:h-96 md:w-1/4 grid grid-cols-1 place-content-center px-5">
+            <a 
+              :href="'https://wa.me/' + article.phone + '?text=Здравствуйте. Меня заинтересовала статья на nedicom.ru - ' +
               vars.article.header +
-              ' Не могли бы Вы мне помочь?'
-              " type="button" aria-label="Calltowhatsapp"
+              '. Можно к Вам обратиться?'
+              "               
+              type="button" aria-label="Calltowhatsapp"
               class="mb-5 w-full inline-flex items-center justify-center text-white mr-2 bg-emerald-700 hover:bg-emerald-800 font-medium rounded-lg py-2.5">
               <svg class="mr-2 w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                 stroke-width="1.5" stroke="currentColor">
@@ -307,7 +311,7 @@ blockquote {
               </svg>
 
               <span class="flex flex-col">
-                <span class=""> 8 (978) 8838 978 </span>
+                <span class=""> {{ article.phone }} </span>
                 <span class="text-xs"> свзяаться с автором в whatsapp </span>
               </span>
             </a>
