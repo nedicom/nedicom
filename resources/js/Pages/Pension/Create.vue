@@ -143,39 +143,21 @@ let submit = () => {
             class="flex flex-wrap flex-col justify-center items-center mt-8 text-gray-500"
           >
             <a
-              href="https://uslugi.yandex.ru/profile/MarkAnatolevichMina-2975377"
+              href="https://nedicom.ru"
               target="_blank"
-              rel="nofollow noopener noreferrer"
               class="mr-5 mb-5 lg:mb-0 hover:text-gray-800 hover:opacity-80 flex items-center gap-4"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="48"
-                height="48"
-                viewBox="0 0 48 48"
-              >
-                <path
-                  fill="#fc3f1d"
-                  d="M24 4A20 20 0 1 0 24 44A20 20 0 1 0 24 4Z"
-                />
-                <path
-                  fill="#fff"
-                  d="M32.5 16.5H15.5C14.1 16.5 13 17.6 13 19V29C13 30.4 14.1 31.5 15.5 31.5H32.5C33.9 31.5 35 30.4 35 29V19C35 17.6 33.9 16.5 32.5 16.5ZM19.5 28.5H16.5V21.5H19.5V28.5ZM23.5 28.5H20.5V21.5H23.5V28.5ZM27.5 28.5H24.5V21.5H27.5V28.5ZM31.5 28.5H28.5V21.5H31.5V28.5Z"
-                />
-              </svg>
+             
               <div
                 class="text-2xl font-extrabold tracking-tight leading-none md:text-3xl lg:text-4xl"
               >
-                Яндекс услуги
-              </div>
+               nedicom.ru </div>
             </a>
             <p
               class="my-2 text-lg font-normal text-gray-500 lg:text-xl px-16"
               itemprop="description"
             >
-              Если нужна бесплатная помощь, у нас стартовала акция -
-              консультация за отзыв. Перейдите по ссылке, оформите заказ на мое
-              имя на Яндекс услугах.
+              Если нужна платная помощь - закажите консультацию через телефон на главной странице сайта 
             </p>
           </div>
         </div>
@@ -609,7 +591,7 @@ let submit = () => {
 
         <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
           <span itemprop="priceCurrency" content="RUB">р. </span>
-          <span itemprop="price" content="15000">15000</span>
+          <span itemprop="price" content="0">0</span>
         </div>
 
         <div itemprop="operatingSystem" content="Web browser">Веб-браузер</div>
