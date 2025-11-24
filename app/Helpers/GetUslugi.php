@@ -14,6 +14,9 @@ class GetUslugi
 {
     public static function GetUsl($user_id, $city, $main, $second)
     {
+        // Определяем, является ли выбранный город регионом или конкретным городом
+        $isRegion = self::isRegion($city);
+        
         $uslugi = Uslugi::where('is_main', '!=', 1)
             ->where('is_second', null)
             ->where('is_feed', 1)
@@ -47,10 +50,16 @@ class GetUslugi
             ->with('second')
             ->with('review')
             ->with('userreview')
-            ->when($city->id == 0 ? 0 : $city->id, function ($query, $sescity) {
-                $query->where(function ($query) use ($sescity) {
-                    $query->where('sity', $sescity);
-                });
+            ->when($city->id != 0, function ($query) use ($city, $isRegion) {
+                if ($isRegion) {
+                    // Если это регион - показываем объявления всего региона
+                    $query->whereHas('cities', function ($q) use ($city) {
+                        $q->where('regionId', $city->regionId);
+                    });
+                } else {
+                    // Если это город - показываем только объявления этого города
+                    $query->where('sity', $city->id);
+                }
             })
             ->when($main ? $main->id : null, function ($query, $main_usl) {
                 $query->where(function ($query) use ($main_usl) {
@@ -87,11 +96,9 @@ class GetUslugi
             $item->total_rating = $item->review_sum_rating + $item->userreview_sum_rating;
             $item->total_count = $item->userreview_count + $item->review_count;
             $item->final_rating = $item->total_count ? $item->total_rating / $item->total_count : 0;
-            //$item->final_rating = number_format( $item->final_rating, 2);
         };
 
         $users = User::where('lawyer', '=', 1)
-            //->where('file_path', '!=', '/storage/images/landing/main/default.webp')
             ->select(
                 'users.id as user_id',
                 'users.id',
@@ -113,13 +120,17 @@ class GetUslugi
                 'users.id as user_share',
             )
             ->selectRaw('IF(users.id, "user", false) AS type')
-
-            ->when($city->id == 0 ? 0 : $city->id, function ($query, $sescity) {
-                $query->where(function ($query) use ($sescity) {
-                    $query->where('city_id', $sescity);
-                });
+            ->when($city->id != 0, function ($query) use ($city, $isRegion) {
+                if ($isRegion) {
+                    // Если это регион - показываем юристов всего региона
+                    $query->whereHas('cities', function ($q) use ($city) {
+                        $q->where('regionId', $city->regionId);
+                    });
+                } else {
+                    // Если это город - показываем только юристов этого города
+                    $query->where('city_id', $city->id);
+                }
             })
-
             ->with('cities')
             ->with('reviews')
             ->withCount('reviews')
@@ -135,6 +146,11 @@ class GetUslugi
             $item->total_count = $item->reviews_count;
             $item->final_rating = $item->total_count ? $item->total_rating / $item->total_count : 0;
         };
+
+        // Если это регион - сортируем объявления по городам с наибольшим количеством
+        if ($isRegion && $city->id != 0) {
+            $uslugi = self::sortByCityPopularity($uslugi, $city->regionId);
+        }
 
         $grouped = $uslugi->groupBy('user_id');
 
@@ -169,8 +185,9 @@ class GetUslugi
             }
         }
 
-        //if there are few lawyers and services in city we add lawyers from region
-        if ($collection->count() < 10 && $city->id != 0) {
+        // Дополнительные юристы для регионов не нужны, так как мы уже учитываем весь регион
+        // Оставляем эту логику только для конкретных городов
+        if (!$isRegion && $collection->count() < 10 && $city->id != 0) {
             $old_users = $users->pluck('id')->toArray();
             $array = cities::where('regionId', $city->regionId)->get()->pluck('id')->toArray();
             $dop_users = User::where('lawyer', '=', 1)
@@ -212,18 +229,50 @@ class GetUslugi
             }
         }
 
-
-        /*
-        while ($i <= $users->count()) { //add to collection users more than we have after take uslugis
-            if (isset($users[$i])) {
-                $collection->push($users[$i]);
-            }
-            $i++;
-        }
-            */
-
         $paginated = PaginationHelper::paginate($collection, 10);
 
         return $paginated;
+    }
+
+    /**
+     * Сортирует объявления по городам с наибольшим количеством объявлений
+     */
+    private static function sortByCityPopularity($uslugi, $regionId)
+    {
+        // Получаем количество объявлений по городам в регионе
+        $cityCounts = Uslugi::where('is_main', '!=', 1)
+            ->where('is_second', null)
+            ->where('is_feed', 1)
+            ->rightjoin('users', 'uslugis.user_id', '=', 'users.id')
+            ->join('cities', 'uslugis.sity', '=', 'cities.id')
+            ->where('cities.regionId', $regionId)
+            ->select('cities.id', 'cities.title')
+            ->selectRaw('COUNT(uslugis.id) as uslugi_count')
+            ->groupBy('cities.id', 'cities.title')
+            ->orderBy('uslugi_count', 'DESC')
+            ->get()
+            ->pluck('uslugi_count', 'id')
+            ->toArray();
+
+        // Если нет данных по городам, возвращаем исходную коллекцию
+        if (empty($cityCounts)) {
+            return $uslugi;
+        }
+
+        // Сортируем объявления: сначала из городов с наибольшим количеством объявлений
+        return $uslugi->sortByDesc(function ($item) use ($cityCounts) {
+            $cityId = $item->cities->id ?? $item->sity;
+            return $cityCounts[$cityId] ?? 0;
+        })->values();
+    }
+
+    /**
+     * Определяет, является ли переданный город регионом
+     */
+    private static function isRegion($city)
+    {
+        return $city->id == 10 || // Республика Крым
+               $city->regionId === null || 
+               $city->id == 0; // "Все регионы"
     }
 }
