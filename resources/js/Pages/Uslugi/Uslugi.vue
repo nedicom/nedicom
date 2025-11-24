@@ -76,7 +76,7 @@ const callChildMethod = () => {
       :auth="set.auth"
       :city="set.city"
       ref="childRef"
-      :mainurl="set.main_usluga ? Number(set.main_usluga.url) : null"
+      :mainurl="typeof set.main_usluga === 'object' ? set.main_usluga.url : (typeof set.main_usluga === 'number' ? set.main_usluga : null)"
       :secondurl="set.second_usluga ? set.second_usluga.url : null"
       :reloadpage="true"
     />

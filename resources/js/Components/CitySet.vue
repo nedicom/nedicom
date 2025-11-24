@@ -67,6 +67,7 @@ watch(
 </script>
 
 <template>
+
   <VueFinalModal class="flex justify-center items-center"
     content-class="flex flex-col max-w-xl mx-4 p-4 bg-white md:w-2/3 border dark:border-gray-700 rounded-lg space-y-2">
     <div class="relative">
@@ -84,7 +85,6 @@ watch(
       <h3 class="mb-4 text-xl font-medium text-center text-gray-900 dark:text-white">
         Давайте узнаем откуда Вы
       </h3>
-
       <form @submit.prevent="submit">
         <div>
           <input v-model="form.city" type="string" name="city" id="city" autocomplete="off"
