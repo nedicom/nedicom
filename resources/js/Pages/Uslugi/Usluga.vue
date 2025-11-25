@@ -187,7 +187,7 @@ details summary::-webkit-details-marker {
             :dopadress="usluga.dopadress"
             :maps="usluga.maps"
             :metaimage="metaimage"
-            :company="lawyer.name + ' юрист по городу ' + usluga.cities.title"
+            :company="lawyer.name"
           />
 
           <ReviewCarousel

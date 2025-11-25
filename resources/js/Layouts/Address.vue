@@ -97,31 +97,31 @@ if (props.phone !== undefined) {
             <div
               class="text-center lg:text-left h-full grid grid-cols-1 place-content-around gap-4 lg:p-5"
             >
-              <div
-                itemprop="address"
-                itemscope
-                itemtype="https://schema.org/PostalAddress"
-              >
-                <p
-                  v-if="dopadress"
-                  class="font-semibold text-2xl tracking-tight"
-                >
-                  Главный офис:
-                </p>
-                <p
-                  itemprop="streetAddress"
-                  class="font-semibold text-xl lg:text-2xl"
-                >
-                  {{ address }}
-                </p>
-                <meta itemprop="addressCountry" content="RU" />
-                <meta itemprop="addressLocality" :content="region.region" />
-                <span itemprop="telephone" :content="phone" />
-                <!--
-                        <meta itemprop="postalCode" content="295000" />
-                        <meta itemprop="iso6523Code" content="317910200050560" />
-                        <meta itemprop="iso6523Code" content="910305709385" />
-                        -->
+              <!-- Исправленная микроразметка -->
+              <div itemscope itemtype="https://schema.org/Service">
+                <div itemprop="provider" itemscope itemtype="https://schema.org/Person">
+                  <meta itemprop="name" :content="props.company">
+                  <meta itemprop="telephone" :content="phone">
+                  
+                  <div itemprop="workLocation" itemscope itemtype="https://schema.org/Place">
+                    <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+                      <p
+                        v-if="dopadress"
+                        class="font-semibold text-2xl tracking-tight"
+                      >
+                        Главный офис:
+                      </p>
+                      <p
+                        itemprop="streetAddress"
+                        class="font-semibold text-xl lg:text-2xl"
+                      >
+                        {{ address }}
+                      </p>
+                      <meta itemprop="addressCountry" content="RU" />
+                      <meta itemprop="addressLocality" :content="region.region" />
+                    </div>
+                  </div>
+                </div>
 
                 <p
                   v-if="dopadress"

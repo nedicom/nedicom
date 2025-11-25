@@ -19,7 +19,6 @@ defineProps({
     v-if="userprices[0]"
     class="bg-white py-8 antialiased md:py-16 border-b-4 border-indigo-500"
   >
-    <!--   <meta itemprop="priceRange" content="1000р. - 2000р.">-->
     <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
       <div class="mx-auto max-w-5xl">
         <div class="gap-4 flex items-center">
@@ -46,13 +45,9 @@ defineProps({
                 {{ item.name }}:
               </div>
 
-              <div
-                class="flex text-gray-500"
-                itemprop="offers"
-                itemscope
-                itemtype="https://schema.org/Offer"
-              >
-                <meta itemprop="price" :content="item.price" />
+              <div class="flex text-gray-500">
+                <!-- Убрано вложенное itemprop="offers" -->
+                <meta itemprop="price" :content="item.price.toString()" />
                 <meta itemprop="priceCurrency" content="RUB" />
 
                 <div v-if="item.price != 0" class="ml-2">
@@ -61,53 +56,25 @@ defineProps({
                 <div v-else class="ml-2">бесплатно</div>
               </div>
 
-              <div
-                class="flex items-center space-x-2 sm:col-span-4 lg:col-span-3"
-              >
+              <div class="flex items-center space-x-2 sm:col-span-4 lg:col-span-3">
                 <meta itemprop="priceValidUntil" content="2027-01-01" />
-                <meta
-                  itemprop="availability"
-                  content="https://schema.org/InStock"
-                />
-                <div
-                  itemprop="shippingDetails"
-                  itemtype="https://schema.org/OfferShippingDetails"
-                  itemscope
-                >
-                  <div
-                    itemprop="shippingRate"
-                    itemtype="https://schema.org/MonetaryAmount"
-                    itemscope
-                  >
+                <meta itemprop="availability" content="https://schema.org/InStock" />
+                
+                <div itemprop="shippingDetails" itemtype="https://schema.org/OfferShippingDetails" itemscope>
+                  <div itemprop="shippingRate" itemtype="https://schema.org/MonetaryAmount" itemscope>
                     <meta itemprop="value" content="0" />
                     <meta itemprop="currency" content="RUB" />
                   </div>
-                  <div
-                    itemprop="shippingDestination"
-                    itemtype="https://schema.org/DefinedRegion"
-                    itemscope
-                  >
+                  <div itemprop="shippingDestination" itemtype="https://schema.org/DefinedRegion" itemscope>
                     <meta itemprop="addressCountry" content="RU" />
                   </div>
-                  <div
-                    itemprop="deliveryTime"
-                    itemtype="https://schema.org/ShippingDeliveryTime"
-                    itemscope
-                  >
-                    <div
-                      itemprop="handlingTime"
-                      itemtype="https://schema.org/QuantitativeValue"
-                      itemscope
-                    >
+                  <div itemprop="deliveryTime" itemtype="https://schema.org/ShippingDeliveryTime" itemscope>
+                    <div itemprop="handlingTime" itemtype="https://schema.org/QuantitativeValue" itemscope>
                       <meta itemprop="minValue" content="0" />
                       <meta itemprop="maxValue" content="1" />
                       <meta itemprop="unitCode" content="DAY" />
                     </div>
-                    <div
-                      itemprop="transitTime"
-                      itemtype="https://schema.org/QuantitativeValue"
-                      itemscope
-                    >
+                    <div itemprop="transitTime" itemtype="https://schema.org/QuantitativeValue" itemscope>
                       <meta itemprop="minValue" content="0" />
                       <meta itemprop="maxValue" content="1" />
                       <meta itemprop="unitCode" content="DAY" />
@@ -115,38 +82,17 @@ defineProps({
                   </div>
                 </div>
 
-                <div
-                  itemprop="hasMerchantReturnPolicy"
-                  itemtype="https://schema.org/MerchantReturnPolicy"
-                  itemscope
-                >
+                <div itemprop="hasMerchantReturnPolicy" itemtype="https://schema.org/MerchantReturnPolicy" itemscope>
                   <meta itemprop="applicableCountry" content="RU" />
-                  <meta
-                    itemprop="returnMethod"
-                    content="https://schema.org/ReturnByMail"
-                  />
-                  <meta
-                    itemprop="returnFees"
-                    content="https://schema.org/FreeReturn"
-                  />
-                  <meta
-                    itemprop="returnPolicyCategory"
-                    content="https://schema.org/MerchantReturnFiniteReturnWindow"
-                  />
+                  <meta itemprop="returnMethod" content="https://schema.org/ReturnByMail" />
+                  <meta itemprop="returnFees" content="https://schema.org/FreeReturn" />
+                  <meta itemprop="returnPolicyCategory" content="https://schema.org/MerchantReturnFiniteReturnWindow" />
                   <meta itemprop="merchantReturnDays" content="3" />
                 </div>
 
                 <!-- Component Start -->
-                <div
-                  v-if="item.price != 0"
-                  class="relative flex flex-col items-center group"
-                >
-                  <svg
-                    class="w-5 h-5"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
+                <div v-if="item.price != 0" class="relative flex flex-col items-center group">
+                  <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path
                       fill-rule="evenodd"
                       d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
@@ -154,20 +100,14 @@ defineProps({
                     />
                   </svg>
 
-                  <div
-                    class="max-w-sm absolute left-0 top-1/2 hidden flex-col items-center -translate-y-1/2 -translate-x-full mb-0 group-hover:flex"
-                  >
-                    <span
-                      v-if="city"
-                      class="relative rounded-md z-50 p-4 text-xs leading-none text-white bg-black shadow-lg"
-                    >
+                  <div class="max-w-sm absolute left-0 top-1/2 hidden flex-col items-center -translate-y-1/2 -translate-x-full mb-0 group-hover:flex">
+                    <span v-if="city" class="relative rounded-md z-50 p-4 text-xs leading-none text-white bg-black shadow-lg">
                       По статистике за 2025 год, диапазон цены услуги
                       {{ subheader }} в регионе {{ city.title }} от
                       {{ item.price / 2 }} р. до {{ item.price * 2 }} р.
                     </span>
                   </div>
                 </div>
-
                 <!-- Component End  -->
               </div>
             </div>
