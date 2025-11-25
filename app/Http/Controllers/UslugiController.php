@@ -328,6 +328,9 @@ class UslugiController extends Controller
         }
 
         $usluga = Uslugi::where('url', $url)->with('cities')->first();
+
+        $usluga->incrementViews();
+
         return Inertia::render('Uslugi/Usluga', [
             'auth' => $auth,
             'usluga' => $usluga,

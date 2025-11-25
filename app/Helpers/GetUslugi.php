@@ -40,6 +40,7 @@ class GetUslugi
                 'uslugis.likes',
                 'uslugis.shares',
                 'uslugis.bookmarks',
+                'uslugis.views_count',                
                 'bundles_socials.likes as user_like',
                 'bundles_socials.bookmarks as user_bookmark',
                 'bundles_socials.shares as user_share',
