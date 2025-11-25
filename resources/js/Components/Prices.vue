@@ -46,21 +46,19 @@ defineProps({
                 {{ item.name }}:
               </div>
 
-              <div v-if="item.price != 0" class="flex">
-                <div
-                  class="text-gray-500 ml-2"
-                  itemprop="price"
-                  :content="item.price"
-                >
-                  {{ item.price }}
-                </div>
-                <span itemprop="priceCurrency" class="inline ml-1" content="RUB"
-                  >рублей</span
-                >
-              </div>
+              <div
+                class="flex text-gray-500"
+                itemprop="offers"
+                itemscope
+                itemtype="https://schema.org/Offer"
+              >
+                <meta itemprop="price" :content="item.price" />
+                <meta itemprop="priceCurrency" content="RUB" />
 
-              <div v-else class="text-gray-500">
-                бесплатно<meta itemprop="price" :content="item.price" />
+                <div v-if="item.price != 0" class="ml-2">
+                  {{ item.price }} рублей
+                </div>
+                <div v-else class="ml-2">бесплатно</div>
               </div>
 
               <div
