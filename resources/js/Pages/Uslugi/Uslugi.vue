@@ -76,7 +76,13 @@ const callChildMethod = () => {
       :auth="set.auth"
       :city="set.city"
       ref="childRef"
-      :mainurl="typeof set.main_usluga === 'object' ? set.main_usluga.url : (typeof set.main_usluga === 'number' ? set.main_usluga : null)"
+      :mainurl="
+        typeof set.main_usluga === 'object'
+          ? set.main_usluga.url
+          : typeof set.main_usluga === 'number'
+          ? set.main_usluga
+          : null
+      "
       :secondurl="set.second_usluga ? set.second_usluga.url : null"
       :reloadpage="true"
     />
@@ -179,6 +185,7 @@ const callChildMethod = () => {
               }}</span>
               <span v-else>{{ set.main_usluga.usl_desc }}</span>
             </p>
+
             <div
               v-if="set.sumrating !== 0 && set.countrating !== 0"
               class="mb-4 flex justify-start gap-2 text-sm font-medium text-gray-900"
@@ -196,21 +203,18 @@ const callChildMethod = () => {
                 Number((set.sumrating / set.countrating).toFixed(2))
               }}</span>
               из <span itemprop="bestRating">5</span> на основании
-              <span itemprop="ratingCount">{{ set.countrating }} </span>отзывов
+              <span itemprop="ratingCount">{{ set.countrating }}</span> отзывов
             </div>
 
             <div
               v-else
               class="mb-4 flex justify-start gap-2 text-sm font-medium text-gray-900"
-              itemprop="aggregateRating"
-              itemscope
-              itemtype="https://schema.org/AggregateRating"
             >
-              <span class="flex items-center" itemprop="ratingValue">
-                <RatingReady :rating="0" :reviewRating="false" /> </span
-              ><span itemprop="ratingValue">0</span> из
-              <span itemprop="bestRating">5</span> на основании
-              <span itemprop="ratingCount">0 </span>отзывов
+              <span class="flex items-center">
+                <RatingReady :rating="0" :reviewRating="false" />
+              </span>
+              <span>0</span> из <span>5</span> на основании
+              <span>0</span> отзывов
             </div>
           </div>
 

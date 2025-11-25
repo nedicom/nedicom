@@ -1,6 +1,9 @@
 <script setup>
 import RatingReady from "@/Components/RatingReady.vue";
 import ReviewLawyer from "@/Components/ReviewLawyer.vue";
+import { defineComponent } from "vue";
+import { Carousel, Pagination, Slide } from "vue3-carousel";
+import "vue3-carousel/dist/carousel.css";
 
 defineProps({
   reviewscount: Number,
@@ -11,7 +14,35 @@ defineProps({
   mainuslugaid: Number,
   uslugaid: Number,
   errors: Object,
+  mainurl: String, // исправлено на String
 });
+
+// carousel settings
+const settings = {
+  itemsToShow: 1.25,
+  snapAlign: "center",
+  autoplay: 2000,
+  pauseAutoplayOnHover: true,
+  wrapAround: true,
+};
+
+// breakpoints are mobile first
+const breakpoints = {
+  // 700px and up
+  700: {
+    itemsToShow: 2.5,
+    snapAlign: "center",
+  },
+  // 1024 and up
+  1024: {
+    itemsToShow: 2.5,
+    snapAlign: "start",
+  },
+  1280: {
+    itemsToShow: 3.5,
+    snapAlign: "start",
+  },
+};
 </script>
 
 <template>
@@ -23,61 +54,52 @@ defineProps({
       Отзывы заказчиков
     </h2>
     <p
+      v-if="reviewscount > 0"
       itemprop="aggregateRating"
       itemscope
       itemtype="https://schema.org/AggregateRating"
       class="text-xs font-semibold text-grey px-4 2xl:px-0 py-5"
     >
+      <span itemprop="bestRating" content="5"></span>
+      <span itemprop="worstRating" content="1"></span>
       общая оценка:
-      <span itemprop="ratingValue" v-if="rating"> {{ rating }}</span
-      ><span itemprop="ratingValue" v-else>0</span>
+      <span itemprop="ratingValue">{{ rating }}</span>
       всего отзывов:
       <span itemprop="reviewCount">{{ reviewscount }}</span>
     </p>
+    <p v-else class="text-xs font-semibold text-grey px-4 2xl:px-0 py-5">
+      общая оценка: 0 всего отзывов: 0
+    </p>
+
     <Carousel v-bind="settings" :breakpoints="breakpoints">
-      <Slide :key="'add-review'">
-        <!-- add review -->
-        <div class="carousel__item w-full h-full mx-3">
-          <div
-            class="w-full h-full mx-1 rounded-lg border border-gray-400 content-center bg-white py-2 px-4"
-          >
-            <ReviewLawyer
-              :mainuslugaid="mainuslugaid"
-              :uslugaid="uslugaid"
-              :lwrid="lwrid"
-              :auth="auth"
-              :errors="errors"
-            />
-          </div>
-        </div>
-        <!-- add review -->
-      </Slide>
-      <Slide v-for="(card, n) in reviews" :key="n">
+      <!-- Review Cards Slides -->
+      <Slide v-for="(card, index) in reviews" :key="index">
         <div class="carousel__item w-full mx-3">
           <!-- card -->
           <div
             itemprop="review"
             itemscope
             itemtype="https://schema.org/Review"
-            class="w-full mx-1 rounded-lg border border-gray-400 grid grid-cols-3 content-centerl bg-white p-5"
+            class="w-full mx-1 rounded-lg border border-gray-400 grid grid-cols-3 content-center bg-white p-5"
           >
+            <!-- Date -->
             <div
               itemprop="datePublished"
               :content="card.created_at"
-              class="flex items-center justify-left col-span-2 text-base md:text-xs xl:-text-base"
+              class="flex items-center justify-left col-span-2 text-base md:text-xs xl:text-base"
             >
               {{ card.created_at }}
             </div>
 
+            <!-- Rating -->
             <RatingReady :reviewRating="true" :rating="card.rating" />
 
+            <!-- Avatar -->
             <div class="flex items-center justify-start">
               <div class="rounded-full w-12">
                 <svg
-                  v-if="card.id % 2"
+                  v-if="index % 2 === 0"
                   xmlns="http://www.w3.org/2000/svg"
-                  x="0px"
-                  y="0px"
                   width="24"
                   height="24"
                   viewBox="0 0 48 48"
@@ -103,8 +125,6 @@ defineProps({
                 <svg
                   v-else
                   xmlns="http://www.w3.org/2000/svg"
-                  x="0px"
-                  y="0px"
                   width="24"
                   height="24"
                   viewBox="0 0 48 48"
@@ -134,22 +154,25 @@ defineProps({
               </div>
             </div>
 
+            <!-- Name -->
             <div class="h-12 flex items-center justify-end col-span-2">
               <p
-                class="text-gray-900 subpixel-antialiased text-right line-clamp-2 font-bold text-base md:text-md xl:-text-base"
+                class="text-gray-900 subpixel-antialiased text-right line-clamp-2 font-bold text-base md:text-md xl:text-base"
               >
                 <span
                   itemprop="author"
-                  itemscope=""
+                  itemscope
                   itemtype="http://schema.org/Person"
-                  ><span itemprop="name">{{ card.fio }}</span></span
                 >
+                  <span itemprop="name">{{ card.fio }}</span>
+                </span>
               </p>
             </div>
 
+            <!-- Review Text -->
             <div class="flex items-center h-24 col-span-3">
               <p
-                class="text-gray-700/75 line-clamp-3 flex text-left text-base md:text-xs xl:-text-base"
+                class="text-gray-700/75 line-clamp-3 flex text-left text-base md:text-xs xl:text-base"
               >
                 -
                 <span itemprop="reviewBody">"{{ card.description }}"</span>
@@ -160,6 +183,31 @@ defineProps({
         </div>
       </Slide>
 
+      <!-- Add Review Slide -->
+      <Slide :key="'add-review'">
+        <div class="carousel__item w-full h-full mx-3">
+          <div
+            class="w-full h-full mx-1 rounded-lg border border-gray-400 content-center bg-white py-2 px-4"
+          >
+            <ReviewLawyer
+              :mainuslugaid="mainuslugaid"
+              :uslugaid="uslugaid"
+              :lwrid="lwrid"
+              :auth="auth"
+              :errors="errors"
+            />
+          </div>
+        </div>
+      </Slide>
+
+      <!-- Если отзывов нет, добавим пустой слайд для корректной работы карусели -->
+      <Slide v-if="reviews.length === 0" :key="'empty-slide'">
+        <div
+          class="carousel__item text-gray-700/75 line-clamp-3 flex text-left text-base md:text-xs xl:text-base"
+        >
+          Оставьте Ваш отзыв для оценки работы юриста
+        </div>
+      </Slide>
       <template #addons>
         <Pagination />
       </template>
@@ -167,49 +215,3 @@ defineProps({
   </div>
   <!--reviews carousel-->
 </template>
-
-
-
-<script>
-import { defineComponent } from "vue";
-import { Carousel, Pagination, Slide } from "vue3-carousel";
-
-import "vue3-carousel/dist/carousel.css";
-
-export default defineComponent({
-  name: "Breakpoints",
-  components: {
-    Carousel,
-    Slide,
-    Pagination,
-  },
-  data: () => ({
-    // carousel settings
-    settings: {
-      itemsToShow: 1.25,
-      snapAlign: "center",
-      autoplay: 2000,
-      pauseAutoplayOnHover: true,
-      wrapAround: true, // вот здесь включаем бесконечный цикл
-    },
-    // breakpoints are mobile first
-    // any settings not specified will fallback to the carousel settings
-    breakpoints: {
-      // 700px and up
-      700: {
-        itemsToShow: 2.5,
-        snapAlign: "center",
-      },
-      // 1024 and up
-      1024: {
-        itemsToShow: 2.5,
-        snapAlign: "start",
-      },
-      1280: {
-        itemsToShow: 3.5,
-        snapAlign: "start",
-      },
-    },
-  }),
-});
-</script>

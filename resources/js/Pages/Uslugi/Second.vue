@@ -15,7 +15,7 @@ import Slider from "@/Layouts/Slider.vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import PopupDialogue from "@/Layouts/PopupDialogue/PopupDialogue.vue";
 import { ref } from "vue";
-import VueWriter from 'vue-writer';
+import VueWriter from "vue-writer";
 
 let vars = defineProps({
   usluga: "Object",
@@ -34,7 +34,11 @@ let vars = defineProps({
   main_usluga: Object,
 });
 
-const writerarr = [vars.usluga.preimushestvo1, vars.usluga.preimushestvo2, vars.usluga.preimushestvo3];
+const writerarr = [
+  vars.usluga.preimushestvo1,
+  vars.usluga.preimushestvo2,
+  vars.usluga.preimushestvo3,
+];
 
 let sliderheader = "Доверяйте делам";
 
@@ -74,16 +78,26 @@ details summary::-webkit-details-marker {
 
       <Timeline :secondUslugi="vars.uslugi" :mainUsluga="usluga" />
 
-      <SecondBanner :statusonimage="usluga.usl_name" :nameonimage="usluga.desc" :secondbannerpc="secondbannerpc"
-        :secondbannerimgmobile="secondbannerimgmobile" />
+      <SecondBanner
+        :statusonimage="usluga.usl_name"
+        :nameonimage="usluga.desc"
+        :secondbannerpc="secondbannerpc"
+        :secondbannerimgmobile="secondbannerimgmobile"
+      />
 
       <!-- edit btn -->
-      <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
+      <div
+        class="max-w-5xl mx-auto sm:px-6 lg:px-8 bg-white overflow-hidden shadow-sm sm:rounded-lg"
+      >
         <div v-if="user">
-          <div v-if="vars.user.isadmin == 1 || vars.user.id == vars.usluga.user_id
-    ">
-            <a :href="route('uslugi.edit', usluga.id)"
-              class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Редактировать</a>
+          <div
+            v-if="vars.user.isadmin == 1 || vars.user.id == vars.usluga.user_id"
+          >
+            <a
+              :href="route('uslugi.edit', usluga.id)"
+              class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+              >Редактировать</a
+            >
           </div>
         </div>
       </div>
@@ -94,19 +108,33 @@ details summary::-webkit-details-marker {
         <h3 class="text-4xl mx-12 my-1 font-semibold text-grey text-center">
           будем рады и Вашему отзыву
         </h3>
-        <p itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating"
-          class="text-xs mx-12 font-semibold text-grey text-center md:text-end py-5">
-          общая оценка: <span itemprop="ratingValue">{{ vars.rating }}</span>
-          всего отзывов: <span itemprop="reviewCount">{{ reviewscount }}</span>
+        <p
+          itemprop="aggregateRating"
+          itemscope
+          itemtype="https://schema.org/AggregateRating"
+          class="text-xs mx-12 font-semibold text-grey text-center md:text-end py-5"
+        >
+          <span itemprop="bestRating" content="5"></span>
+          <span itemprop="worstRating" content="1"></span>
+          общая оценка:
+          <span itemprop="ratingValue">{{ vars.rating }}</span> всего отзывов:
+          <span itemprop="reviewCount">{{ reviewscount }}</span>
         </p>
         <Carousel v-bind="settings" :breakpoints="breakpoints">
           <Slide v-for="card in vars.reviews" :key="card">
             <div class="carousel__item w-full mx-3">
               <!-- card -->
-              <div itemprop="review" itemscope itemtype="https://schema.org/Review"
-                class="w-full mx-1 rounded-lg border border-gray-400 grid grid-cols-3 content-centerl bg-white p-5">
-                <div itemprop="datePublished" :content="card.created_at"
-                  class="flex items-center justify-left col-span-2">
+              <div
+                itemprop="review"
+                itemscope
+                itemtype="https://schema.org/Review"
+                class="w-full mx-1 rounded-lg border border-gray-400 grid grid-cols-3 content-centerl bg-white p-5"
+              >
+                <div
+                  itemprop="datePublished"
+                  :content="card.created_at"
+                  class="flex items-center justify-left col-span-2"
+                >
                   {{ card.created_at }}
                 </div>
 
@@ -114,26 +142,50 @@ details summary::-webkit-details-marker {
 
                 <div class="flex items-center justify-start">
                   <div class="rounded-full w-12">
-                    <svg v-if="card.id % 2" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24"
-                      viewBox="0 0 48 48">
-                      <path fill="#fbc02d"
-                        d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12	s5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20	s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z">
-                      </path>
-                      <path fill="#e53935"
-                        d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039	l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z">
-                      </path>
-                      <path fill="#4caf50"
-                        d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36	c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z">
-                      </path>
-                      <path fill="#1565c0"
-                        d="M43.611,20.083L43.595,20L42,20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571	c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z">
-                      </path>
+                    <svg
+                      v-if="card.id % 2"
+                      xmlns="http://www.w3.org/2000/svg"
+                      x="0px"
+                      y="0px"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 48 48"
+                    >
+                      <path
+                        fill="#fbc02d"
+                        d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12	s5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20	s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"
+                      ></path>
+                      <path
+                        fill="#e53935"
+                        d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039	l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"
+                      ></path>
+                      <path
+                        fill="#4caf50"
+                        d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36	c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"
+                      ></path>
+                      <path
+                        fill="#1565c0"
+                        d="M43.611,20.083L43.595,20L42,20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571	c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"
+                      ></path>
                     </svg>
 
-                    <svg v-else xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24"
-                      viewBox="0 0 48 48">
-                      <linearGradient id="lpa7hSZqz_S376v76E9kia_wQ15B9zLAw61_gr1" x1="13.239" x2="37.906" y1="1.907"
-                        y2="33.479" gradientUnits="userSpaceOnUse">
+                    <svg
+                      v-else
+                      xmlns="http://www.w3.org/2000/svg"
+                      x="0px"
+                      y="0px"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 48 48"
+                    >
+                      <linearGradient
+                        id="lpa7hSZqz_S376v76E9kia_wQ15B9zLAw61_gr1"
+                        x1="13.239"
+                        x2="37.906"
+                        y1="1.907"
+                        y2="33.479"
+                        gradientUnits="userSpaceOnUse"
+                      >
                         <stop offset="0" stop-color="#f52537"></stop>
                         <stop offset=".293" stop-color="#f32536"></stop>
                         <stop offset=".465" stop-color="#ea2434"></stop>
@@ -143,23 +195,31 @@ details summary::-webkit-details-marker {
                         <stop offset=".944" stop-color="#8f1a1d"></stop>
                         <stop offset="1" stop-color="#7a1818"></stop>
                       </linearGradient>
-                      <path fill="url(#lpa7hSZqz_S376v76E9kia_wQ15B9zLAw61_gr1)"
-                        d="M32,24h-7l8-18h7L32,24z M27,36.689	c0-4.168-0.953-8.357-2.758-12.117L15,6H8l10.833,21.169C20.251,30.123,21,33.415,21,36.689V42h6V36.689z">
-                      </path>
+                      <path
+                        fill="url(#lpa7hSZqz_S376v76E9kia_wQ15B9zLAw61_gr1)"
+                        d="M32,24h-7l8-18h7L32,24z M27,36.689	c0-4.168-0.953-8.357-2.758-12.117L15,6H8l10.833,21.169C20.251,30.123,21,33.415,21,36.689V42h6V36.689z"
+                      ></path>
                     </svg>
                   </div>
                 </div>
 
                 <div class="h-12 flex items-center justify-end col-span-2">
-                  <p class="text-gray-900 subpixel-antialiased text-right line-clamp-2 font-bold">
-                    <span itemprop="author" itemscope="" itemtype="http://schema.org/Person"><span itemprop="name">{{
-    card.fio }}</span></span>
+                  <p
+                    class="text-gray-900 subpixel-antialiased text-right line-clamp-2 font-bold"
+                  >
+                    <span
+                      itemprop="author"
+                      itemscope=""
+                      itemtype="http://schema.org/Person"
+                      ><span itemprop="name">{{ card.fio }}</span></span
+                    >
                   </p>
                 </div>
 
                 <div class="flex items-center h-24 col-span-3">
                   <p class="text-gray-700/75 line-clamp-3 flex text-left">
-                    - <span itemprop="reviewBody">"{{ card.description }}"</span>
+                    -
+                    <span itemprop="reviewBody">"{{ card.description }}"</span>
                   </p>
                 </div>
               </div>
@@ -175,12 +235,19 @@ details summary::-webkit-details-marker {
       </div>
       <!--reviews carousel-->
 
-      <Slider v-if="practice != 0" :sliderheader="sliderheader" :practice="vars.practice" />
+      <Slider
+        v-if="practice != 0"
+        :sliderheader="sliderheader"
+        :practice="vars.practice"
+      />
 
       <!-- seo description -->
-      <div class="grid grid-cols-1 mt-16 ">
-        <div itemprop="disambiguatingDescription" class="mx-auto max-w-4xl mb-3 text-gray-500 dark:text-gray-400 text-justify"
-          v-html="usluga.longdescription"></div>
+      <div class="grid grid-cols-1 mt-16">
+        <div
+          itemprop="disambiguatingDescription"
+          class="mx-auto max-w-4xl mb-3 text-gray-500 dark:text-gray-400 text-justify"
+          v-html="usluga.longdescription"
+        ></div>
       </div>
       <!-- seo description -->
 
@@ -188,38 +255,61 @@ details summary::-webkit-details-marker {
       <div class="bg-white">
         <div class="mx-auto max-w-7xl py-24 sm:px-6 sm:py-32 lg:px-8">
           <div
-            class="relative isolate overflow-hidden bg-gray-500 px-6 pt-16 shadow-2xl sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0">
-
+            class="relative isolate overflow-hidden bg-gray-500 px-6 pt-16 shadow-2xl sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0"
+          >
             <div class="mx-auto text-center lg:mx-0 lg:py-32 lg:text-left">
-              <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl md:h-12 h-36 text-white">
-                <vue-writer :array="writerarr" :eraseSpeed="20" :typeSpeed="50" class="m-h-12" />
+              <h2
+                class="text-3xl font-bold tracking-tight text-white sm:text-4xl md:h-12 h-36 text-white"
+              >
+                <vue-writer
+                  :array="writerarr"
+                  :eraseSpeed="20"
+                  :typeSpeed="50"
+                  class="m-h-12"
+                />
               </h2>
               <p class="mt-6 text-lg leading-8 text-white">
-                Мы хотели тут написать для чего нужно записываться на консультацию
-
+                Мы хотели тут написать для чего нужно записываться на
+                консультацию
               </p>
-              <div class="mt-10 flex items-center justify-center gap-x-6 lg:justify-start text-white">
-                <a href="tel:+79788838978" class="text-3xl">{{ usluga.phone }}</a>
+              <div
+                class="mt-10 flex items-center justify-center gap-x-6 lg:justify-start text-white"
+              >
+                <a href="tel:+79788838978" class="text-3xl">{{
+                  usluga.phone
+                }}</a>
               </div>
 
-              <div class="mt-10 md:flex items-center justify-center gap-x-6 lg:justify-start text-white"
-                itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-                <h1 class="text-3xl">
-                  Консультация
-                </h1>
+              <div
+                class="mt-10 md:flex items-center justify-center gap-x-6 lg:justify-start text-white"
+                itemprop="offers"
+                itemscope
+                itemtype="https://schema.org/Offer"
+              >
+                <h1 class="text-3xl">Консультация</h1>
                 <div class="md:flex justify-center text-2xl">
-                  <span itemprop="price" content="1000.00"><strong class="font-semibold text-white mr-2 text-3xl">
-                      <link itemprop="availability" href="https://schema.org/InStock" />1000
-                    </strong></span>
+                  <span itemprop="price" content="1000.00"
+                    ><strong class="font-semibold text-white mr-2 text-3xl">
+                      <link
+                        itemprop="availability"
+                        href="https://schema.org/InStock"
+                      />1000
+                    </strong></span
+                  >
                   <span itemprop="priceCurrency" content="RUB">рублей</span>
-                  <meta itemprop="priceValidUntil" content="01.01.2029">
+                  <meta itemprop="priceValidUntil" content="01.01.2029" />
                 </div>
               </div>
 
-
-              <div class="mt-10 mb-10 lg:mb-0 flex items-center justify-center gap-x-6 lg:justify-start">
-                <a href="https://nedicom.ru/policy" class="text-sm font-semibold text-white">Политика
-                  конфиденциальности <span aria-hidden="true">→</span></a>
+              <div
+                class="mt-10 mb-10 lg:mb-0 flex items-center justify-center gap-x-6 lg:justify-start"
+              >
+                <a
+                  href="https://nedicom.ru/policy"
+                  class="text-sm font-semibold text-white"
+                  >Политика конфиденциальности
+                  <span aria-hidden="true">→</span></a
+                >
               </div>
             </div>
           </div>
@@ -228,26 +318,51 @@ details summary::-webkit-details-marker {
       <!-- preimushestva -->
 
       <!-- popular question -->
-      <div v-if="vars.usluga.popular_question" class="my-12 pb-12" itemscope itemtype="https://schema.org/FAQPage">
+      <div
+        v-if="vars.usluga.popular_question"
+        class="my-12 pb-12"
+        itemscope
+        itemtype="https://schema.org/FAQPage"
+      >
         <h3 class="text-4xl mx-12 my-1 font-semibold text-grey text-center">
           Посмотрите ответы на вопросы, может это то, что Вы искали?
         </h3>
-        <ul class="md:w-4/6 w-11/12 mx-auto mt-20 divide-y shadow-gray-600 shadow-2xl rounded-xl list-none">
-          <li v-for="item in vars.usluga.popular_question" class="py-5" itemscope itemprop="mainEntity"
-            itemtype="https://schema.org/Question">
+        <ul
+          class="md:w-4/6 w-11/12 mx-auto mt-20 divide-y shadow-gray-600 shadow-2xl rounded-xl list-none"
+        >
+          <li
+            v-for="item in vars.usluga.popular_question"
+            class="py-5"
+            itemscope
+            itemprop="mainEntity"
+            itemtype="https://schema.org/Question"
+          >
             <details class="group">
-              <summary class="flex items-center gap-3 px-4 py-3 font-medium marker:content-none hover:cursor-pointer">
-                <svg class="w-5 h-5 text-gray-500 transition group-open:rotate-90" xmlns="http://www.w3.org/2000/svg"
-                  width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                  <path fill-rule="evenodd"
-                    d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z">
-                  </path>
+              <summary
+                class="flex items-center gap-3 px-4 py-3 font-medium marker:content-none hover:cursor-pointer"
+              >
+                <svg
+                  class="w-5 h-5 text-gray-500 transition group-open:rotate-90"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
+                  ></path>
                 </svg>
                 <span itemprop="name">{{ item.question }}</span>
               </summary>
 
-              <article class="px-4 pb-4 text-slate-500" itemscope itemprop="acceptedAnswer"
-                itemtype="https://schema.org/Answer">
+              <article
+                class="px-4 pb-4 text-slate-500"
+                itemscope
+                itemprop="acceptedAnswer"
+                itemtype="https://schema.org/Answer"
+              >
                 <p itemprop="text">
                   {{ item.answer }}
                 </p>
@@ -299,9 +414,13 @@ details summary::-webkit-details-marker {
         lawyers-->
     </div>
 
-    <Breadcrumbs :uslugi="vars.uslugi" :main_usluga="vars.main_usluga" :second_usluga="vars.second_usluga" :city="vars.usluga.cities"
-    :usluga="vars.usluga" />
-    
+    <Breadcrumbs
+      :uslugi="vars.uslugi"
+      :main_usluga="vars.main_usluga"
+      :second_usluga="vars.second_usluga"
+      :city="vars.usluga.cities"
+      :usluga="vars.usluga"
+    />
   </Body>
 
   <MainFooter />
