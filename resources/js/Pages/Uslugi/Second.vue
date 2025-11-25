@@ -259,7 +259,7 @@ details summary::-webkit-details-marker {
           >
             <div class="mx-auto text-center lg:mx-0 lg:py-32 lg:text-left">
               <h2
-                class="text-3xl font-bold tracking-tight text-white sm:text-4xl md:h-12 h-36 text-white"
+                class="text-3xl font-bold tracking-tight sm:text-4xl md:h-12 h-36 text-white"
               >
                 <vue-writer
                   :array="writerarr"
@@ -331,7 +331,8 @@ details summary::-webkit-details-marker {
           class="md:w-4/6 w-11/12 mx-auto mt-20 divide-y shadow-gray-600 shadow-2xl rounded-xl list-none"
         >
           <li
-            v-for="item in vars.usluga.popular_question"
+            v-for="(item, index) in vars.usluga.popular_question"
+            :key="index"
             class="py-5"
             itemscope
             itemprop="mainEntity"

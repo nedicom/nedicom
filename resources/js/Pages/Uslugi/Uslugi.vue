@@ -253,16 +253,15 @@ const callChildMethod = () => {
               <!-- empty card -->
               <div class="flex flex-col justify-center my-10">
                 <p
-                  class="mb-4 mb-10 flex justify-center md:justify-start text-center md:text-left text-4xl tracking-tight font-extrabold text-gray-900"
+                  class="mb-10 flex justify-center md:justify-start text-center md:text-left text-4xl tracking-tight font-extrabold text-gray-900"
                 >
                   Не нашел своего юриста? <br />
                   Мы поможем
                 </p>
                 <div class="flex justify-center md:justify-start">
                   <a
-                    :href="route('questions.add')"
-                    цй
-                    class="rounded-lg flex inline-block bg-blue-700 px-6 py-3.5 text-center font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                    :href="route('questions.add')"                    
+                    class="rounded-lg inline-block bg-blue-700 px-6 py-3.5 text-center font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                   >
                     задать вопрос онлайн</a
                   >
