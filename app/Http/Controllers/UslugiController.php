@@ -249,6 +249,8 @@ class UslugiController extends Controller
             $uslugi = GetUslugi::GetUsl($user_id, $city,  null, $second);
         }
 
+        $minPrice = $uslugi->min('price') ?? 1;
+        $maxPrice = $uslugi->max('price') ?? 1000;
 
         return Inertia::render('Uslugi/Uslugi', [
             'city' => $city,
@@ -258,8 +260,8 @@ class UslugiController extends Controller
             'second_usluga' => $second,
             'uslugi' => $uslugi,
             'count' => $uslugi->count(),
-            'max' => $uslugi->max('price'),
-            'min' => $uslugi->min('price'),
+            'max' => $maxPrice,
+            'min' => $minPrice,
             'sumrating' => ($uslugi->sum('review_sum_rating') + $uslugi->sum('userreview_sum_rating')),
             'countrating' => ($uslugi->sum('review_count') + $uslugi->sum('userreview_count')),
             'routeurl' => '/uslugi/' . $city->url . '/' . $main_usluga . '/' . $second_usluga,
@@ -664,7 +666,6 @@ class UslugiController extends Controller
         $usluga->save();
 
         return redirect()->back()->with('success', 'Автор успешно изменен');
-
     }
 
     public function delete(int $id)

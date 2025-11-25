@@ -225,17 +225,20 @@ const callChildMethod = () => {
               itemscope
               itemtype="https://schema.org/AggregateOffer"
             >
+              <!-- Мета-теги вынесены из видимого контента -->
+              <meta itemprop="priceCurrency" content="RUB" />
+              <meta itemprop="lowPrice" :content="set.min" />
+              <meta itemprop="highPrice" :content="set.max" />
+              <meta itemprop="offerCount" :content="set.count" />
+
               <div
                 class="flex justify-start my-2 w-full text-sm font-medium text-gray-900"
               >
-                Цены за консультацию
-                <meta itemprop="priceCurrency" content="RUB" />
-                <meta itemprop="lowPrice" :content="set.min" />
-                <meta itemprop="highPrice" :content="set.max" />
-                <meta itemprop="offerCount" :content="set.count" />
-                от {{ set.min }} до {{ set.max }} рублей. Найдено юристов -
+                Цены за консультацию от {{ set.min }} до {{ set.max }} рублей.
+                Найдено юристов -
                 {{ set.count }}
               </div>
+
               <!-- card -->
               <hr class="h-px my-3 bg-gray-200 border-0" />
               <OfferCard
@@ -260,11 +263,11 @@ const callChildMethod = () => {
                 </p>
                 <div class="flex justify-center md:justify-start">
                   <a
-                    :href="route('questions.add')"                    
+                    :href="route('questions.add')"
                     class="rounded-lg inline-block bg-blue-700 px-6 py-3.5 text-center font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                   >
-                    задать вопрос онлайн</a
-                  >
+                    задать вопрос онлайн
+                  </a>
                 </div>
               </div>
               <hr
@@ -272,6 +275,7 @@ const callChildMethod = () => {
               />
               <!-- empty card -->
             </div>
+
           </div>
         </div>
       </div>
