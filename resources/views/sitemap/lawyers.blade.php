@@ -3,9 +3,14 @@
     @foreach ($lawyers as $lawyer)
         <url>
             <loc>https://nedicom.ru/lawyers/{{ $lawyer->id }}</loc>
-            <lastmod>{{ $lawyer->created_at->tz('UTC')->toAtomString() }}</lastmod>
-            <changefreq>weekly</changefreq>
-            <priority>0.9</priority>
+            @if ($lawyer->created_at)
+                <lastmod>{{ $lawyer->created_at->tz('UTC')->toAtomString() }}</lastmod>
+                <changefreq>weekly</changefreq>
+                <priority>0.9</priority>
+            @else
+                <changefreq>monthly</changefreq>
+                <priority>0.2</priority>
+            @endif            
         </url>
     @endforeach
 </urlset>
