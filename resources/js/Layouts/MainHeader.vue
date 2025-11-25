@@ -18,7 +18,7 @@ let props = defineProps({
   profile: Boolean,
   hideBtn: Boolean,
   reloadpage: Boolean,
-  mainurl: Number,
+  mainurl: [Number, String],
   secondurl: String,
 });
 
@@ -411,7 +411,7 @@ defineExpose({ open });
 
   <div
     v-if="!props.auth && $page.props.cookie == false"
-    class="fixed bottom-0 right-0 flex items-center p-4 text-gray-500 bg-white rounded-lg shadow-sm z-50 shadow-lg p-5"
+    class="fixed bottom-0 right-0 flex items-center text-gray-500 bg-white rounded-lg z-50 shadow-lg p-5"
     role="alert"
   >
     <div

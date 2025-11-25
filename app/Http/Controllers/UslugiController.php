@@ -112,7 +112,7 @@ class UslugiController extends Controller
             return Inertia::render('Uslugi/Uslugi', [
                 'city' => $city,
                 'main_usluga' => collect([
-                    'url' => 0,
+                    'url' => '0',
                     'usl_name' => 'Услуги юристов',
                     'usl_desc' => 'Услуги юристов: цены, отзывы, адреса.',
                     'file_path' => 'storage/images/landing/main/1280on600.webp',
