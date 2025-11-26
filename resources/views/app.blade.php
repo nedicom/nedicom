@@ -37,7 +37,7 @@
         <!-- /Yandex.Metrika counter -->
 
         <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBPD2D669T"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17757903888"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
 
@@ -46,7 +46,7 @@
             }
             gtag('js', new Date());
 
-            gtag('config', 'G-EBPD2D669T');
+            gtag('config', 'AW-17757903888');
         </script>
     @endif
 
