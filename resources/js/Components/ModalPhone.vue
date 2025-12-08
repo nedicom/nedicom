@@ -33,7 +33,7 @@ const { open, close } = useModal({
 
 <template>
   <button
-    onclick="ym(24900584, 'reachGoal', 'OPEN_PHONE'); return true;"
+    onclick="ym(24900584, 'reachGoal', 'OPEN_PHONE'); gtag('event', 'click_phone', { 'event_category': 'engagement' }); return true;"
     @click="() => open()"
     class="inline-flex w-full h-16 md:w-48 xl:w-64 mx-1 md:mx-auto py-1 px-2 xl:py-2.5 xl:px-5 focus:outline-none text-white sm:text-base text-sm bg-blue-700 hover:bg-blue-800 rounded-lg justify-center cursor-pointer"
   >
