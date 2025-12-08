@@ -2,55 +2,57 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript">
-        (function(m, e, t, r, i, k, a) {
-            m[i] = m[i] || function() {
-                (m[i].a = m[i].a || []).push(arguments)
-            };
-            m[i].l = 1 * new Date();
-            for (var j = 0; j < document.scripts.length; j++) {
-                if (document.scripts[j].src === r) {
-                    return;
+    @if (env('APP_ENV') != 'local')
+        <!-- Yandex.Metrika counter -->
+        <script type="text/javascript">
+            (function(m, e, t, r, i, k, a) {
+                m[i] = m[i] || function() {
+                    (m[i].a = m[i].a || []).push(arguments)
+                };
+                m[i].l = 1 * new Date();
+                for (var j = 0; j < document.scripts.length; j++) {
+                    if (document.scripts[j].src === r) {
+                        return;
+                    }
                 }
+                k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(
+                    k, a)
+            })
+            (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+            ym(24900584, "init", {
+                clickmap: true,
+                trackLinks: true,
+                accurateTrackBounce: true,
+                webvisor: true,
+                trackHash: true
+            });
+        </script>
+
+
+        <noscript>
+            <div><img src="https://mc.yandex.ru/watch/24900584" style="position:absolute; left:-9999px;" alt="" />
+            </div>
+        </noscript>
+        <!-- /Yandex.Metrika counter -->
+
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17757903888"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() {
+                dataLayer.push(arguments);
             }
-            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(
-                k, a)
-        })
-        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+            gtag('js', new Date());
+            gtag('config', 'G-EBPD2D669T');
 
-        ym(24900584, "init", {
-            clickmap: true,
-            trackLinks: true,
-            accurateTrackBounce: true,
-            webvisor: true,
-            trackHash: true
-        });
-    </script>
+            gtag('config', 'AW-17757903888');
+        </script>
 
+        <script src="https://vk.com/js/api/openapi.js?169" type="text/javascript"></script>
+    @endif
 
-    <noscript>
-        <div><img src="https://mc.yandex.ru/watch/24900584" style="position:absolute; left:-9999px;" alt="" />
-        </div>
-    </noscript>
-    <!-- /Yandex.Metrika counter -->
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17757903888"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-        gtag('config', 'G-EBPD2D669T');
-        gtag('config', 'AW-17757903888');
-    </script>
-
-
-    <script src="https://vk.com/js/api/openapi.js?169" type="text/javascript"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
