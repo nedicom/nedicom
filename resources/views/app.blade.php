@@ -3,6 +3,11 @@
 
 <head>
     @if (env('APP_ENV') != 'local')
+
+        <!-- click.ru -->
+        <script async src="https://af.click.ru/af.js?id=20771"></script>
+        <!-- click.ru -->
+
         <!-- Yandex.Metrika counter -->
         <script type="text/javascript">
             (function(m, e, t, r, i, k, a) {
