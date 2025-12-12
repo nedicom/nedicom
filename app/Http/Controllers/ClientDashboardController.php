@@ -87,7 +87,7 @@ class ClientDashboardController extends Controller
                         $error = 'Доступ к данным клиента запрещен. Запросите его у юриста';
                         break;
                     case 404:
-                        $error = 'Вы не являетесь клиентом, с доступом';
+                        $error = 'Вы не являетесь клиентом, с доступом, проверьте что Вы указали email при регистрации';
                         break;
                     case 500:
                         $error = 'Ошибка сервера CRM';
