@@ -221,13 +221,7 @@ Route::middleware('auth')->group(function () {
 });
 
 
-
-
-Route::middleware('auth')->group(function () {
-    Route::get('/clientdashboard', [ClientDashboardController::class, 'dashboard'])->name('clientdashboard');
-});
-
-
+Route::get('/clientdashboard', [ClientDashboardController::class, 'dashboard'])->name('clientdashboard');
 
 Route::post('/social', [SocialController::class, 'reaction'])->name('reaction');
 
