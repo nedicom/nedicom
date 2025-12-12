@@ -13,6 +13,10 @@ return [
     | a conventional file to locate the various service credentials.
     |
     */
+    'crm' => [
+        'url' => env('CRM_API_URL'),
+        'token' => env('CRM_API_TOKEN'),
+    ],
 
     'yandex' => [
         'client_id' => env('YANDEX_CLIENT_ID'),

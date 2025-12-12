@@ -24,6 +24,8 @@ use App\Http\Controllers\LentaController;
 use App\Http\Controllers\SocialController;
 use App\Http\Controllers\PensionController;
 use App\Http\Controllers\YandexController;
+use App\Http\Controllers\ClientDashboardController;
+
 
 use App\Http\Middleware\owner;
 
@@ -217,6 +219,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/uslimagepost', [ImageController::class, 'imguslcreate'])->name('uslimage.post');
     Route::post('/uslimagesquare', [ImageController::class, 'square'])->name('square.post');
 });
+
+
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/clientdashboard', [ClientDashboardController::class, 'dashboard'])->name('clientdashboard');
+});
+
+
 
 Route::post('/social', [SocialController::class, 'reaction'])->name('reaction');
 

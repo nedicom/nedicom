@@ -95,10 +95,10 @@ defineExpose({ open });
               </div>
               <div class="hidden space-x-8 sm:ml-5 lg:ml-10 sm:flex">
                 <NavLink
-                  :href="route('contacts')"
-                  :active="route().current('contacts')"
+                  :href="route('clientdashboard')"
+                  :active="route().current('clientdashboard')"
                 >
-                  Реквизиты
+                  Кабинет клиента
                 </NavLink>
               </div>
             </div>
@@ -351,10 +351,10 @@ defineExpose({ open });
             </ResponsiveNavLink>
 
             <ResponsiveNavLink
-              :href="route('contacts')"
-              :active="route().current('contacts')"
+              :href="route('clientdashboard')"
+              :active="route().current('clientdashboard')"
             >
-              Реквизиты
+              Кабинет клиента
             </ResponsiveNavLink>
           </div>
 
