@@ -101,6 +101,27 @@ const calculateCompletedTasks = () => {
     if (!props.clientData?.tasks_for_client) return 0
     return props.clientData.tasks_for_client.filter(task => task.status === 'выполнена').length
 }
+
+// Schema.org данные
+const schemaData = computed(() => ({
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': 'Личный кабинет клиента nedicom.ru',
+    'description': 'Личный кабинет для клиентов юридической компании nedicom.ru',
+    'applicationCategory': 'BusinessApplication',
+    'operatingSystem': 'Any',
+    'browserRequirements': 'Requires JavaScript',
+    'url': 'https://nedicom.ru/clientdashboard',
+    'offers': {
+        '@type': 'Offer',
+        'category': 'LegalServices',
+        'areaServed': 'RU',
+        'availableChannel': {
+            '@type': 'ServiceChannel',
+            'serviceUrl': 'https://nedicom.ru'
+        }
+    }
+}))
 </script>
 
 <template>
@@ -117,12 +138,49 @@ const calculateCompletedTasks = () => {
         <link rel="canonical" href="https://nedicom.ru/clientdashboard" />
     </Head>
 
+    <!-- Schema.org inline разметка -->
+    <div itemprop="mainEntity" itemscope itemtype="https://schema.org/WebApplication" style="display: none;">
+        <meta itemprop="name" content="Личный кабинет клиента nedicom.ru" />
+        <meta itemprop="description" content="Личный кабинет для клиентов юридической компании nedicom.ru" />
+        <meta itemprop="applicationCategory" content="BusinessApplication" />
+        <meta itemprop="operatingSystem" content="Any" />
+        <meta itemprop="browserRequirements" content="Requires JavaScript" />
+        <link itemprop="url" href="https://nedicom.ru/clientdashboard" />
+        <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+            <meta itemprop="category" content="LegalServices" />
+            <meta itemprop="areaServed" content="RU" />
+            <div itemprop="availableChannel" itemscope itemtype="https://schema.org/ServiceChannel">
+                <link itemprop="serviceUrl" href="https://nedicom.ru" />
+            </div>
+        </div>
+        
+        <!-- Информация о задачах -->
+        <div v-if="clientData?.tasks_for_client" itemprop="featureList">
+            <div v-for="task in clientData.tasks_for_client.slice(0, 3)" :key="task.id" itemprop="itemListElement" itemscope itemtype="https://schema.org/Thing">
+                <meta itemprop="name" :content="`Задача: ${task.name}`" />
+                <meta itemprop="description" :content="`Статус: ${task.status}`" />
+            </div>
+        </div>
+        
+        <!-- Информация о платежах -->
+        <div v-if="clientData?.payments_for_client" itemprop="paymentAccepted" content="Банковский перевод" />
+        
+        <!-- Контактная информация -->
+        <div itemprop="provider" itemscope itemtype="https://schema.org/LegalService">
+            <meta itemprop="name" content="nedicom.ru" />
+            <meta itemprop="description" content="Юридические услуги" />
+            <div itemprop="areaServed" itemscope itemtype="https://schema.org/Country">
+                <meta itemprop="name" content="Россия" />
+            </div>
+        </div>
+    </div>
+
     <div class="min-h-screen">
         <MainHeader :auth="auth" />
 
         <div class="py-6">
             <!-- Блок ошибок -->
-            <div v-if="error" class="mb-6">
+            <div v-if="error" class="mb-6 mx-10">
                 <div class="bg-red-50 border border-red-200 rounded-lg p-4">
                     <div class="flex">
                         <div class="flex-shrink-0">
@@ -163,7 +221,8 @@ const calculateCompletedTasks = () => {
                 <div class="mb-8">
                     <h1 class="text-3xl font-bold text-gray-900">Личный кабинет клиента</h1>
                     <p v-if="auth" class="mt-2 text-gray-600">Здесь вы можете отслеживать свои задачи и платежи</p>
-                    <p v-else class="mt-2 text-gray-600">Чтобы увидеть платежи, задачи и документы войдите на сайт и запросите доступ у Вашего текущего юриста. Здесь вы сможете
+                    <p v-else class="mt-2 text-gray-600">Чтобы увидеть платежи, задачи и документы войдите на сайт и
+                        запросите доступ у Вашего текущего юриста. Здесь вы сможете
                         отслеживать свои задачи, платежи и документы</p>
 
                     <div class="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
@@ -177,14 +236,24 @@ const calculateCompletedTasks = () => {
                                 </svg>
                             </summary>
                             <div class="mt-3 pt-3 border-t border-blue-200 space-y-2 text-sm text-blue-800">
-                                <p><strong>📱 Связь:</strong> Обычно мы создаем чат WhatsApp/Telegram/Макс. Обычно в чате управляющий партнер, начальник юр. отдела, юрист и консультант. Людей может быть больше, мы используем коллективную работу.</p>
-                                <p><strong>⏰ Время:</strong> Пн-Пт 9:00-18:00. Старайтесь не беспокоить юристов в нерабочее время. Если по другому никак - можно оставить сообщение в чате, учтите что прочитано оно может быть в рабочее время.</p>
-                                <p><strong>🎤 Сообщения:</strong> Голосовые приветствуются, текст тоже. Старайтесь излагать пожелания или вопросы максимально четко.</p>
-                                <p><strong>📄 Документы:</strong> Присылайте качественные сканы, размытые 2 тома читать невозможно. Пользуйтесь приложениями для pdf. Мы расскажем как, если потребуется.</p>
-                                <p><strong>⏳ Сроки:</strong> Ожидайте реальные дедлайны. Если нужно сделать все в один день - мы это обсудим при заключении соглашения.</p>
-                                <p><strong>🔒 Конфиденциальность:</strong> Вся информация защищена, старайтесь сами не распространять лишнее.</p>
+                                <p><strong>📱 Связь:</strong> Обычно мы создаем чат WhatsApp/Telegram/Макс. Обычно в
+                                    чате управляющий партнер, начальник юр. отдела, юрист и консультант. Людей может
+                                    быть больше, мы используем коллективную работу.</p>
+                                <p><strong>⏰ Время:</strong> Пн-Пт 9:00-18:00. Старайтесь не беспокоить юристов в
+                                    нерабочее время. Если по другому никак - можно оставить сообщение в чате, учтите что
+                                    прочитано оно может быть в рабочее время.</p>
+                                <p><strong>🎤 Сообщения:</strong> Голосовые приветствуются, текст тоже. Старайтесь
+                                    излагать пожелания или вопросы максимально четко.</p>
+                                <p><strong>📄 Документы:</strong> Присылайте качественные сканы, размытые 2 тома читать
+                                    невозможно. Пользуйтесь приложениями для pdf. Мы расскажем как, если потребуется.
+                                </p>
+                                <p><strong>⏳ Сроки:</strong> Ожидайте реальные дедлайны. Если нужно сделать все в один
+                                    день - мы это обсудим при заключении соглашения.</p>
+                                <p><strong>🔒 Конфиденциальность:</strong> Вся информация защищена, старайтесь сами не
+                                    распространять лишнее.</p>
                                 <p><strong>📝 Соглашение:</strong> Мы работаем только по договору.</p>
-                                <p><strong>💰 Оплата:</strong> Сохраняйте наши платежные квитанции. Для компенсации расходов на будущее</p>
+                                <p><strong>💰 Оплата:</strong> Сохраняйте наши платежные квитанции. Для компенсации
+                                    расходов на будущее</p>
                             </div>
                         </details>
                     </div>
