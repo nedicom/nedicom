@@ -75,6 +75,7 @@ return [
             'prefix_indexes' => true,
             'search_path' => 'public',
             'sslmode' => 'prefer',
+            'migrations' => 'database/migrations_stats', // Важно!
         ],
 
         'sqlsrv' => [

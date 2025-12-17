@@ -12,10 +12,12 @@ use App\Models\cities;
 use App\Models\Questions;
 use App\Models\Article_comment;
 use Illuminate\Support\Facades\Storage;
-use App\Helpers\OpenAI;
 
+use App\Helpers\OpenAI;
 use App\Helpers\Translate;
 use App\Helpers\TgSend;
+
+use App\Services\ArticleViewService;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -25,6 +27,8 @@ use Illuminate\Support\Str;
 
 class ArticleController extends Controller
 {
+
+    protected $viewService;
 
     public function index()
     {
@@ -190,6 +194,11 @@ class ArticleController extends Controller
     }
 
 
+    public function __construct(ArticleViewService $viewService)
+    {
+        $this->viewService = $viewService;
+    }
+
     //article by url
     public function articleURL($url)
     {
@@ -200,12 +209,24 @@ class ArticleController extends Controller
             abort(410, 'Статья не найдена');
         }
 
+        // записываем просмотр
+        // Отправляем задачу в очередь (не замедляет ответ)
+        dispatch(function () use ($article) {
+            app(ArticleViewService::class)->countView($article->id);
+        })->afterResponse(); // Выполнится после отправки ответа пользователю
+
+        // Получаем статистику
+        $stats = $this->viewService->getStats($article->id);
+
+        
         // Обновляем счетчик просмотров
         $this->incrementArticleCounter($article, $url);
 
         // Получаем данные для отображения
         $data = $this->prepareArticleData($article, $url);
 
+        $data['stats'] = $stats;
+        
         return Inertia::render('Articles/Article', $data);
     }
 

@@ -20,6 +20,7 @@ let vars = defineProps({
   question: Object,
   answers: Object,
   authid: Number,
+  stats: Object,
 });
 
 let avito = vars.article.avito ? vars.article.avito.includes('avito') : null;
@@ -101,6 +102,7 @@ blockquote {
   <PromoHeader />
 
   <Body>
+    {{ vars.stats }}
     <div class="flex justify-left text-gray-900 md:px-10" itemscope itemtype="https://schema.org/Article">
 
       <meta itemprop="wordCount" :content="vars.article.body.length" />
