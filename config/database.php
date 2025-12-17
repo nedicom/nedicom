@@ -63,14 +63,13 @@ return [
             ]) : [],
         ],
 
-        'pgsql' => [
+        'pgsql_stats' => [
             'driver' => 'pgsql',
-            'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '5432'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'host' => env('DB_PGSQL_HOST', '178.208.94.106'),
+            'port' => env('DB_PGSQL_PORT', '5432'),
+            'database' => env('DB_PGSQL_DATABASE', 'site_stats'),
+            'username' => env('DB_PGSQL_USERNAME', 'stats_user'),
+            'password' => env('DB_PGSQL_PASSWORD', 'Bonaqua12345#$%'),
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,

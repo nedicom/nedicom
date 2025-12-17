@@ -407,37 +407,37 @@ const schemaData = computed(() => ({
 
                     <div v-if="clientData.tasks_for_client && clientData.tasks_for_client.length > 0" class="space-y-4">
                         <div v-for="task in displayedTasks" :key="task.id"
-                            class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors">
-                            <div class="flex justify-between items-start">
-                                <div class="flex-1">
-                                    <div class="flex items-center gap-2">
-                                        <h3 class="font-medium text-gray-900">{{ task.name }}</h3>
-                                        <span :class="getStatusBadgeClass(task.status)"
-                                            class="px-2 py-1 text-xs font-medium rounded-full">
-                                            {{ task.status }}
-                                        </span>
-                                    </div>
-                                    <div class="mt-2 space-y-1">
-                                        <p class="text-sm text-gray-500">
-                                            Создана: {{ formatDate(task.created_at) }}
-                                        </p>
-                                        <p v-if="task.donetime" class="text-sm text-gray-500">
-                                            Выполнена: {{ formatDateTime(task.donetime) }}
-                                        </p>
-                                        <p v-if="task.hrftodcm" class="text-sm text-blue-600">
-                                            <a :href="task.hrftodcm" target="_blank" class="hover:underline">
-                                                Ссылка на документ →
-                                            </a>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="ml-4 text-right">
-                                    <span class="text-xs font-medium px-2 py-1 bg-gray-100 text-gray-800 rounded">
-                                        #{{ task.id }}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
+    class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors">
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start">
+        <div class="flex-1">
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+                <h3 class="font-medium text-gray-900">{{ task.name }}</h3>
+                <span :class="getStatusBadgeClass(task.status)"
+                    class="px-2 py-1 text-xs font-medium rounded-full w-fit self-start">
+                    {{ task.status }}
+                </span>
+            </div>
+            <div class="mt-2 space-y-1">
+                <p class="text-sm text-gray-500">
+                    Создана: {{ formatDate(task.created_at) }}
+                </p>
+                <p v-if="task.donetime" class="text-sm text-gray-500">
+                    Выполнена: {{ formatDateTime(task.donetime) }}
+                </p>
+                <p v-if="task.hrftodcm" class="text-sm text-blue-600">
+                    <a :href="task.hrftodcm" target="_blank" class="hover:underline">
+                        Ссылка на документ →
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="mt-2 sm:mt-0 sm:ml-4 sm:text-right">
+            <span class="text-xs font-medium px-2 py-1 bg-gray-100 text-gray-800 rounded">
+                #{{ task.id }}
+            </span>
+        </div>
+    </div>
+</div>
                     </div>
                     <div v-else class="text-center py-8 text-gray-500">
                         <p>Задач пока нет</p>
