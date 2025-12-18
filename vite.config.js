@@ -13,8 +13,7 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/js/app.js',           // Основной клиентский бандл
-                'resources/js/ssr.js',           // SSR бандл
+                'resources/js/app.js',           // Основной клиентский бандл      
                 'resources/js/tracking.js',      // Отдельный файл трекинга
             ],
             ssr: 'resources/js/ssr.js',
