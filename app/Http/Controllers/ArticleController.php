@@ -25,6 +25,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
+use Illuminate\Support\Facades\Log; 
+
 class ArticleController extends Controller
 {
 
@@ -202,6 +204,7 @@ class ArticleController extends Controller
     //article by url
     public function articleURL($url)
     {
+
         // Получаем статью с проверкой существования
         $article = DB::table('articles')->where('url', $url)->first();
 
@@ -209,16 +212,10 @@ class ArticleController extends Controller
             abort(410, 'Статья не найдена');
         }
 
-        // записываем просмотр
-        // Отправляем задачу в очередь (не замедляет ответ)
-        dispatch(function () use ($article) {
-            app(ArticleViewService::class)->countView($article->id);
-        })->afterResponse(); // Выполнится после отправки ответа пользователю
-
         // Получаем статистику
         $stats = $this->viewService->getStats($article->id);
 
-        
+
         // Обновляем счетчик просмотров
         $this->incrementArticleCounter($article, $url);
 
@@ -226,7 +223,7 @@ class ArticleController extends Controller
         $data = $this->prepareArticleData($article, $url);
 
         $data['stats'] = $stats;
-        
+
         return Inertia::render('Articles/Article', $data);
     }
 
@@ -318,6 +315,48 @@ class ArticleController extends Controller
         return redirect()->back()->with('success', 'Все в порядке, статья удалена');
     }
 
-    //import
-
+    public function trackView(Request $request)
+{
+    try {
+        $validated = $request->validate([
+            'article_id' => 'required|integer|exists:articles,id',
+            'yandex_uid' => 'nullable|string|max:255',
+            'yandex_client_id' => 'nullable|string|max:255',
+            'referer' => 'nullable|string|max:2000',
+        ]);
+        
+        Log::info('Получен запрос статистики', $validated);
+        
+        // Записываем просмотр
+        $recorded = app(ArticleViewService::class)
+            ->countViewFromClient($validated['article_id'], $validated);
+        
+        if ($recorded) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Просмотр записан',
+                'article_id' => $validated['article_id']
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Ошибка записи в БД',
+                'article_id' => $validated['article_id']
+            ], 500);
+        }
+        
+    } catch (\Exception $e) {
+        Log::error('Ошибка в trackView', [
+            'error' => $e->getMessage(),
+            'trace' => $e->getTraceAsString(),
+            'request' => $request->all()
+        ]);
+        
+        return response()->json([
+            'success' => false,
+            'message' => 'Внутренняя ошибка сервера: ' . $e->getMessage(),
+            'article_id' => $request->input('article_id')
+        ], 500);
+    }
+}
 }

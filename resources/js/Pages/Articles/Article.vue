@@ -8,6 +8,7 @@ import Answers from "@/Layouts/Answers.vue";
 import SliderQuestions from "@/Layouts/SliderQuestions.vue";
 import ShareButtons from "@/Components/ShareButtons.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
+import { onMounted, ref  } from 'vue'
 
 let vars = defineProps({
   article: Object,
@@ -23,6 +24,9 @@ let vars = defineProps({
   stats: Object,
 });
 
+const statsSent = ref(false)
+const isSending = ref(false)
+
 let avito = vars.article.avito ? vars.article.avito.includes('avito') : null;
 
 const trackClick = (x) => {
@@ -30,58 +34,77 @@ const trackClick = (x) => {
     ym(24900584, 'reachGoal', x, {
       url: vars.article.url,
       element: 'link'
-    });   
+    });
   }
 };
+
+// Простая функция получения куки
+const getCookie = (name) => {
+  const matches = document.cookie.match(new RegExp(
+    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+  ));
+  return matches ? decodeURIComponent(matches[1]) : null;
+};
+
+// Упрощенная отправка статистики С ЗАЩИТОЙ
+const sendViewStats = () => {
+  // ЗАЩИТА: не отправляем если уже отправлено или отправляется
+  if (statsSent.value || isSending.value) {
+    console.log('⏸️ Статистика уже отправлена или отправляется')
+    return
+  }
+  
+  isSending.value = true
+  console.log('📊 Отправка статистики для статьи:', vars.article.id)
+  
+  // Собираем простые данные
+  const data = {
+    article_id: vars.article.id,
+    yandex_uid: getCookie('_ym_uid'),
+    yandex_client_id: getCookie('yandexuid') || getCookie('ycid'),
+    referer: document.referrer,
+  }
+  
+  console.log('📤 Данные для отправки:', data)
+  
+  // ПРОСТОЙ FETCH ЗАПРОС
+  fetch('/api/article/view', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
+      'Accept': 'application/json',
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => {
+    console.log('📥 Статус ответа:', response.status, response.statusText)
+    return response.json().catch(() => ({}))
+  })
+  .then(result => {
+    console.log('✅ Ответ сервера:', result)
+    if (result.success) {
+      console.log('🎉 Статистика успешно отправлена!')
+      statsSent.value = true
+    } else {
+      console.warn('⚠️ Сервер вернул ошибку:', result.message)
+      // НЕ ПОВТОРЯЕМ ПРИ ОШИБКЕ!
+    }
+  })
+  .catch(error => {
+    console.error('❌ Ошибка сети:', error)
+    // НЕ ПОВТОРЯЕМ ПРИ ОШИБКЕ СЕТИ!
+  })
+  .finally(() => {
+    isSending.value = false
+  })
+}
+
+onMounted(() => {
+  setTimeout(sendViewStats, 1000)
+})
 </script>
 
-<style>
-.article h3 {
-  font-size: 2rem;
-}
-
-.article ul,
-ol {
-  padding: 0 1rem;
-  margin-left: 1rem;
-  list-style-type: square;
-}
-
-.articlebody p {
-  padding: 10px 0px;
-}
-
-p {
-  text-overflow: ellipsis;
-}
-
-.artlwrhref {
-  vertical-align: top;
-  max-width: 100%;
-  border: none;
-}
-
-a img {
-  border-radius: 50%;
-  width: 80px;
-}
-
-.artlwrhref::before {
-  content: "Мнение эксперта";
-  font-weight: bold;
-  display: block;
-  margin-bottom: 5px;
-  font-size: 1.2rem;
-}
-
-blockquote {
-  padding-left: 1rem;
-  margin: 2rem;
-  font-style: italic;
-  border-left: solid red;
-  min-height: 20vh;
-}
-</style>
 
 <template>
 
@@ -102,7 +125,6 @@ blockquote {
   <PromoHeader />
 
   <Body>
-    {{ vars.stats }}
     <div class="flex justify-left text-gray-900 md:px-10" itemscope itemtype="https://schema.org/Article">
 
       <meta itemprop="wordCount" :content="vars.article.body.length" />
@@ -111,10 +133,9 @@ blockquote {
       <div v-if="article.phone"
         class="hidden h-96 md:w-1/4 2xl:w-1/4 md:grid grid-cols-1 place-content-center px-5 md:px-0">
         <a :href="'https://wa.me/' + article.phone + '?text=Здравствуйте. Меня заинтересовала статья на nedicom.ru - ' +
-              vars.article.header +
-              '. Можно к Вам обратиться?'
-              " 
-         type="button" aria-label="Calltowhatsapp"
+          vars.article.header +
+          '. Можно к Вам обратиться?'
+          " type="button" aria-label="Calltowhatsapp"
           class="mb-5 w-full inline-flex items-center justify-center text-white bg-emerald-700 hover:bg-emerald-800 font-medium rounded-lg py-2.5">
           <svg class="mr-2 w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
             stroke-width="1.5" stroke="currentColor">
@@ -143,10 +164,10 @@ blockquote {
             <div class="group flex item-center">
               <div class="flex items-center justify-center relative">
                 <Link :href="route('lawyer', article.userid)" class="hover:underline">
-                <img :src="'https://nedicom.ru/' + article.avatar_path" :alt="usluga.usl_name" width="40"
-                  class="rounded-full" />
-                <span
-                  class="-left-1 -top-1 animate-pulse absolute w-3.5 h-3.5 bg-green-500 border-2 border-white dark:border-gray-800 rounded-full"></span>
+                  <img :src="'https://nedicom.ru/' + article.avatar_path" :alt="usluga.usl_name" width="40"
+                    class="rounded-full" />
+                  <span
+                    class="-left-1 -top-1 animate-pulse absolute w-3.5 h-3.5 bg-green-500 border-2 border-white dark:border-gray-800 rounded-full"></span>
                 </Link>
               </div>
 
@@ -238,7 +259,9 @@ blockquote {
 
           <span v-if="vars.article.tg">
             <div class="flex flex-col md:flex-row items-center justify-between my-8 p-6 bg-white rounded-lg shadow-md">
-              <h2 v-if="vars.article.tg_description" class="text-base text-center font-semibold text-gray-800 mb-2 md:mb-0 px-5">{{ vars.article.tg_description }}</h2>
+              <h2 v-if="vars.article.tg_description"
+                class="text-base text-center font-semibold text-gray-800 mb-2 md:mb-0 px-5">{{
+                  vars.article.tg_description }}</h2>
               <h2 v-else class="text-base text-center font-semibold text-gray-800 mb-2 md:mb-0 px-5">У этого юриста есть
                 телеграм</h2>
               <a :href="vars.article.tg" target="_blank" @click="trackClick('tg_click')"
@@ -299,12 +322,10 @@ blockquote {
 
           <!-- CTA wa -->
           <div v-if="article.phone" class="md:hidden md:h-96 md:w-1/4 grid grid-cols-1 place-content-center px-5">
-            <a 
-              :href="'https://wa.me/' + article.phone + '?text=Здравствуйте. Меня заинтересовала статья на nedicom.ru - ' +
+            <a :href="'https://wa.me/' + article.phone + '?text=Здравствуйте. Меня заинтересовала статья на nedicom.ru - ' +
               vars.article.header +
               '. Можно к Вам обратиться?'
-              "               
-              type="button" aria-label="Calltowhatsapp"
+              " type="button" aria-label="Calltowhatsapp"
               class="mb-5 w-full inline-flex items-center justify-center text-white mr-2 bg-emerald-700 hover:bg-emerald-800 font-medium rounded-lg py-2.5">
               <svg class="mr-2 w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                 stroke-width="1.5" stroke="currentColor">
@@ -419,3 +440,52 @@ blockquote {
   <!-- <Sidebaraction :ModalBtnText="ModalBtnText" /> -->
   <MainFooter />
 </template>
+
+
+<style>
+.article h3 {
+  font-size: 2rem;
+}
+
+.article ul,
+ol {
+  padding: 0 1rem;
+  margin-left: 1rem;
+  list-style-type: square;
+}
+
+.articlebody p {
+  padding: 10px 0px;
+}
+
+p {
+  text-overflow: ellipsis;
+}
+
+.artlwrhref {
+  vertical-align: top;
+  max-width: 100%;
+  border: none;
+}
+
+a img {
+  border-radius: 50%;
+  width: 80px;
+}
+
+.artlwrhref::before {
+  content: "Мнение эксперта";
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  font-size: 1.2rem;
+}
+
+blockquote {
+  padding-left: 1rem;
+  margin: 2rem;
+  font-style: italic;
+  border-left: solid red;
+  min-height: 20vh;
+}
+</style>
