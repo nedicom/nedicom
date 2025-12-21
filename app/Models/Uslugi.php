@@ -34,7 +34,7 @@ class Uslugi extends Model
         // Проверяем, не просматривался ли пост в последние 24 часа
         if (!$this->wasRecentlyViewed()) {
             $this->timestamps = false;
-            $this->increment('views_count');
+            $this->increment('counter');
             $this->timestamps = true;
             
             $this->markAsViewed();
