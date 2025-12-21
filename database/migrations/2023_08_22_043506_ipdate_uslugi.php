@@ -23,9 +23,10 @@ return new class extends Migration
     public function down()
     {
         Schema::table('uslugis', function (Blueprint $table) {
-            $table->dropColumn('is_main');
-            $table->dropForeign('main_usluga_id_foreign'); 
-            $table->dropColumn('main_usluga_id');
+            // Для PostgreSQL используем массив
+            $table->dropForeign(['main_usluga_id']);
+            // Удаляем колонки
+            $table->dropColumn(['is_main', 'main_usluga_id']);
         });
     }
 };

@@ -27,7 +27,10 @@ return new class extends Migration
     public function down()
     {
         Schema::table('uslugis', function (Blueprint $table) {
-            $table->dropColumn('arrayspec');
+            // Удаляем foreign key
+            $table->dropForeign(['user_id']);
+            // Удаляем колонку user_id
+            $table->dropColumn('user_id');
         });
     }
 };

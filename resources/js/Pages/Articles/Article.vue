@@ -8,7 +8,6 @@ import Answers from "@/Layouts/Answers.vue";
 import SliderQuestions from "@/Layouts/SliderQuestions.vue";
 import ShareButtons from "@/Components/ShareButtons.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
-import { onMounted, ref  } from 'vue'
 
 let vars = defineProps({
   article: Object,
@@ -24,85 +23,7 @@ let vars = defineProps({
   stats: Object,
 });
 
-const statsSent = ref(false)
-const isSending = ref(false)
-
 let avito = vars.article.avito ? vars.article.avito.includes('avito') : null;
-
-const trackClick = (x) => {
-  if (typeof ym !== 'undefined') {
-    ym(24900584, 'reachGoal', x, {
-      url: vars.article.url,
-      element: 'link'
-    });
-  }
-};
-
-// Простая функция получения куки
-const getCookie = (name) => {
-  const matches = document.cookie.match(new RegExp(
-    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-  ));
-  return matches ? decodeURIComponent(matches[1]) : null;
-};
-
-// Упрощенная отправка статистики С ЗАЩИТОЙ
-const sendViewStats = () => {
-  // ЗАЩИТА: не отправляем если уже отправлено или отправляется
-  if (statsSent.value || isSending.value) {
-    console.log('⏸️ Статистика уже отправлена или отправляется')
-    return
-  }
-  
-  isSending.value = true
-  console.log('📊 Отправка статистики для статьи:', vars.article.id)
-  
-  // Собираем простые данные
-  const data = {
-    article_id: vars.article.id,
-    yandex_uid: getCookie('_ym_uid'),
-    yandex_client_id: getCookie('yandexuid') || getCookie('ycid'),
-    referer: document.referrer,
-  }
-  
-  console.log('📤 Данные для отправки:', data)
-  
-  // ПРОСТОЙ FETCH ЗАПРОС
-  fetch('/api/article/view', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
-      'Accept': 'application/json',
-    },
-    body: JSON.stringify(data)
-  })
-  .then(response => {
-    console.log('📥 Статус ответа:', response.status, response.statusText)
-    return response.json().catch(() => ({}))
-  })
-  .then(result => {
-    console.log('✅ Ответ сервера:', result)
-    if (result.success) {
-      console.log('🎉 Статистика успешно отправлена!')
-      statsSent.value = true
-    } else {
-      console.warn('⚠️ Сервер вернул ошибку:', result.message)
-      // НЕ ПОВТОРЯЕМ ПРИ ОШИБКЕ!
-    }
-  })
-  .catch(error => {
-    console.error('❌ Ошибка сети:', error)
-    // НЕ ПОВТОРЯЕМ ПРИ ОШИБКЕ СЕТИ!
-  })
-  .finally(() => {
-    isSending.value = false
-  })
-}
-
-onMounted(() => {
-  setTimeout(sendViewStats, 1000)
-})
 </script>
 
 

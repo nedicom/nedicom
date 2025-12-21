@@ -17,15 +17,13 @@ use App\Helpers\OpenAI;
 use App\Helpers\Translate;
 use App\Helpers\TgSend;
 
-use App\Services\ArticleViewService;
-
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-use Illuminate\Support\Facades\Log; 
+use Illuminate\Support\Facades\Log;
 
 class ArticleController extends Controller
 {
@@ -195,12 +193,6 @@ class ArticleController extends Controller
         }
     }
 
-
-    public function __construct(ArticleViewService $viewService)
-    {
-        $this->viewService = $viewService;
-    }
-
     //article by url
     public function articleURL($url)
     {
@@ -212,17 +204,9 @@ class ArticleController extends Controller
             abort(410, 'Статья не найдена');
         }
 
-        // Получаем статистику
-        $stats = $this->viewService->getStats($article->id);
-
-
+        $data = $this->prepareArticleData($article, $url);
         // Обновляем счетчик просмотров
         $this->incrementArticleCounter($article, $url);
-
-        // Получаем данные для отображения
-        $data = $this->prepareArticleData($article, $url);
-
-        $data['stats'] = $stats;
 
         return Inertia::render('Articles/Article', $data);
     }
@@ -314,49 +298,4 @@ class ArticleController extends Controller
         Article::find($id)->delete();
         return redirect()->back()->with('success', 'Все в порядке, статья удалена');
     }
-
-    public function trackView(Request $request)
-{
-    try {
-        $validated = $request->validate([
-            'article_id' => 'required|integer|exists:articles,id',
-            'yandex_uid' => 'nullable|string|max:255',
-            'yandex_client_id' => 'nullable|string|max:255',
-            'referer' => 'nullable|string|max:2000',
-        ]);
-        
-        Log::info('Получен запрос статистики', $validated);
-        
-        // Записываем просмотр
-        $recorded = app(ArticleViewService::class)
-            ->countViewFromClient($validated['article_id'], $validated);
-        
-        if ($recorded) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Просмотр записан',
-                'article_id' => $validated['article_id']
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Ошибка записи в БД',
-                'article_id' => $validated['article_id']
-            ], 500);
-        }
-        
-    } catch (\Exception $e) {
-        Log::error('Ошибка в trackView', [
-            'error' => $e->getMessage(),
-            'trace' => $e->getTraceAsString(),
-            'request' => $request->all()
-        ]);
-        
-        return response()->json([
-            'success' => false,
-            'message' => 'Внутренняя ошибка сервера: ' . $e->getMessage(),
-            'article_id' => $request->input('article_id')
-        ], 500);
-    }
-}
 }
