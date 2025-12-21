@@ -75,7 +75,7 @@ defineProps({
     class="flex items-center gap-1 rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
   >
     <span class="sr-only">перейти</span>
-    <span class="text-xs">{{ usluga.views_count }}</span>
+    <span class="text-xs">{{ usluga.counter }}</span>
     <svg
       class="h-5 w-5"
       aria-hidden="true"

@@ -16,7 +16,7 @@ class Uslugi extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'views_count', 'slug'];
+    protected $fillable = ['user_id', 'counter', 'slug'];
 
     protected $casts = [
         'created_at'  => 'date:d.m.Y',
@@ -76,7 +76,7 @@ class Uslugi extends Model
      */
     public function getViewsCountFormattedAttribute()
     {
-        return number_format($this->views_count, 0, ',', ' ');
+        return number_format($this->counter, 0, ',', ' ');
     }
     
     /**
