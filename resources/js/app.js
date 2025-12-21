@@ -8,11 +8,15 @@ import { InertiaProgress } from '@inertiajs/progress';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
-import {createVfm} from 'vue-final-modal';
+import { createVfm } from 'vue-final-modal';
 import { Inertia } from '@inertiajs/inertia';
 import 'flowbite';
 
+import { initTracking } from './tracking';
+
 const vfm = createVfm();
+
+
 
 // 🔍 Добавьте обработчик ошибок гидрации
 let hydrationErrorReported = false;
@@ -21,7 +25,7 @@ const reportHydrationError = (error) => {
     if (!hydrationErrorReported) {
         console.error('🚨 SSR Hydration Error:', error);
         hydrationErrorReported = true;
-        
+
         // Отправка в аналитику (раскомментируйте если нужно)
         // if (typeof ym !== 'undefined') {
         //     ym(24900584, 'reachGoal', 'SSR_HYDRATION_ERROR');
@@ -37,7 +41,9 @@ createInertiaApp({
             .use(plugin)
             .use(vfm)
             .use(ZiggyVue, Ziggy);
-        
+
+        initTracking();
+
         // ✅ Добавьте обработчик ошибок
         app.config.errorHandler = (error, instance, info) => {
             if (error.message.includes('hydration') || info.includes('hydration')) {
@@ -48,12 +54,12 @@ createInertiaApp({
                 });
             }
         };
-        
+
         return app.mount(el);
     },
 });
 
-InertiaProgress.init({ color: '#4B5563', showSpinner: true});
+InertiaProgress.init({ color: '#4B5563', showSpinner: true });
 
 Inertia.on('navigate', (event) => {
     const path = event.detail.page.url;

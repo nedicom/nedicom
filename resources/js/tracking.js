@@ -1,155 +1,59 @@
-// resources/js/tracking.js
+// Максимально простой трекинг Яндекс кук
 
-/**
- * Трекинг посетителей для nedicom.ru
- * Автоматически собирает UTM метки, Яндекс куки и информацию о посетителе
- */
-
-// Функция получения куки
-const getCookie = (name) => {
-    const matches = document.cookie.match(new RegExp(
-        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-    ))
-    return matches ? decodeURIComponent(matches[1]) : null
-}
-
-// Собираем данные для трекинга
-const collectTrackingData = () => {
-    const data = {
-        // Основные данные
-        current_url: window.location.href,
-        path: window.location.pathname,
-        referer: document.referrer,
-        
-        // Яндекс куки
-        yandex_uid: getCookie('_ym_uid'),
-        yandex_client_id: getCookie('yandexuid') || getCookie('ycid'),
-        
-        // Информация о браузере
-        screen_width: window.screen.width,
-        screen_height: window.screen.height,
-        language: navigator.language,
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        
-        // Пользовательские данные из Laravel (если передаются)
-        user_email: window.Laravel?.user?.email || null,
-        user_id: window.Laravel?.user?.id || null,
-    }
+// 1. Функция получить Яндекс куки
+function getYandexCookies() {
+    const cookies = document.cookie.split(';')
+    const result = {}
     
-    // Добавляем UTM метки из URL
-    const urlParams = new URLSearchParams(window.location.search)
-    const utmKeys = [
-        'utm_source', 'utm_medium', 'utm_campaign', 
-        'utm_content', 'utm_term', 'gclid', 'yclid'
-    ]
-    
-    utmKeys.forEach(key => {
-        const value = urlParams.get(key)
-        if (value) data[key] = value
+    cookies.forEach(cookie => {
+        const [key, value] = cookie.trim().split('=')
+        if (['_ym_uid', 'yandexuid', 'yandex_login'].includes(key)) {
+            result[key] = decodeURIComponent(value)
+        }
     })
     
-    // Убираем пустые значения
-    return Object.fromEntries(
-        Object.entries(data).filter(([_, v]) => v != null && v !== '')
-    )
+    return result
 }
 
-// Отправка данных на сервер
-const sendTrackingData = async (data) => {
+// 2. Функция отправить на сервер
+async function sendToServer() {
+    const cookies = getYandexCookies()
+    
+    if (!cookies._ym_uid && !cookies.yandexuid && !cookies.yandex_login) return
+    
     try {
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
+        const csrf = document.querySelector('meta[name="csrf-token"]')?.content
         
-        const response = await fetch('/api/visitor/track', {
+        await fetch('/api/track', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken || '',
-                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN': csrf || ''
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify({
+                ...cookies,
+                url: window.location.href
+            })
         })
-        
-        const result = await response.json()
-        
-        // Устанавливаем куку если сервер вернул новый visitor_id
-        if (result.success && result.visitor_id && !getCookie('nedicom_vid')) {
-            document.cookie = `nedicom_vid=${result.visitor_id}; max-age=${2*365*24*60*60}; path=/; SameSite=Lax`
-            
-            console.log('🎯 Трекинг: установлен visitor_id', result.visitor_id)
-        }
-        
-        if (result.success) {
-            console.log('✅ Трекинг: данные успешно отправлены')
-        }
-        
-        return result
-        
-    } catch (error) {
-        console.error('❌ Ошибка трекинга:', error)
-        return { success: false, error: error.message }
+    } catch (e) {
+        console.log('Ошибка отправки:', e)
     }
 }
 
-// Основная функция инициализации трекинга
-const initVisitorTracking = () => {
-    // Проверяем, что мы в браузере (не SSR)
+// 3. Запустить трекинг
+function initTracking() {
     if (typeof window === 'undefined') return
     
-    console.log('🚀 Инициализация трекинга посетителей...')
+    // Отправить при загрузке
+    setTimeout(sendToServer, 1000)
     
-    // Собираем данные
-    const trackingData = collectTrackingData()
-    
-    if (Object.keys(trackingData).length === 0) {
-        console.log('📭 Трекинг: нет данных для отправки')
-        return
-    }
-    
-    console.log('📤 Трекинг: отправляемые данные', trackingData)
-    
-    // Отправляем сразу
-    setTimeout(() => sendTrackingData(trackingData), 500)
-    
-    // И через 5 секунд для надежности
-    setTimeout(() => sendTrackingData(trackingData), 5000)
-    
-    // Отслеживаем SPA навигацию (для Inertia)
-    if (typeof window.history !== 'undefined') {
-        const originalPushState = window.history.pushState
-        const originalReplaceState = window.history.replaceState
-        
-        // Перехватываем изменения истории
-        window.history.pushState = function(...args) {
-            originalPushState.apply(this, args)
-            setTimeout(() => sendTrackingData(collectTrackingData()), 1000)
-        }
-        
-        window.history.replaceState = function(...args) {
-            originalReplaceState.apply(this, args)
-            setTimeout(() => sendTrackingData(collectTrackingData()), 1000)
-        }
-        
-        // Отслеживаем кнопки назад/вперед
-        window.addEventListener('popstate', () => {
-            setTimeout(() => sendTrackingData(collectTrackingData()), 1000)
+    // Отслеживать навигацию
+    if (window.Inertia) {
+        window.Inertia.on('navigate', () => {
+            setTimeout(sendToServer, 500)
         })
     }
 }
 
-// Экспортируем функции для использования в других местах
-export {
-    getCookie,
-    collectTrackingData,
-    sendTrackingData,
-    initVisitorTracking
-}
-
-// Автоматическая инициализация при загрузке скрипта
-if (typeof window !== 'undefined') {
-    // Ждем загрузки DOM
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initVisitorTracking)
-    } else {
-        initVisitorTracking()
-    }
-}
+// Экспорт
+export { initTracking }
