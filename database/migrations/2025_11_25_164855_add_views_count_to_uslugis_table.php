@@ -13,9 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('uslugis', function (Blueprint $table) {
-            $table->unsignedBigInteger('counter')->default(0);
-        });
+        if (!Schema::hasColumn('uslugis', 'counter')) {
+            Schema::table('uslugis', function (Blueprint $table) {
+                $table->bigInteger('counter')->unsigned()->default(0);
+            });
+        }
     }
 
     /**

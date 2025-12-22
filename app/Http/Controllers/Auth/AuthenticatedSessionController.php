@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Support\Facades\Cookie;
-use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -46,6 +46,26 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+
+        $user = Auth::user();
+
+        if ($request->filled('_ym_uid') && empty($user->_ym_uid)) {
+            DB::table('users')
+                ->where('id', $user->id)
+                ->update(['_ym_uid' => $request->input('_ym_uid')]);
+        }
+
+        if ($request->filled('_ga') && empty($user->_ga)) {
+            DB::table('users')
+                ->where('id', $user->id)
+                ->update(['_ga' => $request->input('_ga')]);
+        }
+
+        if ($request->filled('_nedicoo') && empty($user->_nedicoo)) {
+            DB::table('users')
+                ->where('id', $user->id)
+                ->update(['_nedicoo' => $request->input('_nedicoo')]);
+        }
 
         return redirect($request->redirect);
     }

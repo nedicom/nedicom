@@ -19,11 +19,16 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
-    public function create(): Response
+    public function create(Request $request): Response
     {
-        $red = back()->getTargetUrl();
+        //$red = back()->getTargetUrl();
+
+        $redirect = back()->getTargetUrl() ?? 
+                $request->session()->get('url.intended') ?? 
+                route('dashboard');
+
         return Inertia::render('Auth/Register',[
-            'redirect' => $red,
+            'redirect' => $redirect,
         ]);
     }
 
@@ -38,12 +43,18 @@ class RegisteredUserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            '_ym_uid' => 'nullable|string|max:255',
+            '_ga' => 'nullable|string|max:255',
+            '_nedicoo' => 'nullable|string|max:255',
         ]);
 
         $user = User::create([
             'lawyer' => $request->lawyer,
             'name' => $request->name,
             'email' => $request->email,
+            '_ym_uid' => $request->input('_ym_uid'),
+            '_ga' => $request->input('_ga'),
+            '_nedicoo' => $request->input('_nedicoo'),
             'password' => Hash::make($request->password),
         ]);
 

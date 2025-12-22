@@ -15,6 +15,13 @@ let props = defineProps({
     redirect: String,
 });
 
+const getCookie = (name) => {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+  return null;
+};
+
 const openForm = ref(false);
 const isChecked = ref(false);
 const showHint = ref(false);
@@ -32,6 +39,9 @@ const form = useForm({
     password: '',
     remember: false,
     redirect: props.redirect,
+    _ym_uid: null,
+    _ga: null,
+    _nedicoo: null,
 });
 
 const submit = () => {
@@ -41,6 +51,9 @@ const submit = () => {
 };
 
 onMounted(() => {
+    form._ym_uid = getCookie('_ym_uid');
+    form._ga = getCookie('_ga');
+    form._nedicoo = getCookie('_nedicoo');
     const script = document.createElement('script');
     script.src = 'https://yastatic.net/s3/passport-sdk/autofill/v1/sdk-suggest-with-polyfills-latest.js';
     script.onload = initYandexAuth;
@@ -83,8 +96,7 @@ const initYandexAuth = () => {
 
 <template>
     <GuestLayout>
-
-        <Head title="Вход" />
+       <Head title="Вход" />
         <div v-if="$page.props.error"
             class="mx-auto max-w-md mt-6 p-4 bg-red-50 border-l-4 border-red-500 rounded-r text-red-700 flex items-start">
             <svg class="w-5 h-5 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -126,7 +138,6 @@ const initYandexAuth = () => {
                 </Link>
             </label>
         </div>
-
         <div class="flex justify-between gap-5">
             <div @click="openForm = !openForm"
                 class="hover:underline cursor-pointer text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">

@@ -6,10 +6,18 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import Checkbox from "@/Components/Checkbox.vue";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
+import { onMounted } from "vue";
 
 let props = defineProps({
   redirect: String,
 });
+
+const getCookie = (name) => {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(";").shift();
+  return null;
+};
 
 const form = useForm({
   name: "",
@@ -18,9 +26,17 @@ const form = useForm({
   password_confirmation: "",
   lawyer: false,
   terms: false,
+  _ym_uid: null,
+  _ga: null,
+  _nedicoo: null,
   redirect: props.redirect,
 });
 
+onMounted(() => {
+  form._ym_uid = getCookie("_ym_uid");
+  form._ga = getCookie("_ga");
+  form._nedicoo = getCookie("_nedicoo");
+});
 //form.redirect = usePage().props.value.redirect;
 
 const submit = () => {
@@ -94,7 +110,7 @@ const submit = () => {
         />
 
         <InputError class="mt-2" :message="form.errors.password_confirmation" />
-        
+
         <div class="flex items-start my-5">
           <div class="flex items-center h-5">
             <input

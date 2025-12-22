@@ -32,6 +32,9 @@ class User extends Authenticatable
         'speciality_two_id',
         'speciality_three_id',
         'address',
+        '_ym_uid',
+        '_ga',
+        '_nedicoo',
     ];
 
     /**

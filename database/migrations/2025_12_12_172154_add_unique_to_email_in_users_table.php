@@ -13,10 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            // Удаляем уникальный индекс при откате
-            $table->string('email')->unique(false)->change();
-        });
+
+        if (!Schema::hasColumn('users', 'email')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->string('email')->unique(false)->change();
+            });
+        }
     }
 
     /**
@@ -26,8 +28,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('email_in_users', function (Blueprint $table) {
-            //
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('counter');
         });
     }
 };
