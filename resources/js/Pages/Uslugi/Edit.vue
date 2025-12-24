@@ -241,7 +241,7 @@ const date = ref(new Date());
 
               <div v-if="showMstGoOn == 'main'">
                 <!-- is main? -->
-                <div v-if="user.isadmin == 1" class="flex flex-col mb-4">
+                <div v-if="auth.isadmin == 1" class="flex flex-col mb-4">
                   <div class="flex justify-between mb-4">
                     <div v-if="form.is_second !== true">
                       <input
