@@ -2,61 +2,83 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    @if (env('APP_ENV') != 'local')
+    <!--@if (env('APP_ENV') != 'local')  -->
 
-        <!-- click.ru -->
-        <script async src="https://af.click.ru/af.js?id=20771"></script>
-        <!-- click.ru -->
 
-        <!-- Yandex.Metrika counter -->
-        <script type="text/javascript">
-            (function(m, e, t, r, i, k, a) {
-                m[i] = m[i] || function() {
-                    (m[i].a = m[i].a || []).push(arguments)
-                };
-                m[i].l = 1 * new Date();
-                for (var j = 0; j < document.scripts.length; j++) {
-                    if (document.scripts[j].src === r) {
-                        return;
-                    }
+    <!-- click.ru -->
+    <script async src="https://af.click.ru/af.js?id=20771"></script>
+    <!-- click.ru -->
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function(m, e, t, r, i, k, a) {
+            m[i] = m[i] || function() {
+                (m[i].a = m[i].a || []).push(arguments)
+            };
+            m[i].l = 1 * new Date();
+            for (var j = 0; j < document.scripts.length; j++) {
+                if (document.scripts[j].src === r) {
+                    return;
                 }
-                k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(
-                    k, a)
-            })
-            (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-            ym(24900584, "init", {
-                clickmap: true,
-                trackLinks: true,
-                accurateTrackBounce: true,
-                webvisor: true,
-                trackHash: true
-            });
-        </script>
-
-
-        <noscript>
-            <div><img src="https://mc.yandex.ru/watch/24900584" style="position:absolute; left:-9999px;" alt="" />
-            </div>
-        </noscript>
-        <!-- /Yandex.Metrika counter -->
-
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17757903888"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-
-            function gtag() {
-                dataLayer.push(arguments);
             }
-            gtag('js', new Date());
+            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(
+                k, a)
+        })
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(24900584, "init", {
+            clickmap: true,
+            trackLinks: true,
+            accurateTrackBounce: true,
+            webvisor: true,
+            trackHash: true
+        });
+    </script>
+
+
+    <noscript>
+        <div><img src="https://mc.yandex.ru/watch/24900584" style="position:absolute; left:-9999px;" alt="" />
+        </div>
+    </noscript>
+    <!-- /Yandex.Metrika counter -->
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17757903888"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        // Безопасная функция gtag с обработкой ошибок
+        function gtag() {
+            try {
+                dataLayer.push(arguments);
+            } catch (error) {
+                console.warn('GTAG ошибка:', error);
+                // Можно добавить отправку ошибки в вашу систему логирования
+            }
+        }
+
+        gtag('js', new Date());
+
+        // Инициализация основного тега Google Analytics
+        try {
             gtag('config', 'G-EBPD2D669T');
+        } catch (error) {
+            console.warn('Не удалось инициализировать Google Analytics:', error);
+        }
 
-            gtag('config', 'AW-17757903888');
-        </script>
+        // Инициализация тега Google Ads с задержкой и обработкой ошибок
+        setTimeout(function() {
+            try {
+                gtag('config', 'AW-17757903888');
+            } catch (error) {
+                console.warn('Не удалось инициализировать Google Ads Conversion Tracking:', error);
+                // Эта ошибка НЕ влияет на работу сайта
+            }
+        }, 1500); // Задержка 1.5 секунды для приоритета загрузки контента
+    </script>
 
-        <script src="https://vk.com/js/api/openapi.js?169" type="text/javascript"></script>
-    @endif
+    <script src="https://vk.com/js/api/openapi.js?169" type="text/javascript"></script>
+    <!--@endif  -->
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
