@@ -26,7 +26,7 @@ class YandexTracking extends Model
         'article_id',
         'question_id',
         'lawyer_id',
-        'usluga_id',
+        'usluga_data',
         'is_engaged',
         'phone_click_at',
         'page_views',
@@ -38,7 +38,7 @@ class YandexTracking extends Model
     protected $casts = [
         'is_engaged' => 'boolean',
         'phone_click_at' => 'datetime',
-        'usluga_id' => 'array', // Автоматически преобразует JSON в массив PHP
+        'usluga_data' => 'array', // Автоматически преобразует JSON в массив PHP
         'page_views' => 'integer',
         'article_id' => 'integer',
         'question_id' => 'integer',
