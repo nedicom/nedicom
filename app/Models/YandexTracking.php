@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -8,6 +9,8 @@ class YandexTracking extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $connection = 'pgsql_stats';
 
     protected $table = 'yandex_tracking';
@@ -16,6 +19,7 @@ class YandexTracking extends Model
         '_ym_uid',
         'url',
         'ip',
+        'created_at',
         'utm_source',
         'utm_medium',
         'utm_campaign',
@@ -29,7 +33,7 @@ class YandexTracking extends Model
         'usluga_data',
         'is_engaged',
         'phone_click_at',
-        'page_views',
+        'visit_uuid',
     ];
 
     /**
@@ -39,7 +43,6 @@ class YandexTracking extends Model
         'is_engaged' => 'boolean',
         'phone_click_at' => 'datetime',
         'usluga_data' => 'array', // Автоматически преобразует JSON в массив PHP
-        'page_views' => 'integer',
         'article_id' => 'integer',
         'question_id' => 'integer',
         'lawyer_id' => 'integer',
@@ -51,7 +54,6 @@ class YandexTracking extends Model
      */
     protected $attributes = [
         'is_engaged' => false,
-        'page_views' => 1,
     ];
 
     /**
@@ -60,14 +62,6 @@ class YandexTracking extends Model
     public function article()
     {
         return $this->belongsTo(Article::class, 'article_id');
-    }
-
-    /**
-     * Связь с таблицей вопросов (если есть модель Question)
-     */
-    public function question()
-    {
-        return $this->belongsTo(Question::class, 'question_id');
     }
 
     /**
