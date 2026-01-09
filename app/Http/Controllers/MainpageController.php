@@ -227,6 +227,7 @@ class MainpageController extends Controller
             'user' => User::find(94),
             'usluga' => Uslugi::where('id', 1)->select('uslugis.url', 'uslugis.usl_name')->first(),
             'usluga_from_url' => $usluga_from_url,
+            'backendurl' => $request->path(),
         ]);
     }
 }

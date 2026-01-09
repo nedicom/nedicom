@@ -16,6 +16,7 @@ import RatingReady from "@/Components/RatingReady.vue";
 import Address from "@/Layouts/Address.vue";
 //import VK from "@/Layouts/Vk.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
+import Tracking from '@/Components/Tracking.vue';
 import PopupDialogue from "@/Layouts/PopupDialogue/PopupDialogue.vue";
 import Bundle from "@/Components/Bundle.vue";
 import FlashMessage from "@/Components/FlashMessage.vue";
@@ -42,6 +43,7 @@ defineProps({
   usluga: Object,
   usluga_from_url: Object,
   lawyers: Object,
+  backendurl: String,
 });
 
 
@@ -76,7 +78,8 @@ let mainbannerpc = 'https://nedicom.ru/storage/images/services/mainpcjuly.webp';
 
     <Mainbanner :mainbannerpc="mainbannerpc" :mainbannerimgmobile="mainbannerimgmobile" />
 
-    <FrontSecondBanner :city="city" :usluga_from_url="usluga_from_url" :lawyers="lawyers" />
+    <FrontSecondBanner :key="backendurl" :tracking="$page.props.tracking" :backendurl="backendurl" :city="city"
+      :usluga_from_url="usluga_from_url" :lawyers="lawyers" />
 
     <InfinityScroll :bundles="bundles" :auth="auth" />
 
@@ -85,6 +88,8 @@ let mainbannerpc = 'https://nedicom.ru/storage/images/services/mainpcjuly.webp';
     <FrontQuestion :mainoffers="mainoffers" :secondoffers="secondoffers" :city="city" />
 
     <MainFooter />
+
+    <Tracking :key="backendurl" :tracking="$page.props.tracking" :backendurl="backendurl" />
   </div>
 </template>
 

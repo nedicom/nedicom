@@ -3,6 +3,7 @@ import MainHeader from "@/Layouts/MainHeader.vue";
 import Header from "@/Layouts/Header.vue";
 import Body from "@/Layouts/Body.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
+import Tracking from '@/Components/Tracking.vue';
 import SendButton from "@/Components/SendButton.vue";
 import SliderQuestions from "@/Layouts/SliderQuestions.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
@@ -22,6 +23,7 @@ let set = defineProps({
   auth: Object,
   city: Object,
   hasquestion: Boolean,
+  backendurl: String,
 });
 
 const data = ref(set.SliderQ);
@@ -368,4 +370,6 @@ const getQuestions = () => {
   <SliderQuestions :sliderq="data" />
 
   <MainFooter />
+
+  <Tracking :key="backendurl"  :tracking="$page.props.tracking" :backendurl="set.backendurl"/>
 </template>

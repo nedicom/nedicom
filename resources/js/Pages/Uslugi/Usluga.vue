@@ -14,6 +14,7 @@ import OKwidjet from "@/Components/OKwidjet.vue";
 import BreadcrumbsUslugi from "@/Components/BreadcrumbsUslugi.vue";
 import Address from "@/Layouts/Address.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
+import Tracking from '@/Components/Tracking.vue';
 import PracticeGallery from "@/Layouts/PracticeGallery.vue";
 import ReviewCarousel from "@/Layouts/ReviewCarousel.vue";
 import { Head } from "@inertiajs/inertia-vue3";
@@ -36,6 +37,7 @@ let vars = defineProps({
   url: String,
   errors: Object,
   cityheader: Object,
+  backendurl: String,
 });
 
 
@@ -180,6 +182,9 @@ details summary::-webkit-details-marker {
 
           <Address
             v-if="usluga.cities"
+            :key="backendurl"  
+            :tracking="$page.props.tracking" 
+            :backendurl="vars.backendurl"
             :usl_name="usluga.usl_name"
             :region="usluga.cities"
             :phone="usluga.phone"
@@ -357,4 +362,7 @@ details summary::-webkit-details-marker {
   </Body>
 
   <MainFooter />
+
+  <Tracking :key="backendurl"  :tracking="$page.props.tracking" :backendurl="vars.backendurl"/>
+  
 </template>

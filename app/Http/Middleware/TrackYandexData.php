@@ -19,11 +19,6 @@ class TrackYandexData
      */
     public function handle(Request $request, Closure $next)
     {
-        // Исключаем определённые маршруты (опционально)
-        if ($this->shouldSkip($request)) {
-            return $next($request);
-        }
-
         // Генерируем visit_uuid для новой Cookie
         if (!$request->hasCookie('visit_uuid')) {
             $visitUuid = Str::uuid()->toString();
@@ -39,23 +34,5 @@ class TrackYandexData
         DataTracker::saveFromRequest($request, $visitUuid);
 
         return $next($request);
-    }
-
-    /**
-     * Определяем, нужно ли пропустить обработку.
-     */
-    private function shouldSkip(Request $request): bool
-    {
-        // Исключаем API-маршруты, админку, статические файлы
-        if (
-            $request->is('api/*') ||
-            $request->is('admin/*') ||
-            $request->is('storage/*') ||
-            $request->is('health-check')
-        ) {
-            return true;
-        }
-
-        return false;
     }
 }

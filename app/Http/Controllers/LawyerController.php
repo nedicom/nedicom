@@ -6,23 +6,26 @@ use App\Models\Article;
 use App\Models\Answer;
 use App\Models\User;
 use App\Http\Controllers\Controller;
+
 use Inertia\Inertia;
 use App\Helpers\Rating\LawyerRating;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use App\Models\Review;
 
 class LawyerController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
         return Inertia::render('Lawyers/Lawyers', [
             'lawyers' => User::where('lawyer', 1)->select('id', 'name', 'about', 'avatar_path')->paginate(9),
             'auth' => Auth::user(),
+            'backendurl' => $request->path(),
         ]);
     }
 
-    public function lawyer($id)
+    public function lawyer($id, Request $request)
     {
         LawyerRating::PostRating();
         LawyerRating::PracticeRating();
@@ -48,6 +51,7 @@ class LawyerController extends Controller
             'anwswers' => Answer::where('users_id', $id)->orderBy('updated_at', 'desc')->with('Question')->get(),
             'countarticles' => Article::where('userid', $id)->count(),
             'auth' => $auth,
+            'backendurl' => $request->path(),
         ]);
     }
 }

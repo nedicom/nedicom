@@ -12,7 +12,6 @@ use App\Http\Controllers\PostphoneController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\UslugiController;
 use App\Http\Controllers\CityController;
-use App\Http\Controllers\OffersController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\FeedController;
@@ -26,7 +25,6 @@ use App\Http\Controllers\PensionController;
 use App\Http\Controllers\YandexController;
 use App\Http\Controllers\ClientDashboardController;
 
-
 use App\Http\Middleware\owner;
 
 use App\Http\Controllers\Admin\ArticlesController as AdminArticleController;
@@ -34,8 +32,6 @@ use App\Http\Controllers\Admin\UslugiController as AdminUslugiController;
 use App\Http\Controllers\Admin\UserController;
 
 use Illuminate\Support\Facades\Auth;
-
-
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -105,7 +101,7 @@ Route::middleware(['admin'])->group(function () {
 
 Route::controller(ArticleController::class)->group(function () {
     Route::middleware('track.utm')->group(function () {
-        Route::get('/articles/{url}', 'articleURL')->name('articles/url'); // ❗ Самое важное!
+        Route::get('/articles/{url}', 'articleURL')->name('articles/url');
     });
     Route::get('/generator', 'articleGeneration')->name('article.generator');
     Route::post('/articles/generate', 'generate')->name('article.generate');
@@ -180,17 +176,17 @@ Route::get('/lawyers/{id}', [LawyerController::class, 'lawyer'])
     ->middleware('track.utm');
 
 Route::get('/clientdashboard', [ClientDashboardController::class, 'dashboard'])->name('clientdashboard')->middleware('track.utm');
-/*
+
 Route::controller(CityController::class)->group(function () {
-    Route::get('/offers/{city}', 'showCities')->name('offers.city');
-    Route::get('/offers/{city}/{main_usluga}/{second_usluga}/{url}', 'showOffer')->name('offer.show');
-    Route::get('/uslugi/{main_usluga}/{second_usluga}/{city}', 'showCityFromUslugi')->name('show.city'); //del
+    //Route::get('/offers/{city}', 'showCities')->name('offers.city');
+    //Route::get('/offers/{city}/{main_usluga}/{second_usluga}/{url}', 'showOffer')->name('offer.show');
+    //Route::get('/uslugi/{main_usluga}/{second_usluga}/{city}', 'showCityFromUslugi')->name('show.city'); //del
     Route::post('/setcity', 'setCity')->name('set.city');
     Route::get('/getcities', 'getCities')->name('get.cities');
 });
 
 
-
+/*
 Route::controller(OffersController::class)->group(function () {
     Route::get('/offeradd', 'formadd')->name('offer.add');
     Route::post('/offer/create', 'create')->name('offer.create');

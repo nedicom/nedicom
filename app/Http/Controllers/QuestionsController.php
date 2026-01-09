@@ -134,6 +134,7 @@ class QuestionsController extends Controller
             'authid' => (Auth::user()) ? Auth::user()->id : null,
             'auth' => (Auth::user()) ? Auth::user() : null,
             'city' => $city,
+            'backendurl' => $request->path(),
             //'countanswer' => Article::where('userid', $id)->count(), 
         ]);
     }
@@ -221,6 +222,7 @@ class QuestionsController extends Controller
             'filters' => $request->all(),
             'hasquestion' => $hasquestion,
             'city' => $city,
+            'backendurl' => $request->path(),
         ]);
     }
 

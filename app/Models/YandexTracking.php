@@ -34,6 +34,7 @@ class YandexTracking extends Model
         'is_engaged',
         'phone_click_at',
         'visit_uuid',
+        'user_id',
     ];
 
     /**

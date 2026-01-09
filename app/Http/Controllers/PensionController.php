@@ -27,7 +27,7 @@ class PensionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
 
         $years = [['year' => 2024, 'stipk' => 133.05, 'fvipl' => 8134.88], ['year' => 2025, 'stipk' => 145.69, 'fvipl' => 8907.70]];
@@ -42,6 +42,7 @@ class PensionController extends Controller
             'pensionData' =>  $pension,
             'years' => $years,
             'auth' => Auth::user(),
+            'backendurl' => $request->path(),
         ]);
     }
 

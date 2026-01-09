@@ -7,6 +7,7 @@ import Articles from "@/Layouts/Articles.vue";
 import LawyerAnswers from "@/Layouts/LawyerAnswers.vue";
 import About from "@/Layouts/About.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
+import Tracking from '@/Components/Tracking.vue';
 import FlashMessage from "@/Components/FlashMessage.vue";
 import LawyerRating from "@/Components/LawyerRating.vue";
 import { Head } from "@inertiajs/inertia-vue3";
@@ -24,6 +25,7 @@ let set = defineProps({
   flash: Object,
   auth: Object,
   errors: Object,
+  backendurl: String,
 });
 
 set.lawyer.lawyer == 1 ? (robots = false) : (robots = true);
@@ -115,5 +117,7 @@ let mainbannerimgmobile =
       </div>
     </div>
     <MainFooter />
+
+    <Tracking :key="backendurl"  :tracking="$page.props.tracking" :backendurl="set.backendurl"/>
   </div>
 </template>

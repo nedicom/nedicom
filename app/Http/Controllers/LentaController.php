@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Uslugi;
 
@@ -15,7 +15,7 @@ use App\Helpers\CitySet;
 
 class LentaController extends Controller
 {
-    public function liked()
+    public function liked(Request $request)
     {
         $city = CitySet::CityGet(false);
         $user_id = Auth::user() ? Auth::user()->id : null;
@@ -134,10 +134,11 @@ class LentaController extends Controller
             'auth' => Auth::user(),
             'h1' => 'Понравилось Вам',
             'city' => $city,
+            'backendurl' => $request->path(),
         ]);
     }
 
-    public function bookmarked()
+    public function bookmarked(Request $request)
     {
         $city = CitySet::CityGet(false);
         $user_id = Auth::user() ? Auth::user()->id : null;
@@ -257,10 +258,11 @@ class LentaController extends Controller
             'auth' => Auth::user(),
             'h1' => 'В закладках',
             'city' => $city,
+            'backendurl' => $request->path(),
         ]);
     }
 
-    public function popular()
+    public function popular(Request $request)
     {
         $city = CitySet::CityGet(false);
 
@@ -344,10 +346,11 @@ class LentaController extends Controller
             'auth' => Auth::user(),
             'h1' => 'Популярное в ленте',
             'city' => $city,
+            'backendurl' => $request->path(),
         ]);
     }
 
-    public function new()
+    public function new(Request $request)
     {
         $city = CitySet::CityGet(false);
 
@@ -431,10 +434,11 @@ class LentaController extends Controller
             'auth' => Auth::user(),
             'h1' => 'Свежее в ленте',
             'city' => $city,
+            'backendurl' => $request->path(),
         ]);
     }
 
-    public function articles()
+    public function articles(Request $request)
     {
         $city = CitySet::CityGet(false);
 
@@ -485,10 +489,11 @@ class LentaController extends Controller
             'auth' => Auth::user(),
             'h1' => 'Статьи в ленте',
             'city' => $city,
+            'backendurl' => $request->path(),
         ]);
     }
 
-    public function questions()
+    public function questions(Request $request)
     {
         $city = CitySet::CityGet(false);
 
@@ -542,6 +547,7 @@ class LentaController extends Controller
             'h1' => 'Вопросы в ленте',
             'city' => $city,
             'uslugi' => $uslugi,
+            'backendurl' => $request->path(),
         ]);
     }
 }

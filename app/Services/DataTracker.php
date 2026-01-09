@@ -3,33 +3,38 @@
 namespace App\Services;
 
 use App\Models\YandexTracking;
+use App\Models\Article;
+use App\Models\Uslugi;
+use App\Models\Questions;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class DataTracker
 {
     // Добавляем параметр $visitUuid
     public static function saveFromRequest(Request $request, string $visitUuid): void
     {
-        $utmParams = self::extractUtmParams($request);
-
         // 1. Проверяем дубликат СТРАНИЦЫ для этого визита
         $existing = YandexTracking::where('visit_uuid', $visitUuid)
-            ->where('url', $request->path()) // ← Проверяем URL страницы
-            ->where('utm_source', $utmParams['utm_source'] ?? null)
-            ->where('utm_medium', $utmParams['utm_medium'] ?? null)
-            ->where('utm_campaign', $utmParams['utm_campaign'] ?? null)
-            ->where('utm_term', $utmParams['utm_term'] ?? null)
-            ->where('utm_content', $utmParams['utm_content'] ?? null)
+            ->where('url', $request->path())
+            ->latest('created_at')
             ->first();
 
         if ($existing) {
-            return; // Эта страница с этими UTM уже записана для этого визита
+            $minutesDiff  = Carbon::parse($existing->created_at)->diffInMinutes(now());
+
+            if ($minutesDiff < 10) { // ← МЕНЬШЕ 10 мин!
+                return;
+            }
         }
 
-        // 2. Создаём запись (новая страница или новые UTM)
-        YandexTracking::create([
+        $utmParams = self::extractUtmParams($request);
+
+        // 2. Создаём запись
+        $trackingData = [
             'visit_uuid'    => $visitUuid, // Одинаковый для всех записей визита
-            '_ym_uid'       => $request->cookie('_ym_uid'),
             'url'           => $request->path(),
             'ip'            => $request->ip(),
             'utm_source'    => $utmParams['utm_source'] ?? null,
@@ -38,7 +43,21 @@ class DataTracker
             'utm_term'      => $utmParams['utm_term'] ?? null,
             'utm_content'   => $utmParams['utm_content'] ?? null,
             'created_at'    => now(),
-        ]);
+        ];
+
+        self::extractContentIds($request, $trackingData);
+
+        // Город если есть в сессии
+        if (session()->has('cityid')) {
+            $trackingData['city'] = is_numeric(session('cityid'))
+                ? (int) session('cityid')
+                : null;
+        }
+
+        // пользователь если авторизован
+        $trackingData['user_id'] = Auth::id();
+
+        YandexTracking::create($trackingData);
     }
 
     private static function extractUtmParams(Request $request): array
@@ -53,6 +72,26 @@ class DataTracker
         }
 
         return $params;
+    }
+
+    //получить тип страницы (статья/юрист) и id
+    public  static function extractContentIds(Request $request, array &$trackingData): void
+    {
+        $routeName = $request->route()->getName();
+        $slug = $request->route('url');
+
+        match ($routeName) {
+            'articles/url' => $trackingData['article_id'] = $slug ? Article::where('url', $slug)->value('id') : null,
+            'questions.url' => $trackingData['question_id'] = $slug ? Questions::where('url', $slug)->value('id') : null,
+            'uslugi.url' => $trackingData['interests'] = $slug ? Uslugi::where('url', $slug)->value('id') : null,
+            'offer.main' => $trackingData['interests'] = Uslugi::where('url', $request->route('main_usluga'))->value('id'),
+            'offer.second' => $trackingData['interests'] = Uslugi::where('url', $request->route('second_usluga'))->value('id'),
+            'uslugi.canonical.url' => $trackingData['interests'] = Uslugi::where('url', $request->route('url'))->value('id'),
+            'lawyer' => $trackingData['lawyer_id'] = is_numeric($request->route('id'))
+                ? (int) $request->route('id')
+                : null,
+            default => null,
+        };
     }
 
     /**

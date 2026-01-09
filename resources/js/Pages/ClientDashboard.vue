@@ -6,6 +6,7 @@ import { ExclamationTriangleIcon, ArrowPathIcon, ChevronDownIcon, ChevronUpIcon 
 import { Head } from "@inertiajs/inertia-vue3";
 import MainHeader from "@/Layouts/MainHeader.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
+import Tracking from '@/Components/Tracking.vue';
 
 const props = defineProps({
     clientData: Object,
@@ -13,6 +14,7 @@ const props = defineProps({
     httpStatus: Number,
     userEmail: String,
     auth: Object,
+    backendurl: String,
 })
 
 // Состояние для отображения всех задач и платежей
@@ -484,6 +486,8 @@ const schemaData = computed(() => ({
         </div>
 
         <MainFooter />
+
+        <Tracking :key="backendurl"  :tracking="$page.props.tracking" :backendurl="props.backendurl"/>
     </div>
 </template>
 

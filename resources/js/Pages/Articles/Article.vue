@@ -3,6 +3,7 @@ import MainHeader from "@/Layouts/MainHeader.vue";
 import PromoHeader from "@/Layouts/PromoHeader.vue";
 import Body from "@/Layouts/Body.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
+import Tracking from '@/Components/Tracking.vue';
 import Answer from "@/Layouts/Answer.vue";
 import Answers from "@/Layouts/Answers.vue";
 import SliderQuestions from "@/Layouts/SliderQuestions.vue";
@@ -21,6 +22,8 @@ let vars = defineProps({
   answers: Object,
   authid: Number,
   stats: Object,
+  cityheader: Object,
+  backendurl: String,
 });
 
 let avito = vars.article.avito ? vars.article.avito.includes('avito') : null;
@@ -41,7 +44,7 @@ let avito = vars.article.avito ? vars.article.avito.includes('avito') : null;
     <meta property="og:locale" content="ru_RU" />
   </Head>
 
-  <MainHeader :auth="vars.auth" />
+  <MainHeader :key="backendurl" :auth="vars.auth" :city="vars.cityheader" :tracking="$page.props.tracking" :backendurl="vars.backendurl"/>
 
   <PromoHeader />
 
@@ -360,6 +363,8 @@ let avito = vars.article.avito ? vars.article.avito.includes('avito') : null;
 
   <!-- <Sidebaraction :ModalBtnText="ModalBtnText" /> -->
   <MainFooter />
+
+  <Tracking :key="backendurl"  :tracking="$page.props.tracking" :backendurl="vars.backendurl"/>
 </template>
 
 

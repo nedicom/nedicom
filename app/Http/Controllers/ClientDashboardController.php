@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class ClientDashboardController extends Controller
 {
-    public function dashboard()
+    public function dashboard(Request $request)
     {
         $user = auth()->user();
         if (!$user) {
@@ -105,7 +106,8 @@ class ClientDashboardController extends Controller
             'clientData' => $data,
             'error' => $error,
             'userEmail' => $userEmail,
-            'publicContent' => null
+            'publicContent' => null,
+            'backendurl' => $request->path(),
         ]);
     }
 }

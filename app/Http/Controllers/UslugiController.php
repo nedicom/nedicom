@@ -75,6 +75,7 @@ class UslugiController extends Controller
                 ->where('is_feed', 1)->get(['id', 'sity'])->unique('cities'),
             'category' => $category,
             'routeurl' => '/uslugi',
+            'backendurl' => $request->path(),
             'auth' => Auth::user(),
             'getLawyer' => session()->get('questionTitle') ? session()->get('questionTitle') : '0',
             'active' => true,
@@ -129,6 +130,7 @@ class UslugiController extends Controller
                 'getLawyer' => session()->get('questionTitle') ? session()->get('questionTitle') : '0',
                 'auth' => Auth::user(),
                 'cityheader' => CitySet::CityGet($url),
+                'backendurl' => $request->path(),
             ]);
         }
         //check city in url
@@ -210,6 +212,7 @@ class UslugiController extends Controller
             'cities' => $cities,
             'routeurl' => '/uslugi/' . $city->url . '/' . $main_usluga,
             'auth' => Auth::user(),
+            'backendurl' => $request->path(),
         ]);
     }
 
@@ -266,6 +269,7 @@ class UslugiController extends Controller
             'countrating' => ($uslugi->sum('review_count') + $uslugi->sum('userreview_count')),
             'routeurl' => '/uslugi/' . $city->url . '/' . $main_usluga . '/' . $second_usluga,
             'auth' => Auth::user(),
+            'backendurl' => $request->path(),
         ]);
     }
 
@@ -358,6 +362,7 @@ class UslugiController extends Controller
             'cityheader' => CitySet::CitySet($request, $city, false, 'offer.second'),
             'url' => $city . '/' . $main_usluga . '/' . $second_usluga . '/' . $url,
             'flash' => ['message' => $request->session()->get(key: 'message')],
+            'backendurl' => $request->path(),
         ]);
     }
 

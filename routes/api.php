@@ -22,3 +22,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/track', [TrackingController::class, 'track']);
+Route::post('/trackphoneclick', [TrackingController::class, 'trackPhoneClick']);

@@ -6,6 +6,7 @@ import Answer from "@/Layouts/Answer.vue";
 import AIAnswer from "@/Layouts/AI/AIAnswer.vue";
 import Answers from "@/Layouts/Answers.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
+import Tracking from '@/Components/Tracking.vue';
 import ShareButtons from "@/Components/ShareButtons.vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
@@ -18,6 +19,7 @@ let set = defineProps({
   uslugi: Array,
   auth: Object,
   city: Object,
+  backendurl: String,
 });
 
 let processing = ref(false);
@@ -474,5 +476,7 @@ percent.value == 100
     </Body>
 
     <MainFooter />
+
+    <Tracking :key="backendurl"  :tracking="$page.props.tracking" :backendurl="set.backendurl"/>
   </div>
 </template>

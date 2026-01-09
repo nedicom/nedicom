@@ -12,13 +12,9 @@ import { createVfm } from 'vue-final-modal';
 import { Inertia } from '@inertiajs/inertia';
 import 'flowbite';
 
-import { initTracking } from './tracking';
-
 const vfm = createVfm();
 
-
-
-// 🔍 Добавьте обработчик ошибок гидрации
+//  обработчик ошибок гидрации
 let hydrationErrorReported = false;
 
 const reportHydrationError = (error) => {
@@ -26,10 +22,7 @@ const reportHydrationError = (error) => {
         console.error('🚨 SSR Hydration Error:', error);
         hydrationErrorReported = true;
 
-        // Отправка в аналитику (раскомментируйте если нужно)
-        // if (typeof ym !== 'undefined') {
-        //     ym(24900584, 'reachGoal', 'SSR_HYDRATION_ERROR');
-        // }
+
     }
 };
 
@@ -42,9 +35,7 @@ createInertiaApp({
             .use(vfm)
             .use(ZiggyVue, Ziggy);
 
-        initTracking();
-
-        // ✅ Добавьте обработчик ошибок
+        // обработчик ошибок
         app.config.errorHandler = (error, instance, info) => {
             if (error.message.includes('hydration') || info.includes('hydration')) {
                 reportHydrationError({
@@ -66,7 +57,7 @@ Inertia.on('navigate', (event) => {
     //ym(24900584, 'hit', path);
 });
 
-// 🔍 Дополнительная проверка после загрузки
+// Дополнительная проверка после загрузки
 if (typeof window !== 'undefined') {
     document.addEventListener('DOMContentLoaded', () => {
         const ssrElements = document.querySelectorAll('[data-server-rendered]');

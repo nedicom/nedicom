@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Helpers\OpenAI;
 use App\Helpers\Translate;
 use App\Helpers\TgSend;
+use App\Helpers\CitySet;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -194,7 +195,7 @@ class ArticleController extends Controller
     }
 
     //article by url
-    public function articleURL($url)
+    public function articleURL($url, Request $request)
     {
 
         // Получаем статью с проверкой существования
@@ -204,7 +205,7 @@ class ArticleController extends Controller
             abort(410, 'Статья не найдена');
         }
 
-        $data = $this->prepareArticleData($article, $url);
+        $data = $this->prepareArticleData($article, $url, $request);
         // Обновляем счетчик просмотров
         $this->incrementArticleCounter($article, $url);
 
@@ -219,7 +220,7 @@ class ArticleController extends Controller
         }
     }
 
-    protected function prepareArticleData($article, $url)
+    protected function prepareArticleData($article, $url, $request)
     {
         $userId = Auth::id();
         $uslugaId = $article->usluga_id ?? 1;
@@ -249,6 +250,8 @@ class ArticleController extends Controller
                 ->with(['UserAns', 'subcomments'])
                 ->get(),
             'authid' => $userId,
+            'cityheader' => CitySet::CityGet(false),
+            'backendurl' => $request->path(),
         ];
     }
 

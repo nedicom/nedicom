@@ -3,6 +3,7 @@ import MainHeader from "@/Layouts/MainHeader.vue";
 import Header from "@/Layouts/Header.vue";
 import Body from "@/Layouts/Body.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
+import Tracking from '@/Components/Tracking.vue';
 import Bundle from "@/Components/Bundle.vue";
 import NavLinkLeft from "@/Components/NavLinkLeft.vue";
 import Pagination from "@/Components/Pagination.vue";
@@ -16,6 +17,7 @@ defineProps({
   city: Object,
   uslugi: Object,
   usluga: Object,
+  backendurl: String,
 });
 
 let btnUsl = ref(true);
@@ -127,4 +129,6 @@ let btnUsl = ref(true);
   </Body>
 
   <MainFooter />
+
+  <Tracking :key="backendurl"  :tracking="$page.props.tracking" :backendurl="backendurl"/>
 </template>

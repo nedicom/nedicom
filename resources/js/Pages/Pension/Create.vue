@@ -2,6 +2,7 @@
 import MainHeader from "@/Layouts/MainHeader.vue";
 import Body from "@/Layouts/Body.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
+import Tracking from '@/Components/Tracking.vue';
 import { ref, computed, watch } from "vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
@@ -12,6 +13,7 @@ let set = defineProps({
   pensionData: Object,
   errors: Object,
   years: Object,
+  backendurl: String,
 });
 
 const isChecked = ref(true); // Начальное состояние
@@ -600,4 +602,6 @@ let submit = () => {
   </Body>
 
   <MainFooter />
+
+  <Tracking :key="backendurl"  :tracking="$page.props.tracking" :backendurl="set.backendurl"/>
 </template>

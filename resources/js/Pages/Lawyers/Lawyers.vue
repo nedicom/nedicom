@@ -3,6 +3,7 @@ import MainHeader from "@/Layouts/MainHeader.vue";
 import PromoHeader from "@/Layouts/PromoHeader.vue";
 import Body from "@/Layouts/Body.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
+import Tracking from '@/Components/Tracking.vue';
 import PopupDialogue from "@/Layouts/PopupDialogue/PopupDialogue.vue";
 import { ref } from "vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
@@ -10,6 +11,7 @@ import { Head, Link } from "@inertiajs/inertia-vue3";
 defineProps({
     lawyers: "Array",
     auth: Object,
+    backendurl: String,
 });
 
 let title = ref("Юристы");
@@ -128,6 +130,8 @@ let title = ref("Юристы");
     <MainFooter />
 
     <PopupDialogue />
+
+    <Tracking :key="backendurl"  :tracking="$page.props.tracking" :backendurl="backendurl"/>
 </template>
 
 <script>

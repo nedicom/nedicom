@@ -33,6 +33,14 @@
             webvisor: true,
             trackHash: true
         });
+
+        ym(24900584, 'getClientID', function(uid) {
+            window.dispatchEvent(new CustomEvent('yandex_metrika_loaded', {
+                detail: {
+                    ymUid: uid
+                }
+            }));
+        });
     </script>
 
 

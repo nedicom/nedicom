@@ -1,6 +1,7 @@
 <script setup>
 import MainHeader from "@/Layouts/MainHeader.vue";
 import Header from "@/Layouts/Header.vue";
+import Tracking from '@/Components/Tracking.vue'
 import BreadcrumbsUslugi from "@/Components/BreadcrumbsUslugi.vue";
 import Body from "@/Layouts/Body.vue";
 import Seodesc from "@/Components/Seodesc.vue";
@@ -31,6 +32,7 @@ let set = defineProps({
   getLawyer: String,
   auth: Object,
   cityheader: Object,
+  backendurl: String,
 });
 
 let title = ref("Услуги юристов");
@@ -234,5 +236,7 @@ const callChildMethod = () => {
         :main_usluga="set.main_usluga.url !== 0 ? set.main_usluga : null"
         :second_usluga="set.second_usluga ? set.second_usluga : null" :usluga="null" />
     </MainFooter>
+
+    <Tracking :key="backendurl"  :tracking="$page.props.tracking" :backendurl="set.backendurl"/>
   </div>
 </template>

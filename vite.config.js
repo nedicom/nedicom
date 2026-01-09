@@ -13,8 +13,7 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/js/app.js',           // Основной клиентский бандл      
-                'resources/js/tracking.js',      // Отдельный файл трекинга
+                'resources/js/app.js',
             ],
             ssr: 'resources/js/ssr.js',
             refresh: true,
@@ -34,32 +33,31 @@ export default defineConfig({
         }),
     ],
     
-    // ✅ Добавьте эти настройки для лучшей отладки SSR
+    // Днастройки для отладки SSR
     build: {
-        sourcemap: true, // Включите sourcemaps для отладки
+        sourcemap: true, // sourcemaps для отладки
         minify: process.env.NODE_ENV === 'production' ? 'esbuild' : false,
     },
     
-    // ✅ Настройки для SSR разработки
+    // Настройки для SSR разработки
     ssr: {
         noExternal: [
             '@inertiajs/vue3',
             'vue-final-modal',
             'laravel-vite-plugin',
-            // Добавьте другие пакеты, которые должны быть включены в SSR сборку
         ],
         target: 'node', // Важно для SSR
         format: 'esm'   // Формат модуля для Node.js
     },
     
-    // ✅ Дополнительные настройки для отладки
+    // Дополнительные настройки для отладки
     define: {
         __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: true, // Детальные ошибки гидрации
         __VUE_OPTIONS_API__: true,
         __VUE_PROD_DEVTOOLS__: false
     },
     
-    // ✅ Оптимизация для SSR
+    // Оптимизация для SSR
     optimizeDeps: {
         include: [
             '@inertiajs/vue3',
