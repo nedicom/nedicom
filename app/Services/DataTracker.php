@@ -30,6 +30,11 @@ class DataTracker
             }
         }
 
+        $userAgent = $request->header('User-Agent');
+        if ($userAgent && mb_strlen($userAgent) > 1000) {
+            $userAgent = mb_substr($userAgent, 0, 1000) . '... [truncated]';
+        }
+
         $utmParams = self::extractUtmParams($request);
 
         // 2. Создаём запись
@@ -43,6 +48,7 @@ class DataTracker
             'utm_term'      => $utmParams['utm_term'] ?? null,
             'utm_content'   => $utmParams['utm_content'] ?? null,
             'created_at'    => now(),
+            'user_agent'    => $userAgent,
         ];
 
         self::extractContentIds($request, $trackingData);
