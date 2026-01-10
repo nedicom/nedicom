@@ -35,7 +35,7 @@ class LawyerController extends Controller
         $user = User::where('id', $id)->with('reviews')->with('cities')->withCount('reviews')
             ->withSum('reviews', 'rating')->first();
 
-        if (!$user->lawyer) {
+        if (!$user || !$user->lawyer) {
             return redirect()->route('Welcome');
         }
 
@@ -46,7 +46,8 @@ class LawyerController extends Controller
         }
 
         return Inertia::render('Lawyers/Lawyer', [
-            'lawyer' => $user,            'articles' => Article::where('userid', $id)->where('practice_file_path', '=', null)->orderBy('updated_at', 'desc')->get(),
+            'lawyer' => $user,
+            'articles' => Article::where('userid', $id)->where('practice_file_path', '=', null)->orderBy('updated_at', 'desc')->get(),
             'practice' => Article::where('userid', $id)->where('practice_file_path', '!=', null)->orderBy('updated_at', 'desc')->get(),
             'anwswers' => Answer::where('users_id', $id)->orderBy('updated_at', 'desc')->with('Question')->get(),
             'countarticles' => Article::where('userid', $id)->count(),
