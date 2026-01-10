@@ -36,7 +36,7 @@ class LawyerController extends Controller
             ->withSum('reviews', 'rating')->first();
 
         if (!$user || !$user->lawyer) {
-            return redirect()->route('Welcome');
+            abort(410, 'Страница удалена');
         }
 
         $auth = Auth::user();
