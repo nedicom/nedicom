@@ -47,7 +47,7 @@ const breakpoints = {
 
 <template>
   <!--reviews carousel-->
-  <div id="reviews" class="py-12 border-b-4 border-indigo-500">
+  <div id="reviews" class="py-12 border-b-4 border-indigo-500 overflow-hidden">
     <h2
       class="mx-auto max-w-5xl font-semibold mt-6 text-2xl tracking-tight px-4 2xl:px-0"
     >
