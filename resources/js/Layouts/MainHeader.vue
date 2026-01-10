@@ -262,7 +262,7 @@ defineExpose({ open });
   <ModalsContainer />
 
   <div v-if="!props.auth && $page.props.cookie == false"
-    class="fixed bottom-0 right-0 flex items-center text-gray-500 bg-white rounded-lg z-50 shadow-lg p-5" role="alert">
+    class="fixed bottom-0 left-0 flex items-center text-gray-500 bg-white rounded-lg z-50 shadow-lg p-5" role="alert">
     <div class="inline-flex items-center justify-center shrink-0 w-8 h-8 text-blue-500 bg-blue-100 rounded-lg">
       <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -270,7 +270,7 @@ defineExpose({ open });
       </svg>
       <span class="sr-only">Fire icon</span>
     </div>
-    <div class="ms-3 text-sm font-normal">
+    <div class="ms-3 text-sm font-normal w-8 sm:w-full">
       Пользуясь сайтом, вы принимаете политику
       <a href="/cookie" class="text-blue-400 underline">cookie</a>
     </div>

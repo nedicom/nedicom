@@ -73,7 +73,7 @@ const shareOK = () => {
 
 
 <template>
-  <div class="flex">
+  <div class="flex w-full">
     <!-- like button-->
     <span class="flex items-center text-gray-500 hover:text-gray-700 cursor-pointer mr-1">
       <span v-if="!set.auth">
@@ -83,8 +83,8 @@ const shareOK = () => {
             d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z" />
         </svg>
 
-        <div role="tooltip" :class="{ 'invisible': invislike }" @mouseleave="invislike = !invislike"
-          class="absolute z-50 w-64 inline-block text-sm text-gray-500 bg-white border border-gray-200 rounded-lg shadow-sm">
+        <div role="tooltip" :class="{ 'invisible': invislike }" @mouseleave="invislike = !invislike" class="absolute z-50 max-w-[90vw] w-64 -translate-x-1/2 left-1/2 sm:left-auto sm:translate-x-0
+            text-sm text-gray-500 bg-white border border-gray-200 rounded-lg shadow-sm">
           <div class="px-3 py-2">
             <p>Нужно
               <a href="/login" class="text-blue-700 cursor-pointer hover:underline">войти</a>
@@ -218,11 +218,12 @@ const shareOK = () => {
               d="m17 21-5-4-5 4V3.889a.92.92 0 0 1 .244-.629.808.808 0 0 1 .59-.26h8.333a.81.81 0 0 1 .589.26.92.92 0 0 1 .244.63V21Z" />
           </svg><span v-if="bundle.bookmarks > 0" class="text-sm">{{
             bundle.bookmarks
-            }}</span>
+          }}</span>
         </span>
 
         <div role="tooltip" :class="{ 'invisible': invisbookmrks }" @mouseleave="invisbookmrks = !invisbookmrks"
-          class="absolute z-50 w-64 inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm">
+          class="absolute z-50 max-w-[90vw] w-64 -translate-x-1/2 left-1/2 sm:left-auto sm:translate-x-0
+            text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm">
           <div class="px-3 py-2">
             <p>Нужно
               <a href="/login" class="text-blue-700 cursor-pointer hover:underline">войти</a>
@@ -244,7 +245,7 @@ const shareOK = () => {
               d="M7.833 2c-.507 0-.98.216-1.318.576A1.92 1.92 0 0 0 6 3.89V21a1 1 0 0 0 1.625.78L12 18.28l4.375 3.5A1 1 0 0 0 18 21V3.889c0-.481-.178-.954-.515-1.313A1.808 1.808 0 0 0 16.167 2H7.833Z" />
           </svg><span v-if="bundle.bookmarks > 0" class="text-sm">{{
             bundle.bookmarks
-            }}</span>
+          }}</span>
         </span>
 
         <!--auth has no vote-->
@@ -256,7 +257,7 @@ const shareOK = () => {
               d="m17 21-5-4-5 4V3.889a.92.92 0 0 1 .244-.629.808.808 0 0 1 .59-.26h8.333a.81.81 0 0 1 .589.26.92.92 0 0 1 .244.63V21Z" />
           </svg><span v-if="bundle.bookmarks > 0" class="text-sm">{{
             bundle.bookmarks
-            }}</span>
+          }}</span>
         </span>
       </span>
     </span>

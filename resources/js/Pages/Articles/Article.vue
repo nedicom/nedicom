@@ -84,7 +84,7 @@ let avito = vars.article.avito ? vars.article.avito.includes('avito') : null;
           </div>
 
           <!-- tooltip component -->
-          <div class="group flex justify-between mb-2">
+          <div class="group flex justify-between mb-2 w-full">
             <div class="group flex item-center">
               <div class="flex items-center justify-center relative">
                 <Link :href="route('lawyer', article.userid)" class="hover:underline">
