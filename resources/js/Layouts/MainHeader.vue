@@ -270,7 +270,7 @@ defineExpose({ open });
       </svg>
       <span class="sr-only">Fire icon</span>
     </div>
-    <div class="ms-3 text-sm font-normal w-8 sm:w-full">
+    <div class="ms-3 text-sm font-normal w-full">
       Пользуясь сайтом, вы принимаете политику
       <a href="/cookie" class="text-blue-400 underline">cookie</a>
     </div>
