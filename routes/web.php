@@ -24,6 +24,7 @@ use App\Http\Controllers\SocialController;
 use App\Http\Controllers\PensionController;
 use App\Http\Controllers\YandexController;
 use App\Http\Controllers\ClientDashboardController;
+use App\Http\Controllers\LawyerDashboardController;
 
 use App\Http\Middleware\owner;
 
@@ -176,6 +177,7 @@ Route::get('/lawyers/{id}', [LawyerController::class, 'lawyer'])
     ->middleware('track.utm');
 
 Route::get('/clientdashboard', [ClientDashboardController::class, 'dashboard'])->name('clientdashboard')->middleware('track.utm');
+Route::get('/lawyerdashboard', [LawyerDashboardController::class, 'dashboard'])->name('lawyerdashboard');
 
 Route::controller(CityController::class)->group(function () {
     //Route::get('/offers/{city}', 'showCities')->name('offers.city');

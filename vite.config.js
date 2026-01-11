@@ -32,13 +32,13 @@ export default defineConfig({
             },
         }),
     ],
-    
+
     // Днастройки для отладки SSR
     build: {
         sourcemap: true, // sourcemaps для отладки
         minify: process.env.NODE_ENV === 'production' ? 'esbuild' : false,
     },
-    
+
     // Настройки для SSR разработки
     ssr: {
         noExternal: [
@@ -49,14 +49,14 @@ export default defineConfig({
         target: 'node', // Важно для SSR
         format: 'esm'   // Формат модуля для Node.js
     },
-    
+
     // Дополнительные настройки для отладки
     define: {
         __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: true, // Детальные ошибки гидрации
         __VUE_OPTIONS_API__: true,
-        __VUE_PROD_DEVTOOLS__: false
+        __VUE_PROD_DEVTOOLS__: process.env.NODE_ENV !== 'production',
     },
-    
+
     // Оптимизация для SSR
     optimizeDeps: {
         include: [

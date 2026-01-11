@@ -9,6 +9,7 @@ import Answers from "@/Layouts/Answers.vue";
 import SliderQuestions from "@/Layouts/SliderQuestions.vue";
 import ShareButtons from "@/Components/ShareButtons.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
+import ModalPhone from "@/Components/ModalPhone.vue";
 
 let vars = defineProps({
   article: Object,
@@ -44,36 +45,17 @@ let avito = vars.article.avito ? vars.article.avito.includes('avito') : null;
     <meta property="og:locale" content="ru_RU" />
   </Head>
 
-  <MainHeader :key="backendurl" :auth="vars.auth" :city="vars.cityheader" :tracking="$page.props.tracking" :backendurl="vars.backendurl"/>
+  <MainHeader :key="backendurl" :auth="vars.auth" :city="vars.cityheader" :tracking="$page.props.tracking"
+    :backendurl="vars.backendurl" />
 
   <PromoHeader />
 
   <Body>
-    <div class="flex justify-left text-gray-900 md:px-10" itemscope itemtype="https://schema.org/Article">
+    <div class="flex justify-center text-gray-900 md:px-10" itemscope itemtype="https://schema.org/Article">
 
       <meta itemprop="wordCount" :content="vars.article.body.length" />
       <meta v-if="vars.answers[0]" itemprop="commentCount" :content="vars.answers.length" />
-      <!-- call to action -->
-      <div v-if="article.phone"
-        class="hidden h-96 md:w-1/4 2xl:w-1/4 md:grid grid-cols-1 place-content-center px-5 md:px-0">
-        <a :href="'https://wa.me/' + article.phone + '?text=Здравствуйте. Меня заинтересовала статья на nedicom.ru - ' +
-          vars.article.header +
-          '. Можно к Вам обратиться?'
-          " type="button" aria-label="Calltowhatsapp"
-          class="mb-5 w-full inline-flex items-center justify-center text-white bg-emerald-700 hover:bg-emerald-800 font-medium rounded-lg py-2.5">
-          <svg class="mr-2 w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-            stroke-width="1.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round"
-              d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
-          </svg>
 
-          <span class="flex flex-col">
-            <span class=""> {{ article.phone }} </span>
-            <span class="text-xs"> свзязаться с автором</span>
-          </span>
-        </a>
-      </div>
-      <!-- call to action -->
       <div class="w-full py-6 md:w-3/4 md:py-12 md:px-20 2xl:w-1/2 flex lg:px-8 bg-white overflow-hidden">
         <div class="px-6 bg-white overflow-hidden">
           <div v-if="vars.auth" class="my-3">
@@ -147,32 +129,6 @@ let avito = vars.article.avito ? vars.article.avito.includes('avito') : null;
           </div>
           <!-- tooltip component -->
 
-          <!-- cta AI 
-                  <section class="bg-white dark:bg-gray-900 visible md:hidden">
-                    <div
-                      class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400"
-                      role="alert"
-                    >
-                      <span class="font-medium">Внимание.</span> Автор статьи
-                      сейчас онлайн.
-                    </div>
-                    <div class="px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
-                      <div class="max-w-screen-md">
-                        <div
-                          class="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4"
-                        >
-                          <a
-                            :href="route('lawyer.message', [article.userid])"
-                            class="inline-flex items-center justify-center px-4 py-2.5 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                          >
-                            Чат с автором
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </section>
-                  cta AI -->
-
           <h1 v-if="vars.article.header" itemprop="headline"
             class="my-4 text-3xl font-extrabold leading-tight lg:mb-6 lg:text-4xl dark:text-white lead">
             {{ vars.article.header }}
@@ -180,6 +136,21 @@ let avito = vars.article.avito ? vars.article.avito.includes('avito') : null;
           <p v-if="article.description" class="my-9 text-2xl lead text-gray-800" itemprop="description">
             {{ article.description }}
           </p>
+
+          <!-- call to action -->
+
+          <div v-if="article.phone" class="w-full flex justify-center animate-custom-pulse">
+            <ModalPhone :key="backendurl" :tracking="$page.props.tracking" :backendurl="vars.backendurl"
+              :phone="article.phone" :lawyer="'Позвонить'" :phoneto="'tel:' + article.phone" :avatarPath="null" />
+
+          </div>
+          <p class="w-full mb-9 mt-3 text-sm text-center">Автор - <a 
+              :href="route('lawyer', article.userid)" :aria-label="'автор статьи - ' + article.name"
+              class="hover:underline text-blue-700 hover:text-blue-800 font-semibold">
+              <span itemprop="name">{{ article.name }}</span>
+            </a>, оказывает услуги по теме статьи. Свяжитесь с ним, если Вам нужны такие услуги.</p>
+
+          <!-- call to action -->
 
           <span v-if="vars.article.tg">
             <div class="flex flex-col md:flex-row items-center justify-between my-8 p-6 bg-white rounded-lg shadow-md">
@@ -241,29 +212,6 @@ let avito = vars.article.avito ? vars.article.avito.includes('avito') : null;
               </a>
             </div>
           </span>
-
-          <p class="text-xs text-center my-8">*nedicom.ru не отвечает за ресурсы по внешним ссылкам</p>
-
-          <!-- CTA wa -->
-          <div v-if="article.phone" class="md:hidden md:h-96 md:w-1/4 grid grid-cols-1 place-content-center px-5">
-            <a :href="'https://wa.me/' + article.phone + '?text=Здравствуйте. Меня заинтересовала статья на nedicom.ru - ' +
-              vars.article.header +
-              '. Можно к Вам обратиться?'
-              " type="button" aria-label="Calltowhatsapp"
-              class="mb-5 w-full inline-flex items-center justify-center text-white mr-2 bg-emerald-700 hover:bg-emerald-800 font-medium rounded-lg py-2.5">
-              <svg class="mr-2 w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
-              </svg>
-
-              <span class="flex flex-col">
-                <span class=""> {{ article.phone }} </span>
-                <span class="text-xs"> свзяаться с автором в whatsapp </span>
-              </span>
-            </a>
-          </div>
-          <!-- CTA wa -->
 
           <div v-if="article.youtube_file_path" class="my-6">
             <iframe width="100%" height="500" :src="article.youtube_file_path" loading="lazy"
@@ -364,7 +312,7 @@ let avito = vars.article.avito ? vars.article.avito.includes('avito') : null;
   <!-- <Sidebaraction :ModalBtnText="ModalBtnText" /> -->
   <MainFooter />
 
-  <Tracking :key="backendurl"  :tracking="$page.props.tracking" :backendurl="vars.backendurl"/>
+  <Tracking :key="backendurl" :tracking="$page.props.tracking" :backendurl="vars.backendurl" />
 </template>
 
 

@@ -21,6 +21,11 @@ let props = defineProps({
   reloadpage: Boolean,
   mainurl: [Number, String],
   secondurl: String,
+  backendurl: String,
+  tracking: {
+    type: Object,
+    default: () => ({})
+  }
 });
 
 const { open, close } = useModal({
@@ -81,6 +86,11 @@ defineExpose({ open });
               <div class="hidden space-x-8 sm:ml-5 lg:ml-10 sm:flex">
                 <NavLink :href="route('clientdashboard')" :active="route().current('clientdashboard')">
                   Кабинет клиента
+                </NavLink>
+              </div>
+              <div class="hidden space-x-8 sm:ml-5 lg:ml-10 sm:flex">
+                <NavLink :href="route('lawyerdashboard')" :active="route().current('lawyerdashboard')">
+                  Кабинет юриста
                 </NavLink>
               </div>
             </div>
@@ -220,6 +230,9 @@ defineExpose({ open });
 
             <ResponsiveNavLink :href="route('clientdashboard')" :active="route().current('clientdashboard')">
               Кабинет клиента
+            </ResponsiveNavLink>
+            <ResponsiveNavLink :href="route('lawyerdashboard')" :active="route().current('lawyerdashboard')">
+              Кабинет юриста
             </ResponsiveNavLink>
           </div>
 

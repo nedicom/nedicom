@@ -37,14 +37,20 @@ const { open, close } = useModal({
 
 function trackPhoneClick() {
   if (!set.tracking?.visit_uuid || !set.backendurl) {
-    console.log('❌ Нет данных для трекинга телефона');
+    // @ts-ignore
+    if (import.meta.env.DEV) {
+      console.log('❌ Нет данных для трекинга телефона');
+    }
     return;
   }
-
-  console.log('📞 Отправка клика на телефон:', {
-    visitUuid: set.tracking.visit_uuid,
-    url: set.backendurl
-  });
+  // @ts-ignore
+  if (import.meta.env.DEV) {
+    console.log('📞 Отправка клика на телефон:', {
+      visitUuid: set.tracking.visit_uuid,
+      url: set.backendurl
+    })
+  }
+  ;
 
   function getCsrfToken(): string {
     const meta = document.querySelector('meta[name="csrf-token"]');
@@ -69,10 +75,13 @@ function trackPhoneClick() {
   })
     .then(r => r.json())
     .then(data => {
-      if (data.success) {
-        console.log('✅ Клик на телефон сохранён:', data.phone_click_at);
-      } else {
-        console.warn('⚠️ Ошибка сохранения:', data.error);
+      // @ts-ignore
+      if (import.meta.env.DEV) {
+        if (data.success) {
+          console.log('✅ Клик на телефон сохранён:', data.phone_click_at);
+        } else {
+          console.warn('⚠️ Ошибка сохранения:', data.error);
+        }
       }
     })
     .catch(err => console.error('❌ Ошибка сети:', err));

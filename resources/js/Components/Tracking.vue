@@ -10,7 +10,7 @@ const props = defineProps({
     default: () => ({})
   }
 })
-
+console.log('DEV:', import.meta.env.DEV)
 const ymUid = ref(null)
 const isBrowser = typeof window !== 'undefined'
 const engagementTimer = ref(null)
@@ -25,29 +25,38 @@ watch([() => ymUid.value, () => isEngaged.value], () => {
 
 onMounted(() => {
   if (!isBrowser) return
-  
-  console.log('🎯 Tracking mounted for:', props.backendurl)
-  
+  // @ts-ignore
+  if (import.meta.env.DEV) {
+    console.log('🎯 Tracking mounted for:', props.backendurl)
+  }
+
   // Таймер вовлеченности
   startEngagementTimer(3000) // 3 сек для теста
-  
+
   // Яндекс.Метрика
   const handleYandexLoaded = (event) => {
     ymUid.value = event.detail?.ymUid
-    console.log('📡 Яндекс.Метрика:', ymUid.value)
+    if (import.meta.env.DEV) {
+      console.log('📡 Яндекс.Метрика:', ymUid.value)
+    }
   }
-  
+
   window.addEventListener('yandex_metrika_loaded', handleYandexLoaded)
-  
+
   // Проверка кук
   setTimeout(() => {
     const existingUid = getCookie('_ym_uid')
-    if (existingUid && !ymUid.value) {
-      console.log('🍪 Яндекс из кук:', existingUid)
-      ymUid.value = existingUid
+    // @ts-ignore
+    if (import.meta.env.DEV) {
+      if (existingUid && !ymUid.value) {
+        if (import.meta.env.DEV) {
+          console.log('🍪 Яндекс из кук:', existingUid)
+        }
+        ymUid.value = existingUid
+      }
     }
   }, 1000)
-  
+
   // Очистка
   onUnmounted(() => {
     window.removeEventListener('yandex_metrika_loaded', handleYandexLoaded)
@@ -57,19 +66,24 @@ onMounted(() => {
 
 function startEngagementTimer(ms = 30000) {
   if (engagementTimer.value) clearTimeout(engagementTimer.value)
-  
+
   engagementTimer.value = setTimeout(() => {
     isEngaged.value = true
-    console.log('⏱️ Пользователь вовлечен (>' + ms/1000 + ' сек)')
+    if (import.meta.env.DEV) {
+      console.log('⏱️ Пользователь вовлечен (>' + ms / 1000 + ' сек)')
+    }
   }, ms)
 }
 
 function sendToServer() {
-  console.log('🚀 Отправка:', {
-    url: props.backendurl,
-    is_engaged: isEngaged.value
-  })
-  
+  // @ts-ignore
+  if (import.meta.env.DEV) {
+    console.log('🚀 Отправка:', {
+      url: props.backendurl,
+      is_engaged: isEngaged.value
+    })
+  }
+
   fetch('/api/track', {
     method: 'POST',
     headers: {
@@ -83,9 +97,17 @@ function sendToServer() {
       is_engaged: isEngaged.value
     })
   })
-  .then(r => r.json())
-  .then(data => console.log('✅ Ответ:', data))
-  .catch(err => console.error('❌ Ошибка:', err))
+    .then(r => r.json())
+    .then(data => {
+      if (import.meta.env.DEV) {
+        console.log('✅ Ответ:', data)
+      }
+    })
+    .catch(err => {
+      if (import.meta.env.DEV) {
+        console.error('❌ Ошибка:', err)
+      }
+    })
 }
 
 function getCookie(name) {
