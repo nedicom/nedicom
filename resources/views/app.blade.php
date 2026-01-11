@@ -67,22 +67,9 @@
 
         gtag('js', new Date());
 
-        // Инициализация основного тега Google Analytics
-        try {
-            gtag('config', 'G-EBPD2D669T');
-        } catch (error) {
-            console.warn('Не удалось инициализировать Google Analytics:', error);
-        }
+        gtag('config', 'G-EBPD2D669T');
 
-        // Инициализация тега Google Ads с задержкой и обработкой ошибок
-        setTimeout(function() {
-            try {
-                gtag('config', 'AW-17757903888');
-            } catch (error) {
-                console.warn('Не удалось инициализировать Google Ads Conversion Tracking:', error);
-                // Эта ошибка НЕ влияет на работу сайта
-            }
-        }, 1500); // Задержка 1.5 секунды для приоритета загрузки контента
+        gtag('config', 'AW-17757903888');
     </script>
 
     <script src="https://vk.com/js/api/openapi.js?169" type="text/javascript"></script>
