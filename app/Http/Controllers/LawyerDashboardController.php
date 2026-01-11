@@ -45,6 +45,8 @@ class LawyerDashboardController extends Controller
     
     private function renderDemoData($activeTab, $search, $sortField, $sortOrder, $page, $statusFilter)
     {
+        $perPage = 10;
+        
         $demoStats = [
             'totalViews' => 1248,
             'todayViews' => 42,
@@ -58,6 +60,7 @@ class LawyerDashboardController extends Controller
                 'id' => 1,
                 'title' => 'Как составить исковое заявление',
                 'views' => 156,
+                'url' => 'kak-sostavit-iskovoe-zayavlenie',
                 'date' => '2024-01-15',
                 'status' => 'active',
                 'category' => 'Гражданское право',
@@ -73,6 +76,7 @@ class LawyerDashboardController extends Controller
                 'id' => 3,
                 'title' => 'Налоговые вычеты для ИП в 2026 году',
                 'views' => 203,
+                'url' => 'nalogovye-vychety-dlya-ip-v-2026-godu',
                 'date' => '2026-01-05',
                 'status' => 'active',
                 'category' => 'Налоговое право',
@@ -91,6 +95,7 @@ class LawyerDashboardController extends Controller
                 'id' => 2,
                 'title' => 'Услуги по банкротству физических лиц',
                 'views' => 89,
+                'url' => 'uslugi-po-bankrotstvu-fizicheskih-lic',
                 'date' => '2026-01-10',
                 'status' => 'moderation',
                 'price' => 'от 15 000 ₽',
@@ -106,6 +111,7 @@ class LawyerDashboardController extends Controller
                 'id' => 4,
                 'title' => 'Юридическое сопровождение бизнеса',
                 'views' => 67,
+                'url' => 'yuridicheskoe-soprovozhdenie-biznesa',
                 'date' => '2026-01-02',
                 'status' => 'active',
                 'price' => 'от 30 000 ₽',
@@ -119,38 +125,93 @@ class LawyerDashboardController extends Controller
             ],
         ];
 
-        // Фильтруем и сортируем демо-данные
+        // Фильтруем демо-данные
         $filteredDemoArticles = $this->filterMaterials($demoArticles, $search, $statusFilter);
         $filteredDemoUslugi = $this->filterMaterials($demoUslugi, $search, $statusFilter);
         
+        // Сортируем демо-данные
         $sortedDemoArticles = $this->sortMaterials($filteredDemoArticles, $sortField, $sortOrder);
         $sortedDemoUslugi = $this->sortMaterials($filteredDemoUslugi, $sortField, $sortOrder);
+        
+        // Применяем пагинацию
+        $articlesTotalCount = count($sortedDemoArticles);
+        $uslugiTotalCount = count($sortedDemoUslugi);
+        
+        $articlesData = array_slice($sortedDemoArticles, ($page - 1) * $perPage, $perPage);
+        $uslugiData = array_slice($sortedDemoUslugi, ($page - 1) * $perPage, $perPage);
+        
+        // Рассчитываем общую статистику для демо
+        $articlesTotalVisits = array_sum(array_column($demoArticles, 'conversions.total_visits'));
+        $articlesTotalEngaged = array_sum(array_column($demoArticles, 'conversions.engaged'));
+        $articlesTotalPhoneClicks = array_sum(array_column($demoArticles, 'conversions.phone_clicks'));
+        
+        $articlesConversionRate = $articlesTotalEngaged > 0
+            ? round(($articlesTotalPhoneClicks / $articlesTotalEngaged) * 100, 2)
+            : 0;
+        
+        $uslugiTotalVisits = array_sum(array_column($demoUslugi, 'conversions.total_visits'));
+        $uslugiTotalEngaged = array_sum(array_column($demoUslugi, 'conversions.engaged'));
+        $uslugiTotalPhoneClicks = array_sum(array_column($demoUslugi, 'conversions.phone_clicks'));
+        
+        $uslugiConversionRate = $uslugiTotalEngaged > 0
+            ? round(($uslugiTotalPhoneClicks / $uslugiTotalEngaged) * 100, 2)
+            : 0;
+
+        // Для демо используем те же данные что и для userData, но с флагом isDemo
+        $demoUserData = [
+            'stats' => $demoStats,
+            'isDemo' => true,
+            'articles' => [
+                'data' => $articlesData,
+                'count' => $articlesTotalCount,
+                'totalViews' => array_sum(array_column($demoArticles, 'views')),
+                'last7DaysViews' => [65, 59, 80, 81, 56, 55, 40],
+                'conversions' => [
+                    'total_visits' => $articlesTotalVisits,
+                    'engaged' => $articlesTotalEngaged,
+                    'phone_clicks' => $articlesTotalPhoneClicks,
+                    'rate' => $articlesConversionRate,
+                ],
+                'pagination' => [
+                    'current_page' => $page,
+                    'per_page' => $perPage,
+                    'total' => $articlesTotalCount,
+                    'total_pages' => ceil($articlesTotalCount / $perPage)
+                ]
+            ],
+            'uslugi' => [
+                'data' => $uslugiData,
+                'count' => $uslugiTotalCount,
+                'totalViews' => array_sum(array_column($demoUslugi, 'views')),
+                'last7DaysViews' => [20, 25, 30, 35, 40, 45, 50],
+                'conversions' => [
+                    'total_visits' => $uslugiTotalVisits,
+                    'engaged' => $uslugiTotalEngaged,
+                    'phone_clicks' => $uslugiTotalPhoneClicks,
+                    'rate' => $uslugiConversionRate,
+                ],
+                'pagination' => [
+                    'current_page' => $page,
+                    'per_page' => $perPage,
+                    'total' => $uslugiTotalCount,
+                    'total_pages' => ceil($uslugiTotalCount / $perPage)
+                ]
+            ],
+            'filters' => [
+                'activeTab' => $activeTab,
+                'search' => $search,
+                'sortField' => $sortField,
+                'sortOrder' => $sortOrder,
+                'page' => $page,
+                'status' => $statusFilter,
+                'perPage' => $perPage
+            ]
+        ];
 
         return Inertia::render('LawyerDashboard', [
             'auth' => null,
-            'demoData' => [
-                'stats' => $demoStats,
-                'articles' => [
-                    'data' => $sortedDemoArticles,
-                    'count' => count($sortedDemoArticles),
-                    'totalViews' => array_sum(array_column($sortedDemoArticles, 'views'))
-                ],
-                'uslugi' => [
-                    'data' => $sortedDemoUslugi,
-                    'count' => count($sortedDemoUslugi),
-                    'totalViews' => array_sum(array_column($sortedDemoUslugi, 'views'))
-                ],
-                'isDemo' => true,
-                'message' => 'Демо-режим. Авторизуйтесь для просмотра своих материалов',
-                'filters' => [
-                    'activeTab' => $activeTab,
-                    'search' => $search,
-                    'sortField' => $sortField,
-                    'sortOrder' => $sortOrder,
-                    'page' => $page,
-                    'status' => $statusFilter
-                ]
-            ]
+            'demoData' => $demoUserData, // Для обратной совместимости
+            'userData' => $demoUserData  // Основные данные в том же формате
         ]);
     }
     
@@ -391,6 +452,7 @@ class LawyerDashboardController extends Controller
 
         return Inertia::render('LawyerDashboard', [
             'auth' => $user,
+            'demoData' => null, // Для авторизованных - демо нет
             'userData' => [
                 'stats' => $userStats,
                 'isDemo' => false,

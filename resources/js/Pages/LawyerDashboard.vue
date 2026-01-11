@@ -31,8 +31,13 @@ const props = defineProps({
 const isLoading = ref(false)
 
 // Определяем, какие данные использовать
-const isDemo = computed(() => props.demoData?.isDemo || false)
-const dataSource = computed(() => isDemo.value ? props.demoData : props.userData)
+const isDemo = computed(() => {
+    return (props.demoData && props.demoData.isDemo) || !props.userData;
+});
+
+const dataSource = computed(() => {
+    return props.userData || props.demoData || {};
+});
 
 // Получаем текущие фильтры из бэкенда
 const backendFilters = computed(() => dataSource.value?.filters || {})
@@ -369,23 +374,11 @@ const formatNumber = (num) => {
     return num ? num.toLocaleString('ru-RU') : '0'
 }
 
-const viewStatistics = (materialId) => {
-    console.log('View statistics for material:', materialId)
-}
-
-const editMaterial = (materialId) => {
-    if (activeTab.value === 'articles') {
-        window.open(`/articles/${materialId}/edit`, '_blank')
-    } else {
-        window.open(`/uslugi/${materialId}/edit`, '_blank')
-    }
-}
-
 const goToAddMaterial = () => {
     if (activeTab.value === 'articles') {
-        window.open('/articles/create', '_blank')
+        window.open('/articlesadd', '_blank')
     } else {
-        window.open('/uslugi/create', '_blank')
+        window.open('/uslugiadd', '_blank')
     }
 }
 
