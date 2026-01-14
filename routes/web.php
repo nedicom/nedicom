@@ -25,6 +25,7 @@ use App\Http\Controllers\PensionController;
 use App\Http\Controllers\YandexController;
 use App\Http\Controllers\ClientDashboardController;
 use App\Http\Controllers\LawyerDashboardController;
+use App\Http\Controllers\TrackingController;
 
 use App\Http\Middleware\owner;
 
@@ -112,10 +113,15 @@ Route::controller(ArticleController::class)->group(function () {
     Route::post('/articles/draft', 'draft')->name('articles/draft');
     Route::post('/articles/image', 'image')->name('articles.image');
     Route::get('/articles/{url}/edit', 'edit')->middleware(owner::class)->name('articles.edit');
-    Route::post('/articles/{url}/update', 'update')->name('articles.update');
+    Route::post('/articles/update', 'update')->name('articles.update');
     Route::post('/articles/{url}/autoupdate', 'autoupdate')->name('articles.autoupdate');
     Route::get('/articles/{id}/delete', 'delete')->name('article.delete');
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/search-lawyers-web', [ArticleController::class, 'searchLawyersWeb'])
+            ->name('search.lawyers.web');
+    });
 });
+
 
 Route::controller(UslugiController::class)->group(function () {
     Route::middleware('track.utm')->group(function () {
@@ -134,7 +140,7 @@ Route::controller(UslugiController::class)->group(function () {
 Route::controller(QuestionsController::class)->group(function () {
     Route::middleware('track.utm')->group(function () {
         Route::get('/questions/add', 'questionAdd')->name('questions.add');
-        Route::get('/questions/{url}', 'questionsURL')->name('questions.url');        
+        Route::get('/questions/{url}', 'questionsURL')->name('questions.url');
     });
 
     Route::get('/questions/similar/{url}', 'similar')->name('questions.similar');
@@ -273,6 +279,10 @@ Route::post('/send/review', [ReviewController::class, 'store'])->name('create.re
 Route::post('/yandexoauth', [YandexController::class, 'yandexoauth'])->name('yandexoauth');
 
 Route::view('/suggest/token', 'suggest-token');
+
+Route::post('/track/phone-click', [TrackingController::class, 'trackPhoneClick'])
+    ->middleware('web');
+Route::post('/track', [TrackingController::class, 'track']);
 
 require __DIR__ . '/auth.php';
 

@@ -61,7 +61,7 @@ function trackPhoneClick() {
   }
 
   // Отправляем на сервер
-  fetch('/api/trackphoneclick', {
+  fetch('/track/phone-click', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -70,7 +70,6 @@ function trackPhoneClick() {
     body: JSON.stringify({
       visit_uuid: set.tracking.visit_uuid,
       url: set.backendurl,
-      phone_click_at: new Date().toISOString()
     })
   })
     .then(r => r.json())
@@ -78,7 +77,7 @@ function trackPhoneClick() {
       // @ts-ignore
       if (import.meta.env.DEV) {
         if (data.success) {
-          console.log('✅ Клик на телефон сохранён:', data.phone_click_at);
+          console.log('✅ Клик на телефон сохранён:', data);
         } else {
           console.warn('⚠️ Ошибка сохранения:', data.error);
         }

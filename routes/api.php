@@ -3,8 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\TrackingController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -16,10 +14,3 @@ use App\Http\Controllers\TrackingController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::post('/track', [TrackingController::class, 'track']);
-Route::post('/trackphoneclick', [TrackingController::class, 'trackPhoneClick']);

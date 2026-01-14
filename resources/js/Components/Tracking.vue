@@ -1,7 +1,7 @@
 <template></template>
 
 <script setup>
-import { defineProps, onMounted, onUnmounted, ref, watch } from 'vue'
+import { defineProps, onMounted, onUnmounted, ref } from 'vue'
 
 const props = defineProps({
   backendurl: String,
@@ -10,109 +10,146 @@ const props = defineProps({
     default: () => ({})
   }
 })
-console.log('DEV:', import.meta.env.DEV)
-const ymUid = ref(null)
-const isBrowser = typeof window !== 'undefined'
-const engagementTimer = ref(null)
-const isEngaged = ref(false)
 
-// Отправляем когда меняется isEngaged или приходит ymUid
-watch([() => ymUid.value, () => isEngaged.value], () => {
-  if (ymUid.value && props.tracking?.visit_uuid && props.backendurl) {
-    sendToServer()
-  }
-})
+const hasSent = ref(false)
+const ymUid = ref(null)
 
 onMounted(() => {
-  if (!isBrowser) return
-  // @ts-ignore
   if (import.meta.env.DEV) {
-    console.log('🎯 Tracking mounted for:', props.backendurl)
+    console.log('🎯 Tracking mounted:', {
+      visit_uuid: props.tracking?.visit_uuid,
+      url: props.backendurl
+    })
   }
 
-  // Таймер вовлеченности
-  startEngagementTimer(3000) // 3 сек для теста
-
-  // Яндекс.Метрика
-  const handleYandexLoaded = (event) => {
-    ymUid.value = event.detail?.ymUid
-    if (import.meta.env.DEV) {
-      console.log('📡 Яндекс.Метрика:', ymUid.value)
-    }
-  }
-
-  window.addEventListener('yandex_metrika_loaded', handleYandexLoaded)
-
-  // Проверка кук
-  setTimeout(() => {
-    const existingUid = getCookie('_ym_uid')
-    // @ts-ignore
-    if (import.meta.env.DEV) {
-      if (existingUid && !ymUid.value) {
-        if (import.meta.env.DEV) {
-          console.log('🍪 Яндекс из кук:', existingUid)
-        }
-        ymUid.value = existingUid
+  // Пробуем получить Яндекс UID из кук (неблокирующе)
+  try {
+    const match = document.cookie.match(/(?:^|; )_ym_uid=([^;]+)/)
+    if (match) {
+      ymUid.value = decodeURIComponent(match[1])
+      if (import.meta.env.DEV) {
+        console.log('🍪 Яндекс UID из кук:', ymUid.value)
       }
     }
-  }, 1000)
+  } catch (e) {
+    // Игнорируем ошибки получения куки
+  }
+
+  // Таймер 3 секунды
+  const timer = setTimeout(() => {
+    sendToServer()
+  }, 3000)
 
   // Очистка
   onUnmounted(() => {
-    window.removeEventListener('yandex_metrika_loaded', handleYandexLoaded)
-    if (engagementTimer.value) clearTimeout(engagementTimer.value)
+    clearTimeout(timer)
+    if (!hasSent.value) {
+      sendToServer()
+    }
   })
 })
 
-function startEngagementTimer(ms = 30000) {
-  if (engagementTimer.value) clearTimeout(engagementTimer.value)
-
-  engagementTimer.value = setTimeout(() => {
-    isEngaged.value = true
-    if (import.meta.env.DEV) {
-      console.log('⏱️ Пользователь вовлечен (>' + ms / 1000 + ' сек)')
-    }
-  }, ms)
-}
-
 function sendToServer() {
-  // @ts-ignore
-  if (import.meta.env.DEV) {
-    console.log('🚀 Отправка:', {
-      url: props.backendurl,
-      is_engaged: isEngaged.value
-    })
+  // Проверка на дублирование
+  if (hasSent.value) {
+    if (import.meta.env.DEV) console.log('🔄 Уже отправлено')
+    return
+  }
+  
+  // Проверка обязательных полей
+  if (!props.tracking?.visit_uuid) {
+    if (import.meta.env.DEV) console.log('❌ Нет visit_uuid')
+    return
+  }
+  
+  if (!props.backendurl) {
+    if (import.meta.env.DEV) console.log('❌ Нет backendurl')
+    return
+  }
+  
+  hasSent.value = true
+
+  // Формируем данные
+  const formData = new FormData()
+  formData.append('visit_uuid', props.tracking.visit_uuid)
+  formData.append('url', props.backendurl)
+  
+  // Добавляем ym_uid если есть (необязательно)
+  if (ymUid.value) {
+    formData.append('_ym_uid', ymUid.value)
+  }
+  
+  // CSRF токен
+  const csrfToken = getCsrfToken()
+  if (csrfToken) {
+    formData.append('_token', csrfToken)
   }
 
-  fetch('/api/track', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || ''
-    },
-    body: JSON.stringify({
-      _ym_uid: ymUid.value,
+  if (import.meta.env.DEV) {
+    const data = {
       visit_uuid: props.tracking.visit_uuid,
       url: props.backendurl,
-      is_engaged: isEngaged.value
-    })
+      ym_uid: ymUid.value || 'не указан',
+      has_csrf: !!csrfToken
+    }
+    console.log('🚀 Отправка вовлечения:', data)
+  }
+  
+  // Отправляем
+  fetch('/track', {
+    method: 'POST',
+    body: formData,
   })
-    .then(r => r.json())
-    .then(data => {
+    .then(async response => {
       if (import.meta.env.DEV) {
-        console.log('✅ Ответ:', data)
+        console.log(`📊 HTTP статус: ${response.status}`)
+      }
+      
+      if (response.ok) {
+        const data = await response.json()
+        if (import.meta.env.DEV) {
+          console.log('✅ Успешно сохранено:', data)
+        }
+      } else {
+        // Пробуем прочитать текст ошибки
+        try {
+          const error = await response.json()
+          console.error('❌ Ошибка сервера:', error)
+        } catch {
+          console.error(`❌ HTTP ошибка ${response.status}`)
+        }
       }
     })
-    .catch(err => {
+    .catch(error => {
       if (import.meta.env.DEV) {
-        console.error('❌ Ошибка:', err)
+        console.error('❌ Ошибка сети:', error)
       }
     })
 }
 
-function getCookie(name) {
-  if (!isBrowser) return null
-  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'))
-  return match ? decodeURIComponent(match[2]) : null
+function getCsrfToken() {
+  try {
+    // 1. Из meta тега (стандартный способ Laravel)
+    const meta = document.querySelector('meta[name="csrf-token"]')
+    if (meta && meta.content) {
+      return meta.content
+    }
+    
+    // 2. Из input поля
+    const input = document.querySelector('input[name="_token"]')
+    if (input && input.value) {
+      return input.value
+    }
+    
+    // 3. Из кук (для инерции и SPA)
+    const match = document.cookie.match(/XSRF-TOKEN=([^;]+)/)
+    if (match) {
+      return decodeURIComponent(match[1])
+    }
+    
+    return ''
+  } catch (e) {
+    return ''
+  }
 }
 </script>

@@ -125,16 +125,47 @@ class ArticleController extends Controller
     {
 
         $unique = cities::select('region', 'regionid')->get()->unique('regionid');
+        $article = Article::where('url', '=', $url)->first();
+
         return Inertia::render(
             'Articles/Edit',
             [
-                'article' => Article::where('url', '=', $url)->first(),
+                'article' => $article,
                 'uslugi' => Uslugi::where('is_main', '=', 1)->where('is_feed', 1)->get(),
                 'auth' => Auth::user(),
                 'region' => $unique->values()->all(),
             ],
         );
     }
+
+    public function searchLawyersWeb(Request $request)
+{
+    // Проверяем авторизацию через сессию
+    if (!Auth::check()) {
+        return response()->json(['error' => 'Unauthorized'], 401);
+    }
+    
+    // Проверяем права администратора
+    if (!Auth::user()->isadmin) {
+        return response()->json(['error' => 'Forbidden'], 403);
+    }
+    
+    $search = $request->input('search', '');
+
+    $lawyers = User::where('lawyer', 1)
+        ->when($search, function ($query) use ($search) {
+            return $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
+            });
+        })
+        ->orderBy('name')
+        ->limit(20)
+        ->get(['id', 'name', 'email']);
+    
+    return response()->json($lawyers);
+}
+
 
     public function autoupdate(Request $request)
     {
@@ -162,6 +193,14 @@ class ArticleController extends Controller
         $article->avito = $request->avito;
         $article->tg = $request->tg;
         $article->tg_description = $request->tg_description;
+
+        if ($request->has('userid') && Auth::user()->isadmin) {
+            $newUser = User::find($request->userid);
+            if ($newUser) {
+                $article->userid = $newUser->id;
+                $article->username = $newUser->name;
+            }
+        }
         $article->save();
         return redirect()->route('articles/url', $article->url);
     }
