@@ -53,7 +53,10 @@ class HandleInertiaRequests extends Middleware
                     : null,
             ],
             'tracking' => [
-                'visit_uuid' => session('visit_uuid'),
+                'visit_uuid' => $request->attributes->get('visit_uuid', 
+                // fallback: из куки или сессии
+                $request->cookie('visit_uuid', session('visit_uuid', ''))
+            ),
             ],
             'cookie' => fn() => session()->get('cookie')
                 ? session()->get('cookie')

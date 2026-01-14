@@ -282,6 +282,7 @@ Route::view('/suggest/token', 'suggest-token');
 
 Route::post('/events/phone-click', [TrackingController::class, 'trackPhoneClick'])
     ->middleware('web');
+    
 Route::post('/events', [TrackingController::class, 'track']);
 
 require __DIR__ . '/auth.php';
