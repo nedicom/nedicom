@@ -69,7 +69,7 @@
 
         gtag('config', 'G-EBPD2D669T');
 
-        gtag('config', 'AW-17757903888');
+        //gtag('config', 'AW-17757903888');
     </script>
 
     <script src="https://vk.com/js/api/openapi.js?169" type="text/javascript"></script>
