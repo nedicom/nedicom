@@ -16,6 +16,10 @@ class TrackingController extends Controller
      */
     public function track(Request $request)
     {
+        Log::warning('Test_track initialised', [
+            'time' => now(),
+        ]);
+
         try {
             // Упрощенная валидация
             $validator = Validator::make($request->all(), [
