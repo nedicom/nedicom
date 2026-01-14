@@ -280,9 +280,9 @@ Route::post('/yandexoauth', [YandexController::class, 'yandexoauth'])->name('yan
 
 Route::view('/suggest/token', 'suggest-token');
 
-Route::post('/track/phone-click', [TrackingController::class, 'trackPhoneClick'])
+Route::post('/events/phone-click', [TrackingController::class, 'trackPhoneClick'])
     ->middleware('web');
-Route::post('/track', [TrackingController::class, 'track']);
+Route::post('/events', [TrackingController::class, 'track']);
 
 require __DIR__ . '/auth.php';
 

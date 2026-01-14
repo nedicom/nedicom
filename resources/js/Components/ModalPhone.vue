@@ -61,7 +61,7 @@ function trackPhoneClick() {
   }
 
   // Отправляем на сервер
-  fetch('/track/phone-click', {
+  fetch('/events/phone-click', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

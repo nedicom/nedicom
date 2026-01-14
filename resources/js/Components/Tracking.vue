@@ -13,8 +13,19 @@ const props = defineProps({
 
 const hasSent = ref(false)
 const ymUid = ref(null)
+const isMobile = ref(false)
 
 onMounted(() => {
+
+  if (typeof window === 'undefined') return
+
+  // Определяем мобильное устройство
+  isMobile.value = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+
+  if (import.meta.env.DEV) {
+    console.log('📱 Устройство:', isMobile.value ? 'Мобильное' : 'Десктоп')
+  }
+
   if (import.meta.env.DEV) {
     console.log('🎯 Tracking mounted:', {
       visit_uuid: props.tracking?.visit_uuid,
@@ -55,30 +66,30 @@ function sendToServer() {
     if (import.meta.env.DEV) console.log('🔄 Уже отправлено')
     return
   }
-  
+
   // Проверка обязательных полей
   if (!props.tracking?.visit_uuid) {
     if (import.meta.env.DEV) console.log('❌ Нет visit_uuid')
     return
   }
-  
+
   if (!props.backendurl) {
     if (import.meta.env.DEV) console.log('❌ Нет backendurl')
     return
   }
-  
+
   hasSent.value = true
 
   // Формируем данные
   const formData = new FormData()
   formData.append('visit_uuid', props.tracking.visit_uuid)
   formData.append('url', props.backendurl)
-  
+
   // Добавляем ym_uid если есть (необязательно)
   if (ymUid.value) {
     formData.append('_ym_uid', ymUid.value)
   }
-  
+
   // CSRF токен
   const csrfToken = getCsrfToken()
   if (csrfToken) {
@@ -94,9 +105,9 @@ function sendToServer() {
     }
     console.log('🚀 Отправка вовлечения:', data)
   }
-  
+
   // Отправляем
-  fetch('/track', {
+  fetch('/events', {
     method: 'POST',
     body: formData,
   })
@@ -104,7 +115,7 @@ function sendToServer() {
       if (import.meta.env.DEV) {
         console.log(`📊 HTTP статус: ${response.status}`)
       }
-      
+
       if (response.ok) {
         const data = await response.json()
         if (import.meta.env.DEV) {
@@ -134,19 +145,19 @@ function getCsrfToken() {
     if (meta && meta.content) {
       return meta.content
     }
-    
+
     // 2. Из input поля
     const input = document.querySelector('input[name="_token"]')
     if (input && input.value) {
       return input.value
     }
-    
+
     // 3. Из кук (для инерции и SPA)
     const match = document.cookie.match(/XSRF-TOKEN=([^;]+)/)
     if (match) {
       return decodeURIComponent(match[1])
     }
-    
+
     return ''
   } catch (e) {
     return ''
