@@ -4,6 +4,7 @@ import PromoHeader from "@/Layouts/PromoHeader.vue";
 import Body from "@/Layouts/Body.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import Tracking from '@/Components/Tracking.vue';
+import Chart from '@/Components/Chart.vue';
 import Answer from "@/Layouts/Answer.vue";
 import Answers from "@/Layouts/Answers.vue";
 import SliderQuestions from "@/Layouts/SliderQuestions.vue";
@@ -25,6 +26,7 @@ let vars = defineProps({
   stats: Object,
   cityheader: Object,
   backendurl: String,
+  statistics: Object,
 });
 
 let avito = vars.article.avito ? vars.article.avito.includes('avito') : null;
@@ -51,13 +53,84 @@ let avito = vars.article.avito ? vars.article.avito.includes('avito') : null;
   <PromoHeader />
 
   <Body>
-    <div class="flex justify-center text-gray-900 md:px-10" itemscope itemtype="https://schema.org/Article">
+    <div class="flex flex-col md:flex-row gap-4 md:gap-6 text-gray-900 px-4" itemscope
+      itemtype="https://schema.org/Article">
 
       <meta itemprop="wordCount" :content="vars.article.body.length" />
       <meta v-if="vars.answers[0]" itemprop="commentCount" :content="vars.answers.length" />
 
-      <div class="w-full py-6 md:w-3/4 md:py-12 md:px-20 2xl:w-1/2 flex lg:px-8 bg-white overflow-hidden">
-        <div class="px-6 bg-white overflow-hidden">
+      <div class="w-full md:w-1/4">
+        <Chart :statistics="vars.statistics" />
+
+        <!-- tooltip component -->
+        <div class="flex items-center justify-center gap-3 md:gap-5 my-3 md:my-12">
+          <div class="group flex item-center">
+            <div class="flex items-center justify-center relative">
+              <Link :href="route('lawyer', article.userid)" class="hover:underline">
+                <img :src="'https://nedicom.ru/' + article.avatar_path" :alt="usluga.usl_name" width="40"
+                  class="rounded-full" />
+                <span
+                  class="-left-1 -top-1 animate-pulse absolute w-3.5 h-3.5 bg-green-500 border-2 border-white dark:border-gray-800 rounded-full"></span>
+              </Link>
+            </div>
+
+            <div class="flex items-center justify-center" itemprop="author" itemscope
+              itemtype="https://schema.org/Person">
+              <span class="transition-opacity bg-gray-800 mx-3 px-1 py-2 text-sm text-gray-100 rounded-md">
+                автор -
+                <a itemprop="url" :href="route('lawyer', article.userid)" :aria-label="'автор статьи - ' + article.name"
+                  class="hover:underline">
+                  <span itemprop="name">{{ article.name }}</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-center gap-3 md:gap-5 my-3 md:my-12">
+          <!-- Кнопки шаринга -->
+          <div class="flex items-center justify-center">
+            <ShareButtons :bundle="vars.article" :auth="vars.auth" />
+          </div>
+
+          <!-- Счетчик просмотров -->
+          <div class="flex items-center justify-center text-xs bg-gray-50 px-3 py-2 rounded-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              class="w-5 h-5 mr-2 text-gray-600">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+            <p class="font-medium text-gray-700">{{ article.counter }}</p>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-center text-xs md:text-sm">
+          <div class="md:block hidden mr-6" itemprop="dateModified" :content="vars.article.updated_at">
+            <div class="md:block hidden font-bold text-gray-600">
+              время чтения:
+            </div>
+            <div>{{ (vars.article.body.length / 1000).toFixed(0) }} мин</div>
+          </div>
+          <div class="mr-3" itemprop="datePublished" :content="vars.article.created_at">
+            <div class="md:block hidden font-bold text-gray-600">
+              создано:
+            </div>
+            <div>{{ vars.article.created }}</div>
+          </div>
+
+          <div class="md:block hidden" itemprop="dateModified" :content="article.updated_at">
+            <div class="md:block hidden font-bold text-gray-600">
+              обновлено:
+            </div>
+            <div>{{ article.updated }}</div>
+          </div>
+        </div>
+        <!-- tooltip component -->
+      </div>
+
+      <div class="w-full md:w-3/4 my-3 md:py-12 md:px-20 flex bg-white overflow-hidden">
+        <div class="bg-white overflow-hidden">
           <div v-if="vars.auth" class="my-3">
             <div v-if="vars.auth.id == article.userid || vars.auth.isadmin == 1">
               <a :href="route('articles.edit', [article.url])"
@@ -65,74 +138,13 @@ let avito = vars.article.avito ? vars.article.avito.includes('avito') : null;
             </div>
           </div>
 
-          <!-- tooltip component -->
-          <div class="group flex justify-between mb-2 w-full">
-            <div class="group flex item-center">
-              <div class="flex items-center justify-center relative">
-                <Link :href="route('lawyer', article.userid)" class="hover:underline">
-                  <img :src="'https://nedicom.ru/' + article.avatar_path" :alt="usluga.usl_name" width="40"
-                    class="rounded-full" />
-                  <span
-                    class="-left-1 -top-1 animate-pulse absolute w-3.5 h-3.5 bg-green-500 border-2 border-white dark:border-gray-800 rounded-full"></span>
-                </Link>
-              </div>
 
-              <div class="flex items-center justify-center" itemprop="author" itemscope
-                itemtype="https://schema.org/Person">
-                <span
-                  class="group-hover:opacity-100 transition-opacity bg-gray-800 mx-3 px-1 py-2 text-sm text-gray-100 rounded-md md:opacity-0">
-                  автор -
-                  <a itemprop="url" :href="route('lawyer', article.userid)"
-                    :aria-label="'автор статьи - ' + article.name" class="hover:underline">
-                    <span itemprop="name">{{ article.name }}</span>
-                  </a>
-                </span>
-              </div>
-            </div>
-
-            <div class="mr-2 my-5 md:my-0 flex">
-              <ShareButtons :bundle="vars.article" :auth="vars.auth" />
-
-              <div class="flex items-center text-xs">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                  class="w-5 h-5 ml-5 mr-1">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                </svg>
-
-                <p class="">{{ article.counter }}</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="flex items-center justify-center text-xs md:text-sm">
-            <div class="md:block hidden mr-6" itemprop="dateModified" :content="vars.article.updated_at">
-              <div class="md:block hidden font-bold text-gray-600">
-                время чтения:
-              </div>
-              <div>{{ (vars.article.body.length / 1000).toFixed(0) }} мин</div>
-            </div>
-            <div class="mr-3" itemprop="datePublished" :content="vars.article.created_at">
-              <div class="md:block hidden font-bold text-gray-600">
-                создано:
-              </div>
-              <div>{{ vars.article.created }}</div>
-            </div>
-
-            <div class="md:block hidden" itemprop="dateModified" :content="article.updated_at">
-              <div class="md:block hidden font-bold text-gray-600">
-                обновлено:
-              </div>
-              <div>{{ article.updated }}</div>
-            </div>
-          </div>
-          <!-- tooltip component -->
 
           <h1 v-if="vars.article.header" itemprop="headline"
             class="my-4 text-3xl font-extrabold leading-tight lg:mb-6 lg:text-4xl dark:text-white lead">
             {{ vars.article.header }}
           </h1>
+
           <p v-if="article.description" class="my-9 text-2xl lead text-gray-800" itemprop="description">
             {{ article.description }}
           </p>
@@ -144,11 +156,11 @@ let avito = vars.article.avito ? vars.article.avito.includes('avito') : null;
               :phone="article.phone" :lawyer="'Позвонить'" :phoneto="'tel:' + article.phone" :avatarPath="null" />
 
           </div>
-          <p class="w-full mb-9 mt-3 text-sm text-center">Автор - <a 
-              :href="route('lawyer', article.userid)" :aria-label="'автор статьи - ' + article.name"
+          <p class="w-full mb-9 mt-3 text-sm text-center">Автор - <a :href="route('lawyer', article.userid)"
+              :aria-label="'автор статьи - ' + article.name"
               class="hover:underline text-blue-700 hover:text-blue-800 font-semibold">
               <span itemprop="name">{{ article.name }}</span>
-            </a>, оказывает услуги по теме статьи. Свяжитесь с ним, если Вам нужны такие услуги.</p>
+            </a>, оказывает услуги по теме статьи. Он указал контактный номер, чтобы Вы могли с ним связаться.</p>
 
           <!-- call to action -->
 

@@ -18,6 +18,8 @@ use App\Helpers\Translate;
 use App\Helpers\TgSend;
 use App\Helpers\CitySet;
 
+use App\Helpers\StatisticsHelper;
+
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
@@ -139,32 +141,32 @@ class ArticleController extends Controller
     }
 
     public function searchLawyersWeb(Request $request)
-{
-    // Проверяем авторизацию через сессию
-    if (!Auth::check()) {
-        return response()->json(['error' => 'Unauthorized'], 401);
-    }
-    
-    // Проверяем права администратора
-    if (!Auth::user()->isadmin) {
-        return response()->json(['error' => 'Forbidden'], 403);
-    }
-    
-    $search = $request->input('search', '');
+    {
+        // Проверяем авторизацию через сессию
+        if (!Auth::check()) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
 
-    $lawyers = User::where('lawyer', 1)
-        ->when($search, function ($query) use ($search) {
-            return $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%");
-            });
-        })
-        ->orderBy('name')
-        ->limit(20)
-        ->get(['id', 'name', 'email']);
-    
-    return response()->json($lawyers);
-}
+        // Проверяем права администратора
+        if (!Auth::user()->isadmin) {
+            return response()->json(['error' => 'Forbidden'], 403);
+        }
+
+        $search = $request->input('search', '');
+
+        $lawyers = User::where('lawyer', 1)
+            ->when($search, function ($query) use ($search) {
+                return $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%");
+                });
+            })
+            ->orderBy('name')
+            ->limit(20)
+            ->get(['id', 'name', 'email']);
+
+        return response()->json($lawyers);
+    }
 
 
     public function autoupdate(Request $request)
@@ -245,6 +247,9 @@ class ArticleController extends Controller
         }
 
         $data = $this->prepareArticleData($article, $url, $request);
+
+        $data['statistics'] = StatisticsHelper::generateLast7DaysViews($article);
+        //dd($data['statistics']);
         // Обновляем счетчик просмотров
         $this->incrementArticleCounter($article, $url);
 
