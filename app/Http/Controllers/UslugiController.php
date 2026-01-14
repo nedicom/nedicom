@@ -174,8 +174,9 @@ class UslugiController extends Controller
     {
         if (!$city) abort(404);
         UslugaSet::setFromUrl($main_usluga);
-        $route = ['name' => 'uslugi.url', 'urls' => [$city, $main_usluga]];
-        $city = CitySet::CitySet($request, $city, false, $route);
+
+        $city = CitySet::CitySet($request, $city, false);
+
         $main = Uslugi::where('url', $main_usluga)->with('cities')->first(['id', 'usl_name', 'url', 'usl_desc', 'file_path', 'popular_question']);
         $category = Uslugi::where('is_main', 1)
             ->where('is_feed', 1)
@@ -359,7 +360,7 @@ class UslugiController extends Controller
             'main_usluga' =>  $main,
             'second_usluga' => Uslugi::where('id', $usluga->second_usluga_id)->first(['id', 'usl_name', 'url']),
             'city' => is_null(cities::find($usluga->sity)) ? cities::find(0) : cities::find($usluga->sity),
-            'cityheader' => CitySet::CitySet($request, $city, false, 'offer.second'),
+            'cityheader' => CitySet::CitySet($request, $city, false),
             'url' => $city . '/' . $main_usluga . '/' . $second_usluga . '/' . $url,
             'flash' => ['message' => $request->session()->get(key: 'message')],
             'backendurl' => $request->path(),

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 use App\Models\cities;
 use App\Models\Uslugi;
@@ -108,21 +109,86 @@ class CityController extends Controller
         ]);
     }
 
-    public function setCity(Request $request)    {       
+    public function setCity(Request $request)
+    {
+        // Валидация входных данных
+        $validated = $request->validate([
+            'cityid' => 'nullable|integer|exists:cities,id',
+            'cityurl' => 'nullable|string|exists:cities,url',
+            'city' => 'nullable|string',
+            'changeCityFromProfile' => 'nullable|boolean',
+            'reloadpage' => 'nullable|boolean',
+            'secondurl' => 'nullable|string',
+            'mainurl' => 'nullable|string'
+        ]);
 
-        CitySet::CitySet($request, $request->cityid, $request->changeCityFromProfile);
-        if ($request->reloadpage) {
-            if ($request->secondurl) {
-                return redirect()->route('offer.second', [$request->cityurl, $request->mainurl, $request->secondurl]);
-            };
-            if ($request->mainurl) {
-                return redirect()->route('offer.main', [$request->cityurl, $request->mainurl]);
-            };
-            if ($request->cityurl) {
-                return redirect()->route('uslugi.url', [$request->cityurl]);
-            };            
+        try {
+            // Получаем URL города, если передан cityid
+            $cityurl = $validated['cityurl'] ?? '';
+
+            // Если передан только cityid, но не cityurl - нужно получить URL из БД
+            if (!$cityurl && !empty($validated['cityid'])) {
+                $city = cities::find($validated['cityid']);
+                if ($city) {
+                    $cityurl = $city->url ?? '';
+                }
+            }
+
+            // Преобразуем changeCityFromProfile в boolean
+            $profile = filter_var($validated['changeCityFromProfile'] ?? false, FILTER_VALIDATE_BOOLEAN);
+
+            // Устанавливаем город
+            $city = CitySet::CitySet($request, $cityurl, $profile);
+
+            // Проверяем, что город был установлен
+            if (!$city) {
+                throw new \Exception('Не удалось установить город');
+            }
+
+            // Логируем успешную установку города
+            Log::info('City set successfully', [
+                'city_id' => $city->id ?? 'unknown',
+                'city_title' => $city->title ?? 'unknown',
+                'user_id' => auth()->id(),
+                'from_profile' => $profile
+            ]);
+
+            // Перенаправление при необходимости перезагрузки страницы
+            if ($request->reloadpage) {
+                if (!empty($validated['secondurl'])) {
+                    return redirect()->route('offer.second', [
+                        $cityurl,
+                        $validated['mainurl'],
+                        $validated['secondurl']
+                    ]);
+                }
+
+                if (!empty($validated['mainurl'])) {
+                    return redirect()->route('offer.main', [
+                        $cityurl,
+                        $validated['mainurl']
+                    ]);
+                }
+
+                if (!empty($cityurl)) {
+                    return redirect()->route('uslugi.url', [$cityurl]);
+                }
+            }
+
+            return redirect()->back()->with('success', 'Город успешно изменен');
+        } catch (\Exception $e) {
+            // Логируем ошибку
+            Log::error('Error setting city', [
+                'error' => $e->getMessage(),
+                'request_data' => $validated,
+                'user_id' => auth()->id()
+            ]);
+
+            // Возвращаем с ошибкой
+            return redirect()->back()
+                ->with('error', 'Не удалось изменить город. Пожалуйста, попробуйте еще раз.')
+                ->withInput();
         }
-        return redirect()->back();
     }
 
     public function getCities()
