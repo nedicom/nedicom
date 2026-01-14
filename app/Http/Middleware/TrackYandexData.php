@@ -14,14 +14,15 @@ class TrackYandexData
     {
         // Проверяем User-Agent
         $userAgent = $request->userAgent();
-        
-        $isBot = empty($userAgent) || 
-                 str_contains(strtolower($userAgent), 'bot') ||
-                 str_contains(strtolower($userAgent), 'crawl') ||
-                 str_contains(strtolower($userAgent), 'spider') ||
-                 str_contains(strtolower($userAgent), 'scrape') ||
-                 str_contains(strtolower($userAgent), 'compatible') ||
-                 preg_match('/android\s+\d+\.\d+\);?\s*applewebkit/i', strtolower($userAgent));
+
+        $isBot = empty($userAgent) ||
+            strlen($userAgent) < 40 ||
+            str_contains(strtolower($userAgent), 'bot') ||
+            str_contains(strtolower($userAgent), 'crawl') ||
+            str_contains(strtolower($userAgent), 'spider') ||
+            str_contains(strtolower($userAgent), 'scrape') ||
+            str_contains(strtolower($userAgent), 'compatible') ||
+            preg_match('/android\s+\d+\.\d+\);?\s*applewebkit/i', strtolower($userAgent));
 
         // Только для людей
         if (!$isBot) {
