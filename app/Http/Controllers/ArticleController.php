@@ -248,8 +248,8 @@ class ArticleController extends Controller
 
         $data = $this->prepareArticleData($article, $url, $request);
 
-        $data['statistics'] = StatisticsHelper::generateLast7DaysViews($article);
-        //dd($data['statistics']);
+        $data['statistics'] = StatisticsHelper::generateLast7DaysViews($article, 'article');
+
         // Обновляем счетчик просмотров
         $this->incrementArticleCounter($article, $url);
 

@@ -8,19 +8,19 @@ use Illuminate\Support\Facades\Log;
 
 class StatisticsHelper
 {
-    public static function generateLast7DaysViews($article): array
+    public static function generateLast7DaysViews($item, String $itemType): array
     {
         // Проверяем входные данные
-        if (!$article || !isset($article->id) || !isset($article->url)) {
+        if (!$item || !isset($item->id) || !isset($item->url)) {
             Log::error('StatisticsHelper: не передан объект статьи или отсутствуют обязательные поля');
             return self::getDefaultData();
         }
 
-        $articleId = $article->id; // URL статьи, например 'articles/pora-uzhe-uvedomit-roskomnadzor-naschet-vashego-sayta'
+        $itemId = $item->id;
         $days = 7;
 
         // Получаем реальные данные из базы статистики
-        $realData = self::getRealViewsData($articleId, $days);
+        $realData = self::getRealViewsData($itemId, $itemType, $days);
 
         // Если есть реальные данные - используем их, иначе фейковые
         if (!empty($realData['viewsData'])) {
@@ -28,23 +28,23 @@ class StatisticsHelper
         }
 
         Log::info('Реальных данных не найдено, используем фейковые', [
-            'article_id' => $article->id
+            'item_id' => $item->id
         ]);
 
-        return self::generateFakeData($article, $days);
+        return self::generateFakeData($item, $days);
     }
 
     /**
      * Получение реальных данных из базы статистики
      */
-    private static function getRealViewsData(int $articleId, int $days): array
-    {
+    private static function getRealViewsData(int $itemId, string $itemType, int $days): array
+    { 
         try {
             $startDate = Carbon::now()->subDays($days - 1)->startOfDay();
             $endDate = Carbon::now()->endOfDay();
 
             // Запрос к базе статистики
-            $views = DB::connection('pgsql_stats')
+            $query  = DB::connection('pgsql_stats')
                 ->table('yandex_tracking')
                 ->select(
                     DB::raw('DATE(created_at) as date'),
@@ -52,14 +52,20 @@ class StatisticsHelper
                     DB::raw('SUM(CASE WHEN is_engaged = true THEN 1 ELSE 0 END) as engaged'),
                     DB::raw('SUM(CASE WHEN phone_click_at IS NOT NULL THEN 1 ELSE 0 END) as conversions')
                 )
-                ->where('article_id', $articleId) // ТОЛЬКО по article_id
-                ->whereBetween('created_at', [$startDate, $endDate])
-                ->groupBy(DB::raw('DATE(created_at)'))
+                ->whereBetween('created_at', [$startDate, $endDate]);
+
+            if ($itemType === 'article') {
+                $query->where('article_id', $itemId);
+            } elseif ($itemType === 'usluga') {
+                $query->where('interests', $itemId);
+            } else {
+                Log::error('Неизвестный тип контента', ['type' => $itemType]);
+            }
+
+            $views = $query->groupBy(DB::raw('DATE(created_at)'))
                 ->orderBy('date', 'ASC')
                 ->get()
                 ->keyBy('date');
-            
-            Log::debug('Найдено записей:', ['count' => $views->count()]);
 
             // Если данных нет, возвращаем пустой массив
             if ($views->isEmpty()) {
@@ -162,8 +168,8 @@ class StatisticsHelper
             // Вовлеченность (20-40% от просмотров)
             $engaged = (int) round($views * (mt_rand(20, 40) / 100));
 
-            // Конверсии (1-5% от просмотров)
-            $conversions = (int) round($views * (mt_rand(1, 5) / 100));
+            // Конверсии (1-3% от просмотров)
+            $conversions = (int) round($views * (mt_rand(1, 3) / 100));
 
             $statistics[] = [
                 'date' => $date->format('Y-m-d'),

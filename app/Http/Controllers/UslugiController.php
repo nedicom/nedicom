@@ -23,6 +23,7 @@ use Carbon\Carbon;
 
 use App\Helpers\CitySet;
 use App\Helpers\UslugaSet;
+use App\Helpers\StatisticsHelper;
 
 use Illuminate\Database\Eloquent\Builder;
 
@@ -336,9 +337,12 @@ class UslugiController extends Controller
 
         $usluga->incrementViews();
 
+        $statistics = StatisticsHelper::generateLast7DaysViews($usluga, 'usluga');
+
         return Inertia::render('Uslugi/Usluga', [
             'auth' => $auth,
             'usluga' => $usluga,
+            'statistics' => $statistics,
             'userprices' => DB::table('uslugis_prices')
                 ->where('users_id', $usluga->user_id)
                 ->where('uslugis_id', $usluga->id)
