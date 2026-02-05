@@ -19,7 +19,7 @@ function toggleButton() {
 }
 </script>
 
-<template>{{ showButton }}
+<template>
   <!-- secondary banner - about -->
   <section class="bg-white border-b-4 border-indigo-500" id="about">
     <h1 itemprop="name" class="p-2 lg:p-6 lg:py-12 text-4xl tracking-tight font-bold text-gray-900 text-center">
