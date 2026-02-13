@@ -8,6 +8,7 @@ use Inertia\Inertia;
 
 class AiController extends Controller
 {
+    
     public function ai()
     {
         return Inertia::render('Event', ['event' => $event])
