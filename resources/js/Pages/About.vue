@@ -118,7 +118,7 @@ defineProps({
             </a>
 
             <h2 class="text-gray-900 text-2xl font-bold font-manrope leading-normal text-center mb-6">
-              лист консультации юриста
+              образец соглашения
             </h2>
 
             <a href="storage/default/consult.docx" download>
@@ -127,7 +127,7 @@ defineProps({
             </a>
 
             <h2 class="text-gray-900 text-2xl font-bold font-manrope leading-normal text-center mb-6">
-              образец соглашения
+              лист консультации юриста
             </h2>
 
             <span v-if="auth">
