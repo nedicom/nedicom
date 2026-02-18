@@ -20,11 +20,9 @@ defineProps({
   <div class="min-h-screen">
     <MainHeader :auth="auth" />
 
-    <Header :modalPageTitle="'О компании'" />
-
     <h1
       class="pt-24 pb-12 w-full text-center max-w-7xl px-4 md:px-5 lg:px-5 mx-auto text-gray-900 text-4xl font-bold font-manrope leading-normal">
-      Контакты
+      Юридическая компания "Мина и партнеры"
     </h1>
 
     <section class="pb-24 relative">
@@ -36,7 +34,7 @@ defineProps({
               <div class="text-gray-500 text-base font-normal leading-relaxed lg:text-start text-center">
                 <h2 itemprop="name"
                   class="text-gray-900 text-2xl font-bold font-manrope leading-normal lg:text-start text-center">
-                  Юридическая компания "Мина и партнеры"
+                  О компании
                 </h2>
                 <p class="text-gray-500 text-base font-normal leading-relaxed lg:text-start text-center mb-2">
                   Квалифицированные юридические услуги. Ответственность,
@@ -92,9 +90,6 @@ defineProps({
               </div>
             </div>
 
-            <meta itemprop="openingHours" content="Mo-Su 09:00-20:00" />
-            <meta itemprop="priceRange" content="1000-10000 RUB" />
-
             <div class="flex justify-center mt-5 w-full">
               <div class="lg:w-1/2 w-2/3">
                 <a href="tel:89788838978" type="button"
@@ -120,6 +115,15 @@ defineProps({
             <a href="storage/default/obrazec.docx" download>
               <img class="inline-block mx-auto object-cover h-24" src="storage/default/doc.png"
                 alt="образец соглашения" />
+            </a>
+
+            <h2 class="text-gray-900 text-2xl font-bold font-manrope leading-normal text-center mb-6">
+              лист консультации юриста
+            </h2>
+
+            <a href="storage/default/consult.docx" download>
+              <img class="inline-block mx-auto object-cover h-24" src="storage/default/doc.png"
+                alt="лист консультации юриста" />
             </a>
 
             <h2 class="text-gray-900 text-2xl font-bold font-manrope leading-normal text-center mb-6">
