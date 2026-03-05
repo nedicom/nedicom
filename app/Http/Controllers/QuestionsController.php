@@ -162,10 +162,10 @@ class QuestionsController extends Controller
     {
         $city = CitySet::CityGet(false);
 
-        if(Auth::user()){
-           if(Questions::where('user_id', Auth::user()->id)->where('created_at', '>', Carbon::now()->subDay())->first()){
-            return redirect()->route('questions.add');
-           };
+        if (Auth::user()) {
+            if (Questions::where('user_id', Auth::user()->id)->where('created_at', '>', Carbon::now()->subDay())->first()) {
+                return redirect()->route('questions.add');
+            };
         }
 
         return Inertia::render('Questions/QuestionNA', [
@@ -206,17 +206,22 @@ class QuestionsController extends Controller
 
         $hasquestion = false;
 
-        if(Auth::user()){
+        if (Auth::user()) {
             $hasquestion = Questions::where('user_id', Auth::user()->id)->where('created_at', '>', Carbon::now()->subDay())->first();
         }
 
         $questions = Questions::limit(20)->withCount('QuantityAns')->orderBy('updated_at', 'desc')->get();
 
+        $min = 5;
+        $max = 9;
+        $randomCount = rand($min, $max);
+
         return Inertia::render('Questions/Add', [
+            'randomCount' => $randomCount,
             'lawyers' => User::where('lawyer', 1)
-            ->where('avatar_path', '!=', 'storage/default/avatar.webp')
-            ->where('avatar_path', '!=', '/storage/default/avatar.webp')
-            ->inRandomOrder()->limit(5)->get(),
+                ->where('avatar_path', '!=', 'storage/default/avatar.webp')
+                ->where('avatar_path', '!=', '/storage/default/avatar.webp')
+                ->inRandomOrder()->limit($randomCount)->get(),
             'SliderQ' => $questions,
             'auth' => Auth::user(),
             'filters' => $request->all(),
@@ -230,7 +235,7 @@ class QuestionsController extends Controller
     {
         $Question = new Questions;
         $Question->title = OpenAI::Header($request->header);
-        
+
         $Question->body = $request->header;
         $url = Translate::translit($request->header);
 
@@ -282,7 +287,7 @@ class QuestionsController extends Controller
         $question = Questions::where('id', $id)->first();
         if (Auth::user()->id == $question->user_id || Auth::user()->id == 1) {
             $question->QuantityAns()->delete();
-            $question->delete();           
+            $question->delete();
             return redirect()->route('lenta.questions')->with('success', 'Все в порядке, вопрос удален');
         } else {
             return redirect()->back()->with('success', 'Удалять вопросы могут только собственники или админ.');

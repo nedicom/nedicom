@@ -12,7 +12,7 @@ const set = defineProps({
 <template>
   <h2 v-if="!set.sliderq[0].status" class="text-4xl font-semibold text-grey text-center py-10" id="question-article">
     {{ set.sliderq[0].status }}
-    Какие вопросы нам задают
+    Последние вопросы
   </h2>
   <h2 v-else class="text-4xl font-semibold text-grey text-center py-10">
     Мы нашли похожие вопросы

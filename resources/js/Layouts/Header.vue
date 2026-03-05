@@ -1,7 +1,6 @@
 <script setup>
 import Modal from "@/Components/Modal.vue";
 import ModalPhone from "@/Components/ModalPhone.vue";
-import WaBtn from "@/Components/WaBtn.vue";
 
 let phone = "+79788838978";
 
@@ -46,10 +45,6 @@ let ModalBtnText = "Обратный звонок";
 
       <div v-else class="grid grid-cols-1 content-center px-1 md:px-0">
         <ModalPhone :phone="phone" :lawyer="props.lawyer" :phoneto="phoneto" :avatarPath="props.avatarPath" />
-      </div>
-
-      <div class="grid grid-cols-1 content-center px-1 md:px-0">
-        <WaBtn :phone="phone" />
       </div>
 
       <div class="hidden lg:flex text-xs xl:text-sm items-center justify-start text-center">

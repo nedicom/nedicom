@@ -1,13 +1,12 @@
 <script setup>
 import MainHeader from "@/Layouts/MainHeader.vue";
-import Header from "@/Layouts/Header.vue";
 import Body from "@/Layouts/Body.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import Tracking from '@/Components/Tracking.vue';
 import SendButton from "@/Components/SendButton.vue";
 import SliderQuestions from "@/Layouts/SliderQuestions.vue";
-import { Head, Link } from "@inertiajs/inertia-vue3";
-import { ref } from "vue";
+import { ref  } from "vue";
+import { Link, Head } from '@inertiajs/inertia-vue3';
 import { Inertia } from "@inertiajs/inertia";
 import { reactive } from "vue";
 import VueWriter from "vue-writer";
@@ -18,6 +17,7 @@ let form = reactive({
 });
 
 let set = defineProps({
+  randomCount: Number,
   lawyers: Object,
   SliderQ: Array,
   auth: Object,
@@ -36,9 +36,8 @@ const progressColor = ref({
 });
 
 let arr = [
-  "юристы, которые точно помогут",
-  "не сольют Ваши данные колл-центрам",
-  "ответят на вопрос бесплатно",
+  "точно помогут",
+  "ответят бесплатно",
   "без телефона и смс",
 ];
 
@@ -124,7 +123,7 @@ const getQuestions = () => {
             <h1
               class="text-center mx-5 pb-6 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              Задайте вопрос юристу онлайн бесплатно
+              Задайте вопрос юристу
             </h1>
 
             <div class="flex -space-x-2 overflow-hidden pb-6">
@@ -137,15 +136,9 @@ const getQuestions = () => {
                 width="40"
                 height="40"
               />
-              <a
-                class="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800"
-                href="#"
-                >+27</a
-              >
             </div>
             <h2 class="text-center mx-5 md:pb-6 font-semibold tracking-tight">
-              nedicom.ru - сервис поиска юристов и ответов на юридические
-              вопросы
+              Сейчас на сайте {{ set.randomCount }} юристов онлайн, которые
             </h2>
             <h2
               class="text-center mx-5 md:pb-6 font-semibold tracking-tight text-gray-900 dark:text-white"
@@ -187,7 +180,7 @@ const getQuestions = () => {
                     id=""
                     rows="8"
                     autofocus
-                    placeholder="Спрашивайте, юрист ответит обязательно..."
+                    placeholder="Спрашивайте..."
                   ></textarea>
                   <div class="my-1 w-full bg-gray-200 rounded-full h-1">
                     <div
@@ -215,7 +208,7 @@ const getQuestions = () => {
                         </div>
                         <label
                           for="remember"
-                          class="ml-2 text-sm font-medium bg-white rounded-lg px-1 text-gray-900"
+                          class="ml-2 text-sm text-left font-medium bg-white rounded-lg px-1 text-gray-900"
                           >Если таковые содержаться в вопросе, даю согласие на
                           обработку
                           <Link
@@ -274,94 +267,7 @@ const getQuestions = () => {
             </p>
           </div>
 
-          <div class="bg-white p-8 mx-auto my-10">
-            <!-- Заголовок с УТП -->
-            <div class="text-center">
-              <h1 class="text-3xl font-bold text-gray-900 mb-3">
-                Хотите
-                <span class="text-blue-600">
-                  профессиональную платнаю консультация</span
-                >
-                юриста?
-              </h1>
-              <h1 class="text-3xl font-bold text-gray-900 mb-3">
-                Цена
-                <span class="text-blue-600"> 2000</span> рублей
-              </h1>
-              <p class="text-lg text-gray-600">
-                Быстрое решение сложных вопросов с гарантией конфиденциальности
-              </p>
-            </div>
-
-            <div class="w-full flex justify-center my-12">
-            <a
-              href="https://t.me/advokatmina"
-              class="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-md flex text-center items-center w-64"
-            >
-              Напишите в телеграм чтобы заказать консультацию
-            </a>
-            </div>
-
-            <!-- Блок преимуществ -->
-            <div class="grid md:grid-cols-3 gap-4 mb-8">
-              <div class="bg-blue-50 p-4 rounded-lg text-center">
-                <svg
-                  class="w-10 h-10 mx-auto mb-2 text-blue-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                  ></path>
-                </svg>
-                <h3 class="font-semibold text-gray-800">Гарантия результата</h3>
-                <p class="text-sm text-gray-600">Чёткий план действий</p>
-              </div>
-              <div class="bg-blue-50 p-4 rounded-lg text-center">
-                <svg
-                  class="w-10 h-10 mx-auto mb-2 text-blue-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path>
-                </svg>
-                <h3 class="font-semibold text-gray-800">Экономия времени</h3>
-                <p class="text-sm text-gray-600">Ответ за 15 минут</p>
-              </div>
-              <div class="bg-blue-50 p-4 rounded-lg text-center">
-                <svg
-                  class="w-10 h-10 mx-auto mb-2 text-blue-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                  ></path>
-                </svg>
-                <h3 class="font-semibold text-gray-800">Опыт 10+ лет</h3>
-                <p class="text-sm text-gray-600">
-                  Специализация по вашему вопросу
-                </p>
-              </div>
-            </div>
-          </div>
+       
         </div>
       </div>
     </div>
