@@ -102,7 +102,7 @@ defineProps({
 
                   <div class="max-w-sm absolute left-0 top-1/2 hidden flex-col items-center -translate-y-1/2 -translate-x-full mb-0 group-hover:flex">
                     <span v-if="city" class="relative rounded-md z-50 p-4 text-xs leading-none text-white bg-black shadow-lg">
-                      По статистике за 2025 год, диапазон цены услуги
+                      По статистике за 2026 год, диапазон цены услуги
                       {{ subheader }} в регионе {{ city.title }} от
                       {{ item.price / 2 }} р. до {{ item.price * 2 }} р.
                     </span>

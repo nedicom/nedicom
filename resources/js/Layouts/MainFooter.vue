@@ -5,7 +5,7 @@
     <slot />
     <span
       class="text-sm md:w-2/3 mb-1 pb-1 text-gray-500 md:text-center border-b"
-      >© 2025
+      >© 2026
       <a href="https://nedicom.ru/" class="hover:underline">nedicom</a>™. Права
       на товарный знак зарегистрированы в Роспатенте
     </span>
