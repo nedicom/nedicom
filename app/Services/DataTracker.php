@@ -41,14 +41,14 @@ class DataTracker
         $trackingData = [
             'visit_uuid'    => $visitUuid, // Одинаковый для всех записей визита
             'url'           => $request->path(),
-            'ip'            => $request->ip(),
+            'ip'            => 'depersonalized', //$request->ip(),
             'utm_source'    => $utmParams['utm_source'] ?? null,
             'utm_medium'    => $utmParams['utm_medium'] ?? null,
             'utm_campaign'  => $utmParams['utm_campaign'] ?? null,
             'utm_term'      => $utmParams['utm_term'] ?? null,
             'utm_content'   => $utmParams['utm_content'] ?? null,
             'created_at'    => now(),
-            'user_agent'    => $userAgent,
+            'user_agent'    => 'depersonalized', //$userAgent,
         ];
 
         self::extractContentIds($request, $trackingData);

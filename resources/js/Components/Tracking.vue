@@ -23,27 +23,9 @@ onMounted(() => {
   isMobile.value = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
 
   if (import.meta.env.DEV) {
-    console.log('📱 Устройство:', isMobile.value ? 'Мобильное' : 'Десктоп')
-  }
-
-  if (import.meta.env.DEV) {
     console.log('🎯 Tracking mounted:', {
-      visit_uuid: props.tracking?.visit_uuid,
       url: props.backendurl
     })
-  }
-
-  // Пробуем получить Яндекс UID из кук (неблокирующе)
-  try {
-    const match = document.cookie.match(/(?:^|; )_ym_uid=([^;]+)/)
-    if (match) {
-      ymUid.value = decodeURIComponent(match[1])
-      if (import.meta.env.DEV) {
-        console.log('🍪 Яндекс UID из кук:', ymUid.value)
-      }
-    }
-  } catch (e) {
-    // Игнорируем ошибки получения куки
   }
 
   // Таймер 3 секунды
@@ -85,11 +67,6 @@ function sendToServer() {
   formData.append('visit_uuid', props.tracking.visit_uuid)
   formData.append('url', props.backendurl)
 
-  // Добавляем ym_uid если есть (необязательно)
-  if (ymUid.value) {
-    formData.append('_ym_uid', ymUid.value)
-  }
-
   // CSRF токен
   const csrfToken = getCsrfToken()
   if (csrfToken) {
@@ -100,10 +77,10 @@ function sendToServer() {
     const data = {
       visit_uuid: props.tracking.visit_uuid,
       url: props.backendurl,
-      ym_uid: ymUid.value || 'не указан',
+      ym_uid: '',
       has_csrf: !!csrfToken
     }
-    console.log('🚀 Отправка вовлечения:', data)
+    console.log('🚀 Отправка вовлечения:', data.url)
   }
 
   // Отправляем
@@ -119,7 +96,7 @@ function sendToServer() {
       if (response.ok) {
         const data = await response.json()
         if (import.meta.env.DEV) {
-          console.log('✅ Успешно сохранено:', data)
+          console.log('✅ Успешно сохранено:', data.message)
         }
       } else {
         // Пробуем прочитать текст ошибки

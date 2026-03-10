@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ModalsContainer, useModal } from "vue-final-modal";
 import ModalPhoneConfirm from "./ModalPhoneConfirm.vue";
+import { ref, onMounted } from 'vue'
 
 const set = defineProps({
   phone: String,
@@ -14,6 +15,8 @@ const set = defineProps({
     default: () => ({})
   }
 });
+
+const ymUid = ref(null)
 
 // Функция, заменяющая последние 7 цифр в номере на 7 звездочек
 function maskPhone(phone?: string): string {
@@ -35,18 +38,28 @@ const { open, close } = useModal({
   },
 });
 
+onMounted(() => {
+  try {
+    const match = document.cookie.match(/(?:^|; )_ym_uid=([^;]+)/)
+    if (match) {
+      ymUid.value = decodeURIComponent(match[1])
+    }
+  } catch (e) {
+    // Игнорируем ошибки получения куки
+  }
+})
+
 function trackPhoneClick() {
   if (!set.tracking?.visit_uuid || !set.backendurl) {
     // @ts-ignore
     if (import.meta.env.DEV) {
-      console.log('❌ Нет данных для трекинга телефона');
+      console.log('❌ Нет url для передачи');
     }
     return;
   }
   // @ts-ignore
   if (import.meta.env.DEV) {
-    console.log('📞 Отправка клика на телефон:', {
-      visitUuid: set.tracking.visit_uuid,
+    console.log('📞 Отправка уведомления о событии:', {
       url: set.backendurl
     })
   }
@@ -70,6 +83,7 @@ function trackPhoneClick() {
     body: JSON.stringify({
       visit_uuid: set.tracking.visit_uuid,
       url: set.backendurl,
+      ym_uid: ymUid.value,
     })
   })
     .then(r => r.json())
@@ -88,9 +102,7 @@ function trackPhoneClick() {
 </script>
 
 <template>
-  <button
-    onclick="ym(24900584, 'reachGoal', 'OPEN_PHONE'); gtag('event', 'click_phone', { 'event_category': 'engagement' }); return true;"
-    @click="() => { trackPhoneClick(); open(); }"
+  <button onclick="ym(24900584, 'reachGoal', 'OPEN_PHONE');" @click="() => { trackPhoneClick(); open(); }"
     class="inline-flex w-full h-16 md:w-48 xl:w-64 mx-1 md:mx-auto py-1 px-2 xl:py-2.5 xl:px-5 focus:outline-none text-white sm:text-base text-sm bg-blue-700 hover:bg-blue-800 rounded-lg justify-center cursor-pointer">
     <div class="flex items-center justify-center h-full">
       <svg class="mr-3 w-4 h-4 xl:w-6 xl:h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"

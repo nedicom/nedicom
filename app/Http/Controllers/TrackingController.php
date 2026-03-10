@@ -9,16 +9,11 @@ use Illuminate\Support\Facades\Validator;
 
 class TrackingController extends Controller
 {
-    /**
-     * прикручиваем яндекс идентификатор к собственному идентификатор
-     * 
-     * 
-     */
     public function track(Request $request)
     {
-        Log::warning('Test_track initialised', [
+        /*Log::warning('Test_track initialised', [
             'time' => now(),
-        ]);
+        ]);*/
 
         try {
             // Упрощенная валидация
@@ -29,10 +24,10 @@ class TrackingController extends Controller
             ]);
 
             if ($validator->fails()) {
-                Log::warning('Track validation failed', [
+               /* Log::warning('Track validation failed', [
                     'errors' => $validator->errors()->toArray(),
                     'data' => $request->all()
-                ]);
+                ]);*/
 
                 return response()->json([
                     'success' => false,
@@ -45,11 +40,12 @@ class TrackingController extends Controller
             $url = $request->input('url');
             $ymUid = $request->input('_ym_uid');
 
+            /*
             Log::info('Track processing', [
                 'visit_uuid' => $visitUuid,
                 'url' => substr($url, 0, 100),
                 'has_ym_uid' => !empty($ymUid)
-            ]);
+            ]);*/
 
             // Ищем существующую запись
             $record = DB::connection('pgsql_stats')
@@ -60,10 +56,11 @@ class TrackingController extends Controller
                 ->first();
 
             if (!$record) {
+                /*
                 Log::warning('No record found for tracking', [
                     'visit_uuid' => $visitUuid,
                     'url' => $url
-                ]);
+                ]);*/
 
                 return response()->json([
                     'success' => false,
@@ -86,7 +83,7 @@ class TrackingController extends Controller
 
             // Если нечего обновлять - возвращаем успех
             if (empty($updateData)) {
-                Log::info('Nothing to update', ['record_id' => $record->id]);
+                // Log::info('Nothing to update', ['record_id' => $record->id]);
 
                 return response()->json([
                     'success' => true,
@@ -103,10 +100,10 @@ class TrackingController extends Controller
                 ->where('id', $record->id)
                 ->update($updateData);
 
-            Log::info('Track updated', [
+            /*Log::info('Track updated', [
                 'record_id' => $record->id,
                 'updates' => $updateData
-            ]);
+            ]);*/
 
             return response()->json([
                 'success' => true,
@@ -116,11 +113,11 @@ class TrackingController extends Controller
                 'updates_applied' => array_keys($updateData)
             ]);
         } catch (\Exception $e) {
-            Log::error('Track error', [
+            /*Log::error('Track error', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
                 'data' => $request->all()
-            ]);
+            ]);*/
 
             return response()->json([
                 'success' => false,
@@ -136,6 +133,8 @@ class TrackingController extends Controller
 
         // url взяли из бэкенда(публичные перменные) потому что ssr
         $currentUrl = $request->input('url');
+
+        $ym_uid = $request->input('ym_uid');
 
         //чекаем наличие перменных
         if (!$visitUuid) {
@@ -164,7 +163,8 @@ class TrackingController extends Controller
                         ->table('yandex_tracking')
                         ->where('id', $record->id)
                         ->update([
-                            'phone_click_at' => $parsedDate->format('Y-m-d H:i:s')
+                            'phone_click_at' => $parsedDate->format('Y-m-d H:i:s'),
+                            '_ym_uid' => $ym_uid
                         ]);
                 }
             }

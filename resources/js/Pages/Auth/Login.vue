@@ -52,8 +52,8 @@ const submit = () => {
 
 onMounted(() => {
     form._ym_uid = getCookie('_ym_uid');
-    form._ga = getCookie('_ga');
-    form._nedicoo = getCookie('_nedicoo');
+    form._ga = null;
+    form._nedicoo = null;
     const script = document.createElement('script');
     script.src = 'https://yastatic.net/s3/passport-sdk/autofill/v1/sdk-suggest-with-polyfills-latest.js';
     script.onload = initYandexAuth;
