@@ -3,8 +3,8 @@
 <yml_catalog date="{{ date('Y-m-d H:i') }}">
 
     <shop>
-        <name>Юристы (Симферополь)</name>
-        <company>ИП Мина О. В.</company>
+        <name>Юристы Симферополь</name>
+        <company>ИП Мина Ольга Викторвона</company>
         <url>https://nedicom.ru/</url>
         <email>m6132@yandex.ru</email>
         <currencies>
@@ -48,12 +48,12 @@
             @php
             if($offer->second) {$second = '/'.$offer->second->url;}
             else {$second = '/second';}
+            $offerUrl = url('/') . '/uslugi/' . $offer->cities->url . '/' . $offer->main->url . $second . '/' . $offer->url;
             @endphp
 
             <offer id="offer{{ $offer->id }}">
                 <name>{{ $offer->user->name }}</name>
-                <url> @php echo url('/') @endphp/uslugi/{{$offer->cities->url}}/{{$offer->main->url}}@php echo ($second) @endphp/{{ $offer->url }}
-                </url>
+                <url>{{ trim($offerUrl) }}</url>
                 <price>1000</price>
                 <currencyId>RUR</currencyId>
                 <sales_notes>за услугу</sales_notes>
