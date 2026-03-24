@@ -60,7 +60,7 @@
                 <categoryId>{{ $offer->main_usluga_id }}</categoryId>
                     @if($offer->second_usluga_id)<set-ids>s{{$offer->second_usluga_id}}</set-ids>            
                     @else<set-ids>s{{$offer->main_usluga_id}}</set-ids>@endif                  
-                <picture>@php echo url('/') @endphp/{{ $offer->mob_file_path }}</picture>
+                <picture>@php echo url('/') @endphp/{{ $offer->file_path }}</picture>
                 <description>{{ $offer->usl_name }}</description>
                 <adult>false</adult>
                 <expiry>P5Y</expiry>

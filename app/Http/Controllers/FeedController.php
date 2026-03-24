@@ -32,7 +32,12 @@ class FeedController extends Controller
             ->with('cities')
             ->withCount('review as count_review')
             ->withAvg('review as avg_review', 'rating')
-            ->get();
+            ->get()
+            ->unique(function ($item) {
+                // Группируем по name (из связанной модели user) и set-ids
+                $setId = $item->second_usluga_id ? 's' . $item->second_usluga_id : 's' . $item->main_usluga_id;
+                return $item->user->name . '|' . $setId;
+            });
 
         return response()->view('feed/simferopol', [
             'categories' => $categories,
