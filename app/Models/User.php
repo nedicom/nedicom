@@ -35,6 +35,7 @@ class User extends Authenticatable
         '_ym_uid',
         '_ga',
         '_nedicoo',
+        'expirience',
     ];
 
     /**
