@@ -83,7 +83,9 @@ let mainbannerpc = 'https://nedicom.ru/storage/images/services/mainpcjuly.webp';
 
     <InfinityScroll :bundles="bundles" :auth="auth" />
 
+    <!--
     <Chat :user="user" :usluga="usluga" />
+    -->
 
     <FrontQuestion :mainoffers="mainoffers" :secondoffers="secondoffers" :city="city" />
 

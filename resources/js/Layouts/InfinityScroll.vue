@@ -34,7 +34,7 @@ defineProps({
       <div class="flex justify-center px-3 md:px-10 basis-1/2">
         <div class="w-full p-6 bg-white grid grid-cols-1 content-between">
           <a
-            href="pension/create"
+            href="/clientdashboard"
             class="hover:text-gray-900 hover:underline text-2xl/7 mb-2"
             >Прозрачный юрист</a
           >
@@ -43,12 +43,15 @@ defineProps({
       </div>
       <div class="basis-1/2">
         <p class="mb-5">
-          Работаем только по договору,
-          <br /> юрист отчитывается на каждом этапе, 
-          <br />прогнозируем ход судебного процесса,
-          <br />оплата по факту работы
+          Работаем только по договору, отчет на каждом этапе, <br />прогнозируем
+          ход судебного процесса
         </p>
-
+        <a
+          href="/clientdashboard"
+          class="text-white cursor-pointer hover:bg-blue-700 right-2.5 bottom-2.5 bg-blue-600 font-medium rounded-lg text-sm px-4 py-2"
+        >
+          кабинет клиента
+        </a>
       </div>
     </div>
 
@@ -72,7 +75,7 @@ defineProps({
           href="/pension/create"
           class="text-white cursor-pointer hover:bg-blue-700 right-2.5 bottom-2.5 bg-blue-600 font-medium rounded-lg text-sm px-4 py-2"
         >
-          перейти
+          калькулятор пенсии
         </a>
       </div>
     </div>
@@ -81,22 +84,23 @@ defineProps({
       <div class="flex justify-center px-3 md:px-10 basis-1/2">
         <div class="w-full p-6 bg-white grid grid-cols-1 content-between">
           <a
-            href="pension/create"
+            href="/calculator-ddu"
             class="hover:text-gray-900 hover:underline text-2xl/7 mb-2"
-            >Вопрос юристу онлайн</a
+            >Кальулятор ДДУ 2026</a
           >
-          Отвечаем в считанные секунды
+          Расчет неустойки за просрочку сдачи квартиры
         </div>
       </div>
       <div class="basis-1/2">
         <p class="my-5">
-          Даем советы онлайн, но осторожно,<br />мы за живое общение
+          Считаем неустойку ДДУ с учетом моратория<br />
+          Если Вам нужна помощь с взысканием неустойки с застройщика
         </p>
         <a
-          href="/questions/add"
+          href="/calculator-ddu"
           class="text-white cursor-pointer hover:bg-blue-700 right-2.5 bottom-2.5 bg-blue-600 font-medium rounded-lg text-sm px-4 py-2"
         >
-          задать вопрос
+          калькулятор ДДУ
         </a>
       </div>
     </div>
