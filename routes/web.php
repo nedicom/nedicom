@@ -22,10 +22,12 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\LentaController;
 use App\Http\Controllers\SocialController;
 use App\Http\Controllers\PensionController;
+use App\Http\Controllers\CalculatorController;
 use App\Http\Controllers\YandexController;
 use App\Http\Controllers\ClientDashboardController;
 use App\Http\Controllers\LawyerDashboardController;
 use App\Http\Controllers\TrackingController;
+
 
 use App\Http\Middleware\owner;
 
@@ -42,6 +44,7 @@ Route::get('', [MainpageController::class, 'main'])->name('Welcome')->middleware
 Route::get('/my', [MyController::class, 'my'])->middleware('lawyer')->name('my');
 
 Route::resource('pension', PensionController::class)->middleware('track.utm');
+Route::get('calculator-ddu', [CalculatorController::class, 'create'])->middleware('track.utm');
 
 Route::get('/messages', [MessageController::class, 'messages'])->name('messages');
 Route::post('/message', [MessageController::class, 'send'])->name('message');
