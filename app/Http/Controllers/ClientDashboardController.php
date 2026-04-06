@@ -30,7 +30,7 @@ class ClientDashboardController extends Controller
                     ],
                     'tasks_for_client' => [
                         ['id' => 3, 'name' => 'Получение ответа', 'status' => 'выполнена', 'clientid' => 502, 'created_at' => '2025-12-10T05:40:15.000000Z', 'donetime' => '2025-12-22 15:56:02', 'hrftodcm' => 'https://disk.yandex.ru/i/8fuQqywzKb9tPw'],
-                        ['id' => 2, 'name' => 'Направление заявления', 'status' => 'выполнена', 'clientid' => 502, 'created_at' => '2025-10-20T09:46:04.000000Z', 'donetime' => '2025-10-22 15:56:02', 'hrftodcm' => null],
+                        ['id' => 2, 'name' => 'Направление заявления', 'status' => 'выполнена', 'clientid' => 502, 'created_at' => '2025-10-20T09:46:04.000000Z', 'donetime' => '2026-04-22 15:56:02', 'hrftodcm' => null],
                         ['id' => 1, 'name' => 'Заявление в администрацию города о предоставлении информации', 'status' => 'выполнена', 'clientid' => 502, 'created_at' => '2025-09-15T07:09:44.000000Z', 'donetime' => '2025-09-19 14:04:22', 'hrftodcm' => null]
                     ]
                 ],
@@ -88,7 +88,7 @@ class ClientDashboardController extends Controller
                         $error = 'Доступ к данным клиента запрещен. Запросите его у юриста';
                         break;
                     case 404:
-                        $error = 'Вы не являетесь клиентом, с доступом, проверьте что Вы указали email при регистрации';
+                        $error = 'Вы не являетесь клиентом с доступом, обратитесь к Вашему юристу.';
                         break;
                     case 500:
                         $error = 'Ошибка сервера CRM';
