@@ -19,43 +19,94 @@ const form = ref({
   isLegalEntity: false,
 });
 
-// Таблица ключевых ставок ЦБ РФ (только после 01.01.2026)
+// Для отображения примера расчёта
+const exampleDays = ref(90);
+const examplePrice = 5000000;
+
+const examplePenalty = computed(() => {
+  const days = exampleDays.value;
+  const price = examplePrice;
+  const rate = 16.00;
+  const penaltyRateValue = 1 / 150;
+  const amount = price * (rate / 100) * penaltyRateValue * days;
+  return Math.round(amount * 100) / 100;
+});
+
+const formattedExamplePenalty = computed(() => {
+  return new Intl.NumberFormat('ru-RU', {
+    style: 'currency',
+    currency: 'RUB',
+    minimumFractionDigits: 2,
+  }).format(examplePenalty.value);
+});
+
+// Таблица ключевых ставок ЦБ РФ (полная история)
+const fullKeyRates = [
+  { date: '01.01.2026', rate: '16.00%', change: '+1.00%' },
+  { date: '16.02.2026', rate: '15.50%', change: '-0.50%' },
+  { date: '23.03.2026', rate: '15.00%', change: '-0.50%' },
+  { date: '28.10.2024', rate: '21.00%', change: '+2.00%' },
+  { date: '16.09.2024', rate: '19.00%', change: '+1.00%' },
+  { date: '26.07.2024', rate: '18.00%', change: '+2.00%' },
+  { date: '17.06.2024', rate: '16.00%', change: '0.00%' },
+  { date: '26.04.2024', rate: '16.00%', change: '0.00%' },
+  { date: '15.03.2024', rate: '16.00%', change: '0.00%' },
+  { date: '16.02.2024', rate: '16.00%', change: '0.00%' },
+  { date: '15.12.2023', rate: '16.00%', change: '+1.00%' },
+  { date: '27.10.2023', rate: '15.00%', change: '+2.00%' },
+  { date: '18.09.2023', rate: '13.00%', change: '+1.00%' },
+  { date: '15.08.2023', rate: '12.00%', change: '+3.50%' },
+  { date: '24.07.2023', rate: '8.50%', change: '+1.00%' },
+  { date: '01.05.2022', rate: '14.00%', change: '-3.00%' },
+  { date: '11.04.2022', rate: '17.00%', change: '-3.00%' },
+  { date: '28.02.2022', rate: '20.00%', change: '+10.50%' },
+];
+
+// Текущие ставки для расчёта (только после 01.01.2026)
 const keyRates = [
   { startDate: '2026-01-01', endDate: '2026-02-15', rate: 16.00 },
   { startDate: '2026-02-16', endDate: '2026-03-22', rate: 15.50 },
   { startDate: '2026-03-23', endDate: '2099-12-31', rate: 15.00 },
 ];
 
-// Расчёт просрочки по периодам (только после 01.01.2026)
+// Функция для форматирования даты
+const formatDate = (date) => {
+  if (!date) return '—';
+  const d = new Date(date);
+  return d.toLocaleDateString('ru-RU');
+};
+
+// Расчёт просрочки по периодам с детализацией по дням и ставкам
 const penaltyBreakdown = computed(() => {
   if (!form.value.deadlineDate || !form.value.actualDate) {
-    return { periods: [], total: 0 };
+    return { periods: [], total: 0, dailyBreakdown: [] };
   }
-  
+
   const deadline = new Date(form.value.deadlineDate);
   const actual = new Date(form.value.actualDate);
   const startDate = new Date('2026-01-01');
-  
+
   if (actual <= deadline || actual <= startDate) {
-    return { periods: [], total: 0 };
+    return { periods: [], total: 0, dailyBreakdown: [] };
   }
-  
+
   let penaltyStart = deadline > startDate ? deadline : startDate;
-  
+
   if (penaltyStart >= actual) {
-    return { periods: [], total: 0 };
+    return { periods: [], total: 0, dailyBreakdown: [] };
   }
-  
+
   const periods = [];
+  const dailyBreakdown = [];
   let currentDate = new Date(penaltyStart);
   const endDate = new Date(actual);
-  
+
   for (const ratePeriod of keyRates) {
     if (currentDate >= endDate) break;
-    
+
     const periodStart = new Date(Math.max(currentDate, new Date(ratePeriod.startDate)));
     const periodEnd = new Date(Math.min(endDate, new Date(ratePeriod.endDate)));
-    
+
     if (periodStart < periodEnd) {
       const days = Math.ceil((periodEnd - periodStart) / (1000 * 60 * 60 * 24));
       if (days > 0) {
@@ -63,14 +114,27 @@ const penaltyBreakdown = computed(() => {
           startDate: periodStart,
           endDate: periodEnd,
           rate: ratePeriod.rate,
+          days: days,
+          startDateStr: formatDate(periodStart),
+          endDateStr: formatDate(periodEnd)
+        });
+
+        // Детальная разбивка по дням для каждого периода
+        dailyBreakdown.push({
+          period: periods.length,
+          startDate: periodStart,
+          endDate: periodEnd,
+          startDateStr: formatDate(periodStart),
+          endDateStr: formatDate(periodEnd),
+          rate: ratePeriod.rate,
           days: days
         });
       }
       currentDate = periodEnd;
     }
   }
-  
-  return { periods, total: periods.reduce((sum, p) => sum + p.days, 0) };
+
+  return { periods, total: periods.reduce((sum, p) => sum + p.days, 0), dailyBreakdown };
 });
 
 const daysDelay = computed(() => penaltyBreakdown.value.total);
@@ -82,17 +146,17 @@ const penaltyRate = computed(() => {
 
 const penaltyAmount = computed(() => {
   if (daysDelay.value === 0 || !form.value.contractPrice) return 0;
-  
+
   const price = form.value.contractPrice;
   const rateValue = penaltyRate.value;
   const periods = penaltyBreakdown.value.periods;
-  
+
   let total = 0;
   for (const period of periods) {
     const periodAmount = price * (period.rate / 100) * rateValue * period.days;
     total += periodAmount;
   }
-  
+
   return Math.round(total * 100) / 100;
 });
 
@@ -107,10 +171,10 @@ const formattedPenalty = computed(() => {
 
 const calculationDetails = computed(() => {
   if (penaltyBreakdown.value.periods.length === 0) return [];
-  
+
   const price = form.value.contractPrice;
   const rateValue = penaltyRate.value;
-  
+
   return penaltyBreakdown.value.periods.map(period => {
     const amount = price * (period.rate / 100) * rateValue * period.days;
     return {
@@ -145,17 +209,238 @@ const resetForm = () => {
   };
 };
 
+// Функция отправки целей в Яндекс Метрику
+const sendYaGoal = (goalName) => {
+  if (typeof ym !== 'undefined') {
+    ym('93864388', 'reachGoal', goalName);
+    console.log(`Яндекс Метрика: цель "${goalName}" отправлена`);
+  }
+};
+
+// Функция расчёта с прокруткой к результату
+const calculateAndScroll = () => {
+  const resultElement = document.getElementById('calculation-result');
+  if (resultElement && daysDelay.value > 0 && penaltyAmount.value > 0) {
+    resultElement.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+    sendYaGoal('calculate_success');
+  } else if (daysDelay.value > 0 && penaltyAmount.value > 0) {
+    sendYaGoal('calculate_success');
+  }
+};
+
+// Функция скролла к якорю
+const scrollToSection = (sectionId) => {
+  const element = document.getElementById(sectionId);
+  if (element) {
+    element.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
+};
+
+// Скачать расчёт в PDF (только блок с результатом)
+const downloadPDF = () => {
+  const resultBlock = document.getElementById('calculation-result-print');
+  if (!resultBlock) return;
+
+  sendYaGoal('download_pdf');
+
+  // Создаём временный контейнер для печати
+  const printContent = resultBlock.cloneNode(true);
+
+  // Добавляем стили для красивого отображения
+  const style = document.createElement('style');
+  style.textContent = `
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      padding: 40px;
+      margin: 0;
+      background: white;
+    }
+    .print-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 30px;
+      border: 2px solid #3b82f6;
+      border-radius: 16px;
+      background: white;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #e5e7eb;
+    }
+    .title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #1e3a8a;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      color: #6b7280;
+      font-size: 14px;
+    }
+    .amount {
+      text-align: center;
+      background: #eff6ff;
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+    }
+    .amount-value {
+      font-size: 36px;
+      font-weight: bold;
+      color: #2563eb;
+    }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .details-section {
+      margin-top: 20px;
+    }
+    .period-item {
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .period-title {
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #1e3a8a;
+    }
+    .period-details {
+      font-size: 14px;
+      color: #4b5563;
+      margin-bottom: 5px;
+    }
+    .period-amount {
+      color: #2563eb;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+    .footer {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 12px;
+      color: #9ca3af;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 20px;
+    }
+  `;
+
+  // Собираем данные для печати
+  const penaltyAmountText = document.querySelector('#calculation-result .font-bold')?.innerText || formattedPenalty.value;
+  const daysDelayText = daysDelay.value;
+  const deadlineDateText = form.value.deadlineDate || '—';
+  const actualDateText = form.value.actualDate || '—';
+  const contractPriceText = new Intl.NumberFormat('ru-RU').format(form.value.contractPrice);
+  const penaltyRateText = `1/${form.value.isLegalEntity ? '300' : '150'}`;
+
+  // Формируем HTML для детализации периодов
+  let periodsHtml = '';
+  if (calculationDetails.value.length > 0) {
+    periodsHtml = `
+      <div class="details-section">
+        <div style="font-weight: bold; font-size: 18px; margin-bottom: 15px; color: #1e3a8a;">📊 Детализация расчёта по периодам действия ключевой ставки:</div>
+        ${calculationDetails.value.map(period => `
+          <div class="period-item">
+            <div class="period-title">Период ${period.startDateStr} — ${period.endDateStr}</div>
+            <div class="period-details">🏦 Ключевая ставка ЦБ: ${period.rate}%</div>
+            <div class="period-details">📅 Количество дней в периоде: ${period.days}</div>
+            <div class="period-details">⚖️ Расчётная ставка: ${penaltyRateText}</div>
+            <div class="period-amount">💰 Сумма за период: ${period.formattedAmount}</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  const printHtml = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="UTF-8">
+        <title>Расчёт неустойки по ДДУ от ${new Date().toLocaleDateString('ru-RU')}</title>
+        ${style.outerHTML}
+      </head>
+      <body>
+        <div class="print-container">
+          <div class="header">
+            <div class="title">Расчёт неустойки по ДДУ</div>
+            <div class="subtitle">Согласно Федеральному закону № 214-ФЗ</div>
+            <div class="subtitle">Расчёт с учётом ключевой ставки ЦБ РФ после 01.01.2026</div>
+          </div>
+          <div class="amount">
+            <div style="font-size: 14px; color: #6b7280; margin-bottom: 8px;">Общая сумма неустойки по ДДУ</div>
+            <div class="amount-value">${penaltyAmountText}</div>
+          </div>
+          <div class="info-row">
+            <span>📅 Общее количество дней просрочки:</span>
+            <strong>${daysDelayText}</strong>
+          </div>
+          <div class="info-row">
+            <span>📋 Плановая дата сдачи (по договору):</span>
+            <strong>${deadlineDateText}</strong>
+          </div>
+          <div class="info-row">
+            <span>✅ Фактическая дата передачи (акт приёма-передачи):</span>
+            <strong>${actualDateText}</strong>
+          </div>
+          <div class="info-row">
+            <span>💰 Цена квартиры по ДДУ:</span>
+            <strong>${contractPriceText} ₽</strong>
+          </div>
+          <div class="info-row">
+            <span>⚖️ Расчётная ставка:</span>
+            <strong>${penaltyRateText} (для ${form.value.isLegalEntity ? 'юридических лиц' : 'физических лиц'})</strong>
+          </div>
+          ${periodsHtml}
+          <div class="footer">
+            <div>Расчёт произведён на калькуляторе nedicom.ru</div>
+            <div>Дата расчёта: ${new Date().toLocaleDateString('ru-RU')}</div>
+            <div>Телефон для консультации: +7 985 558-21-70</div>
+            <div style="margin-top: 10px;">* Расчёт учитывает только период просрочки после 01.01.2026</div>
+          </div>
+        </div>
+      </body>
+    </html>
+  `;
+
+  const printWindow = window.open('', '_blank');
+  printWindow.document.write(printHtml);
+  printWindow.document.close();
+  printWindow.print();
+};
+
+// Функция для клика по кнопке "Написать юристу"
+const contactLawyer = () => {
+  sendYaGoal('contact_lawyer');
+};
+
 // Schema.org structured data
 const jsonLdSchema = computed(() => {
   const siteUrl = 'https://nedicom.ru';
   const pageUrl = `${siteUrl}/calculator-ddu`;
-  
+
   const softwareSchema = {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
     '@id': `${pageUrl}#software`,
     'name': 'Калькулятор неустойки по ДДУ | Калькулятор ДДУ онлайн',
-    'description': 'Бесплатный онлайн калькулятор неустойки по ДДУ. Расчёт просрочки сдачи квартиры застройщиком с учётом моратория и актуальных ставок ЦБ РФ. Калькулятор ДДУ с мораторием 2026.',
+    'description': 'Бесплатный онлайн калькулятор неустойки по ДДУ. Расчёт просрочки сдачи квартиры застройщиком с учётом моратория и актуальных ставок ЦБ РФ.',
     'applicationCategory': 'LegalApplication',
     'operatingSystem': 'Web',
     'offers': {
@@ -170,136 +455,14 @@ const jsonLdSchema = computed(() => {
       'bestRating': '5'
     },
     'url': pageUrl,
-    'keywords': 'калькулятор ДДУ, калькулятор неустойки по ДДУ, расчет неустойки по ДДУ, неустойка по ДДУ, просрочка по ДДУ, калькулятор ДДУ онлайн, калькулятор неустойки ДДУ мораторий, просрочка сдачи квартиры по ДДУ',
+    'keywords': 'калькулятор ДДУ, калькулятор неустойки по ДДУ',
     'author': {
       '@type': 'LegalService',
       'name': 'Марк Мина',
       'url': siteUrl
     }
   };
-  
-  const legalServiceSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'LegalService',
-    '@id': `${siteUrl}#legalservice`,
-    'name': 'Юридическая помощь по ДДУ | Взыскание неустойки с застройщика | Марк Мина',
-    'description': 'Взыскание неустойки за просрочку сдачи квартиры по ДДУ. Защита прав дольщиков, юридическое сопровождение по 214-ФЗ. Бесплатный расчёт неустойки онлайн.',
-    'url': siteUrl,
-    'logo': `${siteUrl}/logo.png`,
-    'telephone': '+7-495-000-00-00',
-    'email': 'info@nedicom.ru',
-    'priceRange': '₽₽',
-    'address': {
-      '@type': 'PostalAddress',
-      'addressLocality': 'Москва',
-      'addressRegion': 'Московская область',
-      'addressCountry': 'RU'
-    },
-    'areaServed': [
-      { '@type': 'City', 'name': 'Москва' },
-      { '@type': 'AdministrativeArea', 'name': 'Московская область' }
-    ],
-    'hasOfferCatalog': {
-      '@type': 'OfferCatalog',
-      'name': 'Юридические услуги по ДДУ',
-      'itemListElement': [
-        {
-          '@type': 'Offer',
-          'itemOffered': {
-            '@type': 'Service',
-            'name': 'Расчёт неустойки по ДДУ',
-            'description': 'Калькулятор неустойки по договору ДДУ с учётом моратория'
-          }
-        },
-        {
-          '@type': 'Offer',
-          'itemOffered': {
-            '@type': 'Service',
-            'name': 'Составление претензии застройщику',
-            'description': 'Досудебная претензия о взыскании неустойки за просрочку сдачи'
-          }
-        },
-        {
-          '@type': 'Offer',
-          'itemOffered': {
-            '@type': 'Service',
-            'name': 'Судебное взыскание неустойки',
-            'description': 'Взыскание неустойки с застройщика через суд'
-          }
-        },
-        {
-          '@type': 'Offer',
-          'itemOffered': {
-            '@type': 'Service',
-            'name': 'Штраф 50% по ЗоЗПП',
-            'description': 'Взыскание штрафа за отказ добровольно выплатить неустойку'
-          }
-        }
-      ]
-    },
-    'sameAs': [
-      'https://www.youtube.com/@advokatmina',
-      'https://t.me/advokat_mina'
-    ]
-  };
-  
-  const faqSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    'mainEntity': [
-      {
-        '@type': 'Question',
-        'name': 'Как рассчитать неустойку по ДДУ?',
-        'acceptedAnswer': {
-          '@type': 'Answer',
-          'text': 'Для расчёта неустойки по ДДУ используйте наш калькулятор: цена квартиры × ключевая ставка ЦБ × 1/150 (для физлиц) × количество дней просрочки. Калькулятор ДДУ онлайн сделает всё автоматически.'
-        }
-      },
-      {
-        '@type': 'Question',
-        'name': 'Как рассчитать просрочку сдачи квартиры по ДДУ?',
-        'acceptedAnswer': {
-          '@type': 'Answer',
-          'text': 'Калькулятор просрочки по ДДУ учитывает период с плановой даты сдачи до фактической даты подписания акта приёма-передачи. Расчёт производится с учётом моратория и актуальных ставок ЦБ.'
-        }
-      },
-      {
-        '@type': 'Question',
-        'name': 'Учитывается ли мораторий в калькуляторе ДДУ?',
-        'acceptedAnswer': {
-          '@type': 'Answer',
-          'text': 'Да, наш калькулятор ДДУ с мораторием учитывает только период просрочки после 01.01.2026, так как до этой даты действовал мораторий на начисление неустойки.'
-        }
-      },
-      {
-        '@type': 'Question',
-        'name': 'Какая неустойка за просрочку квартиры по ДДУ?',
-        'acceptedAnswer': {
-          '@type': 'Answer',
-          'text': 'Неустойка по ДДУ составляет 1/150 ключевой ставки ЦБ РФ за каждый день просрочки для физических лиц, и 1/300 для юридических лиц. Наш калькулятор неустойки по ДДУ 2026 поможет точно рассчитать сумму.'
-        }
-      },
-      {
-        '@type': 'Question',
-        'name': 'Что можно взыскать с застройщика при просрочке?',
-        'acceptedAnswer': {
-          '@type': 'Answer',
-          'text': 'При просрочке сдачи квартиры по ДДУ можно взыскать: неустойку за просрочку, штраф 50% от суммы неустойки, компенсацию морального вреда и судебные расходы.'
-        }
-      }
-    ]
-  };
-  
-  const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    'itemListElement': [
-      { '@type': 'ListItem', 'position': 1, 'name': 'Главная', 'item': siteUrl },
-      { '@type': 'ListItem', 'position': 2, 'name': 'Калькулятор неустойки по ДДУ', 'item': pageUrl }
-    ]
-  };
-  
-  return [softwareSchema, legalServiceSchema, faqSchema, breadcrumbSchema];
+  return [softwareSchema];
 });
 
 onMounted(() => {
@@ -307,221 +470,623 @@ onMounted(() => {
   script.type = 'application/ld+json';
   script.textContent = JSON.stringify(jsonLdSchema.value);
   document.head.appendChild(script);
+
+  if (typeof ym === 'undefined') {
+    const ymScript = document.createElement('script');
+    ymScript.innerHTML = `
+      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+      ym(93864388, "init", {
+        clickmap: true,
+        trackLinks: true,
+        accurateTrackBounce: true,
+        webvisor: true
+      });
+    `;
+    document.head.appendChild(ymScript);
+  }
 });
 </script>
 
 <template>
+
   <Head title="Калькулятор неустойки по ДДУ онлайн - бесплатный расчёт просрочки застройщика | Марк Мина">
-    <meta name="description" content="🚀 Калькулятор неустойки по ДДУ 2026. Бесплатный расчёт просрочки сдачи квартиры застройщиком с учётом моратория. Калькулятор ДДУ онлайн - точный расчёт неустойки по 214-ФЗ. ✅ Взыскание неустойки с застройщика." />
-    <meta name="keywords" content="калькулятор ДДУ, калькулятор ДДУ онлайн, калькулятор неустойки по ДДУ, расчет неустойки по ДДУ, неустойка по ДДУ, просрочка по ДДУ, калькулятор ДДУ с мораторием, калькулятор неустойки ДДУ мораторий, калькулятор неустойки по ДДУ 2026, калькулятор неустойки по ДДУ с учетом моратория, неустойка за просрочку квартиры по ДДУ, просрочка сдачи квартиры по ДДУ, неустойка застройщик ДДУ, расчет неустойки по ДДУ калькулятор онлайн, калькулятор просрочки по ДДУ, калькулятор расчета ДДУ, взыскание неустойки по ДДУ, договор ДДУ калькулятор" />
+    <meta name="description"
+      content="🚀 Калькулятор неустойки по ДДУ 2026. Бесплатный расчёт просрочки сдачи квартиры застройщиком с учётом моратория. Калькулятор ДДУ онлайн - точный расчёт неустойки по 214-ФЗ." />
+    <meta name="keywords"
+      content="калькулятор ДДУ, калькулятор ДДУ онлайн, калькулятор неустойки по ДДУ, расчет неустойки по ДДУ" />
     <meta name="robots" content="index, follow" />
     <meta property="og:title" content="Калькулятор неустойки по ДДУ - бесплатный онлайн расчёт | Марк Мина" />
-    <meta property="og:description" content="Калькулятор ДДУ онлайн: точный расчёт неустойки за просрочку сдачи квартиры. Учитываем мораторий и актуальные ставки ЦБ РФ с 01.01.2026." />
+    <meta property="og:description"
+      content="Калькулятор ДДУ онлайн: точный расчёт неустойки за просрочку сдачи квартиры. Учитываем мораторий и актуальные ставки ЦБ РФ с 01.01.2026." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://nedicom.ru/calculator-ddu" />
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
     <link rel="canonical" href="https://nedicom.ru/calculator-ddu" />
   </Head>
 
   <MainHeader :auth="auth" />
 
   <Body>
-    <div
-      class="bg-white py-6 sm:py-12 min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
-      itemscope
-      itemtype="https://schema.org/SoftwareApplication"
-    >
-      <meta itemprop="name" content="Калькулятор неустойки по ДДУ | Калькулятор ДДУ онлайн" />
-      <meta itemprop="description" content="Бесплатный онлайн калькулятор неустойки по ДДУ. Расчёт просрочки сдачи квартиры застройщиком с учётом моратория. Калькулятор ДДУ с мораторием 2026." />
-      <meta itemprop="applicationCategory" content="LegalApplication" />
-      <meta itemprop="operatingSystem" content="Web" />
-      <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-        <meta itemprop="price" content="0" />
-        <meta itemprop="priceCurrency" content="RUB" />
+    <div class="bg-white py-6 sm:py-12 min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" itemscope
+      itemtype="https://schema.org/SoftwareApplication">
+
+      <!-- Навигация по странице -->
+      <div class="mb-8 p-4 bg-gray-50 rounded-xl border border-gray-200">
+        <h2 class="text-lg sm:text-xl font-semibold text-gray-800 mb-3">📑 Содержание страницы</h2>
+        <div class="flex flex-wrap gap-3 text-sm sm:text-base">
+          <button @click="scrollToSection('calculator')"
+            class="text-blue-600 hover:text-blue-800 hover:underline transition">🧮 Калькулятор</button>
+          <span class="text-gray-300">|</span>
+          <button @click="scrollToSection('how-it-works')"
+            class="text-blue-600 hover:text-blue-800 hover:underline transition">🔧 Как работает</button>
+          <span class="text-gray-300">|</span>
+          <button @click="scrollToSection('guide')"
+            class="text-blue-600 hover:text-blue-800 hover:underline transition">📖 Пошаговый гайд</button>
+          <span class="text-gray-300">|</span>
+          <button @click="scrollToSection('rates-table')"
+            class="text-blue-600 hover:text-blue-800 hover:underline transition">📊 Ставки ЦБ</button>
+          <span class="text-gray-300">|</span>
+          <button @click="scrollToSection('what-next')"
+            class="text-blue-600 hover:text-blue-800 hover:underline transition">⚡ Что дальше</button>
+        </div>
       </div>
 
       <!-- promo блок -->
       <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
-        <h1 class="mb-4 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-none text-gray-900">
+        <h1
+          class="mb-4 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-none text-gray-900">
           Калькулятор неустойки <br />по ДДУ (214-ФЗ)
         </h1>
-        <p class="my-8 text-base sm:text-lg md:text-2xl font-normal text-gray-500 lg:text-2xl sm:px-16 xl:px-48">
-          🏗️ Калькулятор ДДУ онлайн — рассчитайте неустойку за просрочку сдачи квартиры застройщиком
-        </p>
-        <p class="text-sm text-gray-400 -mt-4 mb-4">
-          Популярные запросы: калькулятор ДДУ | неустойка по ДДУ | просрочка по ДДУ | калькулятор ДДУ с мораторием
-        </p>
 
-        <div class="px-4 mx-auto text-center md:max-w-screen-md lg:max-w-screen-lg lg:px-36">
-          <div class="flex flex-wrap flex-col justify-center items-center mt-8 text-gray-500">
-            <a href="https://nedicom.ru/?uslugaurl=yurist-po-ddu" target="_blank" class="mr-5 mb-5 lg:mb-0 hover:text-gray-800 hover:opacity-80 flex items-center gap-4">
-              <div class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight leading-none">
-                nedicom.ru
+        <!-- БЛОК ЭКСПЕРТНОСТИ ДЛЯ E-E-A-T -->
+        <div class="mb-10 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border border-blue-100 shadow-sm">
+          <div class="flex flex-col md:flex-row items-center gap-6">
+            <div class="flex-shrink-0">
+              <div class="flex -space-x-2 overflow-hidden">
+                <a href="https://nedicom.ru/lawyers/1" target="_blank" rel="author nofollow noopener">
+                  <img
+                    class="inline-block h-12 w-12 md:h-16 md:w-16 rounded-full ring-2 ring-white object-cover transition-transform duration-300 ease-in-out hover:scale-110 hover:z-10 hover:shadow-lg"
+                    src="https://nedicom.ru/storage/usr/1/avatar/1739343105avatar.webp" alt="юрист по ДДУ Мина Марк"
+                    width="64" height="64" loading="lazy" />
+                </a>
+                <a href="https://nedicom.ru/lawyers/95" target="_blank" rel="author nofollow noopener">
+                  <img
+                    class="inline-block h-12 w-12 md:h-16 md:w-16 rounded-full ring-2 ring-white object-cover transition-transform duration-300 ease-in-out hover:scale-110 hover:z-10 hover:shadow-lg"
+                    src="https://nedicom.ru/storage/usr/95/avatar/avatar_1760706642.webp"
+                    alt="Юрист Мина Ольга Викторовна" width="64" height="64" loading="lazy" />
+                </a>
+                <a href="https://nedicom.ru/lawyers/68" target="_blank" rel="author nofollow noopener">
+                  <img
+                    class="inline-block h-12 w-12 md:h-16 md:w-16 rounded-full ring-2 ring-white object-cover transition-transform duration-300 ease-in-out hover:scale-110 hover:z-10 hover:shadow-lg"
+                    src="https://nedicom.ru/storage/usr/68/avatar/1728933924avatar.webp" alt="Юрист Анастасия Кравцова"
+                    width="64" height="64" loading="lazy" />
+                </a>
+                <a href="https://nedicom.ru/lawyers/94" target="_blank" rel="author nofollow noopener">
+                  <img
+                    class="inline-block h-12 w-12 md:h-16 md:w-16 rounded-full ring-2 ring-white object-cover transition-transform duration-300 ease-in-out hover:scale-110 hover:z-100 hover:shadow-lg"
+                    src="https://nedicom.ru/storage/usr/94/avatar/1728156724avatar.webp" alt="Юрист Добренький Андрей"
+                    width="64" height="64" loading="lazy" />
+                </a>
               </div>
-            </a>
-            <p class="my-2 text-base sm:text-lg font-normal text-gray-500 lg:text-xl px-4 sm:px-16">
-              💼 Нужна помощь с взысканием неустойки с застройщика?
-              <a href="https://nedicom.ru/?uslugaurl=yurist-po-ddu" target="_blank" class="text-blue-600 hover:underline">Закажите консультацию</a>
+            </div>
+            <div class="flex-1 text-center md:text-left">
+              <div class="inline-block bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-1 rounded-full mb-2">
+                ⭐ Разработано практикующими юристами по ДДУ
+              </div>
+              <p class="text-gray-700 text-sm md:text-base leading-relaxed">
+                <strong class="text-gray-900">Калькулятор создан командой юристов</strong> под руководством
+                <a href="https://nedicom.ru/lawyers/1" target="_blank" rel="author nofollow noopener"
+                  class="text-blue-700 hover:underline font-semibold">Марка Мины</a>
+                — юриста с опытом с 2008 года и более <strong>516 консультаций</strong> по всей России.
+              </p>
+            </div>
+            <div class="flex-shrink-0">
+              <a href="https://nedicom.ru/?uslugaurl=yurist-po-ddu" target="_blank"
+                @click="sendYaGoal('consultation_click')"
+                class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 md:py-2.5 md:px-5 rounded-lg transition text-sm md:text-base shadow-md">
+                💼 Бесплатная консультация
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <p class="my-8 text-base sm:text-lg md:text-2xl font-normal text-gray-500 lg:text-2xl sm:px-16 xl:px-48">
+          🏗️ Калькулятор ДДУ онлайн — рассчитайте неустойку за просрочку сдачи квартиры
+        </p>
+      </div>
+
+      <!-- ============================================ -->
+      <!-- ОСНОВНАЯ ФОРМА КАЛЬКУЛЯТОРА -->
+      <!-- ============================================ -->
+      <div id="calculator" class="scroll-mt-20">
+        <form @submit.prevent="calculateAndScroll"
+          class="py-6 sm:py-12 grid grid-cols-1 md:grid-cols-2 place-items-center gap-6 sm:gap-10 text-gray-900 text-xl sm:text-3xl font-medium">
+
+          <h2 class="text-2xl sm:text-4xl">📋 Данные для расчёта</h2>
+          <h2 class="text-2xl sm:text-4xl hidden sm:block">💰 Результат</h2>
+
+          <!-- Цена квартиры -->
+          <div class="grid place-items-center w-full px-2 sm:px-0">
+            <label for="contractPrice" class="block mb-2 text-xl sm:text-2xl">
+              Цена квартиры по ДДУ:
+              <span class="tooltip cursor-help ml-1 text-gray-400"
+                title="Сумма, указанная в договоре долевого участия">ⓘ</span>
+            </label>
+            <div class="relative flex items-center max-w-[12rem] w-full">
+              <input type="number" id="contractPrice" v-model.number="form.contractPrice" min="0" max="100000000"
+                step="100000" placeholder="Например: 4 500 000"
+                class="bg-gray-50 text-xl sm:text-2xl border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-3 sm:px-4 py-2 sm:py-3" />
+            </div>
+            <p class="mt-2 text-sm sm:text-lg text-gray-500">Укажите сумму по договору</p>
+          </div>
+
+          <!-- Результат расчёта -->
+          <div id="calculation-result" class="text-lg w-full bg-gray-50 p-3 sm:p-4 rounded-xl mx-2 sm:mx-0 text-center">
+            <p class="font-bold text-2xl sm:text-3xl text-blue-600 break-all">{{ formattedPenalty }}</p>
+            <p class="text-gray-500 mt-2 text-sm sm:text-base">Сумма неустойки по ДДУ</p>
+            <p class="text-xs text-gray-400 mt-1">Расчёт с 01.01.2026 по текущим ставкам ЦБ</p>
+
+            <div class="flex flex-col sm:flex-row gap-3 justify-center mt-3">
+              <button v-if="daysDelay > 0 && penaltyAmount > 0" type="button" @click="downloadPDF"
+                class="text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-2 rounded-lg transition cursor-pointer">
+                📄 Скачать расчёт в PDF
+              </button>
+
+              <a v-if="daysDelay > 0 && penaltyAmount > 0"
+                href="https://max.ru/u/f9LHodD0cOIOko3QyW7xJP0XAAxMC6z-ONhYlor_e_y57zDNO5kSBtbgv8I" target="_blank"
+                @click="contactLawyer"
+                class="inline-flex items-center justify-center gap-2 text-sm bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
+                ✉️ Написать юристу
+              </a>
+            </div>
+          </div>
+
+          <!-- Плановая дата -->
+          <div class="grid place-items-center w-full px-2 sm:px-0">
+            <label for="deadlineDate" class="block mb-2 text-xl sm:text-2xl">
+              Плановая дата сдачи:
+              <span class="tooltip cursor-help ml-1 text-gray-400"
+                title="Дата, до которой застройщик обязался сдать дом по договору">ⓘ</span>
+            </label>
+            <div class="relative flex items-center max-w-[12rem] w-full">
+              <input type="date" id="deadlineDate" v-model="form.deadlineDate"
+                class="bg-gray-50 text-base sm:text-lg border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-3 sm:px-4 py-2 sm:py-3" />
+            </div>
+            <p class="mt-2 text-sm sm:text-lg text-gray-500">Указана в договоре как срок передачи</p>
+          </div>
+
+          <div class="text-lg w-full space-y-2 px-2 sm:px-0 text-center">
+            <p>📅 Дней просрочки: <strong class="text-xl sm:text-2xl">{{ daysDelay }}</strong></p>
+            <p class="text-xs sm:text-sm text-gray-500 break-all">С {{ form.deadlineDate || '—' }} по {{ form.actualDate
+              || '—' }}</p>
+            <p class="text-xs text-orange-600">* Учитывается только период после 01.01.2026</p>
+          </div>
+
+          <!-- Фактическая дата -->
+          <div class="grid place-items-center w-full px-2 sm:px-0">
+            <label for="actualDate" class="block mb-2 text-xl sm:text-2xl">
+              Фактическая дата передачи:
+              <span class="tooltip cursor-help ml-1 text-gray-400"
+                title="Дата подписания акта приёма-передачи квартиры">ⓘ</span>
+            </label>
+            <div class="relative flex items-center max-w-[12rem] w-full">
+              <input type="date" id="actualDate" v-model="form.actualDate"
+                class="bg-gray-50 text-base sm:text-lg border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-3 sm:px-4 py-2 sm:py-3" />
+            </div>
+            <p class="mt-2 text-sm sm:text-lg text-gray-500">Дата подписания акта приёма-передачи</p>
+            <p v-if="dateErrors" class="text-green-600 text-xs sm:text-base mt-1">{{ dateErrors }}</p>
+          </div>
+
+          <div class="text-lg w-full space-y-2 px-2 sm:px-0 text-center">
+            <p>⚖️ Ставка для расчёта: <strong>1/{{ form.isLegalEntity ? '300' : '150' }}</strong></p>
+            <p class="text-xs sm:text-sm text-gray-500">Для физлиц — 1/150, для юрлиц — 1/300</p>
+          </div>
+
+          <!-- Чекбокс -->
+          <div class="grid place-items-center w-full px-2 sm:px-0">
+            <label class="inline-flex items-center cursor-pointer">
+              <input type="checkbox" v-model="form.isLegalEntity"
+                class="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" />
+              <span class="ms-2 text-base sm:text-lg">🏢 Я юридическое лицо</span>
+            </label>
+          </div>
+
+          <!-- Кнопка РАССЧИТАТЬ -->
+          <div class="col-span-1 md:col-span-2 flex flex-col items-center gap-4 w-full">
+            <button type="submit"
+              class="w-full md:w-auto px-8 py-4 text-xl font-bold text-white bg-green-600 hover:bg-green-700 rounded-lg transition shadow-lg hover:shadow-xl">
+              🚀 Рассчитать неустойку →
+            </button>
+            <button type="button" @click="resetForm"
+              class="inline-flex items-center px-5 py-2 text-base font-medium text-center text-white bg-gray-500 rounded-lg hover:bg-gray-600">
+              🔄 Сбросить форму
+            </button>
+          </div>
+
+          <!-- Сообщение после расчёта -->
+          <div
+            class="col-span-1 md:col-span-2 text-lg text-green-700 text-sm sm:text-base font-medium px-2 sm:px-0 text-center">
+            <p v-if="daysDelay > 0 && penaltyAmount > 0">
+              ✅ Вы можете требовать от застройщика {{ formattedPenalty }} + штраф 50% за отказ добровольно выплатить
             </p>
+            <p v-else class="text-gray-400">Заполните даты и нажмите «Рассчитать неустойку»</p>
+          </div>
+        </form>
+      </div>
+
+      <!-- ДЕТАЛИЗАЦИЯ РАСЧЁТА ПО ПЕРИОДАМ -->
+      <div v-if="calculationDetails.length > 0" class="mt-8 p-6 bg-blue-50 rounded-xl border border-blue-200">
+        <h3 class="text-xl font-bold text-blue-800 mb-4">📊 Детализация расчёта по периодам действия ключевой ставки:
+        </h3>
+        <div class="space-y-4">
+          <div v-for="(period, index) in calculationDetails" :key="index"
+            class="bg-white p-4 rounded-lg shadow-sm border border-blue-100">
+            <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-3">
+              <div>
+                <div class="font-semibold text-gray-800">
+                  📅 Период: {{ period.startDateStr }} — {{ period.endDateStr }}
+                </div>
+                <div class="text-sm text-gray-600 mt-1">
+                  🏦 Ключевая ставка ЦБ: <strong class="text-blue-600">{{ period.rate }}%</strong>
+                </div>
+                <div class="text-sm text-gray-600">
+                  📆 Дней в периоде: {{ period.days }}
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="text-sm text-gray-500">Сумма за период:</div>
+                <div class="text-xl font-bold text-green-600">{{ period.formattedAmount }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="pt-4 border-t border-blue-200">
+            <div class="flex justify-between items-center">
+              <div class="font-bold text-gray-800">📅 Всего дней просрочки:</div>
+              <div class="font-bold text-xl text-blue-600">{{ daysDelay }}</div>
+            </div>
+            <div class="flex justify-between items-center mt-2">
+              <div class="font-bold text-gray-800">💰 Общая сумма неустойки:</div>
+              <div class="font-bold text-2xl text-green-600">{{ formattedPenalty }}</div>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Основная форма -->
-      <form class="py-6 sm:py-12 grid grid-cols-1 md:grid-cols-2 place-items-center gap-6 sm:gap-10 text-gray-900 text-xl sm:text-3xl font-medium">
-        <h2 class="text-2xl sm:text-4xl">📋 Данные для расчёта</h2>
-        <h2 class="text-2xl sm:text-4xl hidden sm:block">💰 Результат</h2>
-
-        <!-- Цена квартиры -->
-        <div class="grid place-items-center w-full px-2 sm:px-0">
-          <label for="contractPrice" class="block mb-2 text-xl sm:text-2xl">Цена квартиры по ДДУ:</label>
-          <div class="relative flex items-center max-w-[12rem] w-full">
-            <input
-              type="number"
-              id="contractPrice"
-              v-model.number="form.contractPrice"
-              min="0"
-              max="100000000"
-              step="100000"
-              class="bg-gray-50 text-xl sm:text-2xl border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-3 sm:px-4 py-2 sm:py-3"
-            />
-          </div>
-          <p class="mt-2 text-sm sm:text-lg text-gray-500">Укажите сумму по договору</p>
+      <!-- Скрытый блок для печати PDF -->
+      <div id="calculation-result-print" style="display: none;">
+        <div class="amount">
+          <div style="font-size: 14px; color: #6b7280; margin-bottom: 8px;">Сумма неустойки по ДДУ</div>
+          <div class="amount-value">{{ formattedPenalty }}</div>
         </div>
-
-        <div class="text-lg w-full bg-gray-50 p-3 sm:p-4 rounded-xl mx-2 sm:mx-0">
-          <p class="font-bold text-2xl sm:text-3xl text-blue-600 break-all">{{ formattedPenalty }}</p>
-          <p class="text-gray-500 mt-2 text-sm sm:text-base">Сумма неустойки по ДДУ</p>
-          <p class="text-xs text-gray-400 mt-1">Расчёт с 01.01.2026 по текущим ставкам ЦБ</p>
+        <div class="info-row">
+          <span>📅 Дней просрочки:</span>
+          <strong>{{ daysDelay }}</strong>
         </div>
-
-        <!-- Плановая дата -->
-        <div class="grid place-items-center w-full px-2 sm:px-0">
-          <label for="deadlineDate" class="block mb-2 text-xl sm:text-2xl">Плановая дата сдачи (по ДДУ):</label>
-          <div class="relative flex items-center max-w-[12rem] w-full">
-            <input
-              type="date"
-              id="deadlineDate"
-              v-model="form.deadlineDate"
-              class="bg-gray-50 text-base sm:text-lg border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-3 sm:px-4 py-2 sm:py-3"
-            />
-          </div>
-          <p class="mt-2 text-sm sm:text-lg text-gray-500">Указана в договоре как срок передачи</p>
+        <div class="info-row">
+          <span>📋 Плановая дата сдачи:</span>
+          <strong>{{ form.deadlineDate || '—' }}</strong>
         </div>
-
-        <div class="text-lg w-full space-y-2 px-2 sm:px-0">
-          <p>📅 Дней просрочки: <strong class="text-xl sm:text-2xl">{{ daysDelay }}</strong></p>
-          <p class="text-xs sm:text-sm text-gray-500 break-all">С {{ form.deadlineDate || '—' }} по {{ form.actualDate || '—' }}</p>
-          <p class="text-xs text-orange-600">* Учитывается только период после 01.01.2026</p>
+        <div class="info-row">
+          <span>✅ Фактическая дата передачи:</span>
+          <strong>{{ form.actualDate || '—' }}</strong>
         </div>
-
-        <!-- Фактическая дата -->
-        <div class="grid place-items-center w-full px-2 sm:px-0">
-          <label for="actualDate" class="block mb-2 text-xl sm:text-2xl">Фактическая дата передачи (Акт):</label>
-          <div class="relative flex items-center max-w-[12rem] w-full">
-            <input
-              type="date"
-              id="actualDate"
-              v-model="form.actualDate"
-              class="bg-gray-50 text-base sm:text-lg border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-3 sm:px-4 py-2 sm:py-3"
-            />
-          </div>
-          <p class="mt-2 text-sm sm:text-lg text-gray-500">Дата подписания акта приёма-передачи</p>
-          <p v-if="dateErrors" class="text-green-600 text-xs sm:text-base mt-1">{{ dateErrors }}</p>
+        <div class="info-row">
+          <span>💰 Цена квартиры по ДДУ:</span>
+          <strong>{{ new Intl.NumberFormat('ru-RU').format(form.contractPrice) }} ₽</strong>
         </div>
-
-        <div class="text-lg w-full space-y-2 px-2 sm:px-0">
-          <p>⚖️ Ставка для расчёта: <strong>1/{{ form.isLegalEntity ? '300' : '150' }}</strong></p>
-          <p class="text-xs sm:text-sm text-gray-500">Для физлиц — 1/150, для юрлиц — 1/300</p>
+        <div class="info-row">
+          <span>⚖️ Ставка для расчёта:</span>
+          <strong>1/{{ form.isLegalEntity ? '300' : '150' }}</strong>
         </div>
+      </div>
 
-        <!-- Чекбоксы -->
-        <div class="grid place-items-center w-full px-2 sm:px-0">
-          <label class="inline-flex items-center cursor-pointer">
-            <input
-              type="checkbox"
-              v-model="form.isLegalEntity"
-              class="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-            />
-            <span class="ms-2 sm:ms-3 text-base sm:text-lg">🏢 Я юридическое лицо</span>
-          </label>
-        </div>
-
-        <!-- Детализация расчёта -->
-        <div class="text-lg w-full text-gray-600 text-base space-y-2 col-span-1 md:col-span-2 mt-4 px-2 sm:px-0">
-          <details v-if="calculationDetails.length > 0" class="cursor-pointer">
-            <summary class="font-medium text-gray-700">📊 Детализация расчёта по периодам</summary>
-            <div class="mt-3 space-y-2 text-xs sm:text-sm">
-              <div 
-                v-for="(period, index) in calculationDetails" 
-                :key="index"
-                class="border-b border-gray-200 py-2"
-              >
-                <p><strong>С {{ period.startDate.toLocaleDateString('ru-RU') }} по {{ period.endDate.toLocaleDateString('ru-RU') }}</strong></p>
-                <p>Ставка ЦБ: {{ period.rate }}% | Дней: {{ period.days }}</p>
-                <p class="text-blue-600">Сумма: {{ period.formattedAmount }}</p>
-              </div>
-              <div class="pt-2 font-bold">
-                Итого: {{ formattedPenalty }}
-              </div>
+      <!-- ============================================ -->
+      <!-- РЕАЛЬНЫЙ ПРИМЕР РАСЧЁТА -->
+      <!-- ============================================ -->
+      <div class="py-10 px-4 mx-auto max-w-screen-xl border-t border-gray-200">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6 text-center">
+          📐 Реальный пример расчёта неустойки по ДДУ
+        </h2>
+        <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-2xl border border-green-200">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <p class="text-lg font-semibold mb-2">📋 Вводные данные:</p>
+              <ul class="space-y-2 text-gray-700">
+                <li>🏢 <strong>Цена квартиры по ДДУ:</strong> {{ new Intl.NumberFormat('ru-RU').format(examplePrice) }}
+                  ₽</li>
+                <li>📅 <strong>Количество дней просрочки:</strong> {{ exampleDays }} дней</li>
+                <li>⚖️ <strong>Статус дольщика:</strong> Физическое лицо (ставка 1/150)</li>
+                <li>🏦 <strong>Ключевая ставка ЦБ:</strong> 16.00% (актуальна на период просрочки)</li>
+              </ul>
             </div>
-          </details>
-          <p class="text-xs text-gray-400 mt-2">* Расчёт не окончательный, суд может снизить неустойку по ст. 333 ГК РФ</p>
+            <div class="text-center md:text-left">
+              <p class="text-lg font-semibold mb-2">💰 Результат расчёта:</p>
+              <p class="text-3xl md:text-4xl font-bold text-green-700">{{ formattedExamplePenalty }}</p>
+              <p class="text-sm text-gray-500 mt-2">Формула: 5 000 000 × (16% / 100) × 1/150 × 90 дней</p>
+              <p class="text-xs text-gray-400 mt-1">* Дополнительно можно взыскать штраф 50% + компенсацию морального
+                вреда</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================ -->
+      <!-- ПОШАГОВЫЙ ГАЙД: КАК ПОДАТЬ НА НЕУСТОЙКУ ПО ДДУ -->
+      <!-- ============================================ -->
+      <div id="guide" class="py-10 px-4 mx-auto max-w-screen-xl border-t border-gray-200 scroll-mt-20">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+          📖 Пошаговый гайд: как подать на неустойку по ДДУ
+        </h2>
+
+        <div class="prose prose-lg max-w-none">
+          <p class="text-gray-600 mb-6">Взыскание неустойки с застройщика — процесс, который при правильном подходе
+            завершается успешно в 95% случаев. Ниже — подробная инструкция.</p>
+
+          <div class="space-y-8">
+            <div class="bg-white p-5 rounded-xl border-l-4 border-blue-500 shadow-sm">
+              <h3 class="text-xl font-bold text-gray-800 mb-3">Шаг 1. Соберите документы</h3>
+              <p class="text-gray-600">Вам понадобятся: договор ДДУ, акт приёма-передачи (или односторонний акт),
+                документы об оплате, переписка с застройщиком, досудебная претензия (если направляли).</p>
+            </div>
+
+            <div class="bg-white p-5 rounded-xl border-l-4 border-blue-500 shadow-sm">
+              <h3 class="text-xl font-bold text-gray-800 mb-3">Шаг 2. Рассчитайте неустойку</h3>
+              <p class="text-gray-600">Используйте наш калькулятор выше. Он учитывает мораторий и актуальные ставки ЦБ.
+                Зафиксируйте результат — он понадобится для претензии.</p>
+            </div>
+
+            <div class="bg-white p-5 rounded-xl border-l-4 border-blue-500 shadow-sm">
+              <h3 class="text-xl font-bold text-gray-800 mb-3">Шаг 3. Направьте досудебную претензию</h3>
+              <p class="text-gray-600">Это обязательный этап перед судом. Отправьте заказным письмом с уведомлением или
+                вручите под роспись. Застройщик обязан ответить в течение 30 дней.</p>
+            </div>
+
+            <div class="bg-white p-5 rounded-xl border-l-4 border-blue-500 shadow-sm">
+              <h3 class="text-xl font-bold text-gray-800 mb-3">Шаг 4. Обратитесь в суд</h3>
+              <p class="text-gray-600">Если застройщик отказал или проигнорировал претензию — подавайте иск в районный
+                суд по месту нахождения объекта. К иску приложите все документы + расчёт.</p>
+            </div>
+
+            <div class="bg-white p-5 rounded-xl border-l-4 border-blue-500 shadow-sm">
+              <h3 class="text-xl font-bold text-gray-800 mb-3">Шаг 5. Получите исполнительный лист</h3>
+              <p class="text-gray-600">После решения суда в вашу пользу дождитесь вступления в силу, получите
+                исполнительный лист и направьте его в службу судебных приставов или банк застройщика.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================ -->
+      <!-- ТАБЛИЦА С ИСТОРИЕЙ КЛЮЧЕВОЙ СТАВКИ ЦБ -->
+      <!-- ============================================ -->
+      <div id="rates-table" class="py-10 px-4 mx-auto max-w-screen-xl border-t border-gray-200 scroll-mt-20">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+          📊 История ключевой ставки ЦБ РФ (2022–2026)
+        </h2>
+        <p class="text-gray-600 mb-4">Ключевая ставка напрямую влияет на размер неустойки по ДДУ. Чем выше ставка — тем
+          больше выплата.</p>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm sm:text-base border-collapse">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="border p-3 text-left">Дата изменения</th>
+                <th class="border p-3 text-left">Ключевая ставка</th>
+                <th class="border p-3 text-left">Изменение</th>
+              </tr>          
+          </thead>
+          <tbody>
+            <tr v-for="(rate, index) in fullKeyRates" :key="index" class="hover:bg-gray-50">
+              <td class="border p-3">{{ rate.date }}</td>
+              <td class="border p-3 font-semibold" :class="rate.rate.includes('21') ? 'text-red-600' : 'text-gray-800'">
+                {{ rate.rate }}</td>
+              <td class="border p-3"
+                :class="rate.change.includes('+') ? 'text-red-500' : rate.change.includes('-') ? 'text-green-500' : 'text-gray-500'">
+                {{ rate.change }}</td>
+            </tr>
+          </tbody>
+          </table>
+        </div>
+        <p class="text-xs text-gray-400 mt-4">* Данные актуальны на 2026 год. Полная история изменений с 2022 года.</p>
+      </div>
+
+      <!-- ============================================ -->
+      <!-- ЧТО ДЕЛАТЬ ПОСЛЕ РАСЧЁТА + CTA -->
+      <!-- ============================================ -->
+      <div id="what-next" class="py-10 px-4 mx-auto max-w-screen-xl border-t border-gray-200 scroll-mt-20">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6 text-center">
+          ⚡ Что делать после расчёта неустойки?
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div class="bg-white p-5 rounded-xl border border-gray-200 text-center">
+            <div class="text-3xl mb-2">📄</div>
+            <h3 class="font-bold text-lg">Составить претензию</h3>
+            <p class="text-gray-500 text-sm">Правильно оформленная претензия — 50% успеха</p>
+          </div>
+          <div class="bg-white p-5 rounded-xl border border-gray-200 text-center">
+            <div class="text-3xl mb-2">⚖️</div>
+            <h3 class="font-bold text-lg">Подготовить иск</h3>
+            <p class="text-gray-500 text-sm">Соберём доказательства и подадим в суд</p>
+          </div>
+          <div class="bg-white p-5 rounded-xl border border-gray-200 text-center">
+            <div class="text-3xl mb-2">🏦</div>
+            <h3 class="font-bold text-lg">Получить деньги</h3>
+            <p class="text-gray-500 text-sm">Контролируем исполнение решения суда</p>
+          </div>
         </div>
 
-        <!-- Кнопка сброса -->
-        <button
-          type="button"
-          @click="resetForm"
-          class="my-5 inline-flex items-center px-4 sm:px-5 py-2 sm:py-3 text-lg sm:text-xl font-medium text-center text-white bg-gray-500 rounded-lg hover:bg-gray-600"
-        >
-          🔄 Сбросить форму
-        </button>
+        <div class="bg-blue-600 rounded-2xl p-8 text-center text-white">
+          <h3 class="text-2xl font-bold mb-3">Не ждите — действуйте!</h3>
+          <p class="mb-4 text-blue-100">Каждый день просрочки увеличивает вашу неустойку. Юристы нашей команды помогут
+            взыскать её с застройщика.</p>
+          <a href="https://nedicom.ru/?uslugaurl=yurist-po-ddu" target="_blank"
+            @click="sendYaGoal('consultation_click')"
+            class="inline-block bg-white text-blue-600 font-bold py-3 px-8 rounded-lg hover:bg-gray-100 transition text-lg shadow-lg">
+            🚀 Записаться на бесплатную консультацию
+          </a>
+          <p class="text-xs text-blue-200 mt-3">Ответим за 15 минут. Более 500 выигранных дел по ДДУ</p>
+        </div>
+      </div>
 
-        <div class="text-lg w-full text-green-700 text-sm sm:text-base font-medium px-2 sm:px-0">
-          <p v-if="daysDelay > 0 && penaltyAmount > 0">
-            ✅ Вы можете требовать от застройщика {{ formattedPenalty }} + штраф 50% за отказ добровольно выплатить
+      <!-- БЛОК 1: Как работает калькулятор -->
+      <div id="how-it-works" class="py-10 px-4 mx-auto max-w-screen-xl border-t border-gray-200 scroll-mt-20">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+          🔧 Как работает калькулятор неустойки по ДДУ
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-blue-50 p-5 rounded-xl">
+            <div class="text-3xl mb-3">1️⃣</div>
+            <h3 class="text-lg sm:text-xl font-semibold mb-2">Введите данные договора</h3>
+            <p class="text-gray-600 text-sm sm:text-base">Укажите цену квартиры по ДДУ, плановую дату сдачи из договора
+              и фактическую дату подписания акта.</p>
+          </div>
+          <div class="bg-blue-50 p-5 rounded-xl">
+            <div class="text-3xl mb-3">2️⃣</div>
+            <h3 class="text-lg sm:text-xl font-semibold mb-2">Автоматический расчёт</h3>
+            <p class="text-gray-600 text-sm sm:text-base">Калькулятор ДДУ онлайн самостоятельно определяет количество
+              дней просрочки и применяет актуальную ключевую ставку ЦБ РФ.</p>
+          </div>
+          <div class="bg-blue-50 p-5 rounded-xl">
+            <div class="text-3xl mb-3">3️⃣</div>
+            <h3 class="text-lg sm:text-xl font-semibold mb-2">Получите сумму неустойки</h3>
+            <p class="text-gray-600 text-sm sm:text-base">Вы увидите точную сумму неустойки по 214-ФЗ с детализацией по
+              периодам действия разных ставок ЦБ.</p>
+          </div>
+        </div>
+        <p class="text-gray-500 text-sm sm:text-base mt-6 p-4 bg-gray-50 rounded-lg">
+          💡 <strong>Формула расчёта:</strong> Сумма неустойки = Цена ДДУ × Ключевая ставка ЦБ (%) × 1/150 (для физлиц)
+          × Количество дней просрочки.
+        </p>
+      </div>
+
+      <!-- БЛОК 2: Что влияет на размер неустойки -->
+      <div id="what-affects" class="py-10 px-4 mx-auto max-w-screen-xl border-t border-gray-200 scroll-mt-20">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+          📊 Что влияет на размер неустойки застройщика
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-gray-50 p-5 rounded-xl">
+            <h3 class="text-lg sm:text-xl font-semibold mb-3">💰 Цена квартиры по ДДУ</h3>
+            <p class="text-gray-600 text-sm sm:text-base">Неустойка рассчитывается как процент от цены договора.</p>
+          </div>
+          <div class="bg-gray-50 p-5 rounded-xl">
+            <h3 class="text-lg sm:text-xl font-semibold mb-3">📅 Количество дней просрочки</h3>
+            <p class="text-gray-600 text-sm sm:text-base">Каждый день просрочки увеличивает итоговую сумму.</p>
+          </div>
+          <div class="bg-gray-50 p-5 rounded-xl">
+            <h3 class="text-lg sm:text-xl font-semibold mb-3">🏦 Ключевая ставка ЦБ РФ</h3>
+            <p class="text-gray-600 text-sm sm:text-base">Неустойка по ДДУ привязана к ключевой ставке.</p>
+          </div>
+          <div class="bg-gray-50 p-5 rounded-xl">
+            <h3 class="text-lg sm:text-xl font-semibold mb-3">👤 Статус дольщика (физлицо/юрлицо)</h3>
+            <p class="text-gray-600 text-sm sm:text-base">Для физлиц — 1/150, для юрлиц — 1/300.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- БЛОК 3: Мораторий -->
+      <div id="moratorium" class="py-10 px-4 mx-auto max-w-screen-xl border-t border-gray-200 scroll-mt-20">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+          🛡️ Мораторий 2024–2026: что нужно знать дольщику
+        </h2>
+        <div class="bg-red-50 border-l-4 border-red-500 p-5 rounded-r-xl mb-6">
+          <p class="text-red-800 font-semibold text-base sm:text-lg">
+            ⚖️ Постановление Правительства РФ № 326 от 26.03.2022 — мораторий на начисление неустойки застройщикам
           </p>
-          <p v-else class="text-gray-400">Заполните даты для расчёта неустойки по ДДУ</p>
         </div>
-      </form>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-white p-5 rounded-xl border border-gray-200">
+            <h3 class="text-lg sm:text-xl font-semibold mb-3 text-red-700">📅 Период действия моратория</h3>
+            <ul class="list-disc list-inside text-gray-600 text-sm sm:text-base space-y-2">
+              <li><strong>Начало:</strong> 29 марта 2022 года</li>
+              <li><strong>Окончание (официальное):</strong> 31 декабря 2023 года</li>
+              <li><strong>Фактическое продление:</strong> до 31 декабря 2025 года</li>
+              <li><strong>Возобновление начисления:</strong> с 1 января 2026 года</li>
+            </ul>
+          </div>
+          <div class="bg-white p-5 rounded-xl border border-gray-200">
+            <h3 class="text-lg sm:text-xl font-semibold mb-3 text-red-700">⚠️ Что это значит для дольщиков?</h3>
+            <ul class="list-disc list-inside text-gray-600 text-sm sm:text-base space-y-2">
+              <li>Неустойка не начисляется с 29.03.2022 по 31.12.2025</li>
+              <li>Наш калькулятор автоматически исключает этот период</li>
+              <li>Расчёт начинается с 1 января 2026 года</li>
+            </ul>
+          </div>
+        </div>
+      </div>
 
-      <!-- SEO-блок с FAQ (видимый для пользователей) -->
-      <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-12 border-t border-gray-200">
-        <h2 class="text-2xl sm:text-3xl font-bold text-center mb-8">❓ Часто задаваемые вопросы о неустойке по ДДУ</h2>
+      <!-- FAQ блок -->
+      <div id="faq" class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-12 border-t border-gray-200 scroll-mt-20">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8">❓ Часто задаваемые вопросы о неустойке
+          по ДДУ</h2>
         <div class="space-y-6 max-w-3xl mx-auto">
           <div class="border-b border-gray-200 pb-4">
             <h3 class="text-lg sm:text-xl font-semibold text-gray-800">Как рассчитать неустойку по ДДУ?</h3>
-            <p class="text-sm sm:text-base text-gray-600 mt-2">Для расчёта неустойки по ДДУ используйте наш калькулятор ДДУ онлайн: цена квартиры × ключевая ставка ЦБ × 1/150 (для физлиц) × количество дней просрочки. Калькулятор неустойки по ДДУ сделает всё автоматически.</p>
+            <p class="text-sm sm:text-base text-gray-600 mt-2">Используйте наш калькулятор: цена квартиры × ключевая
+              ставка ЦБ × 1/150 (для физлиц) × количество дней просрочки.</p>
           </div>
           <div class="border-b border-gray-200 pb-4">
-            <h3 class="text-lg sm:text-xl font-semibold text-gray-800">Как рассчитать просрочку сдачи квартиры по ДДУ?</h3>
-            <p class="text-sm sm:text-base text-gray-600 mt-2">Калькулятор просрочки по ДДУ учитывает период с плановой даты сдачи до фактической даты подписания акта. Расчёт неустойки по ДДУ производится с учётом моратория.</p>
+            <h3 class="text-lg sm:text-xl font-semibold text-gray-800">Как рассчитать просрочку сдачи квартиры по ДДУ?
+            </h3>
+            <p class="text-sm sm:text-base text-gray-600 mt-2">Калькулятор учитывает период с плановой даты до
+              фактической даты подписания акта.</p>
           </div>
           <div class="border-b border-gray-200 pb-4">
             <h3 class="text-lg sm:text-xl font-semibold text-gray-800">Учитывается ли мораторий в калькуляторе ДДУ?</h3>
-            <p class="text-sm sm:text-base text-gray-600 mt-2">Да, наш калькулятор ДДУ с мораторием учитывает только период просрочки после 01.01.2026. Калькулятор неустойки ДДУ мораторий применяет автоматически.</p>
+            <p class="text-sm sm:text-base text-gray-600 mt-2">Да, наш калькулятор учитывает только период просрочки
+              после 01.01.2026.</p>
           </div>
           <div class="border-b border-gray-200 pb-4">
-            <h3 class="text-lg sm:text-xl font-semibold text-gray-800">Какая неустойка за просрочку квартиры по ДДУ?</h3>
-            <p class="text-sm sm:text-base text-gray-600 mt-2">Неустойка по ДДУ составляет 1/150 ставки ЦБ за каждый день просрочки для физлиц, и 1/300 для юрлиц. Калькулятор неустойки по ДДУ 2026 поможет точно рассчитать сумму.</p>
-          </div>
-          <div class="border-b border-gray-200 pb-4">
-            <h3 class="text-lg sm:text-xl font-semibold text-gray-800">Что можно взыскать с застройщика при просрочке?</h3>
-            <p class="text-sm sm:text-base text-gray-600 mt-2">При просрочке сдачи квартиры по ДДУ можно взыскать: неустойку за просрочку, штраф 50%, компенсацию морального вреда и судебные расходы. Взыскание неустойки по ДДУ — наша специализация.</p>
+            <h3 class="text-lg sm:text-xl font-semibold text-gray-800">Что можно взыскать с застройщика при просрочке?
+            </h3>
+            <p class="text-sm sm:text-base text-gray-600 mt-2">Неустойку, штраф 50%, компенсацию морального вреда и
+              судебные расходы.</p>
           </div>
         </div>
       </div>
 
-      <div class="text-center text-gray-400 text-xs sm:text-sm">
-        <link itemprop="url" href="https://nedicom.ru/calculator-ddu" />
-        <div>⚠️ Калькулятор ДДУ учитывает просрочку только с 01.01.2026</div>
-        <div class="mt-1">🔍 Калькулятор ДДУ | Неустойка по ДДУ | Просрочка по ДДУ | Калькулятор ДДУ онлайн | Калькулятор ДДУ с мораторием</div>
+      <div class="text-center text-gray-400 text-xs sm:text-sm pt-8 border-t border-gray-200">
+        <div>⚠️ Калькулятор ДДУ учитывает просрочку только с учётом моратория с 01.01.2026</div>
+        <div class="mt-2">© 2026 — Юридическая помощь по ДДУ | Марк Мина</div>
       </div>
     </div>
   </Body>
 
   <MainFooter />
-
   <Tracking :key="backendurl" :tracking="$page.props.tracking" :backendurl="set.backendurl" />
 </template>
+
+<style scoped>
+.tooltip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+  cursor: help;
+}
+
+/* Мобильные оптимизации */
+@media (max-width: 640px) {
+
+  input,
+  button {
+    min-height: 48px;
+  }
+}
+
+@media print {
+
+  .no-print,
+  .tooltip,
+  button:not(.print-only) {
+    display: none !important;
+  }
+}
+</style>
