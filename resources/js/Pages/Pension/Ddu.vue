@@ -212,7 +212,6 @@ const resetForm = () => {
 const sendYaGoal = (goalName) => {
   if (typeof ym !== 'undefined') {
     ym('93864388', 'reachGoal', goalName);
-    console.log(`Яндекс Метрика: цель "${goalName}" отправлена`);
   }
 };
 
