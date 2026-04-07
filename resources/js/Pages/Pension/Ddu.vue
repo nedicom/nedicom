@@ -430,17 +430,6 @@ const contactLawyer = () => {
 const downloadTemplate = (filename) => {
   // Отправляем цель в Яндекс Метрику
   sendYaGoal('download_template');
-
-  // Здесь позже добавите реальные ссылки на файлы на сервере
-  // Пока просто имитация скачивания
-  console.log(`Скачивание файла: ${filename}`);
-
-  // Когда загрузите файлы на сервер, раскомментируйте:
-  // const fileUrl = `/storage/templates/${filename}`;
-  // window.open(fileUrl, '_blank');
-
-  // Временное уведомление
-  alert(`Файл "${filename}" будет доступен для скачивания после загрузки на сервер.`);
 };
 
 onMounted(() => {
@@ -942,7 +931,7 @@ onMounted(() => {
               <div class="text-4xl mb-2">📋</div>
               <h3 itemprop="name" class="text-xl font-bold text-white">Досудебная претензия</h3>
               <meta itemprop="description"
-                content="Готовый шаблон досудебной претензии к застройщику о выплате неустойки по ДДУ. Заполните данные о квартире, датах просрочки и сумме требований." />
+                content="Готовый шаблон досудебной претензии к застройщику о выплате неустойки по ДДУ." />
             </div>
             <div class="p-5">
               <div class="space-y-2 mb-4 text-sm text-gray-600">
@@ -950,11 +939,8 @@ onMounted(() => {
                 <p>✅ Заполните даты и сумму</p>
                 <p>✅ Ссылка на закон 214-ФЗ</p>
               </div>
-              <div itemprop="offers" itemscope itemtype="https://schema.org/Offer" style="display: none;">
-                <meta itemprop="price" content="0" />
-                <meta itemprop="priceCurrency" content="RUB" />
-              </div>
-              <a href="#" download itemprop="url" @click.prevent="downloadTemplate('pretenziya-ddu.docx')"
+              <a href="/storage/templates/pretenziya-ddu.docx" download="pretenziya-ddu.docx"
+                @click="downloadTemplate('pretenziya-ddu.docx')"
                 class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition">
                 📥 Скачать шаблон (DOCX)
               </a>
@@ -969,7 +955,7 @@ onMounted(() => {
               <div class="text-4xl mb-2">⚖️</div>
               <h3 itemprop="name" class="text-xl font-bold text-white">Исковое заявление</h3>
               <meta itemprop="description"
-                content="Готовый шаблон искового заявления в суд о взыскании неустойки по ДДУ. Включает расчёт неустойки, штрафа 50% и компенсации морального вреда." />
+                content="Готовый шаблон искового заявления в суд о взыскании неустойки по ДДУ." />
             </div>
             <div class="p-5">
               <div class="space-y-2 mb-4 text-sm text-gray-600">
@@ -977,11 +963,8 @@ onMounted(() => {
                 <p>✅ Включает расчёт неустойки</p>
                 <p>✅ Штраф 50% + моральный вред</p>
               </div>
-              <div itemprop="offers" itemscope itemtype="https://schema.org/Offer" style="display: none;">
-                <meta itemprop="price" content="0" />
-                <meta itemprop="priceCurrency" content="RUB" />
-              </div>
-              <a href="#" download itemprop="url" @click.prevent="downloadTemplate('iskovoe-zayavlenie-ddu.docx')"
+              <a href="/storage/templates/iskovoe-zayavlenie-ddu.docx" download="iskovoe-zayavlenie-ddu.docx"
+                @click="downloadTemplate('iskovoe-zayavlenie-ddu.docx')"
                 class="block w-full text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition">
                 📥 Скачать шаблон (DOCX)
               </a>
@@ -991,7 +974,6 @@ onMounted(() => {
 
         </div>
 
-        <!-- Дополнительные шаблоны (вторая строка, опционально) -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mt-6">
 
           <!-- Шаблон 3: Расчёт неустойки -->
@@ -1001,7 +983,7 @@ onMounted(() => {
               <div class="text-4xl mb-2">💰</div>
               <h3 itemprop="name" class="text-xl font-bold text-white">Расчёт неустойки (таблица)</h3>
               <meta itemprop="description"
-                content="Готовая таблица Excel для автоматического расчёта неустойки по ДДУ с учётом периодов и ключевой ставки ЦБ." />
+                content="Готовая таблица Excel для автоматического расчёта неустойки по ДДУ." />
             </div>
             <div class="p-5">
               <div class="space-y-2 mb-4 text-sm text-gray-600">
@@ -1009,7 +991,8 @@ onMounted(() => {
                 <p>✅ Учитывает периоды просрочки</p>
                 <p>✅ Таблица с детализацией</p>
               </div>
-              <a href="#" download @click.prevent="downloadTemplate('raschet-neustoyki.xlsx')"
+              <a href="/storage/templates/raschet-neustoyki.xlsx" download="raschet-neustoyki.xlsx"
+                @click="downloadTemplate('raschet-neustoyki.xlsx')"
                 class="block w-full text-center bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-4 rounded-lg transition">
                 📥 Скачать шаблон (XLSX)
               </a>
@@ -1023,8 +1006,7 @@ onMounted(() => {
             <div class="bg-gradient-to-r from-orange-500 to-orange-600 p-4">
               <div class="text-4xl mb-2">📝</div>
               <h3 itemprop="name" class="text-xl font-bold text-white">Акт приёма-передачи</h3>
-              <meta itemprop="description"
-                content="Шаблон акта приёма-передачи квартиры с указанием недостатков и дефектов. Защитит ваши права при приёмке жилья." />
+              <meta itemprop="description" content="Шаблон акта приёма-передачи квартиры с указанием недостатков." />
             </div>
             <div class="p-5">
               <div class="space-y-2 mb-4 text-sm text-gray-600">
@@ -1032,7 +1014,8 @@ onMounted(() => {
                 <p>✅ Защита прав дольщика</p>
                 <p>✅ Основание для претензии</p>
               </div>
-              <a href="#" download @click.prevent="downloadTemplate('akt-priema-peredachi.docx')"
+              <a href="/storage/templates/akt-priema-peredachi.docx" download="akt-priema-peredachi.docx"
+                @click="downloadTemplate('akt-priema-peredachi.docx')"
                 class="block w-full text-center bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-4 rounded-lg transition">
                 📥 Скачать шаблон (DOCX)
               </a>
