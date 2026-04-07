@@ -19,6 +19,8 @@ const form = ref({
   isLegalEntity: false,
 });
 
+const toggleMenu = ref(false);
+
 // Для отображения примера расчёта
 const exampleDays = ref(90);
 const examplePrice = 5000000;
@@ -425,7 +427,21 @@ const contactLawyer = () => {
   sendYaGoal('contact_lawyer');
 };
 
-// Schema.org structured data - исправленная версия
+const downloadTemplate = (filename) => {
+  // Отправляем цель в Яндекс Метрику
+  sendYaGoal('download_template');
+
+  // Здесь позже добавите реальные ссылки на файлы на сервере
+  // Пока просто имитация скачивания
+  console.log(`Скачивание файла: ${filename}`);
+
+  // Когда загрузите файлы на сервер, раскомментируйте:
+  // const fileUrl = `/storage/templates/${filename}`;
+  // window.open(fileUrl, '_blank');
+
+  // Временное уведомление
+  alert(`Файл "${filename}" будет доступен для скачивания после загрузки на сервер.`);
+};
 
 onMounted(() => {
   // Добавляем Schema.org разметку
@@ -513,9 +529,11 @@ onMounted(() => {
       </div>
       <!-- ↑↑↑ НОВЫЙ БЛОК ДЛЯ aggregateRating ↑↑↑ -->
       <!-- Навигация по странице -->
+      <!-- Навигация по странице - адаптивная версия -->
       <div class="mb-8 p-4 bg-gray-50 rounded-xl border border-gray-200">
-        <h2 class="text-lg sm:text-xl font-semibold text-gray-800 mb-3">📑 Содержание страницы</h2>
-        <div class="flex flex-wrap gap-3 text-sm sm:text-base">
+        <!-- Десктопная версия (показывается на sm и выше) -->
+        <h2 class="text-lg sm:text-xl font-semibold text-gray-800 mb-3 hidden sm:block">📑 Содержание страницы</h2>
+        <div class="hidden sm:flex sm:flex-wrap gap-3 text-sm sm:text-base">
           <button @click="scrollToSection('calculator')"
             class="text-blue-600 hover:text-blue-800 hover:underline transition">🧮 Калькулятор</button>
           <span class="text-gray-300">|</span>
@@ -525,11 +543,50 @@ onMounted(() => {
           <button @click="scrollToSection('guide')"
             class="text-blue-600 hover:text-blue-800 hover:underline transition">📖 Пошаговый гайд</button>
           <span class="text-gray-300">|</span>
+          <button @click="scrollToSection('templates')"
+            class="text-blue-600 hover:text-blue-800 hover:underline transition">📋 Шаблоны</button>
+          <span class="text-gray-300">|</span>
           <button @click="scrollToSection('rates-table')"
             class="text-blue-600 hover:text-blue-800 hover:underline transition">📊 Ставки ЦБ</button>
           <span class="text-gray-300">|</span>
           <button @click="scrollToSection('what-next')"
             class="text-blue-600 hover:text-blue-800 hover:underline transition">⚡ Что дальше</button>
+        </div>
+
+        <!-- Мобильная версия (показывается только на экранах меньше sm) -->
+        <div class="sm:hidden">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="text-base font-semibold text-gray-800">📑 Содержание</h2>
+            <button @click="toggleMenu = !toggleMenu" class="text-blue-600 text-sm flex items-center gap-1">
+              <span>{{ toggleMenu ? 'Скрыть ▲' : 'Показать ▼' }}</span>
+            </button>
+          </div>
+          <div v-show="toggleMenu" class="flex flex-col gap-2 text-sm">
+            <button @click="scrollToSection('calculator'); toggleMenu = false"
+              class="text-blue-600 hover:text-blue-800 hover:underline transition text-left py-1">
+              🧮 Калькулятор
+            </button>
+            <button @click="scrollToSection('how-it-works'); toggleMenu = false"
+              class="text-blue-600 hover:text-blue-800 hover:underline transition text-left py-1">
+              🔧 Как работает
+            </button>
+            <button @click="scrollToSection('guide'); toggleMenu = false"
+              class="text-blue-600 hover:text-blue-800 hover:underline transition text-left py-1">
+              📖 Пошаговый гайд
+            </button>
+            <button @click="scrollToSection('templates'); toggleMenu = false"
+              class="text-blue-600 hover:text-blue-800 hover:underline transition text-left py-1">
+              📋 Шаблоны документов
+            </button>
+            <button @click="scrollToSection('rates-table'); toggleMenu = false"
+              class="text-blue-600 hover:text-blue-800 hover:underline transition text-left py-1">
+              📊 Ставки ЦБ
+            </button>
+            <button @click="scrollToSection('what-next'); toggleMenu = false"
+              class="text-blue-600 hover:text-blue-800 hover:underline transition text-left py-1">
+              ⚡ Что дальше
+            </button>
+          </div>
         </div>
       </div>
 
@@ -863,6 +920,131 @@ onMounted(() => {
             🚀 Записаться на бесплатную консультацию
           </a>
           <p class="text-xs text-blue-200 mt-3">Ответим за 15 минут. Более 500 выигранных дел по ДДУ</p>
+        </div>
+      </div>
+
+      <!-- БЛОК С ШАБЛОНАМИ ДОКУМЕНТОВ -->
+      <div id="templates" class="py-10 px-4 mx-auto max-w-screen-xl border-t border-gray-200 scroll-mt-20">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6 text-center">
+          📄 Шаблоны документов для скачивания
+        </h2>
+        <p class="text-gray-600 text-center mb-8 max-w-2xl mx-auto">
+          Скачайте готовые шаблоны документов для взыскания неустойки с застройщика.
+          Заполните данные и подайте в суд.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+
+          <!-- Шаблон 1: Досудебная претензия -->
+          <div itemscope itemtype="https://schema.org/CreativeWork"
+            class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition">
+            <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-4">
+              <div class="text-4xl mb-2">📋</div>
+              <h3 itemprop="name" class="text-xl font-bold text-white">Досудебная претензия</h3>
+              <meta itemprop="description"
+                content="Готовый шаблон досудебной претензии к застройщику о выплате неустойки по ДДУ. Заполните данные о квартире, датах просрочки и сумме требований." />
+            </div>
+            <div class="p-5">
+              <div class="space-y-2 mb-4 text-sm text-gray-600">
+                <p>✅ Готовый бланк претензии</p>
+                <p>✅ Заполните даты и сумму</p>
+                <p>✅ Ссылка на закон 214-ФЗ</p>
+              </div>
+              <div itemprop="offers" itemscope itemtype="https://schema.org/Offer" style="display: none;">
+                <meta itemprop="price" content="0" />
+                <meta itemprop="priceCurrency" content="RUB" />
+              </div>
+              <a href="#" download itemprop="url" @click.prevent="downloadTemplate('pretenziya-ddu.docx')"
+                class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition">
+                📥 Скачать шаблон (DOCX)
+              </a>
+              <p class="text-xs text-gray-400 text-center mt-3">Формат: Microsoft Word</p>
+            </div>
+          </div>
+
+          <!-- Шаблон 2: Исковое заявление -->
+          <div itemscope itemtype="https://schema.org/CreativeWork"
+            class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition">
+            <div class="bg-gradient-to-r from-green-500 to-green-600 p-4">
+              <div class="text-4xl mb-2">⚖️</div>
+              <h3 itemprop="name" class="text-xl font-bold text-white">Исковое заявление</h3>
+              <meta itemprop="description"
+                content="Готовый шаблон искового заявления в суд о взыскании неустойки по ДДУ. Включает расчёт неустойки, штрафа 50% и компенсации морального вреда." />
+            </div>
+            <div class="p-5">
+              <div class="space-y-2 mb-4 text-sm text-gray-600">
+                <p>✅ Полностью готовый иск</p>
+                <p>✅ Включает расчёт неустойки</p>
+                <p>✅ Штраф 50% + моральный вред</p>
+              </div>
+              <div itemprop="offers" itemscope itemtype="https://schema.org/Offer" style="display: none;">
+                <meta itemprop="price" content="0" />
+                <meta itemprop="priceCurrency" content="RUB" />
+              </div>
+              <a href="#" download itemprop="url" @click.prevent="downloadTemplate('iskovoe-zayavlenie-ddu.docx')"
+                class="block w-full text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition">
+                📥 Скачать шаблон (DOCX)
+              </a>
+              <p class="text-xs text-gray-400 text-center mt-3">Формат: Microsoft Word</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Дополнительные шаблоны (вторая строка, опционально) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mt-6">
+
+          <!-- Шаблон 3: Расчёт неустойки -->
+          <div itemscope itemtype="https://schema.org/CreativeWork"
+            class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition">
+            <div class="bg-gradient-to-r from-purple-500 to-purple-600 p-4">
+              <div class="text-4xl mb-2">💰</div>
+              <h3 itemprop="name" class="text-xl font-bold text-white">Расчёт неустойки (таблица)</h3>
+              <meta itemprop="description"
+                content="Готовая таблица Excel для автоматического расчёта неустойки по ДДУ с учётом периодов и ключевой ставки ЦБ." />
+            </div>
+            <div class="p-5">
+              <div class="space-y-2 mb-4 text-sm text-gray-600">
+                <p>✅ Автоматический расчёт</p>
+                <p>✅ Учитывает периоды просрочки</p>
+                <p>✅ Таблица с детализацией</p>
+              </div>
+              <a href="#" download @click.prevent="downloadTemplate('raschet-neustoyki.xlsx')"
+                class="block w-full text-center bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-4 rounded-lg transition">
+                📥 Скачать шаблон (XLSX)
+              </a>
+              <p class="text-xs text-gray-400 text-center mt-3">Формат: Microsoft Excel</p>
+            </div>
+          </div>
+
+          <!-- Шаблон 4: Акт приёма-передачи -->
+          <div itemscope itemtype="https://schema.org/CreativeWork"
+            class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition">
+            <div class="bg-gradient-to-r from-orange-500 to-orange-600 p-4">
+              <div class="text-4xl mb-2">📝</div>
+              <h3 itemprop="name" class="text-xl font-bold text-white">Акт приёма-передачи</h3>
+              <meta itemprop="description"
+                content="Шаблон акта приёма-передачи квартиры с указанием недостатков и дефектов. Защитит ваши права при приёмке жилья." />
+            </div>
+            <div class="p-5">
+              <div class="space-y-2 mb-4 text-sm text-gray-600">
+                <p>✅ Акт с перечнем недостатков</p>
+                <p>✅ Защита прав дольщика</p>
+                <p>✅ Основание для претензии</p>
+              </div>
+              <a href="#" download @click.prevent="downloadTemplate('akt-priema-peredachi.docx')"
+                class="block w-full text-center bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-4 rounded-lg transition">
+                📥 Скачать шаблон (DOCX)
+              </a>
+              <p class="text-xs text-gray-400 text-center mt-3">Формат: Microsoft Word</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="text-center text-gray-500 text-sm mt-6">
+          ⚠️ Внимание: Шаблоны документов носят ознакомительный характер. Рекомендуем проконсультироваться с юристом
+          перед подачей.
         </div>
       </div>
 
