@@ -3,7 +3,7 @@ import MainHeader from "@/Layouts/MainHeader.vue";
 import Body from "@/Layouts/Body.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
 import Tracking from '@/Components/Tracking.vue';
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
 import { Head } from "@inertiajs/inertia-vue3";
 
 let set = defineProps({
@@ -18,8 +18,6 @@ const form = ref({
   actualDate: '',
   isLegalEntity: false,
 });
-
-const toggleMenu = ref(false);
 
 // Для отображения примера расчёта
 const exampleDays = ref(90);
@@ -243,6 +241,28 @@ const scrollToSection = (sectionId) => {
   }
 };
 
+
+const activeSection = ref('calculator');
+const showMobileMenu = ref(false);
+
+// Функция отслеживания активной секции при скролле
+const handleScroll = () => {
+  const sections = ['calculator', 'how-it-works', 'guide', 'templates', 'rates-table', 'what-next'];
+  const scrollPosition = window.scrollY + 150; // небольшой офсет
+
+  for (const section of sections) {
+    const element = document.getElementById(section);
+    if (element) {
+      const offsetTop = element.offsetTop;
+      const offsetBottom = offsetTop + element.offsetHeight;
+      if (scrollPosition >= offsetTop && scrollPosition < offsetBottom) {
+        activeSection.value = section;
+        break;
+      }
+    }
+  }
+};
+
 // Скачать расчёт в PDF
 const downloadPDF = () => {
   const resultBlock = document.getElementById('calculation-result-print');
@@ -434,10 +454,8 @@ const downloadTemplate = (filename) => {
 
 onMounted(() => {
   // Добавляем Schema.org разметку
-  const script = document.createElement('script');
-  script.type = 'application/ld+json';
-  script.textContent = JSON.stringify(jsonLdSchema.value);
-  document.head.appendChild(script);
+  window.addEventListener('scroll', handleScroll);
+  handleScroll(); // Запускаем сразу
 
   if (typeof ym === 'undefined') {
     const ymScript = document.createElement('script');
@@ -456,6 +474,10 @@ onMounted(() => {
     `;
     document.head.appendChild(ymScript);
   }
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll);
 });
 </script>
 
@@ -517,65 +539,82 @@ onMounted(() => {
         <meta itemprop="ratingCount" content="156" />
       </div>
       <!-- ↑↑↑ НОВЫЙ БЛОК ДЛЯ aggregateRating ↑↑↑ -->
-      <!-- Навигация по странице -->
-      <!-- Навигация по странице - адаптивная версия -->
-      <div class="mb-8 p-4 bg-gray-50 rounded-xl border border-gray-200">
-        <!-- Десктопная версия (показывается на sm и выше) -->
-        <h2 class="text-lg sm:text-xl font-semibold text-gray-800 mb-3 hidden sm:block">📑 Содержание страницы</h2>
-        <div class="hidden sm:flex sm:flex-wrap gap-3 text-sm sm:text-base">
-          <button @click="scrollToSection('calculator')"
-            class="text-blue-600 hover:text-blue-800 hover:underline transition">🧮 Калькулятор</button>
-          <span class="text-gray-300">|</span>
-          <button @click="scrollToSection('how-it-works')"
-            class="text-blue-600 hover:text-blue-800 hover:underline transition">🔧 Как работает</button>
-          <span class="text-gray-300">|</span>
-          <button @click="scrollToSection('guide')"
-            class="text-blue-600 hover:text-blue-800 hover:underline transition">📖 Пошаговый гайд</button>
-          <span class="text-gray-300">|</span>
-          <button @click="scrollToSection('templates')"
-            class="text-blue-600 hover:text-blue-800 hover:underline transition">📋 Шаблоны</button>
-          <span class="text-gray-300">|</span>
-          <button @click="scrollToSection('rates-table')"
-            class="text-blue-600 hover:text-blue-800 hover:underline transition">📊 Ставки ЦБ</button>
-          <span class="text-gray-300">|</span>
-          <button @click="scrollToSection('what-next')"
-            class="text-blue-600 hover:text-blue-800 hover:underline transition">⚡ Что дальше</button>
-        </div>
 
-        <!-- Мобильная версия (показывается только на экранах меньше sm) -->
-        <div class="sm:hidden">
-          <div class="flex items-center justify-between mb-2">
-            <h2 class="text-base font-semibold text-gray-800">📑 Содержание</h2>
-            <button @click="toggleMenu = !toggleMenu" class="text-blue-600 text-sm flex items-center gap-1">
-              <span>{{ toggleMenu ? 'Скрыть ▲' : 'Показать ▼' }}</span>
-            </button>
-          </div>
-          <div v-show="toggleMenu" class="flex flex-col gap-2 text-sm">
-            <button @click="scrollToSection('calculator'); toggleMenu = false"
-              class="text-blue-600 hover:text-blue-800 hover:underline transition text-left py-1">
+
+      <!-- Десктопное фиксированное оглавление (справа) -->
+      <div class="fixed-toc hidden lg:block">
+        <div class="p-4">
+          <h3 class="font-semibold text-gray-800 mb-3 text-sm">📑 Содержание</h3>
+          <nav class="space-y-2">
+            <button @click="scrollToSection('calculator')"
+              :class="['toc-item w-full text-left px-3 py-2 text-sm rounded-lg transition', activeSection === 'calculator' ? 'active bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50']">
               🧮 Калькулятор
             </button>
-            <button @click="scrollToSection('how-it-works'); toggleMenu = false"
-              class="text-blue-600 hover:text-blue-800 hover:underline transition text-left py-1">
+            <button @click="scrollToSection('how-it-works')"
+              :class="['toc-item w-full text-left px-3 py-2 text-sm rounded-lg transition', activeSection === 'how-it-works' ? 'active bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50']">
               🔧 Как работает
             </button>
-            <button @click="scrollToSection('guide'); toggleMenu = false"
-              class="text-blue-600 hover:text-blue-800 hover:underline transition text-left py-1">
-              📖 Пошаговый гайд
-            </button>
-            <button @click="scrollToSection('templates'); toggleMenu = false"
-              class="text-blue-600 hover:text-blue-800 hover:underline transition text-left py-1">
-              📋 Шаблоны документов
-            </button>
-            <button @click="scrollToSection('rates-table'); toggleMenu = false"
-              class="text-blue-600 hover:text-blue-800 hover:underline transition text-left py-1">
-              📊 Ставки ЦБ
-            </button>
-            <button @click="scrollToSection('what-next'); toggleMenu = false"
-              class="text-blue-600 hover:text-blue-800 hover:underline transition text-left py-1">
+            <button @click="scrollToSection('what-next')"
+              :class="['toc-item w-full text-left px-3 py-2 text-sm rounded-lg transition', activeSection === 'what-next' ? 'active bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50']">
               ⚡ Что дальше
             </button>
+            <button @click="scrollToSection('templates')"
+              :class="['toc-item w-full text-left px-3 py-2 text-sm rounded-lg transition', activeSection === 'templates' ? 'active bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50']">
+              📋 Шаблоны
+            </button>
+            <button @click="scrollToSection('guide')"
+              :class="['toc-item w-full text-left px-3 py-2 text-sm rounded-lg transition', activeSection === 'guide' ? 'active bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50']">
+              📖 Пошаговый гайд
+            </button>
+            <button @click="scrollToSection('rates-table')"
+              :class="['toc-item w-full text-left px-3 py-2 text-sm rounded-lg transition', activeSection === 'rates-table' ? 'active bg-blue-50 text-blue-600 font-medium' : 'text-gray-600 hover:bg-gray-50']">
+              📊 Ставки ЦБ
+            </button>
+          </nav>
+        </div>
+      </div>
+
+      <!-- Мобильная плавающая кнопка -->
+      <div class="mobile-toc-button lg:hidden" @click="showMobileMenu = !showMobileMenu">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </div>
+
+      <!-- Мобильное меню (появляется при клике) -->
+      <div v-if="showMobileMenu" class="mobile-menu lg:hidden">
+        <div class="p-3">
+          <div class="flex justify-between items-center mb-2 pb-2 border-b">
+            <span class="font-semibold text-gray-800 text-sm">📑 Содержание</span>
+            <button @click="showMobileMenu = false" class="text-gray-400 hover:text-gray-600">✕</button>
           </div>
+          <nav class="space-y-1">
+            <button @click="scrollToSection('calculator'); showMobileMenu = false"
+              class="w-full text-left px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition">
+              🧮 Калькулятор
+            </button>
+            <button @click="scrollToSection('how-it-works'); showMobileMenu = false"
+              class="w-full text-left px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition">
+              🔧 Как работает
+            </button>
+            <button @click="scrollToSection('what-next'); showMobileMenu = false"
+              class="w-full text-left px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition">
+              ⚡ Что дальше
+            </button>
+
+            <button @click="scrollToSection('templates'); showMobileMenu = false"
+              class="w-full text-left px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition">
+              📋 Шаблоны документов
+            </button>
+            <button @click="scrollToSection('guide'); showMobileMenu = false"
+              class="w-full text-left px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition">
+              📖 Пошаговый гайд
+            </button>
+            <button @click="scrollToSection('rates-table'); showMobileMenu = false"
+              class="w-full text-left px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition">
+              📊 Ставки ЦБ
+            </button>
+          </nav>
         </div>
       </div>
 
@@ -873,6 +912,37 @@ onMounted(() => {
         </div>
       </div>
 
+      <!-- БЛОК 1: Как работает калькулятор -->
+      <div id="how-it-works" class="py-10 px-4 mx-auto max-w-screen-xl border-t border-gray-200 scroll-mt-20">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+          🔧 Как работает калькулятор неустойки по ДДУ
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-blue-50 p-5 rounded-xl">
+            <div class="text-3xl mb-3">1️⃣</div>
+            <h3 class="text-lg sm:text-xl font-semibold mb-2">Введите данные договора</h3>
+            <p class="text-gray-600 text-sm sm:text-base">Укажите цену квартиры по ДДУ, плановую дату сдачи из договора
+              и фактическую дату подписания акта.</p>
+          </div>
+          <div class="bg-blue-50 p-5 rounded-xl">
+            <div class="text-3xl mb-3">2️⃣</div>
+            <h3 class="text-lg sm:text-xl font-semibold mb-2">Автоматический расчёт</h3>
+            <p class="text-gray-600 text-sm sm:text-base">Калькулятор ДДУ онлайн самостоятельно определяет количество
+              дней просрочки и применяет актуальную ключевую ставку ЦБ РФ.</p>
+          </div>
+          <div class="bg-blue-50 p-5 rounded-xl">
+            <div class="text-3xl mb-3">3️⃣</div>
+            <h3 class="text-lg sm:text-xl font-semibold mb-2">Получите сумму неустойки</h3>
+            <p class="text-gray-600 text-sm sm:text-base">Вы увидите точную сумму неустойки по 214-ФЗ с детализацией по
+              периодам действия разных ставок ЦБ.</p>
+          </div>
+        </div>
+        <p class="text-gray-500 text-sm sm:text-base mt-6 p-4 bg-gray-50 rounded-lg">
+          💡 <strong>Формула расчёта:</strong> Сумма неустойки = Цена ДДУ × Ключевая ставка ЦБ (%) × 1/150 (для физлиц)
+          × Количество дней просрочки.
+        </p>
+      </div>
+
       <!-- ============================================ -->
       <!-- ЧТО ДЕЛАТЬ ПОСЛЕ РАСЧЁТА + CTA -->
       <!-- ============================================ -->
@@ -1031,36 +1101,58 @@ onMounted(() => {
         </div>
       </div>
 
-      <!-- БЛОК 1: Как работает калькулятор -->
-      <div id="how-it-works" class="py-10 px-4 mx-auto max-w-screen-xl border-t border-gray-200 scroll-mt-20">
+      <!-- ============================================ -->
+      <!-- ПОШАГОВЫЙ ГАЙД: КАК ПОДАТЬ НА НЕУСТОЙКУ ПО ДДУ -->
+      <!-- ============================================ -->
+      <div id="guide" class="py-10 px-4 mx-auto max-w-screen-xl border-t border-gray-200 scroll-mt-20">
         <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-          🔧 Как работает калькулятор неустойки по ДДУ
+          📖 Пошаговый гайд: как подать на неустойку по ДДУ
         </h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="bg-blue-50 p-5 rounded-xl">
-            <div class="text-3xl mb-3">1️⃣</div>
-            <h3 class="text-lg sm:text-xl font-semibold mb-2">Введите данные договора</h3>
-            <p class="text-gray-600 text-sm sm:text-base">Укажите цену квартиры по ДДУ, плановую дату сдачи из договора
-              и фактическую дату подписания акта.</p>
-          </div>
-          <div class="bg-blue-50 p-5 rounded-xl">
-            <div class="text-3xl mb-3">2️⃣</div>
-            <h3 class="text-lg sm:text-xl font-semibold mb-2">Автоматический расчёт</h3>
-            <p class="text-gray-600 text-sm sm:text-base">Калькулятор ДДУ онлайн самостоятельно определяет количество
-              дней просрочки и применяет актуальную ключевую ставку ЦБ РФ.</p>
-          </div>
-          <div class="bg-blue-50 p-5 rounded-xl">
-            <div class="text-3xl mb-3">3️⃣</div>
-            <h3 class="text-lg sm:text-xl font-semibold mb-2">Получите сумму неустойки</h3>
-            <p class="text-gray-600 text-sm sm:text-base">Вы увидите точную сумму неустойки по 214-ФЗ с детализацией по
-              периодам действия разных ставок ЦБ.</p>
+
+        <div class="prose prose-lg max-w-none">
+          <p class="text-gray-600 mb-6">Взыскание неустойки с застройщика — процесс, который при правильном подходе
+            завершается успешно в 95% случаев. Ниже — подробная инструкция.</p>
+
+          <div class="space-y-8">
+            <div class="bg-white p-5 rounded-xl border-l-4 border-blue-500 shadow-sm">
+              <h3 class="text-xl font-bold text-gray-800 mb-3">Шаг 1. Соберите документы</h3>
+              <p class="text-gray-600">Вам понадобятся: договор ДДУ, акт приёма-передачи (или односторонний акт),
+                документы об оплате, переписка с застройщиком, досудебная претензия (если направляли).</p>
+            </div>
+
+            <div class="bg-white p-5 rounded-xl border-l-4 border-blue-500 shadow-sm">
+              <h3 class="text-xl font-bold text-gray-800 mb-3">Шаг 2. Рассчитайте неустойку</h3>
+              <p class="text-gray-600">Используйте наш калькулятор выше. Он учитывает мораторий и актуальные ставки ЦБ.
+                Зафиксируйте результат — он понадобится для претензии.</p>
+            </div>
+
+            <div class="bg-white p-5 rounded-xl border-l-4 border-blue-500 shadow-sm">
+              <h3 class="text-xl font-bold text-gray-800 mb-3">Шаг 3. Направьте досудебную претензию</h3>
+              <p class="text-gray-600">
+                Обратитесь к юристу для реализации этого шага.
+                Неправильно составленная претензия ведет к уменьшению размера взыскиваемой суммы.
+                Это обязательный этап перед судом. Отправьте заказным письмом с уведомлением или
+                вручите под роспись. Застройщик обязан ответить в течение 30 дней.</p>
+            </div>
+
+            <div class="bg-white p-5 rounded-xl border-l-4 border-blue-500 shadow-sm">
+              <h3 class="text-xl font-bold text-gray-800 mb-3">Шаг 4. Обратитесь в суд</h3>
+              <p class="text-gray-600">
+                Обратитесь к юристу для реализации этого шага.
+                Обратите внимание, что услуги юриста могут быть компенсированы судом в полном объеме.
+                Если застройщик отказал или проигнорировал претензию — подавайте иск в районный
+                суд по месту нахождения объекта. К иску приложите все документы + расчёт.</p>
+            </div>
+
+            <div class="bg-white p-5 rounded-xl border-l-4 border-blue-500 shadow-sm">
+              <h3 class="text-xl font-bold text-gray-800 mb-3">Шаг 5. Получите исполнительный лист</h3>
+              <p class="text-gray-600">После решения суда в вашу пользу дождитесь вступления в силу, получите
+                исполнительный лист и направьте его в службу судебных приставов или банк застройщика.</p>
+            </div>
           </div>
         </div>
-        <p class="text-gray-500 text-sm sm:text-base mt-6 p-4 bg-gray-50 rounded-lg">
-          💡 <strong>Формула расчёта:</strong> Сумма неустойки = Цена ДДУ × Ключевая ставка ЦБ (%) × 1/150 (для физлиц)
-          × Количество дней просрочки.
-        </p>
       </div>
+
 
       <!-- БЛОК 2: Что влияет на размер неустойки -->
       <div id="what-affects" class="py-10 px-4 mx-auto max-w-screen-xl border-t border-gray-200 scroll-mt-20">
@@ -1114,58 +1206,6 @@ onMounted(() => {
               <li>Наш калькулятор автоматически исключает этот период</li>
               <li>Расчёт начинается с 1 января 2026 года</li>
             </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- ============================================ -->
-      <!-- ПОШАГОВЫЙ ГАЙД: КАК ПОДАТЬ НА НЕУСТОЙКУ ПО ДДУ -->
-      <!-- ============================================ -->
-      <div id="guide" class="py-10 px-4 mx-auto max-w-screen-xl border-t border-gray-200 scroll-mt-20">
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-          📖 Пошаговый гайд: как подать на неустойку по ДДУ
-        </h2>
-
-        <div class="prose prose-lg max-w-none">
-          <p class="text-gray-600 mb-6">Взыскание неустойки с застройщика — процесс, который при правильном подходе
-            завершается успешно в 95% случаев. Ниже — подробная инструкция.</p>
-
-          <div class="space-y-8">
-            <div class="bg-white p-5 rounded-xl border-l-4 border-blue-500 shadow-sm">
-              <h3 class="text-xl font-bold text-gray-800 mb-3">Шаг 1. Соберите документы</h3>
-              <p class="text-gray-600">Вам понадобятся: договор ДДУ, акт приёма-передачи (или односторонний акт),
-                документы об оплате, переписка с застройщиком, досудебная претензия (если направляли).</p>
-            </div>
-
-            <div class="bg-white p-5 rounded-xl border-l-4 border-blue-500 shadow-sm">
-              <h3 class="text-xl font-bold text-gray-800 mb-3">Шаг 2. Рассчитайте неустойку</h3>
-              <p class="text-gray-600">Используйте наш калькулятор выше. Он учитывает мораторий и актуальные ставки ЦБ.
-                Зафиксируйте результат — он понадобится для претензии.</p>
-            </div>
-
-            <div class="bg-white p-5 rounded-xl border-l-4 border-blue-500 shadow-sm">
-              <h3 class="text-xl font-bold text-gray-800 mb-3">Шаг 3. Направьте досудебную претензию</h3>
-              <p class="text-gray-600">
-                Обратитесь к юристу для реализации этого шага.
-                Неправильно составленная претензия ведет к уменьшению размера взыскиваемой суммы.
-                Это обязательный этап перед судом. Отправьте заказным письмом с уведомлением или
-                вручите под роспись. Застройщик обязан ответить в течение 30 дней.</p>
-            </div>
-
-            <div class="bg-white p-5 rounded-xl border-l-4 border-blue-500 shadow-sm">
-              <h3 class="text-xl font-bold text-gray-800 mb-3">Шаг 4. Обратитесь в суд</h3>
-              <p class="text-gray-600">
-                Обратитесь к юристу для реализации этого шага.
-                Обратите внимание, что услуги юриста могут быть компенсированы судом в полном объеме.
-                Если застройщик отказал или проигнорировал претензию — подавайте иск в районный
-                суд по месту нахождения объекта. К иску приложите все документы + расчёт.</p>
-            </div>
-
-            <div class="bg-white p-5 rounded-xl border-l-4 border-blue-500 shadow-sm">
-              <h3 class="text-xl font-bold text-gray-800 mb-3">Шаг 5. Получите исполнительный лист</h3>
-              <p class="text-gray-600">После решения суда в вашу пользу дождитесь вступления в силу, получите
-                исполнительный лист и направьте его в службу судебных приставов или банк застройщика.</p>
-            </div>
           </div>
         </div>
       </div>
@@ -1284,6 +1324,94 @@ onMounted(() => {
   height: 18px;
   font-size: 12px;
   cursor: help;
+}
+
+/* Фиксированное оглавление для ПК */
+.fixed-toc {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  width: 240px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 40;
+  transition: all 0.3s ease;
+}
+
+.fixed-toc .toc-item {
+  transition: all 0.2s ease;
+}
+
+.fixed-toc .toc-item.active {
+  background: #eff6ff;
+  color: #2563eb;
+  font-weight: 600;
+  border-left: 3px solid #2563eb;
+}
+
+/* Плавающая кнопка для мобильных */
+.mobile-toc-button {
+  position: fixed;
+  bottom: 80px;
+  right: 16px;
+  width: 56px;
+  height: 56px;
+  background: #2563eb;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+  z-index: 50;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.mobile-toc-button:hover {
+  transform: scale(1.05);
+  background: #1d4ed8;
+}
+
+.mobile-menu {
+  position: fixed;
+  bottom: 150px;
+  right: 16px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  width: 220px;
+  z-index: 49;
+  overflow: hidden;
+  animation: slideIn 0.2s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Скрываем фиксированное оглавление на мобильных */
+@media (max-width: 1024px) {
+  .fixed-toc {
+    display: none;
+  }
+}
+
+/* Показываем кнопку только на мобильных */
+@media (min-width: 1025px) {
+
+  .mobile-toc-button,
+  .mobile-menu {
+    display: none;
+  }
 }
 
 /* Мобильные оптимизации */
