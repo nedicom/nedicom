@@ -220,7 +220,7 @@ const resetForm = () => {
 // Функция отправки целей в Яндекс Метрику
 const sendYaGoal = (goalName) => {
   if (typeof ym !== "undefined") {
-    ym("93864388", "reachGoal", goalName);
+    ym("24900584", "reachGoal", goalName);
   }
 };
 
