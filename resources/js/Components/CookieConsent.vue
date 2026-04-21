@@ -1,68 +1,75 @@
 <!-- resources/js/Components/CookieConsent.vue -->
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted } from "vue";
 
 const props = defineProps({
   auth: {
     type: Object,
-    default: null
-  }
-})
+    default: null,
+  },
+});
 
-const showBanner = ref(false)
+const showBanner = ref(false);
 
 // ID вашего счетчика Яндекс.Метрики
-const METRIKA_ID = 24900584
+const METRIKA_ID = 24900584;
 
 onMounted(() => {
   // Проверяем, давал ли пользователь согласие
-  const savedConsent = localStorage.getItem('yandex_metrica_consent')
-  
-  if (savedConsent === 'accepted') {
-    showBanner.value = false
+  const savedConsent = localStorage.getItem("yandex_metrica_consent");
+
+  if (savedConsent === "accepted") {
+    showBanner.value = false;
     // Если есть глобальная функция из app.blade, используем её
-    if (typeof window.loadYandexMetrica === 'function') {
-      window.loadYandexMetrica()
+    if (typeof window.loadYandexMetrica === "function") {
+      window.loadYandexMetrica();
     } else {
-      loadYandexMetrica()
+      loadYandexMetrica();
     }
-  } else if (savedConsent === 'declined') {
-    showBanner.value = false
+  } else if (savedConsent === "declined") {
+    showBanner.value = false;
   } else {
     // Показываем баннер всем неавторизованным
-    showBanner.value = !props.auth
+    showBanner.value = !props.auth;
   }
-})
+});
 
 const acceptConsent = () => {
-  localStorage.setItem('yandex_metrica_consent', 'accepted')
-  showBanner.value = false
-  
+  localStorage.setItem("yandex_metrica_consent", "accepted");
+  showBanner.value = false;
+
   // Загружаем Метрику
-  if (typeof window.loadYandexMetrica === 'function') {
-    window.loadYandexMetrica()
+  if (typeof window.loadYandexMetrica === "function") {
+    window.loadYandexMetrica();
   } else {
-    loadYandexMetrica()
+    loadYandexMetrica();
   }
-}
+};
 
 const declineConsent = () => {
-  localStorage.setItem('yandex_metrica_consent', 'declined')
-  showBanner.value = false
-}
+  localStorage.setItem("yandex_metrica_consent", "declined");
+  showBanner.value = false;
+};
 
 const loadYandexMetrica = () => {
-  if (typeof window !== 'undefined' && window.ym) return
-  
-  // Загрузка Яндекс.Метрики
-  ;(function(m,e,t,r,i,k,a){
-    m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-    m[i].l=1*new Date();
-    for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
-    k=e.createElement(t),a=e.getElementsByTagName(t)[0];
-    k.async=1;
-    k.src=r;
-    a.parentNode.insertBefore(k,a)
+  if (typeof window !== "undefined" && window.ym)
+    return; // Загрузка Яндекс.Метрики
+  (function (m, e, t, r, i, k, a) {
+    m[i] =
+      m[i] ||
+      function () {
+        (m[i].a = m[i].a || []).push(arguments);
+      };
+    m[i].l = 1 * new Date();
+    for (var j = 0; j < document.scripts.length; j++) {
+      if (document.scripts[j].src === r) {
+        return;
+      }
+    }
+    (k = e.createElement(t)), (a = e.getElementsByTagName(t)[0]);
+    k.async = 1;
+    k.src = r;
+    a.parentNode.insertBefore(k, a);
   })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
   ym(METRIKA_ID, "init", {
@@ -70,16 +77,18 @@ const loadYandexMetrica = () => {
     trackLinks: true,
     accurateTrackBounce: true,
     webvisor: true,
-    trackHash: true
+    trackHash: true,
   });
 
   // Получаем ClientID (опционально)
-  ym(METRIKA_ID, 'getClientID', function(uid) {
-    window.dispatchEvent(new CustomEvent('yandex_metrika_loaded', {
-      detail: { ymUid: uid }
-    }));
+  ym(METRIKA_ID, "getClientID", function (uid) {
+    window.dispatchEvent(
+      new CustomEvent("yandex_metrika_loaded", {
+        detail: { ymUid: uid },
+      })
+    );
   });
-}
+};
 </script>
 
 <template>
@@ -89,33 +98,63 @@ const loadYandexMetrica = () => {
     role="alert"
   >
     <div class="container mx-auto max-w-7xl">
-      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div
+        class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+      >
         <!-- Иконка и текст -->
         <div class="flex items-start gap-3">
-          <div class="inline-flex items-center justify-center shrink-0 w-8 h-8 text-blue-500 bg-blue-100 rounded-lg">
-            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M15.147 15.085a7.159 7.159 0 0 1-6.189 3.307A6.713 6.713 0 0 1 3.1 15.444c-2.679-4.513.287-8.737.888-9.548A4.373 4.373 0 0 0 5 1.608c1.287.953 6.445 3.218 5.537 10.5 1.5-1.122 2.706-3.01 2.853-6.14 1.433 1.049 3.993 5.395 1.757 9.117Z" />
+          <div
+            class="inline-flex items-center justify-center shrink-0 w-8 h-8 text-blue-500 bg-blue-100 rounded-lg"
+          >
+            <svg
+              class="w-4 h-4"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 18 20"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15.147 15.085a7.159 7.159 0 0 1-6.189 3.307A6.713 6.713 0 0 1 3.1 15.444c-2.679-4.513.287-8.737.888-9.548A4.373 4.373 0 0 0 5 1.608c1.287.953 6.445 3.218 5.537 10.5 1.5-1.122 2.706-3.01 2.853-6.14 1.433 1.049 3.993 5.395 1.757 9.117Z"
+              />
             </svg>
           </div>
           <div class="text-sm text-gray-700 max-w-2xl">
             <p class="font-semibold mb-1">📊 Мы используем Яндекс.Метрику</p>
             <p>
-              Для анализа посещаемости и улучшения работы сайта мы используем 
-              <strong>Яндекс.Метрику</strong>, которая собирает технические данные:
-              IP-адрес, тип устройства, просмотренные страницы, источник перехода, время на сайте, локацию пользователя.
-              А так же сведения о посещенных страницах сайта в целях аналитики и защиты от спама.
-              <strong class="text-gray-800">Это является обработкой персональных данных.</strong>
+              Для анализа посещаемости и улучшения работы сайта мы используем
+              <strong>Яндекс.Метрику</strong>, которая собирает технические
+              данные: IP-адрес, тип устройства, просмотренные страницы, источник
+              перехода, время на сайте, локацию пользователя. А так же сведения
+              о посещенных страницах сайта в целях аналитики и защиты от спама.
+              <strong class="text-gray-800"
+                >Это является обработкой персональных данных.</strong
+              >
             </p>
             <p class="mt-1 text-xs text-gray-500">
-              Подробнее в 
-              <a href="/personal" target="_blank" class="text-blue-500 underline hover:text-blue-700">
+              Подробнее в
+              <a
+                href="/personal"
+                target="_blank"
+                class="text-blue-500 underline hover:text-blue-700"
+              >
                 Согласии на обработку персональных данных
+              </a>
+              и
+              <a
+                href="/cookie"
+                target="_blank"
+                class="text-blue-500 underline hover:text-blue-700"
+              >
+                Правилах обработки cookie
               </a>
             </p>
           </div>
         </div>
-        
+
         <!-- Кнопки -->
         <div class="flex gap-2 shrink-0">
           <button

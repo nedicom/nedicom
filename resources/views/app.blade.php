@@ -39,7 +39,7 @@
         });
     };
     
-    // Автоматическая загрузка, если пользователь уже дал согласие
+    // загрузка метрики, если пользователь дал согласие
     if (localStorage.getItem('yandex_metrica_consent') === 'accepted') {
         alert(1);
         window.loadYandexMetrica();
