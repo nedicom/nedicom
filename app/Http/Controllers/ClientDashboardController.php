@@ -98,7 +98,7 @@ class ClientDashboardController extends Controller
                 }
             }
         } catch (\Exception $e) {
-            $error = 'Ошибка соединения с CRM';
+            $error = 'Ошибка соединения';
         }
         return Inertia::render('ClientDashboard', [
             'isAuthenticated' => true,

@@ -4,6 +4,11 @@
 <head>
     <!--@if (env('APP_ENV') != 'local')  -->
 
+
+    <!-- click.ru -->
+    <script async src="https://af.click.ru/af.js?id=20771"></script>
+    <!-- click.ru -->
+
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript">
         (function(m, e, t, r, i, k, a) {
@@ -43,7 +48,29 @@
         <div><img src="https://mc.yandex.ru/watch/24900584" style="position:absolute; left:-9999px;" alt="" />
         </div>
     </noscript>
-    <!-- /Yandex.Metrika counter -->   
+    <!-- /Yandex.Metrika counter -->
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17757903888"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        // Безопасная функция gtag с обработкой ошибок
+        function gtag() {
+            try {
+                dataLayer.push(arguments);
+            } catch (error) {
+                console.warn('GTAG ошибка:', error);
+                // Можно добавить отправку ошибки в вашу систему логирования
+            }
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-EBPD2D669T');
+
+        //gtag('config', 'AW-17757903888');
+    </script>
 
     <script src="https://vk.com/js/api/openapi.js?169" type="text/javascript"></script>
     <!--@endif  -->

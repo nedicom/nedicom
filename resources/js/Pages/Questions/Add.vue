@@ -2,11 +2,11 @@
 import MainHeader from "@/Layouts/MainHeader.vue";
 import Body from "@/Layouts/Body.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
-import Tracking from '@/Components/Tracking.vue';
+import Tracking from "@/Components/Tracking.vue";
 import SendButton from "@/Components/SendButton.vue";
 import SliderQuestions from "@/Layouts/SliderQuestions.vue";
-import { ref  } from "vue";
-import { Link, Head } from '@inertiajs/inertia-vue3';
+import { ref } from "vue";
+import { Link, Head } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
 import { reactive } from "vue";
 import VueWriter from "vue-writer";
@@ -35,11 +35,7 @@ const progressColor = ref({
   width: "Начинайте писать",
 });
 
-let arr = [
-  "точно помогут",
-  "ответят бесплатно",
-  "без телефона и смс",
-];
+let arr = ["точно помогут", "ответят бесплатно", "без телефона и смс"];
 
 function onInputheader(e) {
   wordscounter.value = e.target.value.length;
@@ -200,24 +196,27 @@ const getQuestions = () => {
                       <div class="flex items-start my-5">
                         <div class="flex items-center h-5">
                           <input
-                            id="remember"
+                            id="consent"
                             type="checkbox"
                             class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300"
                             required
                           />
                         </div>
-                        <label
-                          for="remember"
-                          class="ml-2 text-sm text-left font-medium bg-white rounded-lg px-1 text-gray-900"
-                          >Если таковые содержаться в вопросе, даю согласие на
-                          обработку
-                          <Link
-                            href="/policy"
-                            class="underline text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        <div class="ml-2">
+                          <label
+                            for="consent"
+                            class="text-sm text-left font-medium bg-white rounded-lg px-1 text-gray-900"
                           >
-                            персональных данных
-                          </Link>
-                        </label>
+                            Я ознакомлен(а) и даю
+                            <Link
+                              href="/personal"
+                              target="_blank"
+                              class="underline text-blue-600 hover:text-blue-800 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            >
+                              согласие на обработку персональных данных
+                            </Link>
+                          </label>
+                        </div>
                       </div>
                       <div class="flex items-start my-5">
                         <div class="flex items-center h-5">
@@ -266,8 +265,6 @@ const getQuestions = () => {
               >.
             </p>
           </div>
-
-       
         </div>
       </div>
     </div>
@@ -277,5 +274,9 @@ const getQuestions = () => {
 
   <MainFooter />
 
-  <Tracking :key="backendurl"  :tracking="$page.props.tracking" :backendurl="set.backendurl"/>
+  <Tracking
+    :key="backendurl"
+    :tracking="$page.props.tracking"
+    :backendurl="set.backendurl"
+  />
 </template>

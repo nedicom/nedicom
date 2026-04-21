@@ -114,24 +114,28 @@ const submit = () => {
         <div class="flex items-start my-5">
           <div class="flex items-center h-5">
             <input
-              id="remember"
+              id="consent"
               type="checkbox"
-              value=""
+              v-model="form.consent"
               class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
               required
             />
           </div>
-          <label
-            for="remember"
-            class="ml-2 text-sm font-medium bg-white rounded-lg px-1 text-gray-900"
-            >Даю согласие на обработку
-            <Link
-              href="/policy"
-              class="underline text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          <div class="ml-2">
+            <label
+              for="consent"
+              class="text-sm font-medium bg-white rounded-lg px-1 text-gray-900"
             >
-              персональных данных
-            </Link></label
-          >
+              Даю
+              <Link
+                href="/personal"
+                target="_blank"
+                class="underline text-blue-600 hover:text-blue-800 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                согласие на обработку персональных данных
+              </Link>
+            </label>
+          </div>
         </div>
       </div>
 
