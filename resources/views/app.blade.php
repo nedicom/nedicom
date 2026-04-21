@@ -4,27 +4,25 @@
 <head>
     <!--@if (env('APP_ENV') != 'local')  -->
 
-
-    <!-- click.ru -->
-    <script async src="https://af.click.ru/af.js?id=20771"></script>
-    <!-- click.ru -->
-
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript">
+  
+<!-- Яндекс.Метрика (загружается динамически после согласия) -->
+<script>
+    window.loadYandexMetrica = function() {
+        if (window.ym) return;
+        
         (function(m, e, t, r, i, k, a) {
             m[i] = m[i] || function() {
                 (m[i].a = m[i].a || []).push(arguments)
             };
             m[i].l = 1 * new Date();
             for (var j = 0; j < document.scripts.length; j++) {
-                if (document.scripts[j].src === r) {
-                    return;
-                }
+                if (document.scripts[j].src === r) return;
             }
-            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(
-                k, a)
-        })
-        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+            k = e.createElement(t), a = e.getElementsByTagName(t)[0];
+            k.async = 1;
+            k.src = r;
+            a.parentNode.insertBefore(k, a)
+        })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
         ym(24900584, "init", {
             clickmap: true,
@@ -36,12 +34,17 @@
 
         ym(24900584, 'getClientID', function(uid) {
             window.dispatchEvent(new CustomEvent('yandex_metrika_loaded', {
-                detail: {
-                    ymUid: uid
-                }
+                detail: { ymUid: uid }
             }));
         });
-    </script>
+    };
+    
+    // Автоматическая загрузка, если пользователь уже дал согласие
+    if (localStorage.getItem('yandex_metrica_consent') === 'accepted') {
+        alert(1);
+        window.loadYandexMetrica();
+    }
+</script>
 
 
     <noscript>
@@ -50,27 +53,7 @@
     </noscript>
     <!-- /Yandex.Metrika counter -->
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17757903888"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        // Безопасная функция gtag с обработкой ошибок
-        function gtag() {
-            try {
-                dataLayer.push(arguments);
-            } catch (error) {
-                console.warn('GTAG ошибка:', error);
-                // Можно добавить отправку ошибки в вашу систему логирования
-            }
-        }
-
-        gtag('js', new Date());
-
-        gtag('config', 'G-EBPD2D669T');
-
-        //gtag('config', 'AW-17757903888');
-    </script>
+    <!-- Google tag deleted -->
 
     <script src="https://vk.com/js/api/openapi.js?169" type="text/javascript"></script>
     <!--@endif  -->
