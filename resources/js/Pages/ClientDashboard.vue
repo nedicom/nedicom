@@ -306,12 +306,11 @@ const schemaData = computed(() => ({
                 class="mt-3 pt-3 border-t border-blue-200 space-y-2 text-sm text-blue-800"
               >
                 <p>
-                  <strong>📱 Связь:</strong> Обычно мы создаем чат
-                  в Макс, где управляющий партнер, начальник юр. отдела, юрист и консультант. Людей может быть
-                  больше, мы используем коллективную работу. Если Вы против создания чата, сообщите об этом.
+                  <strong>📱 Связь:</strong> Вы можете создать чат в Макс для удобства и коммуникации. Если Вы не дождались ответа юриста в чате 
+                  (такое бывает, например по причине нахождения риста в суде), не стесняйтесь перезвонить попозже.
                 </p>
                 <p>
-                  <strong>⏰ Время:</strong> Пн-Пт 9:00-18:00. Старайтесь не
+                  <strong>⏰ Время для общения:</strong> Пн-Пт 9:00-18:00. Старайтесь не
                   беспокоить юристов в нерабочее время. Если по другому никак -
                   можно оставить сообщение в чате, учтите что прочитано оно
                   может быть в рабочее время.
@@ -367,26 +366,6 @@ const schemaData = computed(() => ({
           </Link>
         </div>
 
-        <!-- Информация о клиенте -->
-        <div class="bg-white shadow rounded-lg p-6 mb-8">
-          <h2 class="text-xl font-semibold text-gray-900 mb-4">Ваши данные</h2>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div>
-              <p class="text-sm font-medium text-gray-500">Клиент</p>
-              <p class="mt-1 text-lg font-semibold text-gray-900">Скрыто</p>
-            </div>
-            <div>
-              <p class="text-sm font-medium text-gray-500">Email</p>
-              <p class="mt-1 text-lg text-gray-900">Скрыто</p>
-            </div>
-            <div>
-              <p class="text-sm font-medium text-gray-500">ID в системе</p>
-              <p class="mt-1 text-lg font-mono text-gray-900">
-                {{ clientData.id }}
-              </p>
-            </div>
-          </div>
-        </div>
 
         <!-- Статистика -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -501,7 +480,7 @@ const schemaData = computed(() => ({
                     {{ formatCurrency(payment.summ) }}
                   </p>
                   <p class="text-xs text-gray-500 mt-1">
-                    ID клиента: {{ payment.clientid }}
+                    {{ payment.clientid }}
                   </p>
                 </div>
               </div>
