@@ -14,6 +14,7 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/js/app.js',
+                'resources/js/fonts.js',
             ],
             ssr: 'resources/js/ssr.js',
             refresh: true,

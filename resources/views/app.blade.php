@@ -84,7 +84,7 @@
 
 <body class="font-sans antialiased">
 
-
+@vite(['resources/js/fonts.js'])
 
     @inertia
 
