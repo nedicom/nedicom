@@ -2,10 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    {{--@if (env('APP_ENV') != 'local')  --}}
-
-  
-<!-- Яндекс.Метрика (загружается динамически после согласия) -->
+    <!-- Яндекс.Метрика (загружается динамически после согласия) -->
    <script>
     (function() {
         window.yandexMetrikaStatus = 'pending_consent';
@@ -48,8 +45,8 @@
     <!-- Google tag deleted  forever-->
 
     @if(env('APP_ENV') !== 'local')
-    <script src="https://vk.com/js/api/openapi.js?169" type="text/javascript"></script>
-@endif
+        <script src="https://vk.com/js/api/openapi.js?169" type="text/javascript"></script>
+    @endif
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -99,11 +96,6 @@
         });
     </script>
     <!-- Fonts to page speed -->
-
-    <!-- Grecaptcha
-        <script src="https://www.google.com/recaptcha/api.js?render=6Lf0-tAZAAAAAIxKP1YOtKrCfqSm_yl3QF-IzglK"></script>
-         Grecaptcha -->
-
 
 </body>
 
