@@ -1,4 +1,3 @@
-<!-- resources/js/Components/CookieConsent.vue -->
 <script setup>
 import { ref, onMounted } from "vue";
 
@@ -11,83 +10,32 @@ const props = defineProps({
 
 const showBanner = ref(false);
 
-// ID вашего счетчика Яндекс.Метрики
-const METRIKA_ID = 24900584;
-
 onMounted(() => {
-  // Проверяем, давал ли пользователь согласие
   const savedConsent = localStorage.getItem("yandex_metrica_consent");
 
   if (savedConsent === "accepted") {
     showBanner.value = false;
-    // Если есть глобальная функция из app.blade, используем её
-    if (typeof window.loadYandexMetrica === "function") {
-      window.loadYandexMetrica();
-    } else {
-      loadYandexMetrica();
-    }
+    console.log("🍪 [Cookie Consent] Согласие ПОЛУЧЕНО");
   } else if (savedConsent === "declined") {
     showBanner.value = false;
+    console.log("🍪 [Cookie Consent] Согласие НЕ ПОЛУЧЕНО");
   } else {
-    // Показываем баннер всем неавторизованным
     showBanner.value = !props.auth;
+    console.log("🍪 [Cookie Consent] Ожидание решения пользователя");
   }
 });
 
 const acceptConsent = () => {
   localStorage.setItem("yandex_metrica_consent", "accepted");
   showBanner.value = false;
-
-  // Загружаем Метрику
-  if (typeof window.loadYandexMetrica === "function") {
-    window.loadYandexMetrica();
-  } else {
-    loadYandexMetrica();
-  }
+  console.log("🍪 [Cookie Consent] ✅ Пользователь СОГЛАСИЛСЯ");
+  console.log("📊 [Yandex.Metrica] Метрика работает");
 };
 
 const declineConsent = () => {
   localStorage.setItem("yandex_metrica_consent", "declined");
   showBanner.value = false;
-};
-
-const loadYandexMetrica = () => {
-  if (typeof window !== "undefined" && window.ym)
-    return; // Загрузка Яндекс.Метрики
-  (function (m, e, t, r, i, k, a) {
-    m[i] =
-      m[i] ||
-      function () {
-        (m[i].a = m[i].a || []).push(arguments);
-      };
-    m[i].l = 1 * new Date();
-    for (var j = 0; j < document.scripts.length; j++) {
-      if (document.scripts[j].src === r) {
-        return;
-      }
-    }
-    (k = e.createElement(t)), (a = e.getElementsByTagName(t)[0]);
-    k.async = 1;
-    k.src = r;
-    a.parentNode.insertBefore(k, a);
-  })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-  ym(METRIKA_ID, "init", {
-    clickmap: true,
-    trackLinks: true,
-    accurateTrackBounce: true,
-    webvisor: true,
-    trackHash: true,
-  });
-
-  // Получаем ClientID (опционально)
-  ym(METRIKA_ID, "getClientID", function (uid) {
-    window.dispatchEvent(
-      new CustomEvent("yandex_metrika_loaded", {
-        detail: { ymUid: uid },
-      })
-    );
-  });
+  console.log("🍪 [Cookie Consent] ❌ Пользователь ОТКАЗАЛСЯ. Метрика выключена.");
 };
 </script>
 

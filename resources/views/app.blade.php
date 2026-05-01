@@ -2,61 +2,54 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    <!--@if (env('APP_ENV') != 'local')  -->
+    {{--@if (env('APP_ENV') != 'local')  --}}
 
   
 <!-- Яндекс.Метрика (загружается динамически после согласия) -->
-<script>
-    window.loadYandexMetrica = function() {
-        if (window.ym) return;
+   <script>
+    (function() {
+        window.yandexMetrikaStatus = 'pending_consent';
         
-        (function(m, e, t, r, i, k, a) {
-            m[i] = m[i] || function() {
-                (m[i].a = m[i].a || []).push(arguments)
-            };
-            m[i].l = 1 * new Date();
-            for (var j = 0; j < document.scripts.length; j++) {
-                if (document.scripts[j].src === r) return;
+        window.Ym = function() {
+            var args = Array.from(arguments);
+
+            if (typeof console !== 'undefined') {
+                console.log('[Yandex.Metrica] Метрика не активирована. Требуется согласие на обработку данных.');
             }
-            k = e.createElement(t), a = e.getElementsByTagName(t)[0];
-            k.async = 1;
-            k.src = r;
-            a.parentNode.insertBefore(k, a)
-        })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-        ym(24900584, "init", {
-            clickmap: true,
-            trackLinks: true,
-            accurateTrackBounce: true,
-            webvisor: true,
-            trackHash: true
-        });
-
-        ym(24900584, 'getClientID', function(uid) {
-            window.dispatchEvent(new CustomEvent('yandex_metrika_loaded', {
-                detail: { ymUid: uid }
-            }));
-        });
-    };
-    
-    // загрузка метрики, если пользователь дал согласие
-    if (localStorage.getItem('yandex_metrica_consent') === 'accepted') {
-        window.loadYandexMetrica();
-    }
-</script>
-
+            
+            if (args[1] === 'getClientID' && typeof args[2] === 'function') {
+                setTimeout(function() {
+                    args[2](null);
+                }, 10);
+            }
+            
+            return window.Ym ;
+        };
+        
+        window.Ym .a = [];
+        window.Ym .l = 1 * new Date();
+        
+        window.loadYandexMetrica = function() {
+            window.yandexMetrikaStatus = 'error_not_configured';
+        };
+        
+        if (localStorage.getItem('yandex_metrica_consent') === 'accepted') {
+            console.log('[Yandex.Metrica] Согласие обнаружено');
+        }
+    })();
+    </script>
 
     <noscript>
-        <div><img src="https://mc.yandex.ru/watch/24900584" style="position:absolute; left:-9999px;" alt="" />
-        </div>
+        <div><img src="https://mc.yandex.ru/watch/24900584" style="position:absolute; left:-9999px;" alt="" /></div>
     </noscript>
+
     <!-- /Yandex.Metrika counter -->
 
-    <!-- Google tag deleted -->
+    <!-- Google tag deleted  forever-->
 
+    @if(env('APP_ENV') !== 'local')
     <script src="https://vk.com/js/api/openapi.js?169" type="text/javascript"></script>
-    <!--@endif  -->
-
+@endif
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -94,7 +87,7 @@
 
 <body class="font-sans antialiased">
 
-
+@vite(['resources/js/fonts.js'])
 
     @inertia
 
