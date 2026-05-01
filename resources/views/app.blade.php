@@ -2,7 +2,43 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
+    <!-- Яндекс.Метрика (загружается динамически после согласия) -->
+   <script>
+    (function() {
+        window.yandexMetrikaStatus = 'pending_consent';
+        
+        window.Ym = function() {
+            var args = Array.from(arguments);
 
+            if (typeof console !== 'undefined') {
+                console.log('[Yandex.Metrica] Метрика не активирована. Требуется согласие на обработку данных.');
+            }
+            
+            if (args[1] === 'getClientID' && typeof args[2] === 'function') {
+                setTimeout(function() {
+                    args[2](null);
+                }, 10);
+            }
+            
+            return window.Ym ;
+        };
+        
+        window.Ym .a = [];
+        window.Ym .l = 1 * new Date();
+        
+        window.loadYandexMetrica = function() {
+            window.yandexMetrikaStatus = 'error_not_configured';
+        };
+        
+        if (localStorage.getItem('yandex_metrica_consent') === 'accepted') {
+            console.log('[Yandex.Metrica] Согласие обнаружено');
+        }
+    })();
+    </script>
+
+    <noscript>
+        <div><img src="https://mc.yandex.ru/watch/24900584" style="position:absolute; left:-9999px;" alt="" /></div>
+    </noscript>
 
     <!-- /Yandex.Metrika counter -->
 
