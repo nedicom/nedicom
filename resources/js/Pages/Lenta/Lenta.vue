@@ -3,7 +3,7 @@ import MainHeader from "@/Layouts/MainHeader.vue";
 import Header from "@/Layouts/Header.vue";
 import Body from "@/Layouts/Body.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
-import Tracking from '@/Components/Tracking.vue';
+import Tracking from '@/Components/ResourseLoader.vue';
 import Bundle from "@/Components/Bundle.vue";
 import NavLinkLeft from "@/Components/NavLinkLeft.vue";
 import Pagination from "@/Components/Pagination.vue";

@@ -1,7 +1,7 @@
 <script setup>
 import MainHeader from "@/Layouts/MainHeader.vue";
 import Header from "@/Layouts/Header.vue";
-import Tracking from '@/Components/Tracking.vue'
+import Tracking from '@/Components/ResourseLoader.vue'
 import BreadcrumbsUslugi from "@/Components/BreadcrumbsUslugi.vue";
 import Body from "@/Layouts/Body.vue";
 import Seodesc from "@/Components/Seodesc.vue";

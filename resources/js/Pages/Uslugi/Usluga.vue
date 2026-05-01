@@ -14,7 +14,7 @@ import OKwidjet from "@/Components/OKwidjet.vue";
 import BreadcrumbsUslugi from "@/Components/BreadcrumbsUslugi.vue";
 import Address from "@/Layouts/Address.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
-import Tracking from '@/Components/Tracking.vue';
+import Tracking from '@/Components/ResourseLoader.vue';
 import PracticeGallery from "@/Layouts/PracticeGallery.vue";
 import ReviewCarousel from "@/Layouts/ReviewCarousel.vue";
 import { Head } from "@inertiajs/inertia-vue3";

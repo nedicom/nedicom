@@ -2,7 +2,7 @@
 import MainHeader from "@/Layouts/MainHeader.vue";
 import Body from "@/Layouts/Body.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
-import Tracking from '@/Components/Tracking.vue';
+import Tracking from '@/Components/ResourseLoader.vue';
 import { ref, computed, watch } from "vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";

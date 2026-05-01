@@ -16,7 +16,7 @@ import RatingReady from "@/Components/RatingReady.vue";
 import Address from "@/Layouts/Address.vue";
 //import VK from "@/Layouts/Vk.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
-import Tracking from '@/Components/Tracking.vue';
+import Tracking from '@/Components/ResourseLoader.vue';
 import PopupDialogue from "@/Layouts/PopupDialogue/PopupDialogue.vue";
 import Bundle from "@/Components/Bundle.vue";
 import FlashMessage from "@/Components/FlashMessage.vue";

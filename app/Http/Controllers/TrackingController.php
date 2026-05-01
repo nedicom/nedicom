@@ -64,7 +64,7 @@ class TrackingController extends Controller
 
                 return response()->json([
                     'success' => false,
-                    'error' => 'No tracking record found'
+                    'error' => 'Not found'
                 ], 404);
             }
 

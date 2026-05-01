@@ -3,7 +3,7 @@ import MainHeader from "@/Layouts/MainHeader.vue";
 import PromoHeader from "@/Layouts/PromoHeader.vue";
 import Body from "@/Layouts/Body.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
-import Tracking from '@/Components/Tracking.vue';
+import Tracking from '@/Components/ResourseLoader.vue';
 import Chart from '@/Components/Chart.vue';
 import Answer from "@/Layouts/Answer.vue";
 import Answers from "@/Layouts/Answers.vue";

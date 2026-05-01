@@ -7,7 +7,7 @@ import Articles from "@/Layouts/Articles.vue";
 import LawyerAnswers from "@/Layouts/LawyerAnswers.vue";
 import About from "@/Layouts/About.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
-import Tracking from '@/Components/Tracking.vue';
+import Tracking from '@/Components/ResourseLoader.vue';
 import FlashMessage from "@/Components/FlashMessage.vue";
 import LawyerRating from "@/Components/LawyerRating.vue";
 import { Head } from "@inertiajs/inertia-vue3";

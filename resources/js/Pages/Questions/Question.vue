@@ -6,7 +6,7 @@ import Answer from "@/Layouts/Answer.vue";
 import AIAnswer from "@/Layouts/AI/AIAnswer.vue";
 import Answers from "@/Layouts/Answers.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
-import Tracking from '@/Components/Tracking.vue';
+import Tracking from '@/Components/ResourseLoader.vue';
 import ShareButtons from "@/Components/ShareButtons.vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";

@@ -2,7 +2,7 @@
 import MainHeader from "@/Layouts/MainHeader.vue";
 import Body from "@/Layouts/Body.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
-import Tracking from "@/Components/Tracking.vue";
+import Tracking from "@/Components/ResourseLoader.vue";
 import SendButton from "@/Components/SendButton.vue";
 import SliderQuestions from "@/Layouts/SliderQuestions.vue";
 import { ref } from "vue";

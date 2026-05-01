@@ -11,7 +11,7 @@ import {
 import { Head } from "@inertiajs/inertia-vue3";
 import MainHeader from "@/Layouts/MainHeader.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
-import Tracking from "@/Components/Tracking.vue";
+import Tracking from "@/Components/ResourseLoader.vue";
 
 const props = defineProps({
   clientData: Object,
