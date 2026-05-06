@@ -3,37 +3,37 @@
 
 <head>
     <!-- Яндекс.Метрика (загружается динамически после согласия) -->
-   <script>
-    (function() {
-        window.yandexMetrikaStatus = 'pending_consent';
-        
-        window.Ym = function() {
-            var args = Array.from(arguments);
+    <script>
+        (function() {
+            window.yandexMetrikaStatus = 'pending_consent';
 
-            if (typeof console !== 'undefined') {
-                console.log('[Yandex.Metrica] Метрика не активирована. Требуется согласие на обработку данных.');
+            window.Ym = function() {
+                var args = Array.from(arguments);
+
+                if (typeof console !== 'undefined') {
+                    console.log('[Yandex.Metrica] Метрика не активирована. Требуется согласие на обработку данных.');
+                }
+
+                if (args[1] === 'getClientID' && typeof args[2] === 'function') {
+                    setTimeout(function() {
+                        args[2](null);
+                    }, 10);
+                }
+
+                return window.Ym;
+            };
+
+            window.Ym.a = [];
+            window.Ym.l = 1 * new Date();
+
+            window.loadYandexMetrica = function() {
+                window.yandexMetrikaStatus = 'error_not_configured';
+            };
+
+            if (localStorage.getItem('yandex_metrica_consent') === 'accepted') {
+                console.log('[Yandex.Metrica] Согласие обнаружено');
             }
-            
-            if (args[1] === 'getClientID' && typeof args[2] === 'function') {
-                setTimeout(function() {
-                    args[2](null);
-                }, 10);
-            }
-            
-            return window.Ym ;
-        };
-        
-        window.Ym .a = [];
-        window.Ym .l = 1 * new Date();
-        
-        window.loadYandexMetrica = function() {
-            window.yandexMetrikaStatus = 'error_not_configured';
-        };
-        
-        if (localStorage.getItem('yandex_metrica_consent') === 'accepted') {
-            console.log('[Yandex.Metrica] Согласие обнаружено');
-        }
-    })();
+        })();
     </script>
 
     <noscript>
@@ -45,7 +45,7 @@
     <!-- Google tag deleted  forever-->
 
     @if(env('APP_ENV') !== 'local')
-        <script src="https://vk.com/js/api/openapi.js?169" type="text/javascript"></script>
+    <script src="https://vk.com/js/api/openapi.js?169" type="text/javascript"></script>
     @endif
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -84,7 +84,7 @@
 
 <body class="font-sans antialiased">
 
-@vite(['resources/js/fonts.js'])
+    @vite(['resources/js/fonts.js'])
 
     @inertia
 
@@ -96,6 +96,24 @@
         });
     </script>
     <!-- Fonts to page speed -->
+
+    <!-- Roistat Counter Start -->
+    <script>
+        (function(w, d, s, h, id) {
+            w.roistatProjectId = id;
+            w.roistatHost = h;
+            w.roistatPage = d.location.href;
+            w.roistatReferrer = d.referrer;
+            var p = d.location.protocol == "https:" ? "https://" : "http://";
+            var u = /^.*roistat_visit=[^;]+(.*)?$/.test(d.cookie) ? "/dist/module.js" : "/api/site/1.0/" + id + "/init?referrer=" + encodeURIComponent(d.location.href);
+            var js = d.createElement(s);
+            js.charset = "UTF-8";
+            js.async = 1;
+            js.src = p + h + u;
+            var js2 = d.getElementsByTagName(s)[0];
+            js2.parentNode.insertBefore(js, js2);
+        })(window, document, 'script', 'cloud.roistat.com ', '7a56072f212362140ba2f651690ec0f4');
+    </script> <!-- Roistat Counter End -->
 
 </body>
 
