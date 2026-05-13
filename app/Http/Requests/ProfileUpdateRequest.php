@@ -21,9 +21,6 @@ class ProfileUpdateRequest extends FormRequest
             'address' => [],
             'phone' => ['between:9,15', 'required'],
             'jsonspec' => ['json'],
-            'speciality_one_id' => ['numeric'],
-            'speciality_two_id' => ['numeric'],
-            'speciality_three_id' => ['numeric'],            
             'lawyer' => ['boolean'],
             'email' => ['email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
         ];

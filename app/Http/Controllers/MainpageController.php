@@ -219,15 +219,136 @@ class MainpageController extends Controller
             'mainoffers' => Uslugi::where('is_main', 1)->where('is_feed', 1)->get(['id', 'usl_name', 'url', 'file_path']),
             'secondoffers' => $secondoffers,
             'practice' => Article::where('practice_file_path', '!=', null)->orderBy('updated_at', 'desc')->take(10)->get(),
-            'reviews' => Review::inRandomOrder()->with('usluga')->get(),
+            'reviews' => Review::with('usluga:id,usl_name')
+                ->when(
+                    $usluga_from_url?->main_usluga_id,
+                    fn($q, $id) => $q->orderByRaw('(mainusl_id = ?) DESC', [$id])
+                )
+                ->orderByRaw('RAND()')
+                ->limit(12)
+                ->get(),
             'reviewscount' => $reviewscount,
             'rating' => $rating,
             'auth' => Auth::user(),
-            'lawyers' => User::where('lawyer', 1)->select('id', 'name', 'avatar_path')->limit(9)->get(),
+            'lawyers' => $this->getLawyerCards($usluga_from_url, $city),
             'user' => User::find(94),
             'usluga' => Uslugi::where('id', 1)->select('uslugis.url', 'uslugis.usl_name')->first(),
             'usluga_from_url' => $usluga_from_url,
             'backendurl' => $request->path(),
         ]);
+    }
+
+    private function getLawyerCards($usluga_from_url, $city): array
+    {
+        $secondId = $usluga_from_url?->second_usluga_id ?? null;
+        $mainId   = $usluga_from_url?->main_usluga_id ?? null;
+        $cityId   = (($city->id ?? 0) > 0) ? (int) $city->id : null;
+        $regionId = (($city->regionId ?? 0) > 0) ? (int) $city->regionId : null;
+
+        $regionCityIds = $regionId
+            ? \App\Models\cities::where('regionId', $regionId)->pluck('id')->toArray()
+            : [];
+
+        $result      = collect();
+        $usedUserIds = [];
+
+        // Fetches uslugi matching $scope, excludes already-used lawyers,
+        // sorts: exact city (200) > region (100) > any, then by lawyer rating.
+        $fetch = function (callable $scope) use ($cityId, $regionCityIds, &$usedUserIds) {
+            $q = Uslugi::where('is_feed', 1)->whereNotNull('user_id');
+            $scope($q);
+            if ($usedUserIds) {
+                $q->whereNotIn('user_id', $usedUserIds);
+            }
+            return $q
+                ->with([
+                    'main:id,usl_name',
+                    'user' => fn($u) => $u->select('id', 'name', 'avatar_path', 'about', 'total_rating', 'expirience', 'city_id'),
+                    'user.cities:id,title',
+                ])
+                ->select('id', 'url', 'user_id', 'main_usluga_id', 'second_usluga_id', 'sity', 'file_path', 'usl_desc')
+                ->get()
+                ->unique('user_id')
+                ->sortByDesc(function ($u) use ($cityId, $regionCityIds) {
+                    $geo = 0;
+                    if ($cityId && $u->sity == $cityId) {
+                        $geo = 200;
+                    } elseif ($regionCityIds && in_array($u->sity, $regionCityIds)) {
+                        $geo = 100;
+                    }
+                    return $geo + ($u->user?->total_rating ?? 0);
+                })
+                ->values();
+        };
+
+        $addSlot = function (callable $scope, int $limit) use ($fetch, &$result, &$usedUserIds) {
+            $items = $fetch($scope)->take($limit);
+            $result = $result->merge($items);
+            foreach ($items->pluck('user_id')->filter() as $uid) {
+                $usedUserIds[] = $uid;
+            }
+        };
+
+        // Slot 1–2: точное совпадение по second_usluga_id
+        if ($secondId) {
+            $addSlot(fn($q) => $q->where('second_usluga_id', $secondId), 2);
+        }
+
+        // Slot 3–4: та же главная категория, другая подкатегория (включая NULL)
+        if ($mainId) {
+            $addSlot(function ($q) use ($mainId, $secondId) {
+                $q->where('main_usluga_id', $mainId);
+                if ($secondId) {
+                    $q->where(fn($q) => $q->where('second_usluga_id', '!=', $secondId)
+                        ->orWhereNull('second_usluga_id'));
+                }
+            }, 2);
+        }
+
+        // Slot 5–6: предпочитаем тот же main (другие seconds), потом любые
+        if ($mainId && $result->count() < 6) {
+            $addSlot(function ($q) use ($mainId, $secondId) {
+                $q->where('main_usluga_id', $mainId)
+                  ->whereNotNull('second_usluga_id');
+                if ($secondId) {
+                    $q->where('second_usluga_id', '!=', $secondId);
+                }
+            }, 6 - $result->count());
+        }
+
+        // Добираем до 6 любыми активными объявлениями
+        if ($result->count() < 6) {
+            $addSlot(function ($q) use ($secondId) {
+                $q->whereNotNull('second_usluga_id');
+                if ($secondId) {
+                    $q->where('second_usluga_id', '!=', $secondId);
+                }
+            }, 6 - $result->count());
+        }
+
+        if ($result->count() < 6) {
+            $addSlot(fn($q) => $q, 6 - $result->count());
+        }
+
+        // Нормализуем под форму, которую ожидает LawyerCards.vue
+        return $result->take(6)->map(function ($uslugi) {
+            if (!$uslugi->user) {
+                return null;
+            }
+            return [
+                'id'           => $uslugi->user->id,
+                'name'         => $uslugi->user->name,
+                'avatar_path'  => $uslugi->file_path ?: $uslugi->user->avatar_path,
+                'total_rating' => $uslugi->user->total_rating ?? 0,
+                'expirience'   => $uslugi->user->expirience ?? null,
+                'about'        => $uslugi->user->about ?? null,
+                'cities'       => $uslugi->user->cities,
+                'has_uslugi'   => [[
+                    'url'      => $uslugi->url,
+                    'main'     => $uslugi->main ? ['usl_name' => $uslugi->main->usl_name] : null,
+                    'usl_desc' => $uslugi->usl_desc ?? null,
+                ]],
+            ];
+        })->filter()->values()->all();
     }
 }

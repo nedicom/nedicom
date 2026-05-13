@@ -112,8 +112,8 @@ function trackPhoneClick() {
       </svg>
     </div>
     <div class="flex flex-col items-center justify-center h-full">
-      <div class="text-base">Показать телефон</div>
-      <div class="text-xs">{{ maskPhone(set.phone) }}</div>
+      <div class="text-base whitespace-nowrap">Показать телефон</div>
+      <div class="text-xs whitespace-nowrap">{{ maskPhone(set.phone) }}</div>
     </div>
   </button>
 

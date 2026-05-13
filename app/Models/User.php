@@ -28,9 +28,6 @@ class User extends Authenticatable
         'lawyer',
         'phone',
         'city',
-        'speciality_one_id',
-        'speciality_two_id',
-        'speciality_three_id',
         'address',
         '_ym_uid',
         '_ga',
@@ -57,26 +54,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'created_at'  => 'date:d.m.Y',
     ];
-
-    /**
-     * Relation User
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function lawyerSpecOne(): HasOne
-    {
-        return $this->hasOne(Uslugi::class, 'id', 'speciality_one_id');
-    }
-
-    public function lawyerSpecTwo(): HasOne
-    {
-        return $this->hasOne(Uslugi::class, 'id', 'speciality_two_id');
-    }
-
-    public function lawyerSpecThree(): HasOne
-    {
-        return $this->hasOne(Uslugi::class, 'id', 'speciality_three_id');
-    }
-
 
     public function reviews(): HasMany
     {

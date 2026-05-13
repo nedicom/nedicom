@@ -28,7 +28,7 @@ class ObjavleniyaController extends Controller
         return Inertia::render('Objavleniya/Objavleniye', [
             'usluga' => Objavleniya::where('url', '=', $url)->first(),
             'user' => Auth::user(),
-            'lawyers' => User::where('speciality_one_id', '=', $id)->orderBy('name', 'asc')->get()->take(3),
+            'lawyers' => collect(),
             'practice' => Article::where('usluga_id', $id)->where('practice_file_path', '!=', null)->orderBy('updated_at', 'desc')->take(3)->get(),
             'firstlawyer' => Objavleniya::where('url', '=', $url)->first()->firstlawyer,
         ]);

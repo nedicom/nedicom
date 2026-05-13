@@ -66,9 +66,6 @@ class UserController extends Controller
                     ->select('id', 'usl_name')
                     ->get(),
                 'auth' => Auth::user(),
-                //'specializationOne' => $user->lawyerSpecOne,
-                //'specializationTwo' => $user->lawyerSpecTwo,
-                //'specializationThree' => $user->lawyerSpecThree,
             ]);
         }
 

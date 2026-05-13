@@ -1,6 +1,7 @@
 <script setup>
 import Modal from "@/Components/Modal.vue";
 import ModalPhone from "@/Components/ModalPhone.vue";
+import { computed } from "vue";
 
 let phone = "+79788838978";
 
@@ -20,6 +21,14 @@ if (props.phone) {
 let phoneto = "tel:" + phone;
 
 let ModalBtnText = "Обратный звонок";
+
+const formattedAddress = computed(() => {
+  if (!props.address) return '';
+  return props.address
+    .split('\n')
+    .map(line => `<span style="white-space:nowrap">${line}</span>`)
+    .join('<br>');
+});
 </script>
 
 
@@ -47,9 +56,9 @@ let ModalBtnText = "Обратный звонок";
         <ModalPhone :phone="phone" :lawyer="props.lawyer" :phoneto="phoneto" :avatarPath="props.avatarPath" />
       </div>
 
-      <div class="hidden lg:flex text-xs xl:text-sm items-center justify-start text-center">
-        <span v-if="props.address" v-html="props.address"> </span>
-        <span v-else> Качество юридических услуг гарантировано </span>
+      <div class="hidden lg:flex text-xs xl:text-sm items-center justify-start">
+        <span v-if="props.address" v-html="formattedAddress"></span>
+        <span v-else style="white-space:nowrap"> Качество юридических услуг гарантировано </span>
       </div>
     </div>
   </header>

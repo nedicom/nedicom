@@ -355,7 +355,9 @@ class UslugiController extends Controller
                 ->get(),
             'lawyer' => $lawyer,
             'reviews' => $reviews,
-            'lawyers' => User::where('speciality_one_id', '=', $id)->orderBy('name', 'asc')->get()->take(3),
+            'lawyers' => User::whereHas('HasUslugi', function ($q) use ($mainid) {
+                $q->where('main_usluga_id', $mainid)->where('is_feed', 1);
+            })->orderBy('name', 'asc')->limit(3)->get(),
             'practice' => $practice->groupBy('year'),
             'firstlawyer' => User::where('id', $user_id)->get(),
             'reviews' => $reviews,

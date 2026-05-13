@@ -98,7 +98,9 @@ class CityController extends Controller
             'uslugi' => Uslugi::where('second_usluga_id', $id)->with('cities')->get(),
             'main_usluga' => Uslugi::where('id', $mainid)->withCount('mainreview')->withAvg('mainreview as avg_review', 'rating')->first(['id', 'usl_name', 'url']),
             'user' => Auth::user(),
-            'lawyers' => User::where('speciality_one_id', '=', $id)->orderBy('name', 'asc')->get()->take(3),
+            'lawyers' => User::whereHas('HasUslugi', function ($q) use ($mainid) {
+                $q->where('main_usluga_id', $mainid)->where('is_feed', 1);
+            })->orderBy('name', 'asc')->limit(3)->get(),
             'practice' => Article::where('usluga_id', $mainid)->where('practice_file_path', '!=', null)->orderBy('updated_at', 'desc')->take(3)->get(),
             'lawyer' => User::where('id', $user_id)->first(),
             'reviews' => $reviews,

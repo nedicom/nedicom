@@ -1,13 +1,11 @@
 <script setup>
 import MainHeader from "@/Layouts/MainHeader.vue";
 import Header from "@/Layouts/Header.vue";
-import Mainbanner from "@/Layouts/Mainbanner.vue";
 import FrontSecondBanner from "@/Layouts/FrontSecondBanner.vue";
 import PracticeArticles from "@/Layouts/PracticeArticles.vue";
 import FrontBanner from "@/Layouts/FrontBanner.vue";
 import Pile from "@/Layouts/Pile.vue";
-import FrontQuestion from "@/Layouts/FrontQuestion.vue";
-import Testimonials from "@/Layouts/Testimonials.vue";
+import ReviewsCarousel from "@/Layouts/ReviewsCarousel.vue";
 import Slider from "@/Layouts/Slider.vue";
 import Youtube from "@/Layouts/Youtube.vue";
 import SliderUslug from "@/Layouts/SliderUslug.vue";
@@ -74,20 +72,19 @@ let mainbannerpc = 'https://nedicom.ru/storage/images/services/mainpcjuly.webp';
   </Head>
 
   <div class="min-h-screen" itemscope itemtype="https://schema.org/LegalService">
-    <MainHeader :auth="auth" :city="city" />
-
-    <Mainbanner :mainbannerpc="mainbannerpc" :mainbannerimgmobile="mainbannerimgmobile" />
+    <MainHeader :auth="auth" :city="city" :showPhone="true" />
 
     <FrontSecondBanner :key="backendurl" :tracking="$page.props.tracking" :backendurl="backendurl" :city="city"
-      :usluga_from_url="usluga_from_url" :lawyers="lawyers" />
+      :usluga_from_url="usluga_from_url" :lawyers="lawyers"
+      :mainoffers="mainoffers" :secondoffers="secondoffers" />
+
+    <ReviewsCarousel :reviews="reviews" />
 
     <InfinityScroll :bundles="bundles" :auth="auth" />
 
     <!--
     <Chat :user="user" :usluga="usluga" />
     -->
-
-    <FrontQuestion :mainoffers="mainoffers" :secondoffers="secondoffers" :city="city" />
 
     <MainFooter />
 
