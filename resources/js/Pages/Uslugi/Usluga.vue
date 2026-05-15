@@ -151,6 +151,7 @@ details summary::-webkit-details-marker {
           <Address v-if="usluga.cities" :key="backendurl" :tracking="$page.props.tracking" :backendurl="vars.backendurl"
             :usl_name="usluga.usl_name" :region="usluga.cities"
             :phone="usluga.use_tracking_phone ? usluga.phone : lawyer.phone"
+            :use-tracking-phone="!!usluga.use_tracking_phone"
             :address="usluga.address"
             :dopadress="usluga.dopadress" :maps="usluga.maps" :metaimage="metaimage" :company="lawyer.name" />
 

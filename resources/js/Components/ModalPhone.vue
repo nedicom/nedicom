@@ -5,6 +5,7 @@ const set = defineProps({
   phone: String,
   phoneto: String,
   backendurl: String,
+  useTrackingPhone: Boolean,
   tracking: {
     type: Object,
     default: () => ({})
@@ -80,6 +81,7 @@ function trackPhoneClick() {
   <a :href="set.phoneto"
     onclick="ym(24900584, 'reachGoal', 'OPEN_PHONE');"
     @click="trackPhoneClick"
+    :class="set.useTrackingPhone ? 'roistat-phone' : ''"
     class="inline-flex w-full h-16 md:w-48 xl:w-64 mx-1 md:mx-auto py-1 px-2 xl:py-2.5 xl:px-5 focus:outline-none text-white sm:text-base text-sm bg-blue-700 hover:bg-blue-800 rounded-lg justify-center items-center cursor-pointer">
     <svg class="mr-3 w-4 h-4 xl:w-6 xl:h-6 text-white flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none"
       viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">

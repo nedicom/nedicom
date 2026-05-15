@@ -83,6 +83,8 @@ class UserController extends Controller
                 $user->lawyer = 0;
             }
 
+            $user->show_on_main = $request->show_on_main ? 1 : null;
+
             if ($user->isDirty('email')) {
                 $user->email_verified_at = null;
             }

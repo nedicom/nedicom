@@ -14,6 +14,7 @@ const props = defineProps({
   company: String,
   region: Object,
   backendurl: String,
+  useTrackingPhone: Boolean,
   tracking: {
     type: Object,
     default: () => ({})
@@ -54,7 +55,8 @@ if (props.phone !== undefined) {
             <div class="w-4/5 lg:w-full font-bold grid gap-y-4">
               <div class="w-full flex items-center animate-custom-pulse">
                 <ModalPhone :key="backendurl" :tracking="$page.props.tracking" :backendurl="props.backendurl"
-                  :phone="phone" :lawyer="'Позвонить'" :phoneto="'tel:' + phone" :avatarPath="null" />
+                  :phone="phone" :lawyer="'Позвонить'" :phoneto="'tel:' + phone" :avatarPath="null"
+                  :use-tracking-phone="props.useTrackingPhone" />
               </div>
 
               <div v-if="props.maps" class="w-full flex justify-center items-center mb-5">

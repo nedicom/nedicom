@@ -22,6 +22,7 @@ class ProfileUpdateRequest extends FormRequest
             'phone' => ['between:9,15', 'required'],
             'jsonspec' => ['json'],
             'lawyer' => ['boolean'],
+            'show_on_main' => ['nullable', 'boolean'],
             'email' => ['email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
         ];
     }

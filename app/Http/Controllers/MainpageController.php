@@ -337,7 +337,8 @@ class MainpageController extends Controller
         // Fetches uslugi matching $scope, excludes already-used lawyers,
         // sorts: exact city (200) > region (100) > any, then by lawyer rating.
         $fetch = function (callable $scope) use ($cityId, $regionCityIds, &$usedUserIds) {
-            $q = Uslugi::where('is_feed', 1)->whereNotNull('user_id');
+            $q = Uslugi::where('is_feed', 1)->whereNotNull('user_id')
+                ->whereHas('user', fn($u) => $u->where('show_on_main', true));
             $scope($q);
             if ($usedUserIds) {
                 $q->whereNotIn('user_id', $usedUserIds);

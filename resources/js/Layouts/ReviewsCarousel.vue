@@ -35,7 +35,7 @@ function stars(rating) {
 <template>
   <section v-if="reviews && reviews.length" class="py-6 bg-gray-50">
     <div>
-      <h2 class="text-xl font-bold text-gray-900 text-center mb-5">Отзывы клиентов</h2>
+      <h2 class="text-xl font-bold text-gray-900 text-center mt-6 mb-8">Отзывы клиентов</h2>
 
       <Carousel v-bind="settings" :breakpoints="breakpoints" :wrapAround="true" :autoplay="5000" :pauseAutoplayOnHover="true">
         <Slide v-for="review in reviews" :key="review.id">

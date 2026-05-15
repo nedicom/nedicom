@@ -24,6 +24,7 @@ let form = useForm({
     email: user.email,
     about: user.about,
     lawyer: user.lawyer,
+    show_on_main: !!user.show_on_main,
 });
 </script>
 
@@ -55,15 +56,30 @@ let form = useForm({
                 <InputError class="mt-2" :message="form.errors.name" />
             </div>
 
-            <div class="flex f flex-row"> 
+            <div class="flex f flex-row">
                 <Checkbox
                     :islawyer="islawyer"
-                    class="mr-2"                    
-                    id = "lawyer" 
-                    name = "lawyer"             
+                    class="mr-2"
+                    id = "lawyer"
+                    name = "lawyer"
                     v-model="form.lawyer"
                 />
                 <InputLabel for="lawyer" value="Я - юрист" />
+            </div>
+
+            <div class="flex items-center gap-3">
+                <button
+                    type="button"
+                    @click="form.show_on_main = !form.show_on_main"
+                    :class="form.show_on_main ? 'bg-blue-600' : 'bg-gray-200'"
+                    class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none"
+                >
+                    <span
+                        :class="form.show_on_main ? 'translate-x-5' : 'translate-x-0'"
+                        class="inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
+                    />
+                </button>
+                <InputLabel value="Показывать на главной" class="!mb-0 cursor-pointer" @click="form.show_on_main = !form.show_on_main" />
             </div>
             <div v-if="islawyer == '1'">
                 <div class="my-5">

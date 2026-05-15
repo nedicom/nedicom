@@ -7,7 +7,26 @@
       "PowerShell(Get-ChildItem \"$env:USERPROFILE\\\\Desktop\\\\\" | Where-Object { $_.Extension -in \".jpg\",\".png\",\".webp\",\".jpeg\" } | Select-Object Name, LastWriteTime)",
       "PowerShell($img = [System.Drawing.Image]::FromFile\\(\"C:\\\\Users\\\\Марк\\\\Desktop\\\\nedicom.ru\\\\public\\\\court-bg.jpg\"\\); Write-Host \"$\\($img.Width\\)x$\\($img.Height\\)px\"; $img.Dispose\\(\\))",
       "Bash(Select-String -Path \"c:\\\\Users\\\\Марк\\\\Desktop\\\\nedicom.ru\\\\app\\\\Models\\\\User.php\" -Pattern \"avatar|fillable\")",
-      "Bash(Select-Object -First 20)"
+      "Bash(Select-Object -First 20)",
+      "Bash(mysql -h 178.208.94.106 -u nedicom -p'Bonaqua123#' nedicom -e \"SELECT id, name FROM users WHERE name LIKE '%Добренький%' OR name LIKE '%Кравцов%' OR name LIKE '%Шушковск%';\")",
+      "Bash(php -r ' *)",
+      "Bash(php -m)",
+      "Bash(php -i)",
+      "Bash(Measure-Command { php artisan --version })",
+      "Bash(Select-Object TotalSeconds)",
+      "PowerShell(cd \"c:\\\\Users\\\\Марк\\\\Desktop\\\\nedicom.ru\"; Measure-Command { php artisan --version } | Select-Object TotalSeconds)",
+      "PowerShell(cd \"c:\\\\Users\\\\Марк\\\\Desktop\\\\nedicom.ru\"; $sw = [System.Diagnostics.Stopwatch]::StartNew\\(\\); php artisan --version; $sw.Stop\\(\\); Write-Host \"Time: $\\($sw.Elapsed.TotalSeconds\\)s\")",
+      "PowerShell(ping 178.208.94.106 -n 4)",
+      "Bash(npm install *)",
+      "Bash(node -e \"const si = require\\('simple-icons'\\); console.log\\(Object.keys\\(si\\).filter\\(k => k.match\\(/vk|yandex|gosuslugi/i\\)\\).join\\('\\\\n'\\)\\)\")",
+      "Bash(node -e \"const si = require\\('simple-icons'\\); const vk = si.siVk; console.log\\('VK path:', vk.path.substring\\(0,80\\)\\); console.log\\('VK hex:', vk.hex\\);\")",
+      "Bash(node -e \"const si = require\\('simple-icons'\\); const keys = Object.keys\\(si\\).filter\\(k => k.match\\(/yandex/i\\)\\); console.log\\(keys\\); if\\(keys.length\\) { const y = si[keys[0]]; console.log\\('hex:', y.hex\\); console.log\\('path start:', y.path.substring\\(0,100\\)\\); }\")",
+      "Bash(node -e \"const {siVk} = require\\('simple-icons'\\); console.log\\(JSON.stringify\\({path: siVk.path, hex: siVk.hex}\\)\\)\")",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(Get-ChildItem -Path \"resources/js\" -Recurse -Filter \"*.vue\")",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\Марк\\\\Desktop\\\\nedicom.ru\\\\app\\\\Models\" -Filter \"*[Uu]slug*\" -Recurse)",
+      "PowerShell(ls \"C:\\\\Users\\\\Марк\\\\Desktop\\\\nedicom.ru\\\\resources\\\\js\" -Recurse | Where-Object { $_.Extension -eq \".vue\" } | Select-Object FullName | head -30)",
+      "PowerShell(ls \"C:\\\\Users\\\\Марк\\\\Desktop\\\\nedicom.ru\\\\resources\\\\js\" -Recurse | Where-Object { $_.Extension -eq \".vue\" } | Select-Object FullName | Select-Object -First 30)"
     ]
   }
 }

@@ -33,6 +33,7 @@ class User extends Authenticatable
         '_ga',
         '_nedicoo',
         'expirience',
+        'show_on_main',
     ];
 
     /**
