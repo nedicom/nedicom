@@ -28,7 +28,7 @@ class StoreReviewRequest extends FormRequest
             'mainusl_id' => 'nullable|numeric',
             'usl_id' => 'nullable|numeric',    
             'user_id' => 'numeric',
-            'lawyer_id' => 'numeric',
+            'lawyer_id' => 'nullable|numeric',
             'rating' => 'numeric',
             'fio' => 'required|min:5',
             'description' => 'required|min:15',

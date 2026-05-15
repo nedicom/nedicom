@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Review;
+use App\Models\Uslugi;
 use App\Casts\humandate;
 use App\Http\Requests\StoreReviewRequest;
 use App\Http\Requests\UpdateReviewRequest;
@@ -38,8 +39,14 @@ class ReviewController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(StoreReviewRequest $request)
-    {   
-        Review::create($request->validated());
+    {
+        $data = $request->validated();
+
+        if (empty($data['lawyer_id']) && !empty($data['usl_id'])) {
+            $data['lawyer_id'] = Uslugi::where('id', $data['usl_id'])->value('user_id');
+        }
+
+        Review::create($data);
         return back()->with('message', 'Отзыв опубликован!');
     }
 
@@ -74,7 +81,9 @@ class ReviewController extends Controller
      */
     public function update(UpdateReviewRequest $request, Review $review)
     {
-        //
+        abort_unless(auth()->check() && auth()->user()->isadmin, 403);
+        $review->update($request->validated());
+        return back()->with('message', 'Отзыв обновлён');
     }
 
     /**
@@ -85,6 +94,8 @@ class ReviewController extends Controller
      */
     public function destroy(Review $review)
     {
-        //
+        abort_unless(auth()->check() && auth()->user()->isadmin, 403);
+        $review->delete();
+        return back()->with('message', 'Отзыв удалён');
     }
 }

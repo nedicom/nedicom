@@ -5,8 +5,7 @@
     <slot />
 
     <!-- Наши инструменты -->
-    <div class="w-full max-w-4xl border-t pt-4 mb-4">
-      <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest text-center mb-4">Наши инструменты</p>
+    <div class="w-full max-w-4xl border-t pt-4 mb-5">
       <div class="flex flex-wrap justify-center gap-x-8 gap-y-3">
         <a href="/clientdashboard" class="flex items-center gap-2 text-sm text-gray-600 hover:text-blue-700 transition-colors">
           <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>

@@ -6,15 +6,16 @@ import PracticeArticles from "@/Layouts/PracticeArticles.vue";
 import FrontBanner from "@/Layouts/FrontBanner.vue";
 import Pile from "@/Layouts/Pile.vue";
 import ReviewsCarousel from "@/Layouts/ReviewsCarousel.vue";
+import YandexMapBlock from "@/Layouts/YandexMapBlock.vue";
 import Slider from "@/Layouts/Slider.vue";
 import Youtube from "@/Layouts/Youtube.vue";
 import SliderUslug from "@/Layouts/SliderUslug.vue";
-import InfinityScroll from "@/Layouts/InfinityScroll.vue";
+import FeedCarousels from "@/Layouts/FeedCarousels.vue";
 import RatingReady from "@/Components/RatingReady.vue";
 import Address from "@/Layouts/Address.vue";
 //import VK from "@/Layouts/Vk.vue";
 import MainFooter from "@/Layouts/MainFooter.vue";
-import Tracking from '@/Components/ResourseLoader.vue';
+import Tracking from "@/Components/ResourseLoader.vue";
 import PopupDialogue from "@/Layouts/PopupDialogue/PopupDialogue.vue";
 import Bundle from "@/Components/Bundle.vue";
 import FlashMessage from "@/Components/FlashMessage.vue";
@@ -42,27 +43,35 @@ defineProps({
   usluga_from_url: Object,
   lawyers: Object,
   backendurl: String,
+  carousel_articles: Array,
+  carousel_questions: Array,
 });
-
 
 let secondbannerpc =
   "https://nedicom.ru/storage/images/services/mainpcjuly.webp";
 
 let mainbannerimgmobile =
   'url("https://nedicom.ru/storage/images/services/mainpcjuly.webp")';
-let mainbannerpc = 'https://nedicom.ru/storage/images/services/mainpcjuly.webp';
+let mainbannerpc = "https://nedicom.ru/storage/images/services/mainpcjuly.webp";
 </script>
 
 <template>
   <FlashMessage :message="flash.message" />
 
   <Head>
-    <title>
-      Услуги юриста: от консультаций до судебных прогнозов
-    </title>
-    <meta name="description" content="Услуги проверенных юристов. Консультации, вопросы, онлайн." />
-    <meta property="og:title" content="Услуги юриста: бесплатно, онлайн, телефон, задать вопрос, консультация" />
-    <meta property="og:description" content="Услуги проверенных юристов. Консультации, вопросы, онлайн." />
+    <title>Услуги юриста: от консультаций до судебных прогнозов</title>
+    <meta
+      name="description"
+      content="Услуги проверенных юристов. Консультации, вопросы, онлайн."
+    />
+    <meta
+      property="og:title"
+      content="Услуги юриста: бесплатно, онлайн, телефон, задать вопрос, консультация"
+    />
+    <meta
+      property="og:description"
+      content="Услуги проверенных юристов. Консультации, вопросы, онлайн."
+    />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://nedicom.ru" />
     <meta property="og:image" :content="secondbannerpc" />
@@ -71,16 +80,30 @@ let mainbannerpc = 'https://nedicom.ru/storage/images/services/mainpcjuly.webp';
     <link rel="canonical" href="https://nedicom.ru" />
   </Head>
 
-  <div class="min-h-screen" style="zoom: 0.82" itemscope itemtype="https://schema.org/LegalService">
+  <div
+    class="min-h-screen"
+    style="zoom: 0.82"
+    itemscope
+    itemtype="https://schema.org/LegalService"
+  >
     <MainHeader :auth="auth" :city="city" :showPhone="true" />
 
-    <FrontSecondBanner :key="backendurl" :tracking="$page.props.tracking" :backendurl="backendurl" :city="city"
-      :usluga_from_url="usluga_from_url" :lawyers="lawyers"
-      :mainoffers="mainoffers" :secondoffers="secondoffers" />
+    <FrontSecondBanner
+      :key="backendurl"
+      :tracking="$page.props.tracking"
+      :backendurl="backendurl"
+      :city="city"
+      :usluga_from_url="usluga_from_url"
+      :lawyers="lawyers"
+      :mainoffers="mainoffers"
+      :secondoffers="secondoffers"
+    />
+
+    <YandexMapBlock :city="city" />
 
     <ReviewsCarousel :reviews="reviews" />
 
-    <InfinityScroll :bundles="bundles" :auth="auth" />
+    <FeedCarousels :articles="carousel_articles" :questions="carousel_questions" :auth="auth" />
 
     <!--
     <Chat :user="user" :usluga="usluga" />
@@ -88,7 +111,11 @@ let mainbannerpc = 'https://nedicom.ru/storage/images/services/mainpcjuly.webp';
 
     <MainFooter />
 
-    <Tracking :key="backendurl" :tracking="$page.props.tracking" :backendurl="backendurl" />
+    <Tracking
+      :key="backendurl"
+      :tracking="$page.props.tracking"
+      :backendurl="backendurl"
+    />
   </div>
 </template>
 

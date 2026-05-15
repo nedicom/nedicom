@@ -97,6 +97,7 @@ details summary::-webkit-details-marker {
     <link rel="canonical" :href="'https://nedicom.ru/uslugi/' + vars.url" />
   </Head>
 
+  <div style="zoom: 0.82">
   <MainHeader :auth="vars.auth" :city="vars.cityheader" :hideBtn="true" />
 
   <Body>
@@ -148,7 +149,9 @@ details summary::-webkit-details-marker {
             :reviewscount="vars.reviewscount" :rating="vars.rating" :statistics="vars.statistics" :auth="vars.auth"/>      
 
           <Address v-if="usluga.cities" :key="backendurl" :tracking="$page.props.tracking" :backendurl="vars.backendurl"
-            :usl_name="usluga.usl_name" :region="usluga.cities" :phone="usluga.phone" :address="usluga.address"
+            :usl_name="usluga.usl_name" :region="usluga.cities"
+            :phone="usluga.use_tracking_phone ? usluga.phone : lawyer.phone"
+            :address="usluga.address"
             :dopadress="usluga.dopadress" :maps="usluga.maps" :metaimage="metaimage" :company="lawyer.name" />
 
           <ReviewCarousel :reviews="vars.reviews" :rating="vars.rating" :reviewscount="vars.reviewscount"
@@ -156,7 +159,7 @@ details summary::-webkit-details-marker {
             :uslugaid="vars.usluga.id" />
 
           <div class="py-12 px-3 mx-auto max-w-5xl border-b-4 border-indigo-500" id="description">
-            <h2 class="font-semibold mb-6 text-2xl tracking-tight px-4 2xl:px-0">
+            <h2 class="font-semibold mb-6 text-xl tracking-tight px-4 2xl:px-0">
               Подробнее
             </h2>
             <div itemprop="disambiguatingDescription" class="mx-auto space-y-6 text-gray-900 text-justify"
@@ -172,7 +175,7 @@ details summary::-webkit-details-marker {
             :keyword="vars.main_usluga.usl_name" />
 
           <div v-if="usluga.vk || usluga.ok" class="pb-12">
-            <h2 class="mx-auto max-w-5xl font-semibold my-6 text-2xl tracking-tight px-4 2xl:px-0">
+            <h2 class="mx-auto max-w-5xl font-semibold my-6 text-xl tracking-tight px-4 2xl:px-0">
               Присоединяйтесь, чтобы не потерять контакты
             </h2>
             <VKwidjet v-if="usluga.vk" :groupid="usluga.vk" />
@@ -186,7 +189,7 @@ details summary::-webkit-details-marker {
           <div id="questions" v-if="vars.usluga.popular_question" class="border-b-4 border-indigo-500">
             <div v-if="vars.usluga.popular_question[0].answer" class="pb-12" itemscope
               itemtype="https://schema.org/FAQPage">
-              <h2 class="font-semibold mt-6 text-2xl tracking-tight mx-auto max-w-5xl px-4 2xl:px-0">
+              <h2 class="font-semibold mt-6 text-xl tracking-tight mx-auto max-w-5xl px-4 2xl:px-0">
                 Частые вопросы
               </h2>
               <ul class="w-full mx-auto mt-10 md:w-11/12 divide-y shadow-gray-600 shadow-2xl rounded-xl list-none">
@@ -244,5 +247,6 @@ details summary::-webkit-details-marker {
   <MainFooter />
 
   <Tracking :key="backendurl" :tracking="$page.props.tracking" :backendurl="vars.backendurl" />
+  </div>
 
 </template>

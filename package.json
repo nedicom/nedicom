@@ -45,6 +45,7 @@
         "@vuepic/vue-datepicker": "^8.1.1",
         "flowbite": "^1.8.1",
         "nodemon": "^3.1.7",
+        "simple-icons": "^16.19.0",
         "vue-advanced-cropper": "^2.8.8",
         "vue-final-modal": "^4.4.2",
         "vue-meta": "^2.4.0",

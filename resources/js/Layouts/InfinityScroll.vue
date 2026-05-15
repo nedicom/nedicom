@@ -10,7 +10,7 @@ defineProps({
 <template>
   <div class="text-center mb-6 mt-10">
     <h2 class="text-xl font-bold text-gray-900">
-      Наша практика, новости и вопросы
+      Практика и посты
     </h2>
   </div>
   <div class="flex justify-center px-3 md:px-10">

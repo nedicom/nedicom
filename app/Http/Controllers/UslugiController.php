@@ -316,10 +316,49 @@ class UslugiController extends Controller
 
         $main = Uslugi::where('id', $usluga->main_usluga_id)->first(['id', 'usl_name', 'url',]);
 
-        $reviews = Review::where('lawyer_id', $lawyer->id)
-            ->orWhere('usl_id', $usluga->id)
+        // 1. Отзывы именно на эту услугу у этого юриста
+        $step1 = Review::where('usl_id', $usluga->id)
+            ->where('lawyer_id', $lawyer->id)
             ->orderBy('created_at', 'desc')
             ->get();
+        $usedIds = $step1->pluck('id')->toArray();
+
+        // 2. Отзывы на похожие услуги юриста в том же регионе (same main/second category + sity)
+        $step2 = collect();
+        if ($usluga->main_usluga_id || $usluga->second_usluga_id) {
+            $similarIds = Uslugi::where('user_id', $lawyer->id)
+                ->where('id', '!=', $usluga->id)
+                ->where('sity', $usluga->sity)
+                ->where(function ($q) use ($usluga) {
+                    if ($usluga->main_usluga_id) {
+                        $q->where('main_usluga_id', $usluga->main_usluga_id);
+                    }
+                    if ($usluga->second_usluga_id) {
+                        $q->orWhere('second_usluga_id', $usluga->second_usluga_id);
+                    }
+                })
+                ->pluck('id');
+
+            if ($similarIds->isNotEmpty()) {
+                $step2 = Review::whereIn('usl_id', $similarIds)
+                    ->where('lawyer_id', $lawyer->id)
+                    ->whereNotIn('id', count($usedIds) ? $usedIds : [0])
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+                $usedIds = array_merge($usedIds, $step2->pluck('id')->toArray());
+            }
+        }
+
+        // 3. Остальные отзывы на юриста
+        $step3 = Review::where('lawyer_id', $lawyer->id)
+            ->whereNotIn('id', count($usedIds) ? $usedIds : [0])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $reviews = $step1->concat($step2)->concat($step3)->map(function ($review) {
+            $review->rawDate = $review->getAttributes()['created_at'];
+            return $review;
+        });
 
         if ($auth && $reviews) {
             $auth->has_comment = ($reviews->where('user_id', $auth->id)->first()) ? true : false;
@@ -610,6 +649,8 @@ class UslugiController extends Controller
         } else {
             $usluga->is_feed = 0;
         }
+
+        $usluga->use_tracking_phone = $request->use_tracking_phone ? 1 : 0;
 
         $usluga->save();
         return redirect()->route('uslugi.url', $usluga->url)->with('message', 'Обновлено успешно');

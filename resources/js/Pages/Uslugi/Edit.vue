@@ -76,6 +76,7 @@ let form = reactive({
   description: set.uslugi.usl_desc,
   longdescription: set.uslugi.longdescription,
   phone: set.uslugi.phone,
+  use_tracking_phone: !!set.uslugi.use_tracking_phone,
   address: set.uslugi.address,
   dopadress: set.uslugi.dopadress,
   lawyer: set.uslugi.user_id,
@@ -449,10 +450,31 @@ const date = ref(new Date());
               </div>
 
               <div v-if="showMstGoOn == 'contacts'">
+                <div class="flex items-center gap-3 mb-5 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                  <button
+                    type="button"
+                    @click="form.use_tracking_phone = !form.use_tracking_phone"
+                    :class="form.use_tracking_phone ? 'bg-blue-600' : 'bg-gray-200'"
+                    class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full transition-colors duration-200 ease-in-out focus:outline-none"
+                  >
+                    <span
+                      :class="form.use_tracking_phone ? 'translate-x-5' : 'translate-x-0'"
+                      class="inline-block h-6 w-6 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
+                    ></span>
+                  </button>
+                  <div>
+                    <div class="text-sm font-medium text-gray-900">Подменный номер (колл-трекинг)</div>
+                    <div class="text-xs text-gray-500">
+                      {{ form.use_tracking_phone ? 'Показывается номер из поля «Телефон» ниже (трекинговый)' : 'Показывается реальный номер юриста' }}
+                    </div>
+                  </div>
+                </div>
+                <input type="hidden" name="use_tracking_phone" :value="form.use_tracking_phone ? 1 : 0" />
+
                 <label
                   for="phone"
                   class="block text-sm font-medium leading-6 text-gray-900"
-                  >Телефон</label
+                  >Телефон{{ form.use_tracking_phone ? ' (трекинговый — будет показан на странице)' : ' (не отображается, пока флаг выключен)' }}</label
                 >
 
                 <textarea

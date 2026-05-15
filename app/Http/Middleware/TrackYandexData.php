@@ -42,6 +42,10 @@ class TrackYandexData
 
     public function handle(Request $request, Closure $next)
     {
+        if (config('app.env') !== 'production') {
+            return $next($request);
+        }
+
         // Пропускаем статические файлы и API
         if ($this->shouldExclude($request)) {
             return $next($request);
@@ -69,7 +73,7 @@ class TrackYandexData
             if ($this->isHtmlRequest($request)) {
                 DataTracker::saveFromRequest($request, $visitUuid);
             }
-            
+
             // Устанавливаем куку
             if (!$request->hasCookie('visit_uuid')) {
                 $response = $next($request);
@@ -88,7 +92,7 @@ class TrackYandexData
         } else {
             $request->attributes->set('is_bot', true);
         }
-        
+
         return $next($request);
     }
     

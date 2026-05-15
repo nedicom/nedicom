@@ -16,7 +16,7 @@ class Uslugi extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'counter', 'slug'];
+    protected $fillable = ['user_id', 'counter', 'slug', 'use_tracking_phone'];
 
     protected $casts = [
         'created_at'  => 'date:d.m.Y',

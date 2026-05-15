@@ -278,6 +278,8 @@ Route::controller(FeedController::class)->group(function () {
 });
 
 Route::post('/send/review', [ReviewController::class, 'store'])->name('create.review');
+Route::delete('/review/{review}', [ReviewController::class, 'destroy'])->name('review.destroy')->middleware('auth');
+Route::patch('/review/{review}', [ReviewController::class, 'update'])->name('review.update')->middleware('auth');
 
 Route::post('/yandexoauth', [YandexController::class, 'yandexoauth'])->name('yandexoauth');
 

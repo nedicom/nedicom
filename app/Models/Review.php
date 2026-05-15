@@ -31,7 +31,9 @@ class Review extends Model
 
         'fio',
 
-        'description',        
+        'description',
+
+        'verified_type',
     ];
 
     protected $casts = [

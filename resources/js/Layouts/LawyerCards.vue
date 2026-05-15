@@ -21,8 +21,8 @@ function avatarUrl(path) {
 
     <!-- Заголовок секции -->
     <div class="text-center mb-8">
-      <h2 class="text-3xl font-extrabold text-gray-900">Мина и партнёры</h2>
-      <p class="mt-2 text-gray-500 text-base">Проверенные юристы — выберите специалиста</p>
+      <h2 class="text-xl font-bold text-gray-900">Мина и партнёры</h2>
+      <p class="mt-2 text-sm text-gray-500">Проверенные юристы — выберите специалиста</p>
     </div>
 
     <!-- Сетка карточек -->
@@ -70,10 +70,10 @@ function avatarUrl(path) {
               </template>
               <span class="text-xs text-gray-500 ml-1">{{ lawyer.total_rating.toFixed(1) }}</span>
             </div>
-            <div v-else class="text-xs text-gray-400">Новый</div>
+            <div v-else class="text-xs text-gray-500">Новый</div>
 
             <!-- Город -->
-            <span v-if="lawyer.cities" class="text-xs text-gray-400 truncate max-w-[60px]">
+            <span v-if="lawyer.cities" class="text-xs text-gray-500 truncate max-w-[60px]">
               {{ lawyer.cities.title }}
             </span>
           </div>

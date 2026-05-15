@@ -192,10 +192,10 @@ function openLawyer(lawyer) {
       <div class="flex flex-col gap-4 lg:py-10 lg:pl-16">
 
         <!-- Юристы в ряд -->
-        <div class="flex flex-col gap-2 my-4">
+        <div class="flex flex-col gap-5 my-4">
           <!-- Лозунг -->
-          <p class="text-lg font-bold leading-snug">
-            <span class="bg-white px-3 py-1 rounded-lg box-decoration-clone text-slate-800 tracking-tight">
+          <p class="text-sm font-semibold leading-snug">
+            <span class="bg-white px-3 py-1 rounded-lg box-decoration-clone text-gray-900 tracking-tight">
               Готовы встать на Вашу защиту
             </span>
           </p>
@@ -293,8 +293,8 @@ function openLawyer(lawyer) {
             <a
               v-for="offer in startarr" :key="offer.id"
               :href="'/uslugi/' + cityUrl + '/' + offer.url"
-              class="text-[11px] bg-gray-100 hover:bg-blue-50 hover:text-blue-700
-                     text-gray-600 rounded-full px-2.5 py-1 transition-colors"
+              class="text-xs bg-gray-100 hover:bg-blue-50 hover:text-blue-700
+                     text-gray-500 rounded-full px-2.5 py-1 transition-colors"
             >{{ shortName(offer.usl_name) }}</a>
           </div>
         </div>

@@ -205,28 +205,77 @@ class MainpageController extends Controller
         }
 
 
+        $avatarIds = $collection->pluck('avatar')->filter()->unique()->values()->all();
+        $avatarPaths = $avatarIds ? User::whereIn('id', $avatarIds)->pluck('avatar_path', 'id') : collect();
+
         foreach ($collection as $item) {
             $item->abody = Str::limit($item->abody, 200);
             $item->created_at = humandate::lenta($item->created_at);
-            $item->avatar =  $item->avatar ? User::find($item->avatar)->avatar_path : null;
-        };
+            $item->avatar = $item->avatar ? ($avatarPaths[$item->avatar] ?? null) : null;
+        }
 
         $bundles = PaginationHelper::paginate($collection, 30);
 
+        $carouselArticles = DB::table('articles')
+            ->join('users', 'articles.userid', '=', 'users.id')
+            ->leftJoin('bundles_socials', function ($join) use ($user_id) {
+                $join->on('bundles_socials.article_id', '=', 'articles.id')
+                    ->where('bundles_socials.users_id', '=', $user_id);
+            })
+            ->select(
+                'articles.id', 'articles.header', 'articles.description as abody',
+                'articles.url', 'articles.counter', 'articles.created_at',
+                'articles.practice_file_path', 'articles.likes', 'articles.shares',
+                'articles.bookmarks', 'articles.comments',
+                'users.name', 'users.avatar_path', 'users.lawyer',
+                'bundles_socials.likes as user_like',
+                'bundles_socials.bookmarks as user_bookmark',
+                'bundles_socials.shares as user_share',
+            )
+            ->selectRaw('"articles" AS type')
+            ->orderByDesc('articles.counter')
+            ->limit(15)
+            ->get();
+
+        $carouselQuestions = DB::table('questions')
+            ->join('users', 'questions.user_id', '=', 'users.id')
+            ->leftJoin('bundles_socials', function ($join) use ($user_id) {
+                $join->on('bundles_socials.question_id', '=', 'questions.id')
+                    ->where('bundles_socials.users_id', '=', $user_id);
+            })
+            ->select(
+                'questions.id', 'questions.title as header', 'questions.body as abody',
+                'questions.url', 'questions.counter', 'questions.created_at',
+                'questions.likes', 'questions.shares', 'questions.bookmarks', 'questions.comments',
+                'users.name', 'users.avatar_path', 'users.lawyer',
+                'bundles_socials.likes as user_like',
+                'bundles_socials.bookmarks as user_bookmark',
+                'bundles_socials.shares as user_share',
+            )
+            ->selectRaw('"questions" AS type')
+            ->orderBy('questions.created_at', 'desc')
+            ->limit(15)
+            ->get();
+
+        foreach ($carouselArticles as $item) {
+            $item->abody = Str::limit($item->abody, 120);
+            $item->created_at = humandate::lenta($item->created_at);
+        }
+
+        foreach ($carouselQuestions as $item) {
+            $item->abody = Str::limit($item->abody, 120);
+            $item->created_at = humandate::lenta($item->created_at);
+        }
+
         return Inertia::render('Welcome', [
             'bundles' => $bundles,
+            'carousel_articles' => $carouselArticles,
+            'carousel_questions' => $carouselQuestions,
             'city' => $city,
             'mainoffers' => Uslugi::where('is_main', 1)->where('is_feed', 1)->get(['id', 'usl_name', 'url', 'file_path']),
             'secondoffers' => $secondoffers,
             'practice' => Article::where('practice_file_path', '!=', null)->orderBy('updated_at', 'desc')->take(10)->get(),
-            'reviews' => Review::with(['usluga:id,usl_name', 'lawyer:id,name,avatar_path'])
-                ->when(
-                    $usluga_from_url?->main_usluga_id,
-                    fn($q, $id) => $q->orderByRaw('(mainusl_id = ?) DESC', [$id])
-                )
-                ->orderByRaw('RAND()')
-                ->limit(12)
-                ->get(),
+            'reviews' => $this->getReviews($usluga_from_url?->main_usluga_id),
             'reviewscount' => $reviewscount,
             'rating' => $rating,
             'auth' => Auth::user(),
@@ -236,6 +285,39 @@ class MainpageController extends Controller
             'usluga_from_url' => $usluga_from_url,
             'backendurl' => $request->path(),
         ]);
+    }
+
+    private function getReviews(?int $mainUslugaId): \Illuminate\Support\Collection
+    {
+        $base = Review::with(['usluga:id,usl_name,user_id', 'usluga.user:id,name,avatar_path', 'lawyer:id,name,avatar_path'])
+            ->whereIn('lawyer_id', [1, 68, 94, 4934])
+            ->whereNull('user_id');
+
+        if ($mainUslugaId) {
+            $category = (clone $base)
+                ->where('mainusl_id', $mainUslugaId)
+                ->inRandomOrder()
+                ->limit(10)
+                ->get();
+
+            $fill = 15 - $category->count();
+
+            if ($fill > 0) {
+                $usedIds = $category->pluck('id')->all();
+                $rest = (clone $base)
+                    ->whereNotIn('id', $usedIds)
+                    ->inRandomOrder()
+                    ->limit($fill)
+                    ->get();
+
+                $category = $category->merge($rest)->shuffle();
+            }
+
+            return $category->each(fn($r) => $r->human_date = $r->created_at);
+        }
+
+        return $base->inRandomOrder()->limit(15)->get()
+            ->each(fn($r) => $r->human_date = $r->created_at);
     }
 
     private function getLawyerCards($usluga_from_url, $city): array
@@ -267,6 +349,7 @@ class MainpageController extends Controller
                     'user.cities:id,title',
                 ])
                 ->select('id', 'url', 'user_id', 'main_usluga_id', 'second_usluga_id', 'sity', 'file_path', 'usl_desc')
+                ->limit(50)
                 ->get()
                 ->unique('user_id')
                 ->sortByDesc(function ($u) use ($cityId, $regionCityIds) {
@@ -338,7 +421,7 @@ class MainpageController extends Controller
             return [
                 'id'           => $uslugi->user->id,
                 'name'         => $uslugi->user->name,
-                'avatar_path'  => $uslugi->file_path ?: $uslugi->user->avatar_path,
+                'avatar_path'  => $uslugi->user->avatar_path ?: $uslugi->file_path,
                 'total_rating' => $uslugi->user->total_rating ?? 0,
                 'expirience'   => $uslugi->user->expirience ?? null,
                 'about'        => $uslugi->user->about ?? null,

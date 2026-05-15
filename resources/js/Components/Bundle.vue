@@ -77,11 +77,11 @@ let set = defineProps({
               ></a>
 
               <span class="grid grid-cols-1 content-center ml-2">
-                <span class="text-base">
+                <span class="text-sm font-semibold text-gray-900">
                   <a
                     v-if="bundle.lawyer"
                     :href="route('lawyer', bundle.user_id)"
-                    class="hover:underline hover:font-semibold"
+                    class="hover:underline"
                   >
                     {{ bundle.name }}
                   </a>
@@ -137,12 +137,12 @@ let set = defineProps({
           </div>
           <!--name component -->
         </div>
-        <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">
+        <h2 class="mb-2 text-xl font-bold text-gray-900">
           <a :href="'/' + bundle.type + '/' + bundle.url">{{
             bundle.header
           }}</a>
         </h2>
-        <p class="mb-8 font-light text-gray-800 line-clamp-2">
+        <p class="mb-8 text-sm text-gray-700 line-clamp-2">
           {{ bundle.abody }}
         </p>
 
