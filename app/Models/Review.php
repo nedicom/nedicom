@@ -6,6 +6,7 @@ use App\Casts\humandate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Models\User;
 
 class Review extends Model
 {
@@ -39,6 +40,11 @@ class Review extends Model
     public function usluga(): HasOne
     {
         return $this->hasOne(Uslugi::class, 'id', 'mainusl_id')->select(['id', 'url', 'usl_name', 'file_path']);
+    }
+
+    public function lawyer(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'lawyer_id')->select(['id', 'name', 'avatar_path']);
     }
 
 }

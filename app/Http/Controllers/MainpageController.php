@@ -219,7 +219,7 @@ class MainpageController extends Controller
             'mainoffers' => Uslugi::where('is_main', 1)->where('is_feed', 1)->get(['id', 'usl_name', 'url', 'file_path']),
             'secondoffers' => $secondoffers,
             'practice' => Article::where('practice_file_path', '!=', null)->orderBy('updated_at', 'desc')->take(10)->get(),
-            'reviews' => Review::with('usluga:id,usl_name')
+            'reviews' => Review::with(['usluga:id,usl_name', 'lawyer:id,name,avatar_path'])
                 ->when(
                     $usluga_from_url?->main_usluga_id,
                     fn($q, $id) => $q->orderByRaw('(mainusl_id = ?) DESC', [$id])

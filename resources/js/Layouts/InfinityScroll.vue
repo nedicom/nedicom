@@ -8,8 +8,8 @@ defineProps({
 </script>
 
 <template>
-  <div class="text-center mb-10 mt-20">
-    <h2 class="text-2xl font-bold text-gray-900">
+  <div class="text-center mb-6 mt-10">
+    <h2 class="text-xl font-bold text-gray-900">
       Наша практика, новости и вопросы
     </h2>
   </div>

@@ -12,6 +12,7 @@ import CitySet from "@/Components/CitySet.vue";
 import ModalPhoneConfirm from "@/Components/ModalPhoneConfirm.vue";
 
 const showingNavigationDropdown = ref(false);
+const cabinetOpen = ref(false);
 
 const headerPhone = "+79788838978";
 const headerPhoneTo = "tel:+79788838978";
@@ -67,13 +68,13 @@ const { open: openPhone, close: closePhone } = useModal({
       <nav class="bg-white border-b border-gray-100 shadow-sm">
         <!-- Primary Navigation Menu -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex justify-between h-16">
+          <div class="flex justify-between h-12">
             <div class="flex">
               <!-- Logo -->
               <div class="flex items-center">
                 <Link
                   :href="route('Welcome')"
-                  class="flex justify-center items-center h-20 pt-3"
+                  class="flex justify-center items-center h-12 pt-0"
                   aria-label="Home"
                 >
                   <ApplicationLogo
@@ -96,12 +97,33 @@ const { open: openPhone, close: closePhone } = useModal({
                 <NavLink :href="route('uslugi')" :active="route().current('uslugi')">
                   <span class="whitespace-nowrap">Найти юриста</span>
                 </NavLink>
-                <NavLink class="hidden lg:inline-flex" :href="route('clientdashboard')" :active="route().current('clientdashboard')">
-                  <span class="whitespace-nowrap">Кабинет клиента</span>
-                </NavLink>
-                <NavLink class="hidden lg:inline-flex" :href="route('lawyerdashboard')" :active="route().current('lawyerdashboard')">
-                  <span class="whitespace-nowrap">Кабинет юриста</span>
-                </NavLink>
+                <div class="hidden lg:block relative">
+                  <button
+                    type="button"
+                    @click="cabinetOpen = !cabinetOpen"
+                    class="inline-flex items-center gap-1 px-1 pt-1 border-b-2 border-transparent text-sm leading-4 text-gray-500 hover:text-gray-700 focus:outline-none transition whitespace-nowrap"
+                  >
+                    Кабинет
+                  </button>
+                  <div v-show="cabinetOpen" class="fixed inset-0 z-40" @click="cabinetOpen = false"></div>
+                  <div
+                    v-show="cabinetOpen"
+                    class="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50 py-1"
+                  >
+                    <a :href="route('clientdashboard')" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                      </svg>
+                      Кабинет клиента
+                    </a>
+                    <a :href="route('lawyerdashboard')" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/>
+                      </svg>
+                      Кабинет юриста
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -362,17 +384,18 @@ const { open: openPhone, close: closePhone } = useModal({
               Найти юриста
             </ResponsiveNavLink>
 
+            <div class="px-4 pt-2 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-widest">Кабинет</div>
             <ResponsiveNavLink
               :href="route('clientdashboard')"
               :active="route().current('clientdashboard')"
             >
-              Кабинет клиента
+              — Кабинет клиента
             </ResponsiveNavLink>
             <ResponsiveNavLink
               :href="route('lawyerdashboard')"
               :active="route().current('lawyerdashboard')"
             >
-              Кабинет юриста
+              — Кабинет юриста
             </ResponsiveNavLink>
           </div>
 

@@ -2,7 +2,12 @@
   "permissions": {
     "allow": [
       "Bash(php artisan *)",
-      "Bash(php -l app/Http/Controllers/MainpageController.php)"
+      "Bash(php -l app/Http/Controllers/MainpageController.php)",
+      "PowerShell(Get-ChildItem \"$env:USERPROFILE\\\\Downloads\\\\\" | Where-Object { $_.Extension -in \".jpg\",\".png\",\".webp\" } | Sort-Object LastWriteTime -Descending | Select-Object -First 10 Name, LastWriteTime)",
+      "PowerShell(Get-ChildItem \"$env:USERPROFILE\\\\Desktop\\\\\" | Where-Object { $_.Extension -in \".jpg\",\".png\",\".webp\",\".jpeg\" } | Select-Object Name, LastWriteTime)",
+      "PowerShell($img = [System.Drawing.Image]::FromFile\\(\"C:\\\\Users\\\\Марк\\\\Desktop\\\\nedicom.ru\\\\public\\\\court-bg.jpg\"\\); Write-Host \"$\\($img.Width\\)x$\\($img.Height\\)px\"; $img.Dispose\\(\\))",
+      "Bash(Select-String -Path \"c:\\\\Users\\\\Марк\\\\Desktop\\\\nedicom.ru\\\\app\\\\Models\\\\User.php\" -Pattern \"avatar|fillable\")",
+      "Bash(Select-Object -First 20)"
     ]
   }
 }

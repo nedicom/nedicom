@@ -5,7 +5,7 @@
     <slot />
 
     <!-- Наши инструменты -->
-    <div class="w-full max-w-4xl border-t pt-6 mb-6">
+    <div class="w-full max-w-4xl border-t pt-4 mb-4">
       <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest text-center mb-4">Наши инструменты</p>
       <div class="flex flex-wrap justify-center gap-x-8 gap-y-3">
         <a href="/clientdashboard" class="flex items-center gap-2 text-sm text-gray-600 hover:text-blue-700 transition-colors">

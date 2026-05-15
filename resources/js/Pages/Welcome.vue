@@ -71,7 +71,7 @@ let mainbannerpc = 'https://nedicom.ru/storage/images/services/mainpcjuly.webp';
     <link rel="canonical" href="https://nedicom.ru" />
   </Head>
 
-  <div class="min-h-screen" itemscope itemtype="https://schema.org/LegalService">
+  <div class="min-h-screen" style="zoom: 0.82" itemscope itemtype="https://schema.org/LegalService">
     <MainHeader :auth="auth" :city="city" :showPhone="true" />
 
     <FrontSecondBanner :key="backendurl" :tracking="$page.props.tracking" :backendurl="backendurl" :city="city"

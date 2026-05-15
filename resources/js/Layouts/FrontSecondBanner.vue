@@ -69,6 +69,14 @@ const alloffers = computed(() => [
   ...(props.secondoffers || []),
 ]);
 
+const displayedService = computed(() => {
+  if (!props.usluga_from_url) return null;
+  const { id, main_usluga_id } = props.usluga_from_url;
+  return alloffers.value.find(e => e.id === id)
+      ?? alloffers.value.find(e => e.id === main_usluga_id)
+      ?? props.usluga_from_url;
+});
+
 const form = reactive({ question: "" });
 const hidden = ref(true);
 const searcharr = ref(null);
@@ -94,6 +102,11 @@ const startarr = computed(() => {
 
   return shuffle(chosen);
 });
+
+const shortName = (name) => {
+  const idx = name.indexOf(' - ');
+  return idx !== -1 ? name.slice(idx + 3) : name;
+};
 
 function filterItems(query) {
   searcharr.value = alloffers.value.filter(
@@ -136,16 +149,6 @@ const { open, close } = useModal({
   attrs: { modalPageTitle: "front", onConfirm() { close(); } },
 });
 
-// ── Avatar orbital layout (center=170,170 in 340×340) ──
-// [0] — центр. [1] — внутренняя орбита r=90, угол 45°. [2-5] — внешняя r=130, по сторонам.
-const avatarLayout = [
-  { size: 'w-32 h-32', top: 106, left: 106 }, // главная планета   center=(170,170)
-  { size: 'w-20 h-20', top: 66,  left: 194 }, // внутренняя 45°    center=(234,106)
-  { size: 'w-14 h-14', top: 142, left: 272 }, // внешняя 0°        center=(300,170)
-  { size: 'w-14 h-14', top: 272, left: 142 }, // внешняя 90°       center=(170,300)
-  { size: 'w-14 h-14', top: 142, left: 12  }, // внешняя 180°      center=(40,170)
-  { size: 'w-14 h-14', top: 12,  left: 142 }, // внешняя 270°      center=(170,40)
-];
 
 // ── Lawyer modal ───────────────────────────────────────
 const selectedLawyer = ref(null);
@@ -169,174 +172,168 @@ function openLawyer(lawyer) {
 </script>
 
 <template>
-  <section class="bg-white border-b border-gray-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8
-                py-12 lg:py-0 lg:min-h-[60vh]
-                flex flex-col lg:grid lg:grid-cols-2 lg:gap-16 lg:items-center">
+  <section class="relative border-b border-gray-100 overflow-hidden" style="height: 100vh">
+
+    <!-- Фон — зал суда -->
+    <img
+      src="/court.webp"
+      alt=""
+      class="absolute inset-0 w-full h-full object-cover object-left"
+      aria-hidden="true"
+    />
+    <!-- Лёгкий оверлей поверх всего чтобы текст читался -->
+    <div class="absolute inset-0 bg-white/30"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8
+                py-8 lg:py-0 h-full
+                flex flex-col lg:grid lg:grid-cols-[1.4fr_1fr] lg:gap-4 lg:items-center">
 
       <!-- ── Левая колонка ── -->
-      <div class="flex flex-col gap-6 lg:py-16">
+      <div class="flex flex-col gap-4 lg:py-10 lg:pl-16">
 
-        <!-- Бренд -->
-        <div>
-          <h1 class="text-4xl font-extrabold text-gray-900 lg:text-5xl tracking-tight">Мина и партнёры</h1>
-          <p class="mt-2 text-base text-gray-500">Мы делаем правовую защиту доступной</p>
-        </div>
-
-        <!-- Планеты и спутники -->
-        <div class="relative h-[300px] w-[300px]">
-
-          <!-- Орбиты SVG -->
-          <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 300 300" fill="none">
-            <!-- Свечение за главной планетой -->
-            <circle cx="150" cy="150" r="82" fill="rgba(59,130,246,0.07)"/>
-            <circle cx="150" cy="150" r="64" fill="rgba(59,130,246,0.06)"/>
-            <!-- Внутренняя орбита r=92 -->
-            <circle cx="150" cy="150" r="92"
-              stroke="#BFDBFE" stroke-width="1.5" stroke-dasharray="5 6"/>
-            <!-- Внешняя орбита r=115 -->
-            <circle cx="150" cy="150" r="115"
-              stroke="#DBEAFE" stroke-width="1" stroke-dasharray="3 9"/>
-            <!-- Декоративные точки на орбитах -->
-            <circle cx="215" cy="57"  r="2.5" fill="#93C5FD"/>
-            <circle cx="57"  cy="215" r="2.5" fill="#93C5FD"/>
-            <circle cx="243" cy="215" r="2"   fill="#BFDBFE"/>
-            <circle cx="57"  cy="83"  r="2"   fill="#BFDBFE"/>
-            <circle cx="218" cy="240" r="2"   fill="#BFDBFE"/>
-          </svg>
-
-          <button
-            v-for="(lawyer, idx) in props.lawyers.slice(0, 6)"
-            :key="lawyer.id"
-            type="button"
-            class="absolute group"
-            :style="{ top: avatarLayout[idx].top + 'px', left: avatarLayout[idx].left + 'px' }"
-            @click="openLawyer(lawyer)"
-          >
-            <img
-              :src="lawyer.avatar_path ? 'https://nedicom.ru/' + lawyer.avatar_path : '/default-avatar.jpg'"
-              :alt="lawyer.name"
-              :class="[
-                avatarLayout[idx].size,
-                'rounded-full object-cover ring-2 ring-white shadow-md',
-                'transition-all duration-200 group-hover:ring-blue-400 group-hover:scale-110 group-hover:z-10',
-              ]"
-            />
-            <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-900 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
-              {{ lawyer.name }}
+        <!-- Юристы в ряд -->
+        <div class="flex flex-col gap-2 my-4">
+          <!-- Лозунг -->
+          <p class="text-lg font-bold leading-snug">
+            <span class="bg-white px-3 py-1 rounded-lg box-decoration-clone text-slate-800 tracking-tight">
+              Готовы встать на Вашу защиту
             </span>
-          </button>
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <button
+              v-for="lawyer in props.lawyers?.slice(0, 6)"
+              :key="lawyer.id"
+              type="button"
+              class="relative group flex flex-col items-center gap-1"
+              @click="openLawyer(lawyer)"
+            >
+              <img
+                :src="lawyer.avatar_path ? 'https://nedicom.ru/' + lawyer.avatar_path : '/default-avatar.jpg'"
+                :alt="lawyer.name"
+                class="w-16 h-16 rounded-full object-cover ring-2 ring-white shadow-md
+                       transition-all duration-200 group-hover:ring-blue-400 group-hover:scale-110"
+              />
+              <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-0.5 text-xs text-white bg-gray-900 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
+                {{ lawyer.name }}
+              </span>
+            </button>
+          </div>
         </div>
 
         <!-- Услуга + город -->
+        <div>
+          <h2 class="text-sm font-bold leading-snug">
+            <span class="bg-white px-2 py-0.5 rounded box-decoration-clone text-gray-900">
+              <span class="text-gray-400 font-semibold">Специализация: </span>
+              <span v-if="displayedService">{{ displayedService.usl_name }}</span>
+              <span v-else>Услуги юриста</span>
+              <span class="text-blue-600 font-semibold"> · <span v-if="props.city && props.city.id !== 0">{{ props.city.title }}</span><span v-else>по всей России</span></span>
+            </span>
+          </h2>
+        </div>
 
-        <h2 class="text-xl font-semibold text-gray-700 leading-snug lg:text-2xl">
-          <span v-if="props.usluga_from_url">{{ props.usluga_from_url.usl_name }} — </span>
-          <span v-else>Услуги юриста — </span>
-          <span v-if="props.city && props.city.id !== 0">{{ props.city.title }}</span>
-          <span v-else>для Вас</span>
-        </h2>
+        <!-- Поиск (внизу левой колонки) -->
+        <div class="bg-white/80 backdrop-blur-sm rounded-xl p-3 lg:w-[30rem]" style="zoom: 0.8">
+          <p class="text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">Найти юриста по услуге</p>
 
-        <!-- CTA + телефон -->
-        <div class="flex flex-col gap-2">
-          <p class="text-base font-semibold text-gray-800">
-            Первая консультация — <span class="text-blue-600">бесплатно</span>
-          </p>
-          <p class="text-sm text-gray-500">Юрист ответит в течение 15 минут</p>
+          <div class="relative">
+            <div class="flex">
+              <button
+                type="button"
+                @click="open()"
+                class="shrink-0 text-white rounded-l-lg bg-blue-700 hover:bg-blue-800
+                       font-medium text-xs px-3 py-2 whitespace-nowrap"
+              >
+                {{ props.city?.title || "Город" }}
+              </button>
+              <div class="relative flex-1">
+                <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                  <svg class="w-3 h-3 text-gray-400" fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                      stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                  </svg>
+                </div>
+                <input
+                  v-model="form.question"
+                  @focus="openDropdown"
+                  @blur="closeDropdown"
+                  type="search"
+                  autocomplete="off"
+                  class="w-full py-2 pl-8 pr-20 text-xs text-gray-900 border border-gray-300
+                         rounded-r-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                  :placeholder="searchFocused ? 'Начните вводить...' : 'Какую услугу ищем?'"
+                />
+                <a
+                  v-if="firstResult"
+                  :href="'/uslugi/' + cityUrl + '/' + firstResult.url"
+                  class="absolute right-1.5 top-1/2 -translate-y-1/2 text-white bg-blue-700
+                         hover:bg-blue-800 rounded-md text-xs px-3 py-1.5 font-medium"
+                >Найти</a>
+                <span v-else
+                  class="absolute right-1.5 top-1/2 -translate-y-1/2 text-white bg-blue-400
+                         rounded-md text-xs px-3 py-1.5 font-medium cursor-default"
+                >Найти</span>
+              </div>
+            </div>
+            <div
+              :class="{ hidden: hidden }"
+              class="absolute z-50 left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg mt-1 overflow-hidden"
+            >
+              <div class="max-h-48 overflow-y-auto">
+                <a
+                  v-for="(item, num) in searcharr" :key="num"
+                  :href="'/uslugi/' + cityUrl + '/' + item.url"
+                  class="block px-3 py-2 text-xs text-gray-700 hover:bg-blue-50 hover:text-blue-700"
+                >{{ shortName(item.usl_name) }}</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-2 flex flex-wrap gap-1.5">
+            <a
+              v-for="offer in startarr" :key="offer.id"
+              :href="'/uslugi/' + cityUrl + '/' + offer.url"
+              class="text-[11px] bg-gray-100 hover:bg-blue-50 hover:text-blue-700
+                     text-gray-600 rounded-full px-2.5 py-1 transition-colors"
+            >{{ shortName(offer.usl_name) }}</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Правая колонка: бренд + телефон ── -->
+      <div class="mt-6 lg:mt-0 lg:self-center lg:justify-self-start lg:w-fit lg:-ml-16">
+        <div class="flex flex-col justify-between gap-8">
+          <!-- Бренд -->
+          <h1 class="text-3xl font-extrabold text-gray-900 lg:text-4xl tracking-tight leading-tight">
+            <span class="bg-white px-2 py-1 rounded-lg box-decoration-clone">Мина и партнёры</span>
+          </h1>
+
           <a
             :href="showFullNumber ? 'tel:+79788838978' : 'javascript:void(0)'"
-            class="inline-flex items-center gap-4 self-start mt-1 py-4 px-8 text-white
-                   bg-gradient-to-r from-blue-500 to-blue-700 rounded-2xl shadow-xl
+            class="inline-flex items-center gap-3 self-start py-3 px-6 text-white
+                   bg-gradient-to-r from-blue-500 to-blue-700 rounded-xl shadow-lg
                    hover:scale-105 cursor-pointer transition-all duration-300
                    ring-4 ring-blue-300 ring-offset-2 animate-pulse-ring"
             @click="handlePhoneClick"
           >
-            <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
             </svg>
             <div class="flex flex-col items-start">
-              <span class="text-xl font-bold whitespace-nowrap">
+              <span class="text-lg font-bold whitespace-nowrap">
                 {{ showFullNumber ? fullNumber : maskedNumber }}
               </span>
-              <span class="text-sm opacity-90 whitespace-nowrap">
+              <span class="text-xs opacity-90 whitespace-nowrap">
                 {{ showFullNumber ? "Нажмите для звонка" : "Показать номер" }}
               </span>
             </div>
           </a>
-        </div>
-      </div>
-
-      <!-- ── Правая колонка: поиск ── -->
-      <div class="mt-8 lg:mt-0 lg:py-16">
-        <p class="text-sm font-semibold text-gray-500 mb-3 uppercase tracking-wide">Найти юриста по услуге</p>
-
-        <div class="relative">
-          <div class="flex">
-            <!-- Кнопка города -->
-            <button
-              type="button"
-              @click="open()"
-              class="shrink-0 text-white rounded-l-lg bg-blue-700 hover:bg-blue-800
-                     font-medium text-sm px-4 py-4 whitespace-nowrap"
-            >
-              {{ props.city?.title || "Город" }}
-            </button>
-
-            <!-- Инпут поиска -->
-            <div class="relative flex-1">
-              <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                <svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 20 20">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                    stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                </svg>
-              </div>
-              <input
-                v-model="form.question"
-                @focus="openDropdown"
-                @blur="closeDropdown"
-                type="search"
-                autocomplete="off"
-                class="w-full py-4 pl-10 pr-24 text-sm text-gray-900 border border-gray-300
-                       rounded-r-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                :placeholder="searchFocused ? 'Начните вводить название услуги...' : 'Какую услугу ищем?'"
-              />
-              <a
-                v-if="firstResult"
-                :href="'/uslugi/' + cityUrl + '/' + firstResult.url"
-                class="absolute right-2 top-1/2 -translate-y-1/2 text-white bg-blue-700
-                       hover:bg-blue-800 rounded-lg text-sm px-4 py-2 font-medium"
-              >Найти</a>
-              <span v-else
-                class="absolute right-2 top-1/2 -translate-y-1/2 text-white bg-blue-400
-                       rounded-lg text-sm px-4 py-2 font-medium cursor-default"
-              >Найти</span>
-            </div>
-          </div>
-
-          <!-- Dropdown с результатами -->
-          <div
-            :class="{ hidden: hidden }"
-            class="absolute z-50 left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg mt-1 overflow-hidden"
-          >
-            <div class="max-h-64 overflow-y-auto">
-              <a
-                v-for="(item, num) in searcharr" :key="num"
-                :href="'/uslugi/' + cityUrl + '/' + item.url"
-                class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700"
-              >{{ item.usl_name }}</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Теги — быстрый выбор -->
-        <div class="mt-5 flex flex-wrap gap-2">
-          <a
-            v-for="offer in startarr" :key="offer.id"
-            :href="'/uslugi/' + cityUrl + '/' + offer.url"
-            class="text-xs bg-gray-100 hover:bg-blue-50 hover:text-blue-700
-                   text-gray-600 rounded-full px-3 py-1.5 transition-colors"
-          >{{ offer.usl_name }}</a>
+          <p class="text-sm font-semibold leading-relaxed">
+            <span class="bg-white px-2 py-0.5 rounded box-decoration-clone text-gray-800">
+              Первая консультация — <span class="text-blue-600">бесплатно</span>
+            </span>
+          </p>
         </div>
       </div>
 
@@ -354,4 +351,5 @@ function openLawyer(lawyer) {
 .animate-pulse-ring {
   animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+
 </style>
